@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
+  m_Name: Log 1
+  m_EditorClassIdentifier: 
+  pipeline: {fileID: 11400000, guid: 7c0b78519e6f4cc4f8719a9797d808c0, type: 2}
+  creationDate:
+    ticks: 638737571189658310
+  entries:
+  - logLevel: 3
+    internalTime:
+      ticks: 638737571236784048
+    message: '[Pipeline](assetlink://Assets%2fPipeline.asset) Finished execution'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638737571192729098
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Creating 1 AssetBundles'
+    context:
+    - 'ImperiumOfMan.bundle
+
+      [Imperator](assetlink://Assets%2fImperiumOfManMod%2fImperator.asset)
+
+      
+
+      [Imperator](assetlink://Assets%2fImperiumOfManMod%2fImperator.png)
+
+      
+
+      
+
+'
+  - logLevel: 3
+    internalTime:
+      ticks: 638737571190843188
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638737571190833494
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Clearing PipelineJob error states'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638737571189887647
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Execute Pipeline'
+    context: []
