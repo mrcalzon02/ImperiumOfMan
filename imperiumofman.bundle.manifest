@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 166034863
+CRC: 3397341628
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cace8e1c1179fefdfa11bbe41b85b737
+    Hash: 8bef16662d0b8a784fd5e139cb3a4517
   TypeTreeHash:
     serializedVersion: 2
     Hash: 373e6fa59ba69f9b5b6fc74f95527259
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: cace8e1c1179fefdfa11bbe41b85b737
+    Hash: 8bef16662d0b8a784fd5e139cb3a4517
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -42,46 +42,54 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_icon.png
-- Assets/ImperiumOfManMod/Armor/light/lightChestplate.asset
+- Assets/ImperiumOfManMod/Armor/light/lightArmor_floor.png
 - Assets/ImperiumOfManMod/Armor/light/lightArmor_shadow.png
 - Assets/ImperiumOfManMod/Backpacks/servitor_backpack_icon.png
 - Assets/ImperiumOfManMod/Weapons/lasgun/lasgun.asset
-- Assets/ImperiumOfManMod/Armor/light/lightHelmet_icon.png
 - Assets/ImperiumOfManMod/Faction/soviet_big_right.png
-- Assets/ImperiumOfManMod/Armor/light/lightBoots.asset
-- Assets/ImperiumOfManMod/Faction/soviet_big_left.png
-- Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_floor.png
+- Assets/ImperiumOfManMod/Weapons/melta/melta_floor.png
+- Assets/ImperiumOfManMod/Weapons/melta/melta_shadow.png
 - Assets/ImperiumOfManMod/Weapons/bolter/boltersoundbank.asset
-- Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_icon.png
 - Assets/ImperiumOfManMod/Portraits/Imperator.asset
-- Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_floor.png
-- Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_shadow.png
-- Assets/ImperiumOfManMod/Weapons/bolter/Boltersinglefire.mp3
-- Assets/ImperiumOfManMod/Backpacks/Servitor.asset
-- Assets/ImperiumOfManMod/Armor/light/lightpants_floor.png
-- Assets/ImperiumOfManMod/Faction/ImperiumOfManFaction.asset
-- Assets/ImperiumOfManMod/Weapons/bolter/bolter.asset
 - Assets/ImperiumOfManMod/Portraits/Imperator.png
-- Assets/ImperiumOfManMod/Armor/light/lightArmor_icon.png
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet.asset
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet_shadow.png
-- Assets/ImperiumOfManMod/Faction/factionIcon_mouseOut.png
 - Assets/ImperiumOfManMod/Armor/light/lightboots_floor.png
-- Assets/ImperiumOfManMod/Faction/factionIcon.png
-- Assets/ImperiumOfManMod/Faction/soviet_big_normal.png
-- Assets/ImperiumOfManMod/Faction/HumanAlliance.asset
+- Assets/ImperiumOfManMod/Armor/light/lightHelmet_floor.png
 - Assets/ImperiumOfManMod/Armor/light/lightboots_inv.png
 - Assets/ImperiumOfManMod/Faction/soviet_small.png
 - Assets/ImperiumOfManMod/Armor/light/lightpants_shadow.png
-- Assets/ImperiumOfManMod/Armor/light/lightHelmet_floor.png
+- Assets/ImperiumOfManMod/Armor/light/lightboots_shadow.png
+- Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_shadow.png
+- Assets/ImperiumOfManMod/Backpacks/servitor_backpack_shadow.png
+- Assets/ImperiumOfManMod/Weapons/melta/melta.asset
+- Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_icon.png
+- Assets/ImperiumOfManMod/Armor/light/lightChestplate.asset
+- Assets/ImperiumOfManMod/Armor/light/lightHelmet_icon.png
+- Assets/ImperiumOfManMod/Weapons/melta/melta_icon.png
+- Assets/ImperiumOfManMod/Armor/light/lightBoots.asset
+- Assets/ImperiumOfManMod/Faction/soviet_big_left.png
+- Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_floor.png
+- Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_icon.png
+- Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_shadow.png
+- Assets/ImperiumOfManMod/Weapons/bolter/Boltersinglefire.mp3
+- Assets/ImperiumOfManMod/Backpacks/Servitor.asset
+- Assets/ImperiumOfManMod/Weapons/lassniper/lassniper.asset
+- Assets/ImperiumOfManMod/Armor/light/lightpants_floor.png
+- Assets/ImperiumOfManMod/Faction/ImperiumOfManFaction.asset
+- Assets/ImperiumOfManMod/Armor/light/lightArmor_icon.png
+- Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_icon.png
+- Assets/ImperiumOfManMod/Armor/light/lightLeggings.asset
+- Assets/ImperiumOfManMod/Faction/factionIcon_mouseOut.png
+- Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_shadow.png
+- Assets/ImperiumOfManMod/Faction/factionIcon.png
+- Assets/ImperiumOfManMod/Faction/soviet_big_normal.png
+- Assets/ImperiumOfManMod/Faction/HumanAlliance.asset
+- Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_floor.png
 - Assets/ImperiumOfManMod/Faction/soviet_missionIcon_left.png
 - Assets/ImperiumOfManMod/Backpacks/servitor_backpack_floor.png
-- Assets/ImperiumOfManMod/Armor/light/lightboots_shadow.png
-- Assets/ImperiumOfManMod/Armor/light/lightLeggings.asset
-- Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_shadow.png
+- Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_floor.png
 - Assets/ImperiumOfManMod/Armor/light/lightpants_inv.png
-- Assets/ImperiumOfManMod/Backpacks/servitor_backpack_shadow.png
+- Assets/ImperiumOfManMod/Weapons/bolter/bolter.asset
 - Assets/ImperiumOfManMod/Faction/soviet_missionIcon_right.png
-- Assets/ImperiumOfManMod/Armor/light/lightArmor_floor.png
 Dependencies: []

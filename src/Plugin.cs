@@ -291,14 +291,12 @@ namespace ImperiumOfMan
                 Height = 3,
                 DropChanceOnBroken = 0.2f,
                 AddServoArm = true,
-                TotalItemsWeightMult = 0.01f,
+                TotalItemsWeightMult = 0.1f,
                 ReloadTurnBonus = 2
             };
             Data.Items.AddRecord("iom_sevitor_backpack", servitorBackpackItem);
             Data.Descriptors["backpacks"].AddDescriptor("iom_sevitor_backpack", servitorBackpack);
 
-            var dummyRifle = (WeaponDescriptor)Data.Descriptors["rangeweapons"].GetDescriptor("military_assault_1");
-            
             var bolterDescRef = ModBundle.LoadAsset<WeaponDescriptor>("bolter");
             var bolterDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("military_assault_1"));
             //  bolterDesc._overrideBullet = dummyRifle._overrideBullet;
@@ -349,7 +347,6 @@ namespace ImperiumOfMan
             Data.Items.AddRecord("iom_bolter", bolterItem);
             Data.Descriptors["rangeweapons"].AddDescriptor("iom_bolter", bolterDesc);
 
-            dummyRifle = (WeaponDescriptor)Data.Descriptors["rangeweapons"].GetDescriptor("laser_sniper_1");
             var lasgunDescRef = ModBundle.LoadAsset<WeaponDescriptor>("lasgun");
             var lasgunDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("laser_sniper_1"));
             //lasgunDesc._overrideBullet = dummyRifle._overrideBullet;
@@ -373,7 +370,7 @@ namespace ImperiumOfMan
                 MaxDurability = 100,
                 MinDurabilityAfterRepair = 0,
                 Unbreakable = false,
-                RepairCategory = "firearms_weapon",
+                RepairCategory = "laser_weapon",
                 WeaponClass = WeaponClass.AssaultRifle,
                 WeaponSubClass = WeaponSubClass.Firearm,
                 RequiredAmmo = "BatteryCells",
@@ -389,7 +386,7 @@ namespace ImperiumOfMan
                     critDmg = 2f
                 },
                 Firemodes = ["basic_energy_rifle_single", "basic_energy_rifle_shortauto"],
-                Range = 8,
+                Range = 7,
                 ReloadDuration = 2,
                 ReloadOneClip = false,
                 MagazineCapacity = 10,
@@ -400,7 +397,100 @@ namespace ImperiumOfMan
             };
             Data.Items.AddRecord("iom_lasgun", lasgunItem);
             Data.Descriptors["rangeweapons"].AddDescriptor("iom_lasgun", lasgunDesc);
+            
+            var meltaDescRef = ModBundle.LoadAsset<WeaponDescriptor>("melta");
+            var meltaDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("chu_meltatrower_1"));
+            meltaDesc._icon = meltaDescRef._icon;
+            meltaDesc._smallIcon = meltaDescRef._smallIcon;
+            meltaDesc._shadow = meltaDescRef._shadow;
+            var meltaItem = new WeaponRecord
+            {
+                Id = "iom_melta",
+                ContentDescriptor = meltaDesc,
+                Categories = [ ItemCategory ],
+                TechLevel = 2,
+                Price = 400,
+                Weight = 2.8f,
+                InventoryWidthSize = 2,
+                ItemClass = ItemClass.Weapon,
+                MaxDurability = 110,
+                MinDurabilityAfterRepair = 0,
+                Unbreakable = false,
+                RepairCategory = "engineering_weapon",
+                WeaponClass = WeaponClass.Flamethrower,
+                WeaponSubClass = WeaponSubClass.Plasma,
+                RequiredAmmo = "Gas",
+                OverrideAmmo = "implicted_flamethrower",
+                DefaultAmmoId = "gas_ammo",
+                DefaultGrenadeId = string.Empty,
+                Damage = new()
+                {
+                    damage = string.Empty,
+                    minDmg = 30,
+                    maxDmg = 50,
+                    critChance = 0,
+                    critDmg = 2.2f
+                },
+                Firemodes = ["plasma_energy_burst", "plasma_energy_shortauto"],
+                Range = 2,
+                ReloadDuration = 4,
+                ReloadOneClip = false,
+                MagazineCapacity = 60,
+                AllowedGrenadeIds = [],
+                WoundChanceOnPierce = 0,
+                ArmorPenetration = 0.3f,
+                FovLookAngleMult = 0.7f,
+            };
+            Data.Items.AddRecord("iom_melta", meltaItem);
+            Data.Descriptors["rangeweapons"].AddDescriptor("iom_melta", meltaDesc);
 
+            var lassniperDescRef = ModBundle.LoadAsset<WeaponDescriptor>("lassniper");
+            var lassniperDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("laser_sniper_1"));
+            lassniperDesc._icon = lassniperDescRef._icon;
+            lassniperDesc._smallIcon = lassniperDescRef._smallIcon;
+            lassniperDesc._shadow = lassniperDescRef._shadow;
+            var lassniperItem = new WeaponRecord
+            {
+                Id = "iom_lassniper",
+                ContentDescriptor = lassniperDesc,
+                Categories = [ ItemCategory ],
+                TechLevel = 3,
+                Price = 350,
+                Weight = 3.2f,
+                InventoryWidthSize = 2,
+                ItemClass = ItemClass.Weapon,
+                MaxDurability = 110,
+                MinDurabilityAfterRepair = 0,
+                Unbreakable = false,
+                RepairCategory = "laser_weapon",
+                WeaponClass = WeaponClass.MarksmanRifle,
+                WeaponSubClass = WeaponSubClass.Firearm,
+                RequiredAmmo = "BatteryCells",
+                OverrideAmmo = string.Empty,
+                DefaultAmmoId = "battery_basic_ammo",
+                DefaultGrenadeId = string.Empty,
+                Damage = new()
+                {
+                    damage = string.Empty,
+                    minDmg = 32,
+                    maxDmg = 58,
+                    critChance = 0,
+                    critDmg = 2.25f
+                },
+                Firemodes = ["basic_energy_rifle_single"],
+                Range = 9,
+                ReloadDuration = 3,
+                ReloadOneClip = false,
+                MagazineCapacity = 10,
+                AllowedGrenadeIds = [],
+                WoundChanceOnPierce = 0,
+                ArmorPenetration = 0.2f,
+                FovLookAngleMult = 0.8f,
+            };
+            Data.Items.AddRecord("iom_lassniper", lassniperItem);
+            Data.Descriptors["rangeweapons"].AddDescriptor("iom_lassniper", lassniperDesc);
+
+            #region Armor
             var lightBootsDescRef = ModBundle.LoadAsset<BootsDescriptor>("lightBoots");;
             var lightBootsDesc = (BootsDescriptor)Object.Instantiate(Data.Descriptors["boots"].GetDescriptor("military_heavy_boots_1"));
             lightBootsDesc._icon = lightBootsDescRef._icon;
@@ -419,14 +509,14 @@ namespace ImperiumOfMan
                 MaxDurability = 75,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(6f, 7f),
+                ResistSheet = CreateResists(6f, 7f, lacer: 7f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
             };
             Data.Items.AddRecord("iom_lightboots", lightBoots);
             Data.Descriptors["boots"].AddDescriptor("iom_lightboots", lightBootsDesc);
             
-            var lightLegginsDescRef = ModBundle.LoadAsset<LeggingsDescriptor>("lightLeggings");;
+            var lightLegginsDescRef = ModBundle.LoadAsset<LeggingsDescriptor>("lightLeggings");
             var lightLeggingsDesc = (LeggingsDescriptor)Object.Instantiate(Data.Descriptors["leggings"].GetDescriptor("military_heavy_pants_1"));
             lightLeggingsDesc._icon = lightLegginsDescRef._icon;
             lightLeggingsDesc._smallIcon = lightLegginsDescRef._smallIcon;
@@ -444,12 +534,12 @@ namespace ImperiumOfMan
                 MaxDurability = 90,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(8f, 8f, cold: 2f),
+                ResistSheet = CreateResists(8f, 8f, lacer: 8f, cold: 2f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
             };
             Data.Items.AddRecord("iom_lightleggings", lightLeggings);
-            Data.Descriptors["leggings"].AddDescriptor("lightLeggings", lightLeggingsDesc);
+            Data.Descriptors["leggings"].AddDescriptor("iom_lightleggings", lightLeggingsDesc);
 
             var lightChestplateDescRef = ModBundle.LoadAsset<ArmorDescriptor>("lightChestplate");;
             var lightChestplateDesc = (ArmorDescriptor)Object.Instantiate(Data.Descriptors["armors"].GetDescriptor("military_heavy_armor_1"));
@@ -469,12 +559,12 @@ namespace ImperiumOfMan
                 MaxDurability = 90,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(12f, 12f, cold: 2f),
+                ResistSheet = CreateResists(12f, 12f, lacer: 10f, cold: 2f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
             };
             Data.Items.AddRecord("iom_lightChestplate", lightChestplate);
-            Data.Descriptors["armors"].AddDescriptor("lightChestplate", lightChestplateDesc);
+            Data.Descriptors["armors"].AddDescriptor("iom_lightChestplate", lightChestplateDesc);
             
             var lightHelmetDescRef = ModBundle.LoadAsset<HelmetDescriptor>("lightHelmet");;
             var lightHelmetDesc = (HelmetDescriptor)Object.Instantiate(Data.Descriptors["helmets"].GetDescriptor("military_heavy_helmet_1"));
@@ -494,22 +584,22 @@ namespace ImperiumOfMan
                 MaxDurability = 105,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(6f,
-                    9f),
+                ResistSheet = CreateResists(6f, 9f, lacer: 7f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
                 HideHair = true,
             };
             Data.Items.AddRecord("iom_lightHelmet", lightHelmet);
-            Data.Descriptors["helmets"].AddDescriptor("lightHelmet", lightHelmetDesc);
+            Data.Descriptors["helmets"].AddDescriptor("iom_lightHelmet", lightHelmetDesc);
+            #endregion
             
             var dropDict = new Dictionary<int, List<ContentDropRecord>>();
             dropDict.Add(0, []);
             dropDict.Add(1, [lightBoots.ToDropRecord(3f, 200), lightLeggings.ToDropRecord(3f, 200), lightChestplate.ToDropRecord(3f, 200), lightHelmet.ToDropRecord(3f, 200)]);
-            dropDict.Add(2, [lasgunItem.ToDropRecord(10, 300)]);
-            dropDict.Add(3, [servitorBackpackItem.ToDropRecord(10, 300)]);
+            dropDict.Add(2, [lasgunItem.ToDropRecord(10, 200)]);
+            dropDict.Add(3, [servitorBackpackItem.ToDropRecord(10, 250), lassniperItem.ToDropRecord(5f, 400)]);
             dropDict.Add(4, [bolterItem.ToDropRecord(10, 300)]);
-            dropDict.Add(5, []);
+            dropDict.Add(5, [meltaItem.ToDropRecord(7, 310)]);
             dropDict.Add(6, []);
             dropDict.Add(7, []);
             dropDict.Add(8, []);

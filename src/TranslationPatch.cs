@@ -23,6 +23,10 @@ namespace ImperiumOfMan
                 {
                     ___db[lang]["item.iom_lasgun.name"] = "Лазган";
                     ___db[lang]["item.iom_lasgun.shortdesc"] = "Лазерная винтовка";
+                    ___db[lang]["item.iom_melta.name"] = "Мелта";
+                    ___db[lang]["item.iom_melta.shortdesc"] = "Мелта";
+                    ___db[lang]["item.iom_lassniper.name"] = "Long-Las";
+                    ___db[lang]["item.iom_lassniper.shortdesc"] = "Лазерная снайперская винтовка";
                     ___db[lang]["item.iom_bolter.name"] = "Болтер";
                     ___db[lang]["item.iom_bolter.shortdesc"] = "Болтер";
                     ___db[lang]["item.iom_sevitor_backpack.name"] = "Сервитор";
@@ -56,6 +60,10 @@ namespace ImperiumOfMan
                 {
                     ___db[lang]["item.iom_lasgun.name"] = "Lasgun";
                     ___db[lang]["item.iom_lasgun.shortdesc"] = "Laser Rifle";
+                    ___db[lang]["item.iom_melta.name"] = "Melta Rifle";
+                    ___db[lang]["item.iom_melta.shortdesc"] = "Melta Rifle";
+                    ___db[lang]["item.iom_lassniper.name"] = "Long-Las";
+                    ___db[lang]["item.iom_lassniper.shortdesc"] = "Laser Sniper Rifle";
                     ___db[lang]["item.iom_bolter.name"] = "Bolter";
                     ___db[lang]["item.iom_bolter.shortdesc"] = "Bolter";
                     ___db[lang]["item.iom_sevitor_backpack.name"] = "Servitor";

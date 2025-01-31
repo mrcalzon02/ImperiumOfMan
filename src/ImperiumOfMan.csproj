@@ -74,18 +74,6 @@
             <PackageRemoveFiles Include="$(PackageFolder)$(TargetName)/*.pdb"/>
         </ItemGroup>
     </Target>
-    <Target Condition="'$(SteamId)'!=''" Name="PostBuildPackage" AfterTargets="PostBuildEvent">
-        <ItemGroup>
-            <WorkshopSourceFile Include="$(WorkshopPath)*.*"/>
-            <PackageRemoveFiles Include="$(PackageFolder)$(TargetName)/*.pdb"/>
-        </ItemGroup>
-
-        <Message Text="---------- Creating Package: $(PackageFolder)$(TargetName)/*.pdb" Importance="high"/>
-        <RemoveDir Directories="$(PackageFolder)"/>
-        <Copy SourceFiles="@(WorkshopSourceFile)" DestinationFolder="$(PackageFolder)$(TargetName)"></Copy>
-        <Delete Files="@(PackageRemoveFiles)"/>
-        <ZipDirectory SourceDirectory="$(PackageFolder)" DestinationFile="$(PackageFolder)../$(TargetName).zip" Overwrite="true"/>
-    </Target>
     <ItemGroup>
         <Reference Update="System">
             <Private>False</Private>
