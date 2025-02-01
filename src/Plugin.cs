@@ -10,7 +10,7 @@ namespace ImperiumOfMan
     {
         public static Logger Logger = new Logger();
 
-        public const string ItemCategory = "IOM";
+        public const string ItemCategory = "iom_faction"; // should be same as Faction ID otherwise randomiser will do brrrrrrrrrrr errr
         
         public static AssetBundle ModBundle;
 
@@ -34,6 +34,7 @@ namespace ImperiumOfMan
         {
             ModBundle = AssetBundle.LoadFromFile(Path.Combine(context.ModContentPath, "imperiumofman.bundle"));
 
+            #region Faction Data
             var imperatorPortrait = ModBundle.LoadAsset<PortraitDescriptor>("Imperator");
             Data.Portraits.AddRecord("faction_iom_faction", new()
             {
@@ -75,7 +76,8 @@ namespace ImperiumOfMan
                 TradeFactionLists = ["iom_faction", "ChurchRevelation", "SBN"],
             });
             Data.Descriptors["alliances"].AddDescriptor("iom_alliance", alliance);
-
+            #endregion
+            
             UnitDropRecord[] dropRecord =
             [
                 new()
@@ -83,7 +85,7 @@ namespace ImperiumOfMan
                     TechLevel = 1,
                     UnitSize = new(2, 2),
                     LeaderSpawn = [],
-                    MobClasses = [new(1f, "Military")],
+                    MobClasses = [new(1f, "soldier")],
                     AllowedFactions = ["iom_faction"],
                     Weight = 12,
                     Points = 80
@@ -93,7 +95,7 @@ namespace ImperiumOfMan
                     TechLevel = 1,
                     UnitSize = new(1, 1),
                     LeaderSpawn = [],
-                    MobClasses = [new(1f, "Military")],
+                    MobClasses = [new(1f, "soldier")],
                     AllowedFactions = ["iom_faction"],
                     Weight = 6,
                     Points = 20
@@ -103,7 +105,7 @@ namespace ImperiumOfMan
                     TechLevel = 2,
                     UnitSize = new(2, 2),
                     LeaderSpawn = [],
-                    MobClasses = [new(1f, "Military")],
+                    MobClasses = [new(1f, "soldier")],
                     AllowedFactions = ["iom_faction"],
                     Weight = 12,
                     Points = 90
@@ -113,7 +115,7 @@ namespace ImperiumOfMan
                     TechLevel = 3,
                     UnitSize = new(1, 1),
                     LeaderSpawn = [],
-                    MobClasses = [new(1f, "Military")],
+                    MobClasses = [new(1f, "soldier")],
                     AllowedFactions = ["iom_faction"],
                     Weight = 6,
                     Points = 30
@@ -123,7 +125,7 @@ namespace ImperiumOfMan
                     TechLevel = 4,
                     UnitSize = new(1, 1),
                     LeaderSpawn = [],
-                    MobClasses = [new(1f, "Military")],
+                    MobClasses = [new(1f, "soldier")],
                     AllowedFactions = ["iom_faction"],
                     Weight = 6,
                     Points = 25
@@ -291,7 +293,7 @@ namespace ImperiumOfMan
                 Height = 3,
                 DropChanceOnBroken = 0.2f,
                 AddServoArm = true,
-                TotalItemsWeightMult = 0.1f,
+                TotalItemsWeightMult = 0.4f,
                 ReloadTurnBonus = 2
             };
             Data.Items.AddRecord("iom_sevitor_backpack", servitorBackpackItem);
@@ -408,7 +410,7 @@ namespace ImperiumOfMan
                 Id = "iom_melta",
                 ContentDescriptor = meltaDesc,
                 Categories = [ ItemCategory ],
-                TechLevel = 2,
+                TechLevel = 1,
                 Price = 400,
                 Weight = 2.8f,
                 InventoryWidthSize = 2,
@@ -454,7 +456,7 @@ namespace ImperiumOfMan
                 Id = "iom_lassniper",
                 ContentDescriptor = lassniperDesc,
                 Categories = [ ItemCategory ],
-                TechLevel = 3,
+                TechLevel = 1,
                 Price = 350,
                 Weight = 3.2f,
                 InventoryWidthSize = 2,
@@ -592,6 +594,10 @@ namespace ImperiumOfMan
             Data.Items.AddRecord("iom_lightHelmet", lightHelmet);
             Data.Descriptors["helmets"].AddDescriptor("iom_lightHelmet", lightHelmetDesc);
             #endregion
+
+            #region Add Items From Other Factions To Drop Table
+            Data.Items.GetSimpleRecord<ItemRecord>("trash_sawblade_1").Categories.Add(ItemCategory);
+            #endregion
             
             var dropDict = new Dictionary<int, List<ContentDropRecord>>();
             dropDict.Add(0, []);
@@ -661,6 +667,8 @@ namespace ImperiumOfMan
             dropDict.Add(9, []);
             dropDict.Add(10, []);
             Data.FactionDrop._recordsByFactions.Add("iom_faction_rewardChips", dropDict);
+            
+            Debug.Log("[ImperiumOfMan : AfterConfig] Loaded!");
         }
         
         public static List<DmgResist> CreateResists(float blunt = 0f, float pierce = 0f, float lacer = 0f, float fire = 0f, float cold = 0f,  float poison = 0f, float shock = 0f, float beam = 0f)

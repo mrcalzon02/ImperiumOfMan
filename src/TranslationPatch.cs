@@ -16,7 +16,7 @@ namespace ImperiumOfMan
             foreach (Localization.Lang lang in Enum.GetValues(typeof(Localization.Lang)))
             {
                 ___db[lang]["station.iomTerra.shortname"] = "TER";
-                ___db[lang]["station.iomMoon.shortname"] = "MOO";
+                ___db[lang]["station.iomMoom.shortname"] = "MOO";
                 ___db[lang]["station.iomPhobos.shortname"] = "PHB";
                 ___db[lang]["station.iomVizg.shortname"] = "HAV";
                 if (lang == Localization.Lang.Russian)
