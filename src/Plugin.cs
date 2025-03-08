@@ -566,7 +566,7 @@ namespace ImperiumOfMan
                 ArmorSubClass = ArmorSubClass.Default,
             };
             Data.Items.AddRecord("iom_lightChestplate", lightChestplate);
-            Data.Descriptors["armors"].AddDescriptor("iom_lightChestplate", lightChestplateDesc);
+            Data.Descriptors["armors"].AddDescriptor("iom_lightChestplate", lightChestplateDesc); 
             
             var lightHelmetDescRef = ModBundle.LoadAsset<HelmetDescriptor>("lightHelmet");;
             var lightHelmetDesc = (HelmetDescriptor)Object.Instantiate(Data.Descriptors["helmets"].GetDescriptor("military_heavy_helmet_1"));
@@ -598,6 +598,11 @@ namespace ImperiumOfMan
             #region Add Items From Other Factions To Drop Table
             Data.Items.GetSimpleRecord<ItemRecord>("trash_sawblade_1").Categories.Add(ItemCategory);
             #endregion
+            
+            //Data.Items
+            //     .GetSimpleRecord<DatadiskRecord>("itemChip")
+            //    .UnlockIds
+            //    .AddRange([lightHelmet.Id, lightChestplate.Id, lightLeggings.Id, lightBoots.Id, bolterItem.Id, lasgunItem.Id, lassniperItem.Id]); // req crafting recipe
             
             var dropDict = new Dictionary<int, List<ContentDropRecord>>();
             dropDict.Add(0, []);
