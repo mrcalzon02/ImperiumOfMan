@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1278341265
+CRC: 1468945902
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a7026c2fdd8784b5fe1a5d757430d0e8
+    Hash: 3a36e7d26a68effc2cd9fb4027b8e9ce
   TypeTreeHash:
     serializedVersion: 2
     Hash: 373e6fa59ba69f9b5b6fc74f95527259
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: a7026c2fdd8784b5fe1a5d757430d0e8
+    Hash: 3a36e7d26a68effc2cd9fb4027b8e9ce
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -42,15 +42,22 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/ImperiumOfManMod/Armor/light/lightArmor_floor.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiapants_shadow.png
 - Assets/ImperiumOfManMod/Armor/light/lightArmor_shadow.png
 - Assets/ImperiumOfManMod/Backpacks/servitor_backpack_icon.png
 - Assets/ImperiumOfManMod/Weapons/lasgun/lasgun.asset
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaHelmet_floor.png
 - Assets/ImperiumOfManMod/Faction/soviet_big_right.png
-- Assets/ImperiumOfManMod/Weapons/melta/melta_floor.png
+- Assets/ImperiumOfManMod/Weapons/bolter/bolter.asset
+- Assets/ImperiumOfManMod/Armor/cadia/cadiapants_inv.png
 - Assets/ImperiumOfManMod/Weapons/melta/melta_shadow.png
 - Assets/ImperiumOfManMod/Weapons/bolter/boltersoundbank.asset
 - Assets/ImperiumOfManMod/Portraits/Imperator.asset
+- Assets/ImperiumOfManMod/Armor/cadia/cadiapants.asset
+- Assets/ImperiumOfManMod/Weapons/melta/melta_floor.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiapants_floor.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaArmor_shadow.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaarmor.asset
 - Assets/ImperiumOfManMod/Portraits/Imperator.png
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet.asset
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet_shadow.png
@@ -59,6 +66,8 @@ Assets:
 - Assets/ImperiumOfManMod/Armor/light/lightboots_inv.png
 - Assets/ImperiumOfManMod/Faction/soviet_small.png
 - Assets/ImperiumOfManMod/Armor/light/lightpants_shadow.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaboots_shadow.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaboots.asset
 - Assets/ImperiumOfManMod/Armor/light/lightboots_shadow.png
 - Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_shadow.png
 - Assets/ImperiumOfManMod/Backpacks/servitor_backpack_shadow.png
@@ -67,29 +76,36 @@ Assets:
 - Assets/ImperiumOfManMod/Armor/light/lightChestplate.asset
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet_icon.png
 - Assets/ImperiumOfManMod/Weapons/melta/melta_icon.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaArmor_icon.png
 - Assets/ImperiumOfManMod/Armor/light/lightBoots.asset
 - Assets/ImperiumOfManMod/Faction/soviet_big_left.png
 - Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_floor.png
 - Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_icon.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaboots_inv.png
 - Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_shadow.png
-- Assets/ImperiumOfManMod/Weapons/bolter/Boltersinglefire.mp3
+- Assets/ImperiumOfManMod/Armor/cadia/cadiahelmet.asset
 - Assets/ImperiumOfManMod/Backpacks/Servitor.asset
 - Assets/ImperiumOfManMod/Weapons/lassniper/lassniper.asset
+- Assets/ImperiumOfManMod/Weapons/bolter/Boltersinglefire.mp3
 - Assets/ImperiumOfManMod/Armor/light/lightpants_floor.png
 - Assets/ImperiumOfManMod/Faction/ImperiumOfManFaction.asset
 - Assets/ImperiumOfManMod/Armor/light/lightArmor_icon.png
 - Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_icon.png
 - Assets/ImperiumOfManMod/Armor/light/lightLeggings.asset
 - Assets/ImperiumOfManMod/Faction/factionIcon_mouseOut.png
-- Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_shadow.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaHelmet_shadow.png
 - Assets/ImperiumOfManMod/Faction/factionIcon.png
 - Assets/ImperiumOfManMod/Faction/soviet_big_normal.png
 - Assets/ImperiumOfManMod/Faction/HumanAlliance.asset
 - Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_floor.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaArmor_floor.png
+- Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_shadow.png
 - Assets/ImperiumOfManMod/Faction/soviet_missionIcon_left.png
 - Assets/ImperiumOfManMod/Backpacks/servitor_backpack_floor.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaboots_floor.png
 - Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_floor.png
+- Assets/ImperiumOfManMod/Armor/cadia/cadiaHelmet_icon.png
 - Assets/ImperiumOfManMod/Armor/light/lightpants_inv.png
-- Assets/ImperiumOfManMod/Weapons/bolter/bolter.asset
 - Assets/ImperiumOfManMod/Faction/soviet_missionIcon_right.png
+- Assets/ImperiumOfManMod/Armor/light/lightArmor_floor.png
 Dependencies: []

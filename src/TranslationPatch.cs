@@ -41,14 +41,23 @@ namespace ImperiumOfMan
                     ___db[lang]["station.iomVizg.name"] = "Визг";
                     ___db[lang]["station.iomVizg.type"] = "Станция";
                     
-                    ___db[lang]["item.iom_lightboots.name"] = "Обувь СПО";
+                    ___db[lang]["item.iom_lightboots.name"] = "Силы планетарной обороны";
                     ___db[lang]["item.iom_lightboots.shortdesc"] = "Обувь";
-                    ___db[lang]["item.iom_lightleggings.name"] = "Штаны СПО";
+                    ___db[lang]["item.iom_lightleggings.name"] = "Силы планетарной обороны";
                     ___db[lang]["item.iom_lightleggings.shortdesc"] = "Штаны";
-                    ___db[lang]["item.iom_lightChestplate.name"] = "Броня СПО";
+                    ___db[lang]["item.iom_lightChestplate.name"] = "Силы планетарной обороны";
                     ___db[lang]["item.iom_lightChestplate.shortdesc"] = "Броня";
-                    ___db[lang]["item.lightHelmet.name"] = "Шлем СПО";
+                    ___db[lang]["item.lightHelmet.name"] = "Силы планетарной обороны";
                     ___db[lang]["item.lightHelmet.shortdesc"] = "Шлем";
+                    
+                    ___db[lang]["item.iom_cadiaboots.name"] = "Кадия";
+                    ___db[lang]["item.iom_cadiaboots.shortdesc"] = "Обувь";
+                    ___db[lang]["item.iom_cadialeggings.name"] = "Кадия";
+                    ___db[lang]["item.iom_cadialeggings.shortdesc"] = "Штаны";
+                    ___db[lang]["item.iom_cadiaChestplate.name"] = "Кадия";
+                    ___db[lang]["item.iom_cadiaChestplate.shortdesc"] = "Броня";
+                    ___db[lang]["item.cadiaHelmet.name"] = "Кадия";
+                    ___db[lang]["item.cadiaHelmet.shortdesc"] = "Шлем";
                     
                     ___db[lang]["faction.iom_faction.shortdesc"] = "Галактическая империя, объединившая подавляющее большинство людей в галактике.";
                     ___db[lang]["faction.iom_faction.desc"] = "Империум — самое большое государство в галактике, насчитывающее более миллиона звёздных систем, находящихся в Галактике Млечного Пути и раздёленных между собой многими световыми годами. Размер Империума как межзвёздного государства исчисляется не протяжённостью территорий, а именно звёздными системами, которые он контролирует. Столицей Империума является родина человечества Священная Терра (Земля).";
@@ -78,14 +87,23 @@ namespace ImperiumOfMan
                     ___db[lang]["station.iomVizg.name"] = "Havoc";
                     ___db[lang]["station.iomVizg.type"] = "Station";
                     
-                    ___db[lang]["item.iom_lightboots.name"] = "Boots PDF";
+                    ___db[lang]["item.iom_lightboots.name"] = "Planetary Defence Force";
                     ___db[lang]["item.iom_lightboots.shortdesc"] = "Boots";
-                    ___db[lang]["item.iom_lightleggings.name"] = "Leggings PDF";
+                    ___db[lang]["item.iom_lightleggings.name"] = "Planetary Defence Force";
                     ___db[lang]["item.iom_lightleggings.shortdesc"] = "Leggings";
-                    ___db[lang]["item.iom_lightChestplate.name"] = "Armor PDF";
+                    ___db[lang]["item.iom_lightChestplate.name"] = "Planetary Defence Force";
                     ___db[lang]["item.iom_lightChestplate.shortdesc"] = "Armor";
-                    ___db[lang]["item.lightHelmet.name"] = "Helmet PDF";
+                    ___db[lang]["item.lightHelmet.name"] = "Planetary Defence Force";
                     ___db[lang]["item.lightHelmet.shortdesc"] = "Helmet";
+                    
+                    ___db[lang]["item.iom_cadiaboots.name"] = "Cadia";
+                    ___db[lang]["item.iom_cadiaboots.shortdesc"] = "Boots";
+                    ___db[lang]["item.iom_cadialeggings.name"] = "Cadia";
+                    ___db[lang]["item.iom_cadialeggings.shortdesc"] = "Leggings";
+                    ___db[lang]["item.iom_cadiaChestplate.name"] = "Cadia";
+                    ___db[lang]["item.iom_cadiaChestplate.shortdesc"] = "Armor";
+                    ___db[lang]["item.cadiaHelmet.name"] = "Cadia";
+                    ___db[lang]["item.cadiaHelmet.shortdesc"] = "Helmet";
                     
                     ___db[lang]["faction.iom_faction.shortdesc"] = "The martyr's grave is the keystone of the Imperium.";
                     ___db[lang]["faction.iom_faction.desc"] = "The Imperium of Man, also called simply the Imperium, is a galaxy-spanning, interstellar Human empire, the ultimate authority for the vast majority of the Human species in the Milky Way galaxy in the 41st Millennium A.D. It is ruled by the living god who is known as the Emperor of Mankind.";

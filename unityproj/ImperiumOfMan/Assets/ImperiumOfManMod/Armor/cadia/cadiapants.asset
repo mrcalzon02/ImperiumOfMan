@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 369428275, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: cadiapants
+  m_EditorClassIdentifier: 
+  _overridenRenderId: 
+  _icon: {fileID: 21300000, guid: c25d58bca9dc6c744a475336adff684c, type: 3}
+  _smallIcon: {fileID: 21300000, guid: 004a38384b10a6f4ebfd7ec7b2eabb0b, type: 3}
+  _shadow: {fileID: 21300000, guid: c0c1aa80cc36ede44a633e30b9699071, type: 3}
+  _parts: []

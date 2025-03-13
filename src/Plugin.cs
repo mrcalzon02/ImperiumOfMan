@@ -299,6 +299,7 @@ namespace ImperiumOfMan
             Data.Items.AddRecord("iom_sevitor_backpack", servitorBackpackItem);
             Data.Descriptors["backpacks"].AddDescriptor("iom_sevitor_backpack", servitorBackpack);
 
+            #region Weapons
             var bolterDescRef = ModBundle.LoadAsset<WeaponDescriptor>("bolter");
             var bolterDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("military_assault_1"));
             //  bolterDesc._overrideBullet = dummyRifle._overrideBullet;
@@ -491,8 +492,10 @@ namespace ImperiumOfMan
             };
             Data.Items.AddRecord("iom_lassniper", lassniperItem);
             Data.Descriptors["rangeweapons"].AddDescriptor("iom_lassniper", lassniperDesc);
-
+            #endregion
+            
             #region Armor
+            #region Light Armor
             var lightBootsDescRef = ModBundle.LoadAsset<BootsDescriptor>("lightBoots");;
             var lightBootsDesc = (BootsDescriptor)Object.Instantiate(Data.Descriptors["boots"].GetDescriptor("military_heavy_boots_1"));
             lightBootsDesc._icon = lightBootsDescRef._icon;
@@ -511,7 +514,7 @@ namespace ImperiumOfMan
                 MaxDurability = 75,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(6f, 7f, lacer: 7f),
+                ResistSheet = CreateResists(3f, 4f, lacer: 3f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
             };
@@ -536,7 +539,7 @@ namespace ImperiumOfMan
                 MaxDurability = 90,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(8f, 8f, lacer: 8f, cold: 2f),
+                ResistSheet = CreateResists(4f, 4f, lacer: 4f, cold: 2f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
             };
@@ -561,7 +564,7 @@ namespace ImperiumOfMan
                 MaxDurability = 90,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(12f, 12f, lacer: 10f, cold: 2f),
+                ResistSheet = CreateResists(7f, 8f, lacer: 7f, cold: 2f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
             };
@@ -586,13 +589,116 @@ namespace ImperiumOfMan
                 MaxDurability = 105,
                 MinDurabilityAfterRepair = 0,
                 RepairCategory = "aram_armor",
-                ResistSheet = CreateResists(6f, 9f, lacer: 7f),
+                ResistSheet = CreateResists(4f, 7f, lacer: 4f),
                 ArmorClass = ArmorClass.LightArmor,
                 ArmorSubClass = ArmorSubClass.Default,
                 HideHair = true,
             };
             Data.Items.AddRecord("iom_lightHelmet", lightHelmet);
             Data.Descriptors["helmets"].AddDescriptor("iom_lightHelmet", lightHelmetDesc);
+            #endregion
+            #region Cadian Armor
+            var cadiaBootsDescRef = ModBundle.LoadAsset<BootsDescriptor>("cadiaboots");;
+            var cadiaBootsDesc = (BootsDescriptor)Object.Instantiate(Data.Descriptors["boots"].GetDescriptor("military_heavy_boots_1"));
+            cadiaBootsDesc._icon = cadiaBootsDescRef._icon;
+            cadiaBootsDesc._smallIcon = cadiaBootsDescRef._smallIcon;
+            cadiaBootsDesc._shadow = cadiaBootsDescRef._shadow;
+            var cadiaBoots = new BootsRecord
+            {
+                Id = "iom_cadiaboots",
+                ContentDescriptor = cadiaBootsDesc,
+                Categories = [ItemCategory],
+                TechLevel = 1,
+                Price = 100,
+                Weight = 1.6f,
+                InventoryWidthSize = 1,
+                ItemClass = ItemClass.Boots,
+                MaxDurability = 75,
+                MinDurabilityAfterRepair = 0,
+                RepairCategory = "aram_armor",
+                ResistSheet = CreateResists(6f, 7f, lacer: 7f),
+                ArmorClass = ArmorClass.MediumArmor,
+                ArmorSubClass = ArmorSubClass.Default,
+            };
+            Data.Items.AddRecord("iom_cadiaboots", cadiaBoots);
+            Data.Descriptors["boots"].AddDescriptor("iom_cadiaboots", cadiaBootsDesc);
+            
+            var cadiaLegginsDescRef = ModBundle.LoadAsset<LeggingsDescriptor>("cadiapants");
+            var cadiaLeggingsDesc = (LeggingsDescriptor)Object.Instantiate(Data.Descriptors["leggings"].GetDescriptor("military_heavy_pants_1"));
+            cadiaLeggingsDesc._icon = cadiaLegginsDescRef._icon;
+            cadiaLeggingsDesc._smallIcon = cadiaLegginsDescRef._smallIcon;
+            cadiaLeggingsDesc._shadow = cadiaLegginsDescRef._shadow;
+            var cadiaLeggings = new LeggingsRecord
+            {
+                Id = "iom_cadialeggings",
+                ContentDescriptor = cadiaLeggingsDesc,
+                Categories = [ItemCategory],
+                TechLevel = 1,
+                Price = 190,
+                Weight = 2f,
+                InventoryWidthSize = 1,
+                ItemClass = ItemClass.Leggings,
+                MaxDurability = 90,
+                MinDurabilityAfterRepair = 0,
+                RepairCategory = "aram_armor",
+                ResistSheet = CreateResists(8f, 8f, lacer: 8f, cold: 2f),
+                ArmorClass = ArmorClass.MediumArmor,
+                ArmorSubClass = ArmorSubClass.Default,
+            };
+            Data.Items.AddRecord("iom_cadialeggings", cadiaLeggings);
+            Data.Descriptors["leggings"].AddDescriptor("iom_cadialeggings", cadiaLeggingsDesc);
+
+            var cadiaChestplateDescRef = ModBundle.LoadAsset<ArmorDescriptor>("cadiaarmor");;
+            var cadiaChestplateDesc = (ArmorDescriptor)Object.Instantiate(Data.Descriptors["armors"].GetDescriptor("military_heavy_armor_1"));
+            cadiaChestplateDesc._icon = cadiaChestplateDescRef._icon;
+            cadiaChestplateDesc._smallIcon = cadiaChestplateDescRef._smallIcon;
+            cadiaChestplateDesc._shadow = cadiaChestplateDescRef._shadow;
+            var cadiaChestplate = new ArmorRecord()
+            {
+                Id = "iom_cadiaChestplate",
+                ContentDescriptor = cadiaChestplateDesc,
+                Categories = [ItemCategory],
+                TechLevel = 1,
+                Price = 190,
+                Weight = 2.9f,
+                InventoryWidthSize = 1,
+                ItemClass = ItemClass.Armor,
+                MaxDurability = 90,
+                MinDurabilityAfterRepair = 0,
+                RepairCategory = "aram_armor",
+                ResistSheet = CreateResists(12f, 12f, lacer: 10f, cold: 2f),
+                ArmorClass = ArmorClass.MediumArmor,
+                ArmorSubClass = ArmorSubClass.Default,
+            };
+            Data.Items.AddRecord("iom_cadiaChestplate", cadiaChestplate);
+            Data.Descriptors["armors"].AddDescriptor("iom_cadiaChestplate", cadiaChestplateDesc); 
+            
+            var cadiaHelmetDescRef = ModBundle.LoadAsset<HelmetDescriptor>("cadiahelmet");;
+            var cadiaHelmetDesc = (HelmetDescriptor)Object.Instantiate(Data.Descriptors["helmets"].GetDescriptor("military_heavy_helmet_1"));
+            cadiaHelmetDesc._icon = cadiaHelmetDescRef._icon;
+            cadiaHelmetDesc._smallIcon = cadiaHelmetDescRef._smallIcon;
+            cadiaHelmetDesc._shadow = cadiaHelmetDescRef._shadow;
+            var cadiaHelmet = new HelmetRecord
+            {
+                Id = "iom_cadiaHelmet",
+                ContentDescriptor = cadiaHelmetDesc,
+                Categories = [ItemCategory],
+                TechLevel = 1,
+                Price = 190,
+                Weight = 1.8f,
+                InventoryWidthSize = 1,
+                ItemClass = ItemClass.Armor,
+                MaxDurability = 105,
+                MinDurabilityAfterRepair = 0,
+                RepairCategory = "aram_armor",
+                ResistSheet = CreateResists(6f, 9f, lacer: 7f),
+                ArmorClass = ArmorClass.MediumArmor,
+                ArmorSubClass = ArmorSubClass.Default,
+                HideHair = true,
+            };
+            Data.Items.AddRecord("iom_cadiaHelmet", cadiaHelmet);
+            Data.Descriptors["helmets"].AddDescriptor("iom_cadiaHelmet", cadiaHelmetDesc);
+            #endregion
             #endregion
 
             #region Add Items From Other Factions To Drop Table
@@ -607,7 +713,7 @@ namespace ImperiumOfMan
             var dropDict = new Dictionary<int, List<ContentDropRecord>>();
             dropDict.Add(0, []);
             dropDict.Add(1, [lightBoots.ToDropRecord(3f, 200), lightLeggings.ToDropRecord(3f, 200), lightChestplate.ToDropRecord(3f, 200), lightHelmet.ToDropRecord(3f, 200)]);
-            dropDict.Add(2, [lasgunItem.ToDropRecord(10, 200)]);
+            dropDict.Add(2, [lasgunItem.ToDropRecord(10, 200), cadiaBoots.ToDropRecord(3f, 200), cadiaLeggings.ToDropRecord(3f, 200), cadiaChestplate.ToDropRecord(3f, 200), cadiaHelmet.ToDropRecord(3f, 200)]);
             dropDict.Add(3, [servitorBackpackItem.ToDropRecord(10, 250), lassniperItem.ToDropRecord(5f, 400)]);
             dropDict.Add(4, [bolterItem.ToDropRecord(10, 300)]);
             dropDict.Add(5, [meltaItem.ToDropRecord(7, 310)]);
