@@ -29,6 +29,8 @@ namespace ImperiumOfMan
                     ___db[lang]["item.iom_lassniper.shortdesc"] = "Лазерная снайперская винтовка";
                     ___db[lang]["item.iom_bolter.name"] = "Болтер";
                     ___db[lang]["item.iom_bolter.shortdesc"] = "Болтер";
+                    ___db[lang]["item.iom_plasma_pistol.name"] = "Плазменный пистолет";
+                    ___db[lang]["item.iom_plasma_pistol.shortdesc"] = "Пистолет";
                     ___db[lang]["item.iom_sevitor_backpack.name"] = "Сервитор";
                     ___db[lang]["item.iom_sevitor_backpack.shortdesc"] = "Послушный Рюкзак";
                     ___db[lang]["faction.iom_faction.name"] = "Империум Человечества";
@@ -75,6 +77,8 @@ namespace ImperiumOfMan
                     ___db[lang]["item.iom_lassniper.shortdesc"] = "Laser Sniper Rifle";
                     ___db[lang]["item.iom_bolter.name"] = "Bolter";
                     ___db[lang]["item.iom_bolter.shortdesc"] = "Bolter";
+                    ___db[lang]["item.iom_plasma_pistol.name"] = "Plasma Pistol";
+                    ___db[lang]["item.iom_plasma_pistol.shortdesc"] = "Pistol";
                     ___db[lang]["item.iom_sevitor_backpack.name"] = "Servitor";
                     ___db[lang]["item.iom_sevitor_backpack.shortdesc"] = "Your Backpack";
                     ___db[lang]["faction.iom_faction.name"] = "Imperium of Man";

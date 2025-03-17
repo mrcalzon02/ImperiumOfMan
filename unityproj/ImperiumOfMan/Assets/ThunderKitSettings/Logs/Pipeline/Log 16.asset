@@ -1,0 +1,332 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
+  m_Name: Log 16
+  m_EditorClassIdentifier: 
+  pipeline: {fileID: 11400000, guid: 7c0b78519e6f4cc4f8719a9797d808c0, type: 2}
+  creationDate:
+    ticks: 638778106521806457
+  entries:
+  - logLevel: 3
+    internalTime:
+      ticks: 638778106544520552
+    message: '[Pipeline](assetlink://Assets%2fPipeline.asset) Finished execution'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638778106524784068
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Creating 1 AssetBundles'
+    context:
+    - 'ImperiumOfMan.bundle
+
+      [Servitor](assetlink://Assets%2fImperiumOfManMod%2fBackpacks%2fServitor.asset)
+
+      
+
+      [servitor_backpack_floor](assetlink://Assets%2fImperiumOfManMod%2fBackpacks%2fservitor_backpack_floor.png)
+
+      
+
+      [servitor_backpack_icon](assetlink://Assets%2fImperiumOfManMod%2fBackpacks%2fservitor_backpack_icon.png)
+
+      
+
+      [servitor_backpack_shadow](assetlink://Assets%2fImperiumOfManMod%2fBackpacks%2fservitor_backpack_shadow.png)
+
+      
+
+      [factionIcon](assetlink://Assets%2fImperiumOfManMod%2fFaction%2ffactionIcon.png)
+
+      
+
+      [factionIcon_mouseOut](assetlink://Assets%2fImperiumOfManMod%2fFaction%2ffactionIcon_mouseOut.png)
+
+      
+
+      [HumanAlliance](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fHumanAlliance.asset)
+
+      
+
+      [ImperiumOfManFaction](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fImperiumOfManFaction.asset)
+
+      
+
+      [soviet_big_left](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fsoviet_big_left.png)
+
+      
+
+      [soviet_big_normal](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fsoviet_big_normal.png)
+
+      
+
+      [soviet_big_right](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fsoviet_big_right.png)
+
+      
+
+      [soviet_missionIcon_left](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fsoviet_missionIcon_left.png)
+
+      
+
+      [soviet_missionIcon_right](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fsoviet_missionIcon_right.png)
+
+      
+
+      [soviet_small](assetlink://Assets%2fImperiumOfManMod%2fFaction%2fsoviet_small.png)
+
+      
+
+      [Imperator](assetlink://Assets%2fImperiumOfManMod%2fPortraits%2fImperator.asset)
+
+      
+
+      [Imperator](assetlink://Assets%2fImperiumOfManMod%2fPortraits%2fImperator.png)
+
+      
+
+      [cadiaarmor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaarmor.asset)
+
+      
+
+      [cadiaArmor_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaArmor_floor.png)
+
+      
+
+      [cadiaArmor_icon](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaArmor_icon.png)
+
+      
+
+      [cadiaArmor_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaArmor_shadow.png)
+
+      
+
+      [cadiaboots](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaboots.asset)
+
+      
+
+      [cadiaboots_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaboots_floor.png)
+
+      
+
+      [cadiaboots_inv](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaboots_inv.png)
+
+      
+
+      [cadiaboots_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaboots_shadow.png)
+
+      
+
+      [cadiahelmet](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiahelmet.asset)
+
+      
+
+      [cadiaHelmet_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaHelmet_floor.png)
+
+      
+
+      [cadiaHelmet_icon](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaHelmet_icon.png)
+
+      
+
+      [cadiaHelmet_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiaHelmet_shadow.png)
+
+      
+
+      [cadiapants](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiapants.asset)
+
+      
+
+      [cadiapants_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiapants_floor.png)
+
+      
+
+      [cadiapants_inv](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiapants_inv.png)
+
+      
+
+      [cadiapants_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2fcadia%2fcadiapants_shadow.png)
+
+      
+
+      [lightArmor_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightArmor_floor.png)
+
+      
+
+      [lightArmor_icon](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightArmor_icon.png)
+
+      
+
+      [lightArmor_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightArmor_shadow.png)
+
+      
+
+      [lightBoots](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightBoots.asset)
+
+      
+
+      [lightboots_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightboots_floor.png)
+
+      
+
+      [lightboots_inv](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightboots_inv.png)
+
+      
+
+      [lightboots_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightboots_shadow.png)
+
+      
+
+      [lightChestplate](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightChestplate.asset)
+
+      
+
+      [lightHelmet](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightHelmet.asset)
+
+      
+
+      [lightHelmet_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightHelmet_floor.png)
+
+      
+
+      [lightHelmet_icon](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightHelmet_icon.png)
+
+      
+
+      [lightHelmet_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightHelmet_shadow.png)
+
+      
+
+      [lightLeggings](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightLeggings.asset)
+
+      
+
+      [lightpants_floor](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightpants_floor.png)
+
+      
+
+      [lightpants_inv](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightpants_inv.png)
+
+      
+
+      [lightpants_shadow](assetlink://Assets%2fImperiumOfManMod%2fArmor%2flight%2flightpants_shadow.png)
+
+      
+
+      [bolter](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fbolter%2fbolter.asset)
+
+      
+
+      [Boltersinglefire](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fbolter%2fBoltersinglefire.mp3)
+
+      
+
+      [boltersoundbank](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fbolter%2fboltersoundbank.asset)
+
+      
+
+      [spec_assault_floor](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fbolter%2fspec_assault_floor.png)
+
+      
+
+      [spec_assault_icon](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fbolter%2fspec_assault_icon.png)
+
+      
+
+      [spec_assault_shadow](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fbolter%2fspec_assault_shadow.png)
+
+      
+
+      [lasgun](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flasgun%2flasgun.asset)
+
+      
+
+      [lasgun_assault_floor](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flasgun%2flasgun_assault_floor.png)
+
+      
+
+      [lasgun_assault_icon](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flasgun%2flasgun_assault_icon.png)
+
+      
+
+      [lasgun_assault_shadow](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flasgun%2flasgun_assault_shadow.png)
+
+      
+
+      [lassniper](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flassniper%2flassniper.asset)
+
+      
+
+      [lassniper_floor](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flassniper%2flassniper_floor.png)
+
+      
+
+      [lassniper_icon](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flassniper%2flassniper_icon.png)
+
+      
+
+      [lassniper_shadow](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2flassniper%2flassniper_shadow.png)
+
+      
+
+      [melta](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fmelta%2fmelta.asset)
+
+      
+
+      [melta_floor](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fmelta%2fmelta_floor.png)
+
+      
+
+      [melta_icon](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fmelta%2fmelta_icon.png)
+
+      
+
+      [melta_shadow](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fmelta%2fmelta_shadow.png)
+
+      
+
+      [plasma_pistol](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fplasmapistol%2fplasma_pistol.asset)
+
+      
+
+      [plasma_pistol_floor](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fplasmapistol%2fplasma_pistol_floor.png)
+
+      
+
+      [plasma_pistol_icon](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fplasmapistol%2fplasma_pistol_icon.png)
+
+      
+
+      [plasma_pistol_shadow](assetlink://Assets%2fImperiumOfManMod%2fWeapons%2fplasmapistol%2fplasma_pistol_shadow.png)
+
+      
+
+      
+
+'
+  - logLevel: 3
+    internalTime:
+      ticks: 638778106522296553
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638778106522266361
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Clearing PipelineJob error states'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638778106522080645
+    message: '[Pipeline(0 - StageAssetBundles)](assetlink://Assets%2fPipeline.asset)[Manifest](assetlink://Assets%2fManifest.asset)
+      Execute Pipeline'
+    context: []

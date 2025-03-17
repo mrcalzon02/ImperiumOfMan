@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1468945902
+CRC: 900405204
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3a36e7d26a68effc2cd9fb4027b8e9ce
+    Hash: 8aeef0394a3703adb5ae75d9dce219a8
   TypeTreeHash:
     serializedVersion: 2
     Hash: 373e6fa59ba69f9b5b6fc74f95527259
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 3a36e7d26a68effc2cd9fb4027b8e9ce
+    Hash: 8aeef0394a3703adb5ae75d9dce219a8
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -52,6 +52,7 @@ Assets:
 - Assets/ImperiumOfManMod/Armor/cadia/cadiapants_inv.png
 - Assets/ImperiumOfManMod/Weapons/melta/melta_shadow.png
 - Assets/ImperiumOfManMod/Weapons/bolter/boltersoundbank.asset
+- Assets/ImperiumOfManMod/Weapons/plasmapistol/plasma_pistol_icon.png
 - Assets/ImperiumOfManMod/Portraits/Imperator.asset
 - Assets/ImperiumOfManMod/Armor/cadia/cadiapants.asset
 - Assets/ImperiumOfManMod/Weapons/melta/melta_floor.png
@@ -59,6 +60,7 @@ Assets:
 - Assets/ImperiumOfManMod/Armor/cadia/cadiaArmor_shadow.png
 - Assets/ImperiumOfManMod/Armor/cadia/cadiaarmor.asset
 - Assets/ImperiumOfManMod/Portraits/Imperator.png
+- Assets/ImperiumOfManMod/Weapons/plasmapistol/plasma_pistol_shadow.png
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet.asset
 - Assets/ImperiumOfManMod/Armor/light/lightHelmet_shadow.png
 - Assets/ImperiumOfManMod/Armor/light/lightboots_floor.png
@@ -81,6 +83,7 @@ Assets:
 - Assets/ImperiumOfManMod/Faction/soviet_big_left.png
 - Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_floor.png
 - Assets/ImperiumOfManMod/Weapons/bolter/spec_assault_icon.png
+- Assets/ImperiumOfManMod/Weapons/plasmapistol/plasma_pistol_floor.png
 - Assets/ImperiumOfManMod/Armor/cadia/cadiaboots_inv.png
 - Assets/ImperiumOfManMod/Weapons/lasgun/lasgun_assault_shadow.png
 - Assets/ImperiumOfManMod/Armor/cadia/cadiahelmet.asset
@@ -98,6 +101,7 @@ Assets:
 - Assets/ImperiumOfManMod/Faction/soviet_big_normal.png
 - Assets/ImperiumOfManMod/Faction/HumanAlliance.asset
 - Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_floor.png
+- Assets/ImperiumOfManMod/Weapons/plasmapistol/plasma_pistol.asset
 - Assets/ImperiumOfManMod/Armor/cadia/cadiaArmor_floor.png
 - Assets/ImperiumOfManMod/Weapons/lassniper/lassniper_shadow.png
 - Assets/ImperiumOfManMod/Faction/soviet_missionIcon_left.png

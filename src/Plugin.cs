@@ -401,6 +401,52 @@ namespace ImperiumOfMan
             Data.Items.AddRecord("iom_lasgun", lasgunItem);
             Data.Descriptors["rangeweapons"].AddDescriptor("iom_lasgun", lasgunDesc);
             
+            var plasmaPistolDescRef = ModBundle.LoadAsset<WeaponDescriptor>("plasma_pistol");
+            var plasmaPistolDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("laser_pistol_1"));
+            plasmaPistolDesc._icon = plasmaPistolDescRef._icon;
+            plasmaPistolDesc._smallIcon = plasmaPistolDescRef._smallIcon;
+            plasmaPistolDesc._shadow = plasmaPistolDescRef._shadow;
+            var plasmaPistolItem = new WeaponRecord
+            {
+                Id = "iom_plasma_pistol",
+                ContentDescriptor = plasmaPistolDesc,
+                Categories = [ ItemCategory ],
+                TechLevel = 1,
+                Price = 200,
+                Weight = 2.1f,
+                InventoryWidthSize = 2,
+                ItemClass = ItemClass.Weapon,
+                MaxDurability = 110,
+                MinDurabilityAfterRepair = 0,
+                Unbreakable = false,
+                RepairCategory = "laser_weapon",
+                WeaponClass = WeaponClass.Pistol,
+                WeaponSubClass = WeaponSubClass.Plasma,
+                RequiredAmmo = "BatteryCells",
+                OverrideAmmo = string.Empty,
+                DefaultAmmoId = "battery_basic_ammo",
+                DefaultGrenadeId = string.Empty,
+                Damage = new()
+                {
+                    damage = string.Empty,
+                    minDmg = 19,
+                    maxDmg = 33,
+                    critChance = 0,
+                    critDmg = 2.25f
+                },
+                Firemodes = ["basic_energy_pistol_single", "basic_energy_pistol_burst"],
+                Range = 3,
+                ReloadDuration = 4,
+                ReloadOneClip = false,
+                MagazineCapacity = 7,
+                AllowedGrenadeIds = [],
+                WoundChanceOnPierce = 0,
+                ArmorPenetration = 0.00f,
+                FovLookAngleMult = 1f,
+            };
+            Data.Items.AddRecord("iom_plasma_pistol", plasmaPistolItem);
+            Data.Descriptors["rangeweapons"].AddDescriptor("iom_plasma_pistol", plasmaPistolDesc);
+            
             var meltaDescRef = ModBundle.LoadAsset<WeaponDescriptor>("melta");
             var meltaDesc = (WeaponDescriptor)Object.Instantiate(Data.Descriptors["rangeweapons"].GetDescriptor("chu_meltatrower_1"));
             meltaDesc._icon = meltaDescRef._icon;
@@ -714,7 +760,7 @@ namespace ImperiumOfMan
             dropDict.Add(0, []);
             dropDict.Add(1, [lightBoots.ToDropRecord(3f, 200), lightLeggings.ToDropRecord(3f, 200), lightChestplate.ToDropRecord(3f, 200), lightHelmet.ToDropRecord(3f, 200)]);
             dropDict.Add(2, [lasgunItem.ToDropRecord(10, 200), cadiaBoots.ToDropRecord(3f, 200), cadiaLeggings.ToDropRecord(3f, 200), cadiaChestplate.ToDropRecord(3f, 200), cadiaHelmet.ToDropRecord(3f, 200)]);
-            dropDict.Add(3, [servitorBackpackItem.ToDropRecord(10, 250), lassniperItem.ToDropRecord(5f, 400)]);
+            dropDict.Add(3, [servitorBackpackItem.ToDropRecord(10, 250), lassniperItem.ToDropRecord(5f, 400), plasmaPistolItem.ToDropRecord(3f, 250)]);
             dropDict.Add(4, [bolterItem.ToDropRecord(10, 300)]);
             dropDict.Add(5, [meltaItem.ToDropRecord(7, 310)]);
             dropDict.Add(6, []);

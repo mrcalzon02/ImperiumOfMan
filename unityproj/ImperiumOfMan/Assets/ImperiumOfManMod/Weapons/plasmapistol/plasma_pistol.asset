@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 383648226, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: plasma_pistol
+  m_EditorClassIdentifier: 
+  _overridenRenderId: 
+  _icon: {fileID: 21300000, guid: 9bce76f6f933dcb4f8ca61d6ccfbd833, type: 3}
+  _smallIcon: {fileID: 21300000, guid: 7c9cc7befaa797c478e34e22d4e90cf6, type: 3}
+  _shadow: {fileID: 21300000, guid: d087d8b80e54bbf4db94d99221844a26, type: 3}
+  _prefab: {fileID: 0}
+  _texture: {fileID: 0}
+  _attackSoundBanks: []
+  _reloadSoundBanks: []
+  _dryShotSoundBanks: []
+  _failedAttackSoundBanks: []
+  _muzzles: []
+  _grip: 1
+  _visualReachCellDuration: 0
+  _overrideBullet: {fileID: 0}
+  _hasHFGOverlay: 0
