@@ -49,8 +49,8 @@ namespace ImperiumOfMan
                     ___db[lang]["item.iom_lightleggings.shortdesc"] = "Штаны";
                     ___db[lang]["item.iom_lightChestplate.name"] = "Силы планетарной обороны";
                     ___db[lang]["item.iom_lightChestplate.shortdesc"] = "Броня";
-                    ___db[lang]["item.lightHelmet.name"] = "Силы планетарной обороны";
-                    ___db[lang]["item.lightHelmet.shortdesc"] = "Шлем";
+                    ___db[lang]["item.iom_lightHelmet.name"] = "Силы планетарной обороны";
+                    ___db[lang]["item.iom_lightHelmet.shortdesc"] = "Шлем";
                     
                     ___db[lang]["item.iom_cadiaboots.name"] = "Кадия";
                     ___db[lang]["item.iom_cadiaboots.shortdesc"] = "Обувь";
@@ -58,8 +58,8 @@ namespace ImperiumOfMan
                     ___db[lang]["item.iom_cadialeggings.shortdesc"] = "Штаны";
                     ___db[lang]["item.iom_cadiaChestplate.name"] = "Кадия";
                     ___db[lang]["item.iom_cadiaChestplate.shortdesc"] = "Броня";
-                    ___db[lang]["item.cadiaHelmet.name"] = "Кадия";
-                    ___db[lang]["item.cadiaHelmet.shortdesc"] = "Шлем";
+                    ___db[lang]["item.iom_cadiaHelmet.name"] = "Кадия";
+                    ___db[lang]["item.iom_cadiaHelmet.shortdesc"] = "Шлем";
                     
                     ___db[lang]["faction.iom_faction.shortdesc"] = "Галактическая империя, объединившая подавляющее большинство людей в галактике.";
                     ___db[lang]["faction.iom_faction.desc"] = "Империум — самое большое государство в галактике, насчитывающее более миллиона звёздных систем, находящихся в Галактике Млечного Пути и раздёленных между собой многими световыми годами. Размер Империума как межзвёздного государства исчисляется не протяжённостью территорий, а именно звёздными системами, которые он контролирует. Столицей Империума является родина человечества Священная Терра (Земля).";
@@ -97,8 +97,8 @@ namespace ImperiumOfMan
                     ___db[lang]["item.iom_lightleggings.shortdesc"] = "Leggings";
                     ___db[lang]["item.iom_lightChestplate.name"] = "Planetary Defence Force";
                     ___db[lang]["item.iom_lightChestplate.shortdesc"] = "Armor";
-                    ___db[lang]["item.lightHelmet.name"] = "Planetary Defence Force";
-                    ___db[lang]["item.lightHelmet.shortdesc"] = "Helmet";
+                    ___db[lang]["item.iom_lightHelmet.name"] = "Planetary Defence Force";
+                    ___db[lang]["item.iom_lightHelmet.shortdesc"] = "Helmet";
                     
                     ___db[lang]["item.iom_cadiaboots.name"] = "Cadia";
                     ___db[lang]["item.iom_cadiaboots.shortdesc"] = "Boots";
@@ -106,8 +106,8 @@ namespace ImperiumOfMan
                     ___db[lang]["item.iom_cadialeggings.shortdesc"] = "Leggings";
                     ___db[lang]["item.iom_cadiaChestplate.name"] = "Cadia";
                     ___db[lang]["item.iom_cadiaChestplate.shortdesc"] = "Armor";
-                    ___db[lang]["item.cadiaHelmet.name"] = "Cadia";
-                    ___db[lang]["item.cadiaHelmet.shortdesc"] = "Helmet";
+                    ___db[lang]["item.iom_cadiaHelmet.name"] = "Cadia";
+                    ___db[lang]["item.iom_cadiaHelmet.shortdesc"] = "Helmet";
                     
                     ___db[lang]["faction.iom_faction.shortdesc"] = "The martyr's grave is the keystone of the Imperium.";
                     ___db[lang]["faction.iom_faction.desc"] = "The Imperium of Man, also called simply the Imperium, is a galaxy-spanning, interstellar Human empire, the ultimate authority for the vast majority of the Human species in the Milky Way galaxy in the 41st Millennium A.D. It is ruled by the living god who is known as the Emperor of Mankind.";
