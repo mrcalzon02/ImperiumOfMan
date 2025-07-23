@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 383648226, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: bolter
+  m_EditorClassIdentifier: 
+  _overridenRenderId: iom_bolter
+  _icon: {fileID: 21300000, guid: f8543f70ea31a1b438c858754fa01d6d, type: 3}
+  _smallIcon: {fileID: 21300000, guid: 17bdc8041d4ea724a8dec59852c8c579, type: 3}
+  _shadow: {fileID: 21300000, guid: 7e731bb3d52d2e344ab854e70ec33168, type: 3}
+  _prefab: {fileID: 0}
+  _texture: {fileID: 0}
+  _attackSoundBanks:
+  - {fileID: 11400000, guid: 6f8b1a50f9292b5488bb5c9d61cc45ae, type: 2}
+  _reloadSoundBanks: []
+  _dryShotSoundBanks: []
+  _failedAttackSoundBanks: []
+  _muzzles: []
+  _grip: 16
+  _visualReachCellDuration: 0
+  _overrideBullet: {fileID: 0}
+  _hasHFGOverlay: 0
