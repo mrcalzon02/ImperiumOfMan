@@ -18,3 +18,13 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Ownership of Intellectual Property Rights
+
+The content presented here is intended solely for informational or fan-based purposes and is not associated with, endorsed by, or connected to Warhammer 40,000 (Warhammer 40K), Games Workshop, or any of its affiliates or subsidiaries.
+
+## Legal Disclaimer
+
+These are works of fan fiction set in the fictional universe of Warhammer 40,000, which is the intellectual property of Games Workshop Limited. Warhammer 40,000, Games Workshop, Black Library, Space Marine, 40K, the Aquila Double-headed Eagle logo, and all associated names, logos, characters, races, creatures, vehicles, weapons, and locations are registered trademarks, trademarks, or copyrighted properties of Games Workshop Limited, variably registered around the world. All rights to these elements are reserved by Games Workshop, and no ownership or claim over these trademarked or copyrighted properties is implied or intended. The following is not affiliated with or endorsed by Games Workshop.
+
+All official Warhammer 40K products, artwork, and licensed materials should be obtained through authorized channels and distributors of Games Workshop. If you are interested in supporting the original creators or seeking official merchandise, please visit the official Games Workshop website: www.games-workshop.com.
