@@ -103,10 +103,11 @@ catch {
     throw "PACKAGE GATE FAILED: modmanifest.json is not valid JSON. $($_.Exception.Message)"
 }
 
+$uniqueModName = [string]$manifest.UniqueModName
 Write-Gate "Manifest unique name" (
-    -not [string]::IsNullOrWhiteSpace([string]$manifest.UniqueModName) -and
-    [string]$manifest.UniqueModName -match '^[A-Za-z0-9_]+$'
-) "UniqueModName '$($manifest.UniqueModName)' uses only letters, numbers, and underscores"
+    -not [string]::IsNullOrWhiteSpace($uniqueModName) -and
+    $uniqueModName -match '^[A-Za-z0-9_]+$'
+) "UniqueModName '$uniqueModName' uses only letters, numbers, and underscores"
 
 $assemblies = @($manifest.Assemblies)
 Write-Gate "Manifest assembly list" ($assemblies.Count -gt 0) "Manifest declares $($assemblies.Count) assembly file(s)"
@@ -133,15 +134,19 @@ if ($thumbnailFormat -ne "PNG") {
 }
 
 $forbiddenExtensions = @(".cs", ".csproj", ".sln")
-$forbiddenFiles = Get-ChildItem -LiteralPath $packageRoot -Recurse -File | Where-Object {
-    $forbiddenExtensions -contains $_.Extension.ToLowerInvariant()
-}
+$forbiddenFiles = @(
+    Get-ChildItem -LiteralPath $packageRoot -Recurse -File | Where-Object {
+        $forbiddenExtensions -contains $_.Extension.ToLowerInvariant()
+    }
+)
 Write-Gate "No development source files in runtime package" ($forbiddenFiles.Count -eq 0) "No C# source, project, or solution files are being distributed"
 
 $forbiddenDirectoryNames = @("Assets", "Library", "Temp", "ProjectSettings", "Packages")
-$forbiddenDirectories = Get-ChildItem -LiteralPath $packageRoot -Recurse -Directory | Where-Object {
-    $forbiddenDirectoryNames -contains $_.Name
-}
+$forbiddenDirectories = @(
+    Get-ChildItem -LiteralPath $packageRoot -Recurse -Directory | Where-Object {
+        $forbiddenDirectoryNames -contains $_.Name
+    }
+)
 Write-Gate "No Unity project directories in runtime package" ($forbiddenDirectories.Count -eq 0) "Runtime package is separate from the Unity development project"
 
 if (Test-Path -LiteralPath $stageRoot) {
@@ -150,12 +155,14 @@ if (Test-Path -LiteralPath $stageRoot) {
 New-Item -ItemType Directory -Path $stageRoot -Force | Out-Null
 Copy-Item -Path (Join-Path $packageRoot "*") -Destination $stageRoot -Recurse -Force
 
-$packagedFiles = Get-ChildItem -LiteralPath $stageRoot -Recurse -File | Sort-Object FullName
+$packagedFiles = @(
+    Get-ChildItem -LiteralPath $stageRoot -Recurse -File | Sort-Object FullName
+)
 $reportLines.Insert(0, "# ImperiumOfMan local-test package report")
 $reportLines.Insert(1, "")
 $reportLines.Insert(2, "Commit: $($env:GITHUB_SHA)")
 $reportLines.Insert(3, "Generated: $([DateTime]::UtcNow.ToString('u')) UTC")
-$reportLines.Insert(4, "Package source: `$PackagePath`")
+$reportLines.Insert(4, "Package source: ``$PackagePath``")
 $reportLines.Insert(5, "")
 $reportLines.Add("")
 $reportLines.Add("## Runtime files")
@@ -164,7 +171,7 @@ $reportLines.Add("")
 foreach ($file in $packagedFiles) {
     $relativeName = [System.IO.Path]::GetRelativePath($stageRoot, $file.FullName).Replace('\\', '/')
     $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
-    $reportLines.Add("- `$relativeName` - $($file.Length) bytes - SHA256 `$hash`")
+    $reportLines.Add("- ``$relativeName`` - $($file.Length) bytes - SHA256 ``$hash``")
 }
 
 $reportLines.Add("")
