@@ -70,8 +70,7 @@ jobs:
         id: archive
         shell: pwsh
         run: |
-          $version = "${{ github.run_number }}.${{ github.run_attempt }}"
-          $archiveName = "ImperiumOfMan-live-test-$version.zip"
+          $archiveName = "ImperiumOfMan-live-test.zip"
           $archivePath = Join-Path $PWD "artifacts/$archiveName"
           $checksumPath = Join-Path $PWD "artifacts/SHA256SUMS.txt"
 
@@ -87,7 +86,7 @@ jobs:
           "archive_path=$archivePath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "checksum_path=$checksumPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "archive_name=$archiveName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "release_tag=live-test-$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "release_tag=live-test-latest" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
       - name: Publish package report to run summary
         shell: pwsh
@@ -104,7 +103,7 @@ jobs:
           retention-days: 14
           compression-level: 0
 
-      - name: Publish GitHub prerelease
+      - name: Publish rolling GitHub prerelease
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -113,29 +112,45 @@ jobs:
           ARCHIVE_NAME: ${{ steps.archive.outputs.archive_name }}
           RELEASE_TAG: ${{ steps.archive.outputs.release_tag }}
         run: |
+          $PSNativeCommandUseErrorActionPreference = $false
           $notesPath = Join-Path $env:RUNNER_TEMP "ImperiumOfMan-release-notes.md"
 
-          @"
-          # ImperiumOfMan live-test prerelease
+          $notes = @(
+            "# ImperiumOfMan live-test prerelease",
+            "",
+            "This rolling prerelease was assembled automatically from the maintained main branch for direct local Quasimorph testing.",
+            "",
+            "## Download",
+            "",
+            "Download $env:ARCHIVE_NAME, verify it against SHA256SUMS.txt, and extract the included ImperiumOfMan folder into:",
+            "",
+            "C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods",
+            "",
+            "## Important",
+            "",
+            "- This is a development prerelease, not a stable Workshop publication.",
+            "- Disable or remove the discontinued andre_ImperiumOfMan package before ordinary testing.",
+            "- Back up valuable campaign saves.",
+            "- Read INSTALL_LOCAL.md and PACKAGE_REPORT.md inside the archive.",
+            "- Package validation does not by itself prove successful in-game loading or functionality.",
+            "",
+            "Build: ${{ github.run_number }}.${{ github.run_attempt }}",
+            "Source commit: ${{ github.sha }}"
+          )
+          $notes | Set-Content -LiteralPath $notesPath -Encoding UTF8
 
-          This prerelease was assembled automatically from the maintained `main` branch for direct local Quasimorph testing.
+          gh release view $env:RELEASE_TAG --repo "${{ github.repository }}" *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Replacing existing rolling live-test prerelease."
+            gh release delete $env:RELEASE_TAG `
+              --repo "${{ github.repository }}" `
+              --cleanup-tag `
+              --yes
 
-          ## Download
-
-          Download `$env:ARCHIVE_NAME`, verify it against `SHA256SUMS.txt`, and extract the included `ImperiumOfMan` folder into:
-
-          `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods`
-
-          ## Important
-
-          - This is a development prerelease, not a stable Workshop publication.
-          - Disable or remove the discontinued `andre_ImperiumOfMan` package before ordinary testing.
-          - Back up valuable campaign saves.
-          - Read `INSTALL_LOCAL.md` and `PACKAGE_REPORT.md` inside the archive.
-          - Package validation does not by itself prove successful in-game loading or functionality.
-
-          Source commit: `${{ github.sha }}`
-          "@ | Set-Content -LiteralPath $notesPath -Encoding UTF8
+            if ($LASTEXITCODE -ne 0) {
+              throw "Could not remove the previous rolling live-test prerelease."
+            }
+          }
 
           gh release create $env:RELEASE_TAG `
             $env:ARCHIVE_PATH `
@@ -145,3 +160,7 @@ jobs:
             --title "ImperiumOfMan Live Test ${{ github.run_number }}.${{ github.run_attempt }}" `
             --notes-file $notesPath `
             --prerelease
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "GitHub prerelease publication failed."
+          }
