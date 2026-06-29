@@ -3,3 +3,4 @@ Runtime identity: Cvar_ImperiumOfMan
 Release channel: live-test-latest
 Purpose: direct local Quasimorph testing
 Status: development prerelease; live verification required
+Trigger: default branch confirmed as main on 2026-06-29
