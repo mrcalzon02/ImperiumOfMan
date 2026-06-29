@@ -53,6 +53,11 @@
             <HintPath>$(ManagedPath)UnityEngine.AssetBundleModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>$(ManagedPath)UnityEngine.IMGUIModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
