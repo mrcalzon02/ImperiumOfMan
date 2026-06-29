@@ -7,7 +7,8 @@
     </PropertyGroup>
     <PropertyGroup>
         <GAME_NAME>Quasimorph</GAME_NAME>
-        <SteamId>3416931502</SteamId>
+        <!-- Intentionally blank until this maintained fork receives its own Workshop item ID. -->
+        <SteamId></SteamId>
     </PropertyGroup>
     <PropertyGroup>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App $(GAME_STEAM_ID)', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GAME_PATH>
