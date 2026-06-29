@@ -14,11 +14,11 @@ on:
       - ".github/workflows/package-local-test.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  validate-and-package:
-    name: Validate and package ImperiumOfMan
+  validate-package-and-release:
+    name: Validate, archive, and publish ImperiumOfMan
     runs-on: windows-latest
     timeout-minutes: 10
 
@@ -42,11 +42,11 @@ jobs:
 
              `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan`
 
-          4. Extract the contents of this artifact so the runtime files are directly inside:
+          4. Extract the `ImperiumOfMan` folder from this release archive into:
 
-             `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan`
+             `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods`
 
-          5. Confirm that the destination directly contains:
+          5. Confirm that the final destination directly contains:
 
              - `modmanifest.json`
              - `ImperiumOfMan.dll`
@@ -55,22 +55,93 @@ jobs:
 
           6. Start Quasimorph and review the game or Unity log before loading an important campaign.
 
+          The final manifest path must be:
+
+          `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json`
+
           Do not create an extra nested folder such as:
 
           `Mods\ImperiumOfMan\ImperiumOfMan\modmanifest.json`
 
-          The GitHub-hosted runner creates this artifact, but it cannot copy files directly onto your personal computer. Extraction into the local Quasimorph directory must be performed on that computer.
+          This is an unverified development prerelease for direct local testing. Review `PACKAGE_REPORT.md` for validation results and known warnings.
           '@ | Set-Content -LiteralPath ./artifacts/ImperiumOfMan/INSTALL_LOCAL.md -Encoding UTF8
+
+      - name: Create ZIP and checksum
+        id: archive
+        shell: pwsh
+        run: |
+          $version = "${{ github.run_number }}.${{ github.run_attempt }}"
+          $archiveName = "ImperiumOfMan-live-test-$version.zip"
+          $archivePath = Join-Path $PWD "artifacts/$archiveName"
+          $checksumPath = Join-Path $PWD "artifacts/SHA256SUMS.txt"
+
+          Compress-Archive `
+            -Path ./artifacts/ImperiumOfMan `
+            -DestinationPath $archivePath `
+            -CompressionLevel Optimal `
+            -Force
+
+          $hash = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $archiveName" | Set-Content -LiteralPath $checksumPath -Encoding ASCII
+
+          "archive_path=$archivePath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "checksum_path=$checksumPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "archive_name=$archiveName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "release_tag=live-test-$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
       - name: Publish package report to run summary
         shell: pwsh
         run: Get-Content ./artifacts/ImperiumOfMan/PACKAGE_REPORT.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
 
-      - name: Upload local-test package
+      - name: Upload Actions artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ImperiumOfMan-local-test-${{ github.run_number }}
-          path: artifacts/ImperiumOfMan
+          name: ImperiumOfMan-local-test-${{ github.run_number }}.${{ github.run_attempt }}
+          path: |
+            ${{ steps.archive.outputs.archive_path }}
+            ${{ steps.archive.outputs.checksum_path }}
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
+
+      - name: Publish GitHub prerelease
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARCHIVE_PATH: ${{ steps.archive.outputs.archive_path }}
+          CHECKSUM_PATH: ${{ steps.archive.outputs.checksum_path }}
+          ARCHIVE_NAME: ${{ steps.archive.outputs.archive_name }}
+          RELEASE_TAG: ${{ steps.archive.outputs.release_tag }}
+        run: |
+          $notesPath = Join-Path $env:RUNNER_TEMP "ImperiumOfMan-release-notes.md"
+
+          @"
+          # ImperiumOfMan live-test prerelease
+
+          This prerelease was assembled automatically from the maintained `main` branch for direct local Quasimorph testing.
+
+          ## Download
+
+          Download `$env:ARCHIVE_NAME`, verify it against `SHA256SUMS.txt`, and extract the included `ImperiumOfMan` folder into:
+
+          `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods`
+
+          ## Important
+
+          - This is a development prerelease, not a stable Workshop publication.
+          - Disable or remove the discontinued `andre_ImperiumOfMan` package before ordinary testing.
+          - Back up valuable campaign saves.
+          - Read `INSTALL_LOCAL.md` and `PACKAGE_REPORT.md` inside the archive.
+          - Package validation does not by itself prove successful in-game loading or functionality.
+
+          Source commit: `${{ github.sha }}`
+          "@ | Set-Content -LiteralPath $notesPath -Encoding UTF8
+
+          gh release create $env:RELEASE_TAG `
+            $env:ARCHIVE_PATH `
+            $env:CHECKSUM_PATH `
+            --repo "${{ github.repository }}" `
+            --target "${{ github.sha }}" `
+            --title "ImperiumOfMan Live Test ${{ github.run_number }}.${{ github.run_attempt }}" `
+            --notes-file $notesPath `
+            --prerelease
