@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 383648226, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: boltrifle
+  m_EditorClassIdentifier: 
+  _overridenRenderId: iom_boltrifle
+  _icon: {fileID: 21300000, guid: 6f062510a7cb3e1c17d8fa93a26e64ad, type: 3}
+  _smallIcon: {fileID: 21300000, guid: 0a8f32a8c6d43c67ebff27046a2bf6c5, type: 3}
+  _shadow: {fileID: 21300000, guid: 899160ff97e54469ec43454618e18b9c, type: 3}
+  _prefab: {fileID: 0}
+  _texture: {fileID: 0}
+  _attackSoundBanks:
+  - {fileID: 11400000, guid: 4c45bb7e03b0618fe9aa14b93cb2eb75, type: 2}
+  _reloadSoundBanks: []
+  _dryShotSoundBanks: []
+  _failedAttackSoundBanks: []
+  _muzzles: []
+  _grip: 16
+  _visualReachCellDuration: 0
+  _overrideBullet: {fileID: 0}
+  _hasHFGOverlay: 0
