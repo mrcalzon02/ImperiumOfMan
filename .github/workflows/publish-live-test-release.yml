@@ -22,7 +22,7 @@ jobs:
       - name: Check out main
         uses: actions/checkout@v4
 
-      - name: Assemble Windows-friendly release archive
+      - name: Assemble complete Windows live-test package
         shell: bash
         run: |
           set -euo pipefail
@@ -32,30 +32,91 @@ jobs:
           test -f package/ImperiumOfMan/imperiumofman.bundle
           test -f package/ImperiumOfMan/thumbnail.png
 
-          rm -rf release-dist
-          mkdir -p release-dist/package
+          rm -rf release-dist /tmp/lib-harmony
+          mkdir -p release-dist/package /tmp/lib-harmony
           cp -a package/ImperiumOfMan/. release-dist/package/
+
+          echo "Downloading the runtime Harmony dependency required by the project deployment configuration."
+          curl --fail --location --retry 3 \
+            "https://www.nuget.org/api/v2/package/Lib.Harmony/2.3.3" \
+            --output /tmp/lib-harmony.nupkg
+          unzip -q /tmp/lib-harmony.nupkg -d /tmp/lib-harmony
+
+          HARMONY_DLL=""
+          for candidate in \
+            /tmp/lib-harmony/lib/net472/0Harmony.dll \
+            /tmp/lib-harmony/lib/net48/0Harmony.dll \
+            /tmp/lib-harmony/lib/netstandard2.0/0Harmony.dll; do
+            if [ -f "$candidate" ]; then
+              HARMONY_DLL="$candidate"
+              break
+            fi
+          done
+
+          if [ -z "$HARMONY_DLL" ]; then
+            HARMONY_DLL="$(find /tmp/lib-harmony -type f -name 0Harmony.dll | head -n 1)"
+          fi
+
+          test -n "$HARMONY_DLL"
+          test -f "$HARMONY_DLL"
+          cp "$HARMONY_DLL" release-dist/package/0Harmony.dll
+
+          echo "Converting the mislabeled thumbnail into genuine PNG data."
+          python3 -m pip install --disable-pip-version-check --quiet Pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          source = Path("release-dist/package/thumbnail.png")
+          temporary = source.with_suffix(".converted.png")
+
+          with Image.open(source) as image:
+              image.convert("RGBA").save(temporary, format="PNG")
+
+          temporary.replace(source)
+
+          with Image.open(source) as image:
+              if image.format != "PNG":
+                  raise RuntimeError(f"thumbnail conversion failed: detected {image.format}")
+          PY
 
           cat > release-dist/package/INSTALL_LOCAL.txt <<'EOF'
           ImperiumOfMan local live-test installation
 
           1. Close Quasimorph completely.
           2. Disable or unsubscribe from the discontinued andre_ImperiumOfMan package.
-          3. Delete or move any incorrectly extracted folder named ImperiumOfMan-live-test from the Quasimorph Mods directory.
+          3. Remove every old ImperiumOfMan test folder and ZIP from the Quasimorph Mods directory.
           4. Back up any existing folder at:
              C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan
-          5. Put ImperiumOfMan.zip inside:
+          5. Put the newly downloaded ImperiumOfMan.zip inside:
              C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods
           6. Use Windows Extract All on ImperiumOfMan.zip.
-          7. Confirm this file exists directly at:
-             C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json
+          7. Leave exactly one installed copy. Confirm these files exist directly inside Mods\ImperiumOfMan:
+             modmanifest.json
+             ImperiumOfMan.dll
+             0Harmony.dll
+             imperiumofman.bundle
+             thumbnail.png
           8. Start Quasimorph with a backed-up or disposable save and review the log.
           EOF
 
-          cd release-dist/package
-          zip -r -9 ../ImperiumOfMan.zip .
-          cd ..
-          sha256sum ImperiumOfMan.zip > SHA256SUMS.txt
+          (
+            cd release-dist/package
+            sha256sum \
+              modmanifest.json \
+              ImperiumOfMan.dll \
+              0Harmony.dll \
+              imperiumofman.bundle \
+              thumbnail.png \
+              > PACKAGE_CONTENTS_SHA256.txt
+
+            zip -r -9 ../ImperiumOfMan.zip .
+          )
+
+          (
+            cd release-dist
+            sha256sum ImperiumOfMan.zip > SHA256SUMS.txt
+          )
 
       - name: Create or update GitHub prerelease
         shell: bash
@@ -67,11 +128,15 @@ jobs:
           NOTES=$(cat <<EOF
           Development prerelease for direct local Quasimorph testing.
 
-          Download ImperiumOfMan.zip, place it inside the Quasimorph Mods directory, and use Windows Extract All. Its root-level layout is designed to produce:
+          This package now includes the required 0Harmony.dll runtime dependency and a genuine PNG thumbnail. Download ImperiumOfMan.zip, remove all previous test copies, and extract it inside:
+
+          C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods
+
+          The final installation must contain exactly one copy at:
 
           C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json
 
-          Remove any incorrectly extracted ImperiumOfMan-live-test folder, disable the discontinued andre_ImperiumOfMan package, and back up valuable saves before testing.
+          Disable the discontinued andre_ImperiumOfMan package and back up valuable saves before testing.
 
           Source commit: $GITHUB_SHA
           EOF
