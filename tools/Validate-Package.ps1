@@ -100,7 +100,7 @@ try {
     $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
 }
 catch {
-    throw "PACKAGE GATE FAILED: modmanifest.json is not valid JSON. $($_.Exception.Message)"
+    throw "PACKAGE GATE FAILED: packaged modmanifest.json is not valid JSON. $($_.Exception.Message)"
 }
 
 $uniqueModName = [string]$manifest.UniqueModName
@@ -109,17 +109,48 @@ Write-Gate "Manifest unique name" (
     $uniqueModName -match '^[A-Za-z0-9_]+$'
 ) "UniqueModName '$uniqueModName' uses only letters, numbers, and underscores"
 
+Write-Gate "Maintained fork identity" (
+    $uniqueModName -ceq "Cvar_ImperiumOfMan"
+) "Packaged manifest uses Cvar_ImperiumOfMan rather than the discontinued andre_ImperiumOfMan identity"
+
+$sourceManifestPath = Join-Path $repositoryRoot "modmanifest.json"
+Write-Gate "Authoritative root manifest exists" (
+    Test-Path -LiteralPath $sourceManifestPath -PathType Leaf
+) $sourceManifestPath
+
+try {
+    $sourceManifest = Get-Content -LiteralPath $sourceManifestPath -Raw | ConvertFrom-Json
+}
+catch {
+    throw "PACKAGE GATE FAILED: root modmanifest.json is not valid JSON. $($_.Exception.Message)"
+}
+
+$sourceUniqueModName = [string]$sourceManifest.UniqueModName
+Write-Gate "Manifest identities match" (
+    $sourceUniqueModName -ceq $uniqueModName
+) "Root and packaged manifests both declare '$uniqueModName'"
+
+$sourceAssemblies = @($sourceManifest.Assemblies)
 $assemblies = @($manifest.Assemblies)
 Write-Gate "Manifest assembly list" ($assemblies.Count -gt 0) "Manifest declares $($assemblies.Count) assembly file(s)"
+Write-Gate "Manifest assembly lists match" (
+    ($sourceAssemblies -join "|") -ceq ($assemblies -join "|")
+) "Root and packaged manifests declare the same runtime assemblies"
 
 foreach ($assembly in $assemblies) {
     $assemblyName = [string]$assembly
-    $safeAssemblyPath = -not [System.IO.Path]::IsPathRooted($assemblyName) -and $assemblyName -notmatch '(^|[\\/])\.\.([\\/]|$)'
+    $safeAssemblyPath = -not [System.IO.Path]::IsPathRooted($assemblyName) -and $assemblyName -notmatch '(^|[\/])\.\.([\/]|$)'
     Write-Gate "Safe assembly path: $assemblyName" $safeAssemblyPath "Assembly path is relative and does not traverse directories"
 
     $assemblyPath = Join-Path $packageRoot $assemblyName
     Write-Gate "Manifest assembly exists: $assemblyName" (Test-Path -LiteralPath $assemblyPath -PathType Leaf) $assemblyPath
     Write-Gate "Managed PE signature: $assemblyName" (Test-BytePrefix -Path $assemblyPath -Prefix ([byte[]](0x4D, 0x5A))) "Assembly begins with the Windows PE MZ signature"
+
+    $assemblyStrings = [System.Text.Encoding]::ASCII.GetString(
+        [System.IO.File]::ReadAllBytes($assemblyPath))
+    if ($assemblyStrings.IndexOf("LegacyConflictGuard", [System.StringComparison]::Ordinal) -lt 0) {
+        $warnings.Add("$assemblyName does not contain the LegacyConflictGuard type name. The packaged DLL probably predates the source-level discontinued-mod safeguard and must be rebuilt before dual-install testing.")
+    }
 }
 
 $bundlePath = Join-Path $packageRoot "imperiumofman.bundle"
@@ -190,7 +221,7 @@ else {
 $reportLines.Add("")
 $reportLines.Add("## Live-test boundary")
 $reportLines.Add("")
-$reportLines.Add("This gate proves that the repository contains a structurally valid local-test package with a readable manifest, PE assembly, UnityFS bundle, and thumbnail. It cannot prove that Quasimorph successfully executes the assembly or registers every object. Final integration acceptance requires launching the current game build with only this ImperiumOfMan copy enabled and reviewing the game/BepInEx log.")
+$reportLines.Add("This gate proves that the repository contains a structurally valid local-test package with matching maintained-fork manifests, a PE assembly, UnityFS bundle, and readable thumbnail. It cannot prove that Quasimorph successfully executes the assembly, displays the legacy-conflict warning, or registers every object. Final integration acceptance requires rebuilding the DLL from current source, launching the current game build, running the documented single-install and dual-install tests, and reviewing the game/BepInEx log.")
 
 $reportPath = Join-Path $stageRoot "PACKAGE_REPORT.md"
 $reportLines | Set-Content -LiteralPath $reportPath -Encoding UTF8
