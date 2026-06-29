@@ -10,6 +10,12 @@ The runtime package uses the independent Quasimorph identity:
 Cvar_ImperiumOfMan
 ```
 
+The discontinued package used:
+
+```text
+andre_ImperiumOfMan
+```
+
 The long-term objective is not merely to make the old equipment visible again. The project is intended to restore the Imperium of Man as a complete faction that can exist, expand, trade, produce equipment, control stations, participate in progression, and function as a meaningful force to encounter in the campaign.
 
 ## Project status
@@ -27,7 +33,104 @@ The current package validation workflow checks that the runtime package contains
 | **Inherited** | Present in the original mod source or original bundle design. It may still require compatibility repair. |
 | **Asset imported** | New artwork, audio, or Unity metadata is present, but the corresponding gameplay object may not yet be registered or usable. |
 | **Integration planned** | Intended behavior has been inferred and documented, but implementation and balancing remain unfinished. |
+| **Source implemented** | The feature exists in source code but has not yet been rebuilt into the packaged DLL and live-tested. |
 | **Live verified** | Successfully loaded and tested in the current Quasimorph build. This label will only be used after an actual in-game test. |
+
+## Legacy version conflict protection
+
+The discontinued and maintained packages have different `UniqueModName` values, but that difference alone is not enough to make them compatible. Both codebases still attempt to register many of the same internal faction, station, item, descriptor, localization, and Harmony identifiers. The most important shared faction identifier is:
+
+```text
+iom_faction
+```
+
+If both packages are allowed to initialize in one Quasimorph session, the result may include:
+
+- two visually identical Imperium factions;
+- duplicate or overwritten faction records;
+- duplicate station records;
+- descriptors pointing to the wrong artwork or sound bank;
+- weapons and ammunition referring to records supplied by the other package;
+- startup exceptions during `AfterBootstrap`;
+- partially registered content;
+- campaign saves containing unstable or conflicting faction data.
+
+For that reason, the maintained fork includes a conservative runtime conflict guard in:
+
+```text
+src/LegacyConflictGuard.cs
+```
+
+### What the guard detects
+
+Before the maintained fork registers its faction or content, the guard searches for evidence of the discontinued package by checking:
+
+1. the current mod content directory;
+2. neighboring local mod directories;
+3. the local Quasimorph `Mods` directory;
+4. the discontinued Workshop item directory associated with Workshop item `3416931502`;
+5. the directories of assemblies already loaded into the current Unity/Mono application domain;
+6. the active game data immediately before registration to determine whether `iom_faction` already exists.
+
+The manifest detector looks specifically for the discontinued identity:
+
+```text
+andre_ImperiumOfMan
+```
+
+The final faction-record check protects against cases where a legacy package has already initialized even when its manifest path could not be identified.
+
+### What happens when a conflict is found
+
+When the guard detects the discontinued package or an existing `iom_faction` record, it will:
+
+- write a detailed error to the Quasimorph or Unity log;
+- display a full-screen warning inside the game;
+- identify the reason and, where possible, the conflicting manifest path;
+- cancel this maintained fork's `AfterBootstrap` content registration for that session;
+- leave the already loaded game process in the safest available state;
+- instruct the player to disable, unsubscribe from, or remove the discontinued package and restart Quasimorph.
+
+The warning contains both an **Acknowledge Warning** button and a **Quit Quasimorph** button. Acknowledging the message only closes the visible warning. It does not enable the maintained fork after registration has been cancelled.
+
+### Why the guard does not automatically unload the old DLL
+
+The guard deliberately does **not** attempt to unload the discontinued assembly. Unity and the Mono runtime do not provide a safe general-purpose way to unload one already loaded mod assembly from the active application domain. By the time a conflict is detected, the old mod may also have applied Harmony patches, created Unity objects, registered descriptors, or written records into global game tables.
+
+Trying to remove only part of that state would be more dangerous than stopping the new fork. It could leave behind a faction without its descriptors, stations without their owner, items without their ammunition, or patches without their controlling assembly.
+
+The safe response is therefore:
+
+```text
+Detect conflict
+    ↓
+Warn the player
+    ↓
+Cancel Cvar_ImperiumOfMan registration for this session
+    ↓
+Disable or remove andre_ImperiumOfMan
+    ↓
+Restart Quasimorph completely
+```
+
+### Conservative detection behavior
+
+The guard is intentionally biased toward preventing duplicate registration. If a stale discontinued manifest remains inside a directory that Quasimorph normally scans, the guard may treat it as a conflict even when the player believes the old mod is disabled. In that case, remove, unsubscribe from, or move the stale legacy package outside all Quasimorph mod and Workshop content directories before restarting.
+
+### Current implementation state
+
+The conflict guard is **source implemented** and the project now references Unity's IMGUI module for its on-screen warning overlay. The authoritative root manifest and packaged manifest both use `Cvar_ImperiumOfMan`.
+
+The old Workshop item ID has also been removed from the active build deployment setting. The project will not automatically copy new builds into the discontinued Workshop item's directory. A new Workshop ID must be assigned only after this fork receives its own separate Workshop publication.
+
+The currently committed runtime DLL must still be rebuilt from the updated source before the conflict guard can operate in a live game. The feature becomes **live verified** only after testing all of the following:
+
+- maintained fork only: normal startup proceeds;
+- discontinued package only: its historical behavior remains outside this fork's control;
+- both packages present: the maintained fork shows the warning and cancels registration;
+- warning acknowledged: maintained content remains disabled for the session;
+- game restarted after removing the old package: maintained content initializes normally;
+- campaign load and save: no duplicate Imperium faction or station records are created.
 
 ## What the inherited mod attempted to provide
 
@@ -80,7 +183,10 @@ Completed repository-level changes include:
 
 - development consolidated in the maintained fork rather than the abandoned upstream;
 - active work directed to the single `main` branch;
-- runtime identity changed from `andre_ImperiumOfMan` to `Cvar_ImperiumOfMan`;
+- authoritative and packaged runtime identities changed from `andre_ImperiumOfMan` to `Cvar_ImperiumOfMan`;
+- a source-level legacy conflict detector and on-screen safety warning added;
+- maintained-fork registration configured to fail closed when the legacy package is detected;
+- automatic deployment to the discontinued Workshop item disabled;
 - duplicate or conflicting Unity metadata investigated and repaired for newly imported assets;
 - copied Bolter descriptors and sound-bank metadata separated so new weapons can receive independent identities;
 - asset-inclusion documentation and validation tools added;
@@ -198,6 +304,8 @@ Planned quality-of-life development includes:
 
 - clear startup logging for every loaded bundle, descriptor, item, station, and faction record;
 - fail-fast warnings for missing bundle assets, missing donor records, duplicate IDs, and localization gaps;
+- automatic detection of the discontinued `andre_ImperiumOfMan` package;
+- an on-screen warning and safe registration shutdown when a legacy conflict is detected;
 - a runtime diagnostic dump for current item, descriptor, faction, station, and research tables;
 - safer helper methods for cloning and registering records;
 - configurable debug logging so ordinary players are not flooded with diagnostic output;
@@ -212,13 +320,17 @@ Development will proceed through explicit gates. A later phase should not be dec
 
 ### Gate 1 — Package identity and repository recovery
 
-**Status: substantially complete**
+**Status: substantially complete; live conflict test pending**
 
 - maintain work in this fork on `main`;
-- use the independent `Cvar_ImperiumOfMan` runtime identity;
+- use the independent `Cvar_ImperiumOfMan` runtime identity in both source and packaged manifests;
 - preserve licensing, attribution, and fan-work disclaimers;
+- prevent builds from deploying into the discontinued Workshop item;
+- detect the discontinued package before maintained-fork content registration;
+- show an on-screen warning and fail closed when a conflict exists;
 - maintain a clean runtime package separate from the Unity source project;
-- validate required package files automatically.
+- validate required package files automatically;
+- rebuild the DLL and complete the legacy-conflict live test matrix.
 
 ### Gate 2 — Unity asset inclusion
 
@@ -291,6 +403,7 @@ This gate passes only when all four objects load, display correctly in inventory
 **Status: planned**
 
 - perform clean-install tests with no discontinued Workshop copy enabled;
+- perform a deliberate dual-install test and verify that the conflict guard stops maintained-fork registration;
 - review startup and gameplay logs;
 - test new and existing saves separately;
 - verify station ownership and faction behavior across multiple campaign turns;
@@ -315,7 +428,24 @@ Example destination:
 C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan
 ```
 
-Do not copy the entire Unity or GitHub project into the Quasimorph `Mods` directory. Only the built runtime package belongs there. Disable or remove the discontinued Workshop version during testing to avoid duplicate item, faction, station, and descriptor identifiers.
+Do not copy the entire Unity or GitHub project into the Quasimorph `Mods` directory. Only the built runtime package belongs there.
+
+### Required legacy-conflict test
+
+Before ordinary gameplay testing, perform these controlled tests with a disposable save:
+
+1. Install only `Cvar_ImperiumOfMan`, start Quasimorph, and confirm that no legacy warning appears.
+2. Close Quasimorph completely.
+3. Place or enable the discontinued `andre_ImperiumOfMan` package alongside the maintained fork.
+4. Restart Quasimorph and confirm that the full-screen conflict warning appears.
+5. Confirm in the log that `Cvar_ImperiumOfMan` cancelled its own content registration.
+6. Acknowledge the warning and verify that maintained-fork content did not initialize afterward.
+7. Close Quasimorph completely.
+8. Disable, unsubscribe from, or remove the discontinued package.
+9. Restart and verify that the maintained fork initializes normally.
+10. Confirm that only one Imperium faction exists and that no duplicate station records were created.
+
+Do not continue a valuable campaign after a dual-install test. The conflict guard is intended to prevent new duplicate registration, but the discontinued package remains outside the maintained fork's control.
 
 Always back up campaign saves before testing faction, station, research, or progression changes.
 
@@ -324,6 +454,8 @@ Always back up campaign saves before testing faction, station, research, or prog
 - The maintained fork is `mrcalzon02/ImperiumOfMan`.
 - Active development uses one branch: `main`.
 - New work is not pushed to the abandoned upstream repository.
+- The maintained fork must never deploy into the discontinued Workshop item.
+- The maintained fork must fail closed when the discontinued package or an existing `iom_faction` record is detected.
 - Assets are not considered implemented until their runtime records and live behavior are verified.
 - Donor records and game APIs are treated as version-sensitive and must be checked against the currently installed Quasimorph assemblies.
 - Changes affecting faction, station, research, or economy data must be tested with disposable saves before release.
@@ -339,16 +471,17 @@ See [`LICENSE.md`](LICENSE.md) for the software license and the Games Workshop f
 
 ## Contributions and testing reports
 
-Contributions should be based on the current `main` branch and should clearly state whether a change affects raw assets, Unity metadata, bundle contents, C# registration, localization, statistics, faction integration, stations, production, research, or packaging.
+Contributions should be based on the current `main` branch and should clearly state whether a change affects raw assets, Unity metadata, bundle contents, C# registration, localization, statistics, faction integration, stations, production, research, compatibility protection, or packaging.
 
 A useful bug report should include:
 
 - the current Quasimorph version;
 - the fork commit or package artifact tested;
-- whether the discontinued Workshop version was disabled;
+- whether the discontinued Workshop version was installed, enabled, disabled, or removed;
+- whether the conflict warning appeared;
 - the complete relevant game or BepInEx log section;
 - the save type used for testing;
 - the exact item, station, faction, or action that failed;
 - whether the problem occurs on a new campaign, an existing campaign, or both.
 
-The project will move forward by proving one integration layer at a time: package, bundle, descriptor, item record, faction access, station economy, progression, and finally full campaign behavior.
+The project will move forward by proving one integration layer at a time: package identity, conflict protection, bundle, descriptor, item record, faction access, station economy, progression, and finally full campaign behavior.
