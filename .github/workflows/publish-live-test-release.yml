@@ -22,7 +22,7 @@ jobs:
       - name: Check out main
         uses: actions/checkout@v4
 
-      - name: Assemble release archive
+      - name: Assemble Windows-friendly release archive
         shell: bash
         run: |
           set -euo pipefail
@@ -33,26 +33,29 @@ jobs:
           test -f package/ImperiumOfMan/thumbnail.png
 
           rm -rf release-dist
-          mkdir -p release-dist/ImperiumOfMan
-          cp -a package/ImperiumOfMan/. release-dist/ImperiumOfMan/
+          mkdir -p release-dist/package
+          cp -a package/ImperiumOfMan/. release-dist/package/
 
-          cat > release-dist/ImperiumOfMan/INSTALL_LOCAL.txt <<'EOF'
+          cat > release-dist/package/INSTALL_LOCAL.txt <<'EOF'
           ImperiumOfMan local live-test installation
 
           1. Close Quasimorph completely.
           2. Disable or unsubscribe from the discontinued andre_ImperiumOfMan package.
-          3. Back up any existing folder at:
+          3. Delete or move any incorrectly extracted folder named ImperiumOfMan-live-test from the Quasimorph Mods directory.
+          4. Back up any existing folder at:
              C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan
-          4. Extract the ImperiumOfMan folder from this ZIP into:
+          5. Put ImperiumOfMan.zip inside:
              C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods
-          5. Confirm this file exists directly at:
+          6. Use Windows Extract All on ImperiumOfMan.zip.
+          7. Confirm this file exists directly at:
              C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json
-          6. Start Quasimorph with a backed-up or disposable save and review the log.
+          8. Start Quasimorph with a backed-up or disposable save and review the log.
           EOF
 
-          cd release-dist
-          zip -r -9 ImperiumOfMan-live-test.zip ImperiumOfMan
-          sha256sum ImperiumOfMan-live-test.zip > SHA256SUMS.txt
+          cd release-dist/package
+          zip -r -9 ../ImperiumOfMan.zip .
+          cd ..
+          sha256sum ImperiumOfMan.zip > SHA256SUMS.txt
 
       - name: Create or update GitHub prerelease
         shell: bash
@@ -64,22 +67,25 @@ jobs:
           NOTES=$(cat <<EOF
           Development prerelease for direct local Quasimorph testing.
 
-          Download ImperiumOfMan-live-test.zip and extract the included ImperiumOfMan folder into:
+          Download ImperiumOfMan.zip, place it inside the Quasimorph Mods directory, and use Windows Extract All. Its root-level layout is designed to produce:
 
-          C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods
+          C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json
 
-          Disable the discontinued andre_ImperiumOfMan package before testing and back up valuable saves.
+          Remove any incorrectly extracted ImperiumOfMan-live-test folder, disable the discontinued andre_ImperiumOfMan package, and back up valuable saves before testing.
 
           Source commit: $GITHUB_SHA
           EOF
           )
 
           if gh release view live-test-latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete-asset live-test-latest ImperiumOfMan-live-test.zip --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
+            gh release delete-asset live-test-latest ImperiumOfMan.zip --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
+            gh release delete-asset live-test-latest SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
+
             gh release upload live-test-latest \
-              release-dist/ImperiumOfMan-live-test.zip \
+              release-dist/ImperiumOfMan.zip \
               release-dist/SHA256SUMS.txt \
-              --repo "$GITHUB_REPOSITORY" \
-              --clobber
+              --repo "$GITHUB_REPOSITORY"
 
             gh release edit live-test-latest \
               --repo "$GITHUB_REPOSITORY" \
@@ -89,7 +95,7 @@ jobs:
               --prerelease
           else
             gh release create live-test-latest \
-              release-dist/ImperiumOfMan-live-test.zip \
+              release-dist/ImperiumOfMan.zip \
               release-dist/SHA256SUMS.txt \
               --repo "$GITHUB_REPOSITORY" \
               --target "$GITHUB_SHA" \
