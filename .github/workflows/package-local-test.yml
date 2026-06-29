@@ -1,146 +1,16 @@
-name: Quasimorph Local Test Package
-run-name: Live-test package • ${{ github.ref_name }} • ${{ github.sha }}
+name: Legacy Package Validator (Manual Only)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "modmanifest.json"
-      - "src/**"
-      - "package/ImperiumOfMan/**"
-      - "tools/Validate-Package.ps1"
-      - ".github/workflows/package-local-test.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  validate-package-and-release:
-    name: Validate, archive, and publish ImperiumOfMan
-    runs-on: windows-latest
-    timeout-minutes: 10
-
+  retired-validator:
+    runs-on: ubuntu-latest
     steps:
-      - name: Check out main
-        uses: actions/checkout@v4
-
-      - name: Validate runtime package
-        shell: pwsh
-        run: ./tools/Validate-Package.ps1
-
-      - name: Add local installation instructions
-        shell: pwsh
+      - name: Explain replacement workflow
         run: |
-          @'
-          # ImperiumOfMan local-test installation
-
-          1. Close Quasimorph completely.
-          2. Disable or unsubscribe from the discontinued `andre_ImperiumOfMan` Workshop package.
-          3. Back up any existing local folder at:
-
-             `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan`
-
-          4. Extract the `ImperiumOfMan` folder from this release archive into:
-
-             `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods`
-
-          5. Confirm that the final destination directly contains:
-
-             - `modmanifest.json`
-             - `ImperiumOfMan.dll`
-             - `imperiumofman.bundle`
-             - `thumbnail.png`
-
-          6. Start Quasimorph and review the game or Unity log before loading an important campaign.
-
-          The final manifest path must be:
-
-          `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json`
-
-          Do not create an extra nested folder such as:
-
-          `Mods\ImperiumOfMan\ImperiumOfMan\modmanifest.json`
-
-          This is an unverified development prerelease for direct local testing. Review `PACKAGE_REPORT.md` for validation results and known warnings.
-          '@ | Set-Content -LiteralPath ./artifacts/ImperiumOfMan/INSTALL_LOCAL.md -Encoding UTF8
-
-      - name: Create ZIP, checksum, and release notes
-        id: archive
-        shell: pwsh
-        run: |
-          $releaseVersion = "${{ github.run_number }}.${{ github.run_attempt }}"
-          $archiveName = "ImperiumOfMan-live-test-$releaseVersion.zip"
-          $archivePath = Join-Path $PWD "artifacts/$archiveName"
-          $checksumPath = Join-Path $PWD "artifacts/SHA256SUMS.txt"
-          $notesPath = Join-Path $PWD "artifacts/RELEASE_NOTES.md"
-
-          Compress-Archive `
-            -Path ./artifacts/ImperiumOfMan `
-            -DestinationPath $archivePath `
-            -CompressionLevel Optimal `
-            -Force
-
-          $hash = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
-          "$hash  $archiveName" | Set-Content -LiteralPath $checksumPath -Encoding ASCII
-
-          @"
-          # ImperiumOfMan live-test prerelease
-
-          This development prerelease was assembled automatically from the maintained `main` branch for direct local Quasimorph testing.
-
-          ## Installation
-
-          Download `$archiveName`, verify it against `SHA256SUMS.txt`, and extract the included `ImperiumOfMan` folder into:
-
-          `C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods`
-
-          ## Important
-
-          - This is a development prerelease, not a stable Steam Workshop publication.
-          - Disable or remove the discontinued `andre_ImperiumOfMan` package before ordinary testing.
-          - Back up valuable campaign saves.
-          - Read `INSTALL_LOCAL.md` and `PACKAGE_REPORT.md` inside the archive.
-          - Package validation does not by itself prove successful in-game loading or functionality.
-
-          Build: `$releaseVersion`
-          Source commit: `${{ github.sha }}`
-          "@ | Set-Content -LiteralPath $notesPath -Encoding UTF8
-
-          "archive_path=$archivePath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "checksum_path=$checksumPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "notes_path=$notesPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "archive_name=$archiveName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "release_tag=live-test-latest" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "release_name=ImperiumOfMan Live Test $releaseVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-
-      - name: Publish package report to run summary
-        shell: pwsh
-        run: Get-Content ./artifacts/ImperiumOfMan/PACKAGE_REPORT.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
-
-      - name: Upload Actions artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ImperiumOfMan-local-test-${{ github.run_number }}.${{ github.run_attempt }}
-          path: |
-            ${{ steps.archive.outputs.archive_path }}
-            ${{ steps.archive.outputs.checksum_path }}
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-
-      - name: Publish GitHub prerelease
-        uses: softprops/action-gh-release@v3
-        with:
-          tag_name: ${{ steps.archive.outputs.release_tag }}
-          target_commitish: ${{ github.sha }}
-          name: ${{ steps.archive.outputs.release_name }}
-          body_path: ${{ steps.archive.outputs.notes_path }}
-          prerelease: true
-          make_latest: false
-          overwrite_files: true
-          fail_on_unmatched_files: true
-          files: |
-            ${{ steps.archive.outputs.archive_path }}
-            ${{ steps.archive.outputs.checksum_path }}
+          echo "This automatic validator was retired after repeated failures."
+          echo "Live-test releases are now published by publish-live-test-release.yml."
