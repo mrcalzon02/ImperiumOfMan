@@ -6,6 +6,8 @@ on:
     branches:
       - main
     paths:
+      - "modmanifest.json"
+      - "src/**"
       - "package/ImperiumOfMan/**"
       - "tools/Validate-Package.ps1"
       - ".github/workflows/package-local-test.yml"
