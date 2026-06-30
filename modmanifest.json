@@ -1,7 +1,8 @@
 {
   "UniqueModName": "Cvar_ImperiumOfMan",
   "Assemblies": [
-    "ImperiumOfMan.dll"
+    "ImperiumOfMan.dll",
+    "ImperiumReforged.Diagnostics.dll"
   ],
   "Dependencies": []
 }

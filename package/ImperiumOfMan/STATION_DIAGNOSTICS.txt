@@ -1,0 +1,5 @@
+This test package contains a standalone reflection-only station diagnostic probe.
+
+Reports are written to the ImperiumReforgedDiagnostics directory inside the installed Workshop item.
+Reports are created when game data becomes available, when the active scene changes, after 30 and 120 seconds,
+and whenever an empty REQUEST_DUMP.txt file is placed in that diagnostics directory.
