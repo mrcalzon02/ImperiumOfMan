@@ -1,0 +1,2263 @@
+		void AfterBootstrap (
+			class ['Assembly-CSharp']MGSC.IModContext context
+		) cil managed 
+	{
+		.custom instance void ['Assembly-CSharp']MGSC.Hook::.ctor(valuetype ['Assembly-CSharp']MGSC.ModHookType) = (
+			01 00 02 00 00 00 00 00
+		)
+		// Method begins at RVA 0x21c4
+		// Header size: 12
+		// Code size: 6548 (0x1994)
+		.maxstack 10
+		.locals init (
+			[0] class ['Assembly-CSharp']MGSC.PortraitDescriptor,
+			[1] class ['Assembly-CSharp']MGSC.FactionDescriptor,
+			[2] class ['Assembly-CSharp']MGSC.AllianceDescriptor,
+			[3] class ['Assembly-CSharp']MGSC.UnitDropRecord[],
+			[4] class ['Assembly-CSharp']MGSC.StationRecord,
+			[5] class ['Assembly-CSharp']MGSC.BackpackDescriptor,
+			[6] class ['Assembly-CSharp']MGSC.BackpackRecord,
+			[7] class ['Assembly-CSharp']MGSC.WeaponDescriptor,
+			[8] class ['Assembly-CSharp']MGSC.WeaponDescriptor,
+			[9] class ['Assembly-CSharp']MGSC.WeaponDescriptor,
+			[10] class ['Assembly-CSharp']MGSC.WeaponRecord,
+			[11] class ['Assembly-CSharp']MGSC.WeaponDescriptor,
+			[12] class ['Assembly-CSharp']MGSC.WeaponDescriptor,
+			[13] class ['Assembly-CSharp']MGSC.WeaponRecord,
+			[14] class ['Assembly-CSharp']MGSC.BootsDescriptor,
+			[15] class ['Assembly-CSharp']MGSC.BootsDescriptor,
+			[16] class ['Assembly-CSharp']MGSC.BootsRecord,
+			[17] class ['Assembly-CSharp']MGSC.LeggingsDescriptor,
+			[18] class ['Assembly-CSharp']MGSC.LeggingsDescriptor,
+			[19] class ['Assembly-CSharp']MGSC.LeggingsRecord,
+			[20] class ['Assembly-CSharp']MGSC.ArmorDescriptor,
+			[21] class ['Assembly-CSharp']MGSC.ArmorDescriptor,
+			[22] class ['Assembly-CSharp']MGSC.ArmorRecord,
+			[23] class ['Assembly-CSharp']MGSC.HelmetDescriptor,
+			[24] class ['Assembly-CSharp']MGSC.HelmetDescriptor,
+			[25] class ['Assembly-CSharp']MGSC.HelmetRecord,
+			[26] class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>,
+			[27] valuetype [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection/Enumerator<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>,
+			[28] string,
+			[29] valuetype ['Assembly-CSharp']MGSC.DmgInfo
+		)
+
+		IL_0000: nop
+		IL_0001: ldarg.0
+		IL_0002: callvirt instance string ['Assembly-CSharp']MGSC.IModContext::get_ModContentPath()
+		IL_0007: ldstr "imperiumofman.bundle"
+		IL_000c: call string [mscorlib]System.IO.Path::Combine(string, string)
+		IL_0011: call class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadFromFile(string)
+		IL_0016: stsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_001b: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0020: ldstr "Imperator"
+		IL_0025: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.PortraitDescriptor>(string)
+		IL_002a: stloc.0
+		IL_002b: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.ConfigTableRecord> ['Assembly-CSharp']MGSC.Data::get_Portraits()
+		IL_0030: ldstr "faction_iom_faction"
+		IL_0035: newobj instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::.ctor()
+		IL_003a: dup
+		IL_003b: ldstr "faction_iom_faction"
+		IL_0040: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0045: nop
+		IL_0046: dup
+		IL_0047: ldloc.0
+		IL_0048: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_004d: nop
+		IL_004e: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.ConfigTableRecord>::AddRecord(string, !0)
+		IL_0053: nop
+		IL_0054: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0059: ldstr "portraits"
+		IL_005e: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0063: ldstr "faction_iom_faction"
+		IL_0068: ldloc.0
+		IL_0069: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_006e: nop
+		IL_006f: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0074: ldstr "ImperiumOfManFaction"
+		IL_0079: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.FactionDescriptor>(string)
+		IL_007e: stloc.1
+		IL_007f: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.FactionRecord> ['Assembly-CSharp']MGSC.Data::get_Factions()
+		IL_0084: ldstr "iom_faction"
+		IL_0089: newobj instance void ['Assembly-CSharp']MGSC.FactionRecord::.ctor()
+		IL_008e: dup
+		IL_008f: ldstr "iom_faction"
+		IL_0094: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0099: nop
+		IL_009a: dup
+		IL_009b: ldloc.1
+		IL_009c: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_00a1: nop
+		IL_00a2: dup
+		IL_00a3: ldc.i4.1
+		IL_00a4: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_Enabled(bool)
+		IL_00a9: nop
+		IL_00aa: dup
+		IL_00ab: ldc.i4 1900
+		IL_00b0: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_InitialPower(int32)
+		IL_00b5: nop
+		IL_00b6: dup
+		IL_00b7: ldc.i4.1
+		IL_00b8: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_InitialTechLevel(int32)
+		IL_00bd: nop
+		IL_00be: dup
+		IL_00bf: ldc.r4 0.0
+		IL_00c4: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_InitialPlayerReputation(float32)
+		IL_00c9: nop
+		IL_00ca: dup
+		IL_00cb: ldc.i4.0
+		IL_00cc: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_FactionType(valuetype ['Assembly-CSharp']MGSC.FactionType)
+		IL_00d1: nop
+		IL_00d2: dup
+		IL_00d3: ldstr "iom_alliance"
+		IL_00d8: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_AllianceType(string)
+		IL_00dd: nop
+		IL_00de: dup
+		IL_00df: ldc.r4 0.1
+		IL_00e4: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_SpawnMissionChance(float32)
+		IL_00e9: nop
+		IL_00ea: dup
+		IL_00eb: ldc.i4.1
+		IL_00ec: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, valuetype ['Assembly-CSharp']MGSC.FactionStrategy>>::.ctor(int32)
+		IL_00f1: dup
+		IL_00f2: ldc.r4 1
+		IL_00f7: ldc.i4.0
+		IL_00f8: newobj instance void class [mscorlib]System.Tuple`2<float32, valuetype ['Assembly-CSharp']MGSC.FactionStrategy>::.ctor(!0, !1)
+		IL_00fd: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, valuetype ['Assembly-CSharp']MGSC.FactionStrategy>>::Add(!0)
+		IL_0102: nop
+		IL_0103: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_Strategies(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, valuetype ['Assembly-CSharp']MGSC.FactionStrategy>>)
+		IL_0108: nop
+		IL_0109: dup
+		IL_010a: ldc.i4 672
+		IL_010f: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_StrategyDurationMinHours(int32)
+		IL_0114: nop
+		IL_0115: dup
+		IL_0116: ldc.i4 1344
+		IL_011b: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_StrategyDurationMaxHours(int32)
+		IL_0120: nop
+		IL_0121: dup
+		IL_0122: ldstr "elite_sbn"
+		IL_0127: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_GuardCreatureId(string)
+		IL_012c: nop
+		IL_012d: dup
+		IL_012e: ldstr "civilian"
+		IL_0133: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_AgentCreatureId(string)
+		IL_0138: nop
+		IL_0139: dup
+		IL_013a: ldc.i4.0
+		IL_013b: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_MinQmorphosWhenVictims(int32)
+		IL_0140: nop
+		IL_0141: dup
+		IL_0142: ldc.i4.1
+		IL_0143: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_UseGeneralRewards(bool)
+		IL_0148: nop
+		IL_0149: dup
+		IL_014a: ldc.i4.0
+		IL_014b: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_PortraitsByStrategy(bool)
+		IL_0150: nop
+		IL_0151: dup
+		IL_0152: ldc.i4.1
+		IL_0153: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0158: dup
+		IL_0159: ldstr "IOM"
+		IL_015e: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0163: nop
+		IL_0164: callvirt instance void ['Assembly-CSharp']MGSC.FactionRecord::set_ItemDropCategories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0169: nop
+		IL_016a: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.FactionRecord>::AddRecord(string, !0)
+		IL_016f: nop
+		IL_0170: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0175: ldstr "factions"
+		IL_017a: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_017f: ldstr "iom_faction"
+		IL_0184: ldloc.1
+		IL_0185: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_018a: nop
+		IL_018b: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0190: ldstr "HumanAlliance"
+		IL_0195: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.AllianceDescriptor>(string)
+		IL_019a: stloc.2
+		IL_019b: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.AllianceRecord> ['Assembly-CSharp']MGSC.Data::get_Alliances()
+		IL_01a0: ldstr "iom_alliance"
+		IL_01a5: newobj instance void ['Assembly-CSharp']MGSC.AllianceRecord::.ctor()
+		IL_01aa: dup
+		IL_01ab: ldstr "iom_alliance"
+		IL_01b0: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_01b5: nop
+		IL_01b6: dup
+		IL_01b7: ldloc.2
+		IL_01b8: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_01bd: nop
+		IL_01be: dup
+		IL_01bf: ldc.i4.0
+		IL_01c0: callvirt instance void ['Assembly-CSharp']MGSC.AllianceRecord::set_AllowStrife(bool)
+		IL_01c5: nop
+		IL_01c6: dup
+		IL_01c7: ldc.i4.3
+		IL_01c8: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_01cd: dup
+		IL_01ce: ldstr "iom_faction"
+		IL_01d3: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_01d8: nop
+		IL_01d9: dup
+		IL_01da: ldstr "ChurchRevelation"
+		IL_01df: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_01e4: nop
+		IL_01e5: dup
+		IL_01e6: ldstr "SBN"
+		IL_01eb: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_01f0: nop
+		IL_01f1: callvirt instance void ['Assembly-CSharp']MGSC.AllianceRecord::set_TradeFactionLists(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_01f6: nop
+		IL_01f7: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.AllianceRecord>::AddRecord(string, !0)
+		IL_01fc: nop
+		IL_01fd: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0202: ldstr "alliances"
+		IL_0207: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_020c: ldstr "iom_alliance"
+		IL_0211: ldloc.2
+		IL_0212: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0217: nop
+		IL_0218: ldc.i4.5
+		IL_0219: newarr ['Assembly-CSharp']MGSC.UnitDropRecord
+		IL_021e: dup
+		IL_021f: ldc.i4.0
+		IL_0220: newobj instance void ['Assembly-CSharp']MGSC.UnitDropRecord::.ctor()
+		IL_0225: dup
+		IL_0226: ldc.i4.1
+		IL_0227: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_TechLevel(int32)
+		IL_022c: nop
+		IL_022d: dup
+		IL_022e: ldc.i4.2
+		IL_022f: ldc.i4.2
+		IL_0230: newobj instance void ['Assembly-CSharp']MGSC.IntRange::.ctor(int32, int32)
+		IL_0235: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_UnitSize(valuetype ['Assembly-CSharp']MGSC.IntRange)
+		IL_023a: nop
+		IL_023b: dup
+		IL_023c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor()
+		IL_0241: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_LeaderSpawn(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_0246: nop
+		IL_0247: dup
+		IL_0248: ldc.i4.1
+		IL_0249: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor(int32)
+		IL_024e: dup
+		IL_024f: ldc.r4 1
+		IL_0254: ldstr "Military"
+		IL_0259: newobj instance void class [mscorlib]System.Tuple`2<float32, string>::.ctor(!0, !1)
+		IL_025e: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::Add(!0)
+		IL_0263: nop
+		IL_0264: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_MobClasses(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_0269: nop
+		IL_026a: dup
+		IL_026b: ldc.i4.1
+		IL_026c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0271: dup
+		IL_0272: ldstr "iom_faction"
+		IL_0277: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_027c: nop
+		IL_027d: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_AllowedFactions(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0282: nop
+		IL_0283: dup
+		IL_0284: ldc.r4 12
+		IL_0289: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Weight(float32)
+		IL_028e: nop
+		IL_028f: dup
+		IL_0290: ldc.r4 80
+		IL_0295: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Points(float32)
+		IL_029a: nop
+		IL_029b: stelem.ref
+		IL_029c: dup
+		IL_029d: ldc.i4.1
+		IL_029e: newobj instance void ['Assembly-CSharp']MGSC.UnitDropRecord::.ctor()
+		IL_02a3: dup
+		IL_02a4: ldc.i4.1
+		IL_02a5: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_TechLevel(int32)
+		IL_02aa: nop
+		IL_02ab: dup
+		IL_02ac: ldc.i4.1
+		IL_02ad: ldc.i4.1
+		IL_02ae: newobj instance void ['Assembly-CSharp']MGSC.IntRange::.ctor(int32, int32)
+		IL_02b3: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_UnitSize(valuetype ['Assembly-CSharp']MGSC.IntRange)
+		IL_02b8: nop
+		IL_02b9: dup
+		IL_02ba: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor()
+		IL_02bf: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_LeaderSpawn(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_02c4: nop
+		IL_02c5: dup
+		IL_02c6: ldc.i4.1
+		IL_02c7: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor(int32)
+		IL_02cc: dup
+		IL_02cd: ldc.r4 1
+		IL_02d2: ldstr "Military"
+		IL_02d7: newobj instance void class [mscorlib]System.Tuple`2<float32, string>::.ctor(!0, !1)
+		IL_02dc: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::Add(!0)
+		IL_02e1: nop
+		IL_02e2: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_MobClasses(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_02e7: nop
+		IL_02e8: dup
+		IL_02e9: ldc.i4.1
+		IL_02ea: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_02ef: dup
+		IL_02f0: ldstr "iom_faction"
+		IL_02f5: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_02fa: nop
+		IL_02fb: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_AllowedFactions(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0300: nop
+		IL_0301: dup
+		IL_0302: ldc.r4 6
+		IL_0307: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Weight(float32)
+		IL_030c: nop
+		IL_030d: dup
+		IL_030e: ldc.r4 20
+		IL_0313: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Points(float32)
+		IL_0318: nop
+		IL_0319: stelem.ref
+		IL_031a: dup
+		IL_031b: ldc.i4.2
+		IL_031c: newobj instance void ['Assembly-CSharp']MGSC.UnitDropRecord::.ctor()
+		IL_0321: dup
+		IL_0322: ldc.i4.2
+		IL_0323: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_TechLevel(int32)
+		IL_0328: nop
+		IL_0329: dup
+		IL_032a: ldc.i4.2
+		IL_032b: ldc.i4.2
+		IL_032c: newobj instance void ['Assembly-CSharp']MGSC.IntRange::.ctor(int32, int32)
+		IL_0331: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_UnitSize(valuetype ['Assembly-CSharp']MGSC.IntRange)
+		IL_0336: nop
+		IL_0337: dup
+		IL_0338: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor()
+		IL_033d: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_LeaderSpawn(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_0342: nop
+		IL_0343: dup
+		IL_0344: ldc.i4.1
+		IL_0345: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor(int32)
+		IL_034a: dup
+		IL_034b: ldc.r4 1
+		IL_0350: ldstr "Military"
+		IL_0355: newobj instance void class [mscorlib]System.Tuple`2<float32, string>::.ctor(!0, !1)
+		IL_035a: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::Add(!0)
+		IL_035f: nop
+		IL_0360: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_MobClasses(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_0365: nop
+		IL_0366: dup
+		IL_0367: ldc.i4.1
+		IL_0368: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_036d: dup
+		IL_036e: ldstr "iom_faction"
+		IL_0373: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0378: nop
+		IL_0379: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_AllowedFactions(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_037e: nop
+		IL_037f: dup
+		IL_0380: ldc.r4 12
+		IL_0385: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Weight(float32)
+		IL_038a: nop
+		IL_038b: dup
+		IL_038c: ldc.r4 90
+		IL_0391: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Points(float32)
+		IL_0396: nop
+		IL_0397: stelem.ref
+		IL_0398: dup
+		IL_0399: ldc.i4.3
+		IL_039a: newobj instance void ['Assembly-CSharp']MGSC.UnitDropRecord::.ctor()
+		IL_039f: dup
+		IL_03a0: ldc.i4.3
+		IL_03a1: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_TechLevel(int32)
+		IL_03a6: nop
+		IL_03a7: dup
+		IL_03a8: ldc.i4.1
+		IL_03a9: ldc.i4.1
+		IL_03aa: newobj instance void ['Assembly-CSharp']MGSC.IntRange::.ctor(int32, int32)
+		IL_03af: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_UnitSize(valuetype ['Assembly-CSharp']MGSC.IntRange)
+		IL_03b4: nop
+		IL_03b5: dup
+		IL_03b6: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor()
+		IL_03bb: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_LeaderSpawn(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_03c0: nop
+		IL_03c1: dup
+		IL_03c2: ldc.i4.1
+		IL_03c3: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor(int32)
+		IL_03c8: dup
+		IL_03c9: ldc.r4 1
+		IL_03ce: ldstr "Military"
+		IL_03d3: newobj instance void class [mscorlib]System.Tuple`2<float32, string>::.ctor(!0, !1)
+		IL_03d8: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::Add(!0)
+		IL_03dd: nop
+		IL_03de: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_MobClasses(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_03e3: nop
+		IL_03e4: dup
+		IL_03e5: ldc.i4.1
+		IL_03e6: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_03eb: dup
+		IL_03ec: ldstr "iom_faction"
+		IL_03f1: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_03f6: nop
+		IL_03f7: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_AllowedFactions(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_03fc: nop
+		IL_03fd: dup
+		IL_03fe: ldc.r4 6
+		IL_0403: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Weight(float32)
+		IL_0408: nop
+		IL_0409: dup
+		IL_040a: ldc.r4 30
+		IL_040f: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Points(float32)
+		IL_0414: nop
+		IL_0415: stelem.ref
+		IL_0416: dup
+		IL_0417: ldc.i4.4
+		IL_0418: newobj instance void ['Assembly-CSharp']MGSC.UnitDropRecord::.ctor()
+		IL_041d: dup
+		IL_041e: ldc.i4.4
+		IL_041f: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_TechLevel(int32)
+		IL_0424: nop
+		IL_0425: dup
+		IL_0426: ldc.i4.1
+		IL_0427: ldc.i4.1
+		IL_0428: newobj instance void ['Assembly-CSharp']MGSC.IntRange::.ctor(int32, int32)
+		IL_042d: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_UnitSize(valuetype ['Assembly-CSharp']MGSC.IntRange)
+		IL_0432: nop
+		IL_0433: dup
+		IL_0434: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor()
+		IL_0439: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_LeaderSpawn(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_043e: nop
+		IL_043f: dup
+		IL_0440: ldc.i4.1
+		IL_0441: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::.ctor(int32)
+		IL_0446: dup
+		IL_0447: ldc.r4 1
+		IL_044c: ldstr "Military"
+		IL_0451: newobj instance void class [mscorlib]System.Tuple`2<float32, string>::.ctor(!0, !1)
+		IL_0456: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>::Add(!0)
+		IL_045b: nop
+		IL_045c: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_MobClasses(class [mscorlib]System.Collections.Generic.List`1<class [mscorlib]System.Tuple`2<float32, string>>)
+		IL_0461: nop
+		IL_0462: dup
+		IL_0463: ldc.i4.1
+		IL_0464: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0469: dup
+		IL_046a: ldstr "iom_faction"
+		IL_046f: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0474: nop
+		IL_0475: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_AllowedFactions(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_047a: nop
+		IL_047b: dup
+		IL_047c: ldc.r4 6
+		IL_0481: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Weight(float32)
+		IL_0486: nop
+		IL_0487: dup
+		IL_0488: ldc.r4 25
+		IL_048d: callvirt instance void ['Assembly-CSharp']MGSC.UnitDropRecord::set_Points(float32)
+		IL_0492: nop
+		IL_0493: stelem.ref
+		IL_0494: stloc.3
+		IL_0495: nop
+		IL_0496: call class ['Assembly-CSharp']MGSC.LocationBasedDropCollection`1<class ['Assembly-CSharp']MGSC.UnitDropRecord> ['Assembly-CSharp']MGSC.Data::get_LocationUnitDrop()
+		IL_049b: ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.List`1<!0>> class ['Assembly-CSharp']MGSC.LocationBasedDropCollection`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>::_recordsByLocations
+		IL_04a0: callvirt instance class [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection<!0, !1> class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>::get_Keys()
+		IL_04a5: callvirt instance valuetype [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection/Enumerator<!0, !1> class [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>::GetEnumerator()
+		IL_04aa: stloc.s 27
+		.try
+		{
+			IL_04ac: br.s IL_04d1
+			// loop start (head: IL_04d1)
+				IL_04ae: ldloca.s 27
+				IL_04b0: call instance !0 valuetype [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection/Enumerator<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>::get_Current()
+				IL_04b5: stloc.s 28
+				IL_04b7: nop
+				IL_04b8: call class ['Assembly-CSharp']MGSC.LocationBasedDropCollection`1<class ['Assembly-CSharp']MGSC.UnitDropRecord> ['Assembly-CSharp']MGSC.Data::get_LocationUnitDrop()
+				IL_04bd: ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.List`1<!0>> class ['Assembly-CSharp']MGSC.LocationBasedDropCollection`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>::_recordsByLocations
+				IL_04c2: ldloc.s 28
+				IL_04c4: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>::get_Item(!0)
+				IL_04c9: ldloc.3
+				IL_04ca: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>::AddRange(class [mscorlib]System.Collections.Generic.IEnumerable`1<!0>)
+				IL_04cf: nop
+				IL_04d0: nop
+
+				IL_04d1: ldloca.s 27
+				IL_04d3: call instance bool valuetype [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection/Enumerator<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>::MoveNext()
+				IL_04d8: brtrue.s IL_04ae
+			// end loop
+
+			IL_04da: leave.s IL_04eb
+		} // end .try
+		finally
+		{
+			IL_04dc: ldloca.s 27
+			IL_04de: constrained. valuetype [mscorlib]System.Collections.Generic.Dictionary`2/KeyCollection/Enumerator<string, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.UnitDropRecord>>
+			IL_04e4: callvirt instance void [mscorlib]System.IDisposable::Dispose()
+			IL_04e9: nop
+			IL_04ea: endfinally
+		} // end handler
+
+		IL_04eb: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord> ['Assembly-CSharp']MGSC.Data::get_Stations()
+		IL_04f0: ldstr "Paragon"
+		IL_04f5: ldc.i4.1
+		IL_04f6: callvirt instance !0 class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord>::GetRecord(string, bool)
+		IL_04fb: stloc.s 4
+		IL_04fd: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord> ['Assembly-CSharp']MGSC.Data::get_Stations()
+		IL_0502: ldstr "iomTerra"
+		IL_0507: newobj instance void ['Assembly-CSharp']MGSC.StationRecord::.ctor()
+		IL_050c: dup
+		IL_050d: ldstr "iomTerra"
+		IL_0512: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0517: nop
+		IL_0518: dup
+		IL_0519: ldloc.s 4
+		IL_051b: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.ConfigTableRecord::get_ContentDescriptor()
+		IL_0520: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0525: nop
+		IL_0526: dup
+		IL_0527: ldstr "earth"
+		IL_052c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectId(string)
+		IL_0531: nop
+		IL_0532: dup
+		IL_0533: ldstr "iom_faction"
+		IL_0538: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialOwnerFactionId(string)
+		IL_053d: nop
+		IL_053e: dup
+		IL_053f: ldc.i4.0
+		IL_0540: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_Power(int32)
+		IL_0545: nop
+		IL_0546: dup
+		IL_0547: ldc.i4.2
+		IL_0548: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_PowerGain(int32)
+		IL_054d: nop
+		IL_054e: dup
+		IL_054f: ldc.r4 3
+		IL_0554: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_TechLevelGain(float32)
+		IL_0559: nop
+		IL_055a: dup
+		IL_055b: ldc.i4.1
+		IL_055c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_UncapturableByDefault(bool)
+		IL_0561: nop
+		IL_0562: dup
+		IL_0563: ldc.r4 0.2
+		IL_0568: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_CaptureChance(float32)
+		IL_056d: nop
+		IL_056e: dup
+		IL_056f: ldstr "orbit1"
+		IL_0574: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionTemplateId(string)
+		IL_0579: nop
+		IL_057a: dup
+		IL_057b: ldstr "mercurySurfaceLevels"
+		IL_0580: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionNameTemplateId(string)
+		IL_0585: nop
+		IL_0586: dup
+		IL_0587: ldstr "Earth"
+		IL_058c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_BramfaturaId(string)
+		IL_0591: nop
+		IL_0592: dup
+		IL_0593: ldstr "SpaceStation"
+		IL_0598: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_StationType(string)
+		IL_059d: nop
+		IL_059e: dup
+		IL_059f: ldc.r4 0.1
+		IL_05a4: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectItemDropPercent(float32)
+		IL_05a9: nop
+		IL_05aa: dup
+		IL_05ab: ldc.i4 22314
+		IL_05b0: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialPopulation(int32)
+		IL_05b5: nop
+		IL_05b6: dup
+		IL_05b7: ldc.i4 60840
+		IL_05bc: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MaxPopulation(int32)
+		IL_05c1: nop
+		IL_05c2: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord>::AddRecord(string, !0)
+		IL_05c7: nop
+		IL_05c8: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord> ['Assembly-CSharp']MGSC.Data::get_StationBarter()
+		IL_05cd: ldstr "iomTerra"
+		IL_05d2: newobj instance void ['Assembly-CSharp']MGSC.StationBarterRecord::.ctor()
+		IL_05d7: dup
+		IL_05d8: ldstr "iomTerra"
+		IL_05dd: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_05e2: nop
+		IL_05e3: dup
+		IL_05e4: ldnull
+		IL_05e5: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_05ea: nop
+		IL_05eb: dup
+		IL_05ec: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_05f1: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_05f6: nop
+		IL_05f7: dup
+		IL_05f8: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_05fd: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0602: nop
+		IL_0603: dup
+		IL_0604: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0609: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_060e: nop
+		IL_060f: dup
+		IL_0610: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0615: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_061a: nop
+		IL_061b: dup
+		IL_061c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0621: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0626: nop
+		IL_0627: dup
+		IL_0628: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_062d: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0632: nop
+		IL_0633: dup
+		IL_0634: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0639: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_063e: nop
+		IL_063f: dup
+		IL_0640: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0645: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_064a: nop
+		IL_064b: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord>::AddRecord(string, !0)
+		IL_0650: nop
+		IL_0651: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord> ['Assembly-CSharp']MGSC.Data::get_Stations()
+		IL_0656: ldstr "iomMoom"
+		IL_065b: newobj instance void ['Assembly-CSharp']MGSC.StationRecord::.ctor()
+		IL_0660: dup
+		IL_0661: ldstr "iomMoom"
+		IL_0666: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_066b: nop
+		IL_066c: dup
+		IL_066d: ldloc.s 4
+		IL_066f: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.ConfigTableRecord::get_ContentDescriptor()
+		IL_0674: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0679: nop
+		IL_067a: dup
+		IL_067b: ldstr "fuller"
+		IL_0680: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectId(string)
+		IL_0685: nop
+		IL_0686: dup
+		IL_0687: ldstr "iom_faction"
+		IL_068c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialOwnerFactionId(string)
+		IL_0691: nop
+		IL_0692: dup
+		IL_0693: ldc.i4.0
+		IL_0694: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_Power(int32)
+		IL_0699: nop
+		IL_069a: dup
+		IL_069b: ldc.i4.1
+		IL_069c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_PowerGain(int32)
+		IL_06a1: nop
+		IL_06a2: dup
+		IL_06a3: ldc.r4 1
+		IL_06a8: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_TechLevelGain(float32)
+		IL_06ad: nop
+		IL_06ae: dup
+		IL_06af: ldc.i4.0
+		IL_06b0: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_UncapturableByDefault(bool)
+		IL_06b5: nop
+		IL_06b6: dup
+		IL_06b7: ldc.r4 0.2
+		IL_06bc: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_CaptureChance(float32)
+		IL_06c1: nop
+		IL_06c2: dup
+		IL_06c3: ldstr "orbit1"
+		IL_06c8: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionTemplateId(string)
+		IL_06cd: nop
+		IL_06ce: dup
+		IL_06cf: ldstr "mercurySurfaceLevels"
+		IL_06d4: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionNameTemplateId(string)
+		IL_06d9: nop
+		IL_06da: dup
+		IL_06db: ldstr "Moon"
+		IL_06e0: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_BramfaturaId(string)
+		IL_06e5: nop
+		IL_06e6: dup
+		IL_06e7: ldstr "SpaceStation"
+		IL_06ec: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_StationType(string)
+		IL_06f1: nop
+		IL_06f2: dup
+		IL_06f3: ldc.r4 0.1
+		IL_06f8: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectItemDropPercent(float32)
+		IL_06fd: nop
+		IL_06fe: dup
+		IL_06ff: ldc.i4 7201
+		IL_0704: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialPopulation(int32)
+		IL_0709: nop
+		IL_070a: dup
+		IL_070b: ldc.i4 33034
+		IL_0710: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MaxPopulation(int32)
+		IL_0715: nop
+		IL_0716: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord>::AddRecord(string, !0)
+		IL_071b: nop
+		IL_071c: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord> ['Assembly-CSharp']MGSC.Data::get_StationBarter()
+		IL_0721: ldstr "iomMoom"
+		IL_0726: newobj instance void ['Assembly-CSharp']MGSC.StationBarterRecord::.ctor()
+		IL_072b: dup
+		IL_072c: ldstr "iomMoom"
+		IL_0731: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0736: nop
+		IL_0737: dup
+		IL_0738: ldnull
+		IL_0739: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_073e: nop
+		IL_073f: dup
+		IL_0740: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0745: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_074a: nop
+		IL_074b: dup
+		IL_074c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0751: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0756: nop
+		IL_0757: dup
+		IL_0758: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_075d: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0762: nop
+		IL_0763: dup
+		IL_0764: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0769: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_076e: nop
+		IL_076f: dup
+		IL_0770: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0775: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_077a: nop
+		IL_077b: dup
+		IL_077c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0781: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0786: nop
+		IL_0787: dup
+		IL_0788: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_078d: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0792: nop
+		IL_0793: dup
+		IL_0794: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0799: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_079e: nop
+		IL_079f: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord>::AddRecord(string, !0)
+		IL_07a4: nop
+		IL_07a5: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord> ['Assembly-CSharp']MGSC.Data::get_Stations()
+		IL_07aa: ldstr "iomPhobos"
+		IL_07af: newobj instance void ['Assembly-CSharp']MGSC.StationRecord::.ctor()
+		IL_07b4: dup
+		IL_07b5: ldstr "iomPhobos"
+		IL_07ba: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_07bf: nop
+		IL_07c0: dup
+		IL_07c1: ldloc.s 4
+		IL_07c3: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.ConfigTableRecord::get_ContentDescriptor()
+		IL_07c8: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_07cd: nop
+		IL_07ce: dup
+		IL_07cf: ldstr "phobos"
+		IL_07d4: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectId(string)
+		IL_07d9: nop
+		IL_07da: dup
+		IL_07db: ldstr "iom_faction"
+		IL_07e0: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialOwnerFactionId(string)
+		IL_07e5: nop
+		IL_07e6: dup
+		IL_07e7: ldc.i4.0
+		IL_07e8: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_Power(int32)
+		IL_07ed: nop
+		IL_07ee: dup
+		IL_07ef: ldc.i4.1
+		IL_07f0: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_PowerGain(int32)
+		IL_07f5: nop
+		IL_07f6: dup
+		IL_07f7: ldc.r4 2
+		IL_07fc: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_TechLevelGain(float32)
+		IL_0801: nop
+		IL_0802: dup
+		IL_0803: ldc.i4.0
+		IL_0804: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_UncapturableByDefault(bool)
+		IL_0809: nop
+		IL_080a: dup
+		IL_080b: ldc.r4 0.2
+		IL_0810: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_CaptureChance(float32)
+		IL_0815: nop
+		IL_0816: dup
+		IL_0817: ldstr "moon4"
+		IL_081c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionTemplateId(string)
+		IL_0821: nop
+		IL_0822: dup
+		IL_0823: ldstr "mercurySurfaceLevels"
+		IL_0828: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionNameTemplateId(string)
+		IL_082d: nop
+		IL_082e: dup
+		IL_082f: ldstr "Moon"
+		IL_0834: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_BramfaturaId(string)
+		IL_0839: nop
+		IL_083a: dup
+		IL_083b: ldstr "SpaceStation"
+		IL_0840: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_StationType(string)
+		IL_0845: nop
+		IL_0846: dup
+		IL_0847: ldc.r4 0.1
+		IL_084c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectItemDropPercent(float32)
+		IL_0851: nop
+		IL_0852: dup
+		IL_0853: ldc.i4 8451
+		IL_0858: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialPopulation(int32)
+		IL_085d: nop
+		IL_085e: dup
+		IL_085f: ldc.i4 39932
+		IL_0864: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MaxPopulation(int32)
+		IL_0869: nop
+		IL_086a: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord>::AddRecord(string, !0)
+		IL_086f: nop
+		IL_0870: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord> ['Assembly-CSharp']MGSC.Data::get_StationBarter()
+		IL_0875: ldstr "iomPhobos"
+		IL_087a: newobj instance void ['Assembly-CSharp']MGSC.StationBarterRecord::.ctor()
+		IL_087f: dup
+		IL_0880: ldstr "iomPhobos"
+		IL_0885: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_088a: nop
+		IL_088b: dup
+		IL_088c: ldnull
+		IL_088d: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0892: nop
+		IL_0893: dup
+		IL_0894: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0899: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_089e: nop
+		IL_089f: dup
+		IL_08a0: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08a5: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08aa: nop
+		IL_08ab: dup
+		IL_08ac: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08b1: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08b6: nop
+		IL_08b7: dup
+		IL_08b8: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08bd: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08c2: nop
+		IL_08c3: dup
+		IL_08c4: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08c9: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08ce: nop
+		IL_08cf: dup
+		IL_08d0: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08d5: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08da: nop
+		IL_08db: dup
+		IL_08dc: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08e1: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08e6: nop
+		IL_08e7: dup
+		IL_08e8: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_08ed: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_08f2: nop
+		IL_08f3: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord>::AddRecord(string, !0)
+		IL_08f8: nop
+		IL_08f9: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord> ['Assembly-CSharp']MGSC.Data::get_Stations()
+		IL_08fe: ldstr "iomHavoc"
+		IL_0903: newobj instance void ['Assembly-CSharp']MGSC.StationRecord::.ctor()
+		IL_0908: dup
+		IL_0909: ldstr "iomHavoc"
+		IL_090e: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0913: nop
+		IL_0914: dup
+		IL_0915: ldloc.s 4
+		IL_0917: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.ConfigTableRecord::get_ContentDescriptor()
+		IL_091c: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0921: nop
+		IL_0922: dup
+		IL_0923: ldstr "havoc"
+		IL_0928: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectId(string)
+		IL_092d: nop
+		IL_092e: dup
+		IL_092f: ldstr "iom_faction"
+		IL_0934: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialOwnerFactionId(string)
+		IL_0939: nop
+		IL_093a: dup
+		IL_093b: ldc.i4.0
+		IL_093c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_Power(int32)
+		IL_0941: nop
+		IL_0942: dup
+		IL_0943: ldc.i4.2
+		IL_0944: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_PowerGain(int32)
+		IL_0949: nop
+		IL_094a: dup
+		IL_094b: ldc.r4 1
+		IL_0950: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_TechLevelGain(float32)
+		IL_0955: nop
+		IL_0956: dup
+		IL_0957: ldc.i4.0
+		IL_0958: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_UncapturableByDefault(bool)
+		IL_095d: nop
+		IL_095e: dup
+		IL_095f: ldc.r4 0.2
+		IL_0964: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_CaptureChance(float32)
+		IL_0969: nop
+		IL_096a: dup
+		IL_096b: ldstr "moon1"
+		IL_0970: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionTemplateId(string)
+		IL_0975: nop
+		IL_0976: dup
+		IL_0977: ldstr "mercurySurfaceLevels"
+		IL_097c: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MissionNameTemplateId(string)
+		IL_0981: nop
+		IL_0982: dup
+		IL_0983: ldstr "Venus"
+		IL_0988: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_BramfaturaId(string)
+		IL_098d: nop
+		IL_098e: dup
+		IL_098f: ldstr "SpaceStation"
+		IL_0994: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_StationType(string)
+		IL_0999: nop
+		IL_099a: dup
+		IL_099b: ldc.r4 0.1
+		IL_09a0: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_SpaceObjectItemDropPercent(float32)
+		IL_09a5: nop
+		IL_09a6: dup
+		IL_09a7: ldc.i4 14451
+		IL_09ac: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_InitialPopulation(int32)
+		IL_09b1: nop
+		IL_09b2: dup
+		IL_09b3: ldc.i4 42112
+		IL_09b8: callvirt instance void ['Assembly-CSharp']MGSC.StationRecord::set_MaxPopulation(int32)
+		IL_09bd: nop
+		IL_09be: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationRecord>::AddRecord(string, !0)
+		IL_09c3: nop
+		IL_09c4: call class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord> ['Assembly-CSharp']MGSC.Data::get_StationBarter()
+		IL_09c9: ldstr "iomHavoc"
+		IL_09ce: newobj instance void ['Assembly-CSharp']MGSC.StationBarterRecord::.ctor()
+		IL_09d3: dup
+		IL_09d4: ldstr "iomHavoc"
+		IL_09d9: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_09de: nop
+		IL_09df: dup
+		IL_09e0: ldnull
+		IL_09e1: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_09e6: nop
+		IL_09e7: dup
+		IL_09e8: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_09ed: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_09f2: nop
+		IL_09f3: dup
+		IL_09f4: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_09f9: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CorpAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_09fe: nop
+		IL_09ff: dup
+		IL_0a00: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0a05: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a0a: nop
+		IL_0a0b: dup
+		IL_0a0c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0a11: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_CivResAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a16: nop
+		IL_0a17: dup
+		IL_0a18: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0a1d: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a22: nop
+		IL_0a23: dup
+		IL_0a24: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0a29: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_QuasiAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a2e: nop
+		IL_0a2f: dup
+		IL_0a30: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0a35: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesProduceItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a3a: nop
+		IL_0a3b: dup
+		IL_0a3c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0a41: callvirt instance void ['Assembly-CSharp']MGSC.StationBarterRecord::set_PiratesAdditionalConsumeItems(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a46: nop
+		IL_0a47: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.StationBarterRecord>::AddRecord(string, !0)
+		IL_0a4c: nop
+		IL_0a4d: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0a52: ldstr "Servitor"
+		IL_0a57: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.BackpackDescriptor>(string)
+		IL_0a5c: stloc.s 5
+		IL_0a5e: newobj instance void ['Assembly-CSharp']MGSC.BackpackRecord::.ctor()
+		IL_0a63: dup
+		IL_0a64: ldstr "iom_sevitor_backpack"
+		IL_0a69: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0a6e: nop
+		IL_0a6f: dup
+		IL_0a70: ldloc.s 5
+		IL_0a72: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0a77: nop
+		IL_0a78: dup
+		IL_0a79: ldc.i4.1
+		IL_0a7a: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0a7f: dup
+		IL_0a80: ldstr "IOM"
+		IL_0a85: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0a8a: nop
+		IL_0a8b: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0a90: nop
+		IL_0a91: dup
+		IL_0a92: ldc.i4.1
+		IL_0a93: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_0a98: nop
+		IL_0a99: dup
+		IL_0a9a: ldc.r4 600
+		IL_0a9f: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_0aa4: nop
+		IL_0aa5: dup
+		IL_0aa6: ldc.r4 0.01
+		IL_0aab: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_0ab0: nop
+		IL_0ab1: dup
+		IL_0ab2: ldc.i4.1
+		IL_0ab3: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_0ab8: nop
+		IL_0ab9: dup
+		IL_0aba: ldc.i4.7
+		IL_0abb: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_0ac0: nop
+		IL_0ac1: dup
+		IL_0ac2: ldc.i4.s 120
+		IL_0ac4: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_0ac9: nop
+		IL_0aca: dup
+		IL_0acb: ldc.i4.0
+		IL_0acc: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_0ad1: nop
+		IL_0ad2: dup
+		IL_0ad3: ldc.i4.0
+		IL_0ad4: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_Unbreakable(bool)
+		IL_0ad9: nop
+		IL_0ada: dup
+		IL_0adb: ldstr "engineering_weapon"
+		IL_0ae0: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_0ae5: nop
+		IL_0ae6: dup
+		IL_0ae7: ldc.i4.3
+		IL_0ae8: callvirt instance void ['Assembly-CSharp']MGSC.BackpackRecord::set_Width(int32)
+		IL_0aed: nop
+		IL_0aee: dup
+		IL_0aef: ldc.i4.3
+		IL_0af0: callvirt instance void ['Assembly-CSharp']MGSC.BackpackRecord::set_Height(int32)
+		IL_0af5: nop
+		IL_0af6: dup
+		IL_0af7: ldc.r4 0.2
+		IL_0afc: callvirt instance void ['Assembly-CSharp']MGSC.BackpackRecord::set_DropChanceOnBroken(float32)
+		IL_0b01: nop
+		IL_0b02: dup
+		IL_0b03: ldc.i4.1
+		IL_0b04: callvirt instance void ['Assembly-CSharp']MGSC.BackpackRecord::set_AddServoArm(bool)
+		IL_0b09: nop
+		IL_0b0a: dup
+		IL_0b0b: ldc.r4 0.01
+		IL_0b10: callvirt instance void ['Assembly-CSharp']MGSC.BackpackRecord::set_TotalItemsWeightMult(float32)
+		IL_0b15: nop
+		IL_0b16: dup
+		IL_0b17: ldc.i4.2
+		IL_0b18: callvirt instance void ['Assembly-CSharp']MGSC.BackpackRecord::set_ReloadTurnBonus(int32)
+		IL_0b1d: nop
+		IL_0b1e: stloc.s 6
+		IL_0b20: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_0b25: ldstr "iom_sevitor_backpack"
+		IL_0b2a: ldloc.s 6
+		IL_0b2c: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_0b31: nop
+		IL_0b32: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0b37: ldstr "backpacks"
+		IL_0b3c: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0b41: ldstr "iom_sevitor_backpack"
+		IL_0b46: ldloc.s 5
+		IL_0b48: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0b4d: nop
+		IL_0b4e: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0b53: ldstr "rangeweapons"
+		IL_0b58: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0b5d: ldstr "military_assault_1"
+		IL_0b62: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_0b67: castclass ['Assembly-CSharp']MGSC.WeaponDescriptor
+		IL_0b6c: stloc.s 7
+		IL_0b6e: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0b73: ldstr "bolter"
+		IL_0b78: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.WeaponDescriptor>(string)
+		IL_0b7d: stloc.s 8
+		IL_0b7f: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0b84: ldstr "rangeweapons"
+		IL_0b89: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0b8e: ldstr "military_assault_1"
+		IL_0b93: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_0b98: call class [UnityEngine.CoreModule]UnityEngine.Object [UnityEngine.CoreModule]UnityEngine.Object::Instantiate(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0b9d: castclass ['Assembly-CSharp']MGSC.WeaponDescriptor
+		IL_0ba2: stloc.s 9
+		IL_0ba4: ldloc.s 9
+		IL_0ba6: ldloc.s 8
+		IL_0ba8: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_0bad: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_0bb2: ldloc.s 9
+		IL_0bb4: ldloc.s 8
+		IL_0bb6: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_0bbb: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_0bc0: ldloc.s 9
+		IL_0bc2: ldloc.s 8
+		IL_0bc4: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_0bc9: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_0bce: newobj instance void ['Assembly-CSharp']MGSC.WeaponRecord::.ctor()
+		IL_0bd3: dup
+		IL_0bd4: ldstr "iom_bolter"
+		IL_0bd9: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0bde: nop
+		IL_0bdf: dup
+		IL_0be0: ldloc.s 9
+		IL_0be2: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0be7: nop
+		IL_0be8: dup
+		IL_0be9: ldc.i4.1
+		IL_0bea: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0bef: dup
+		IL_0bf0: ldstr "IOM"
+		IL_0bf5: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0bfa: nop
+		IL_0bfb: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0c00: nop
+		IL_0c01: dup
+		IL_0c02: ldc.i4.1
+		IL_0c03: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_0c08: nop
+		IL_0c09: dup
+		IL_0c0a: ldc.r4 400
+		IL_0c0f: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_0c14: nop
+		IL_0c15: dup
+		IL_0c16: ldc.r4 4
+		IL_0c1b: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_0c20: nop
+		IL_0c21: dup
+		IL_0c22: ldc.i4.2
+		IL_0c23: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_0c28: nop
+		IL_0c29: dup
+		IL_0c2a: ldc.i4.1
+		IL_0c2b: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_0c30: nop
+		IL_0c31: dup
+		IL_0c32: ldc.i4.s 110
+		IL_0c34: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_0c39: nop
+		IL_0c3a: dup
+		IL_0c3b: ldc.i4.0
+		IL_0c3c: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_0c41: nop
+		IL_0c42: dup
+		IL_0c43: ldc.i4.0
+		IL_0c44: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_Unbreakable(bool)
+		IL_0c49: nop
+		IL_0c4a: dup
+		IL_0c4b: ldstr "firearms_weapon"
+		IL_0c50: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_0c55: nop
+		IL_0c56: dup
+		IL_0c57: ldc.i4.s 23
+		IL_0c59: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_WeaponClass(valuetype ['Assembly-CSharp']MGSC.WeaponClass)
+		IL_0c5e: nop
+		IL_0c5f: dup
+		IL_0c60: ldc.i4.5
+		IL_0c61: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_WeaponSubClass(valuetype ['Assembly-CSharp']MGSC.WeaponSubClass)
+		IL_0c66: nop
+		IL_0c67: dup
+		IL_0c68: ldstr "Heavy"
+		IL_0c6d: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_RequiredAmmo(string)
+		IL_0c72: nop
+		IL_0c73: dup
+		IL_0c74: ldsfld string [mscorlib]System.String::Empty
+		IL_0c79: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_OverrideAmmo(string)
+		IL_0c7e: nop
+		IL_0c7f: dup
+		IL_0c80: ldstr "rifle_basic_ammo"
+		IL_0c85: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_DefaultAmmoId(string)
+		IL_0c8a: nop
+		IL_0c8b: dup
+		IL_0c8c: ldsfld string [mscorlib]System.String::Empty
+		IL_0c91: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_DefaultGrenadeId(string)
+		IL_0c96: nop
+		IL_0c97: dup
+		IL_0c98: ldloca.s 29
+		IL_0c9a: initobj ['Assembly-CSharp']MGSC.DmgInfo
+		IL_0ca0: ldloca.s 29
+		IL_0ca2: ldsfld string [mscorlib]System.String::Empty
+		IL_0ca7: stfld string ['Assembly-CSharp']MGSC.DmgInfo::damage
+		IL_0cac: ldloca.s 29
+		IL_0cae: ldc.i4.s 19
+		IL_0cb0: stfld int32 ['Assembly-CSharp']MGSC.DmgInfo::minDmg
+		IL_0cb5: ldloca.s 29
+		IL_0cb7: ldc.i4.s 35
+		IL_0cb9: stfld int32 ['Assembly-CSharp']MGSC.DmgInfo::maxDmg
+		IL_0cbe: ldloca.s 29
+		IL_0cc0: ldc.r4 0.0
+		IL_0cc5: stfld float32 ['Assembly-CSharp']MGSC.DmgInfo::critChance
+		IL_0cca: ldloca.s 29
+		IL_0ccc: ldc.r4 1.75
+		IL_0cd1: stfld float32 ['Assembly-CSharp']MGSC.DmgInfo::critDmg
+		IL_0cd6: ldloc.s 29
+		IL_0cd8: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_Damage(valuetype ['Assembly-CSharp']MGSC.DmgInfo)
+		IL_0cdd: nop
+		IL_0cde: dup
+		IL_0cdf: ldc.i4.2
+		IL_0ce0: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0ce5: dup
+		IL_0ce6: ldstr "basic_rifle_single"
+		IL_0ceb: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0cf0: nop
+		IL_0cf1: dup
+		IL_0cf2: ldstr "basic_rifle_shortauto"
+		IL_0cf7: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0cfc: nop
+		IL_0cfd: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_Firemodes(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0d02: nop
+		IL_0d03: dup
+		IL_0d04: ldc.i4.6
+		IL_0d05: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_Range(int32)
+		IL_0d0a: nop
+		IL_0d0b: dup
+		IL_0d0c: ldc.i4.4
+		IL_0d0d: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_ReloadDuration(int32)
+		IL_0d12: nop
+		IL_0d13: dup
+		IL_0d14: ldc.i4.0
+		IL_0d15: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_ReloadOneClip(bool)
+		IL_0d1a: nop
+		IL_0d1b: dup
+		IL_0d1c: ldc.i4.s 20
+		IL_0d1e: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_MagazineCapacity(int32)
+		IL_0d23: nop
+		IL_0d24: dup
+		IL_0d25: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0d2a: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_AllowedGrenadeIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0d2f: nop
+		IL_0d30: dup
+		IL_0d31: ldc.r4 0.0
+		IL_0d36: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_WoundChanceOnPierce(float32)
+		IL_0d3b: nop
+		IL_0d3c: dup
+		IL_0d3d: ldc.r4 0.25
+		IL_0d42: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_ArmorPenetration(float32)
+		IL_0d47: nop
+		IL_0d48: dup
+		IL_0d49: ldc.r4 1
+		IL_0d4e: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_FovLookAngleMult(float32)
+		IL_0d53: nop
+		IL_0d54: stloc.s 10
+		IL_0d56: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_0d5b: ldstr "iom_bolter"
+		IL_0d60: ldloc.s 10
+		IL_0d62: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_0d67: nop
+		IL_0d68: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0d6d: ldstr "rangeweapons"
+		IL_0d72: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0d77: ldstr "iom_bolter"
+		IL_0d7c: ldloc.s 9
+		IL_0d7e: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0d83: nop
+		IL_0d84: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0d89: ldstr "rangeweapons"
+		IL_0d8e: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0d93: ldstr "laser_sniper_1"
+		IL_0d98: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_0d9d: castclass ['Assembly-CSharp']MGSC.WeaponDescriptor
+		IL_0da2: stloc.s 7
+		IL_0da4: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0da9: ldstr "lasgun"
+		IL_0dae: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.WeaponDescriptor>(string)
+		IL_0db3: stloc.s 11
+		IL_0db5: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0dba: ldstr "rangeweapons"
+		IL_0dbf: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0dc4: ldstr "laser_sniper_1"
+		IL_0dc9: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_0dce: call class [UnityEngine.CoreModule]UnityEngine.Object [UnityEngine.CoreModule]UnityEngine.Object::Instantiate(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0dd3: castclass ['Assembly-CSharp']MGSC.WeaponDescriptor
+		IL_0dd8: stloc.s 12
+		IL_0dda: ldloc.s 12
+		IL_0ddc: ldloc.s 11
+		IL_0dde: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_0de3: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_0de8: ldloc.s 12
+		IL_0dea: ldloc.s 11
+		IL_0dec: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_0df1: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_0df6: ldloc.s 12
+		IL_0df8: ldloc.s 11
+		IL_0dfa: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_0dff: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_0e04: newobj instance void ['Assembly-CSharp']MGSC.WeaponRecord::.ctor()
+		IL_0e09: dup
+		IL_0e0a: ldstr "iom_lasgun"
+		IL_0e0f: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_0e14: nop
+		IL_0e15: dup
+		IL_0e16: ldloc.s 12
+		IL_0e18: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0e1d: nop
+		IL_0e1e: dup
+		IL_0e1f: ldc.i4.1
+		IL_0e20: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0e25: dup
+		IL_0e26: ldstr "IOM"
+		IL_0e2b: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0e30: nop
+		IL_0e31: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0e36: nop
+		IL_0e37: dup
+		IL_0e38: ldc.i4.1
+		IL_0e39: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_0e3e: nop
+		IL_0e3f: dup
+		IL_0e40: ldc.r4 300
+		IL_0e45: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_0e4a: nop
+		IL_0e4b: dup
+		IL_0e4c: ldc.r4 3
+		IL_0e51: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_0e56: nop
+		IL_0e57: dup
+		IL_0e58: ldc.i4.2
+		IL_0e59: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_0e5e: nop
+		IL_0e5f: dup
+		IL_0e60: ldc.i4.1
+		IL_0e61: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_0e66: nop
+		IL_0e67: dup
+		IL_0e68: ldc.i4.s 100
+		IL_0e6a: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_0e6f: nop
+		IL_0e70: dup
+		IL_0e71: ldc.i4.0
+		IL_0e72: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_0e77: nop
+		IL_0e78: dup
+		IL_0e79: ldc.i4.0
+		IL_0e7a: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_Unbreakable(bool)
+		IL_0e7f: nop
+		IL_0e80: dup
+		IL_0e81: ldstr "firearms_weapon"
+		IL_0e86: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_0e8b: nop
+		IL_0e8c: dup
+		IL_0e8d: ldc.i4.s 23
+		IL_0e8f: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_WeaponClass(valuetype ['Assembly-CSharp']MGSC.WeaponClass)
+		IL_0e94: nop
+		IL_0e95: dup
+		IL_0e96: ldc.i4.5
+		IL_0e97: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_WeaponSubClass(valuetype ['Assembly-CSharp']MGSC.WeaponSubClass)
+		IL_0e9c: nop
+		IL_0e9d: dup
+		IL_0e9e: ldstr "BatteryCells"
+		IL_0ea3: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_RequiredAmmo(string)
+		IL_0ea8: nop
+		IL_0ea9: dup
+		IL_0eaa: ldsfld string [mscorlib]System.String::Empty
+		IL_0eaf: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_OverrideAmmo(string)
+		IL_0eb4: nop
+		IL_0eb5: dup
+		IL_0eb6: ldstr "battery_basic_ammo"
+		IL_0ebb: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_DefaultAmmoId(string)
+		IL_0ec0: nop
+		IL_0ec1: dup
+		IL_0ec2: ldsfld string [mscorlib]System.String::Empty
+		IL_0ec7: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_DefaultGrenadeId(string)
+		IL_0ecc: nop
+		IL_0ecd: dup
+		IL_0ece: ldloca.s 29
+		IL_0ed0: initobj ['Assembly-CSharp']MGSC.DmgInfo
+		IL_0ed6: ldloca.s 29
+		IL_0ed8: ldsfld string [mscorlib]System.String::Empty
+		IL_0edd: stfld string ['Assembly-CSharp']MGSC.DmgInfo::damage
+		IL_0ee2: ldloca.s 29
+		IL_0ee4: ldc.i4.s 10
+		IL_0ee6: stfld int32 ['Assembly-CSharp']MGSC.DmgInfo::minDmg
+		IL_0eeb: ldloca.s 29
+		IL_0eed: ldc.i4.s 33
+		IL_0eef: stfld int32 ['Assembly-CSharp']MGSC.DmgInfo::maxDmg
+		IL_0ef4: ldloca.s 29
+		IL_0ef6: ldc.r4 0.0
+		IL_0efb: stfld float32 ['Assembly-CSharp']MGSC.DmgInfo::critChance
+		IL_0f00: ldloca.s 29
+		IL_0f02: ldc.r4 2
+		IL_0f07: stfld float32 ['Assembly-CSharp']MGSC.DmgInfo::critDmg
+		IL_0f0c: ldloc.s 29
+		IL_0f0e: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_Damage(valuetype ['Assembly-CSharp']MGSC.DmgInfo)
+		IL_0f13: nop
+		IL_0f14: dup
+		IL_0f15: ldc.i4.2
+		IL_0f16: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_0f1b: dup
+		IL_0f1c: ldstr "basic_energy_rifle_single"
+		IL_0f21: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0f26: nop
+		IL_0f27: dup
+		IL_0f28: ldstr "basic_energy_rifle_shortauto"
+		IL_0f2d: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_0f32: nop
+		IL_0f33: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_Firemodes(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0f38: nop
+		IL_0f39: dup
+		IL_0f3a: ldc.i4.8
+		IL_0f3b: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_Range(int32)
+		IL_0f40: nop
+		IL_0f41: dup
+		IL_0f42: ldc.i4.2
+		IL_0f43: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_ReloadDuration(int32)
+		IL_0f48: nop
+		IL_0f49: dup
+		IL_0f4a: ldc.i4.0
+		IL_0f4b: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_ReloadOneClip(bool)
+		IL_0f50: nop
+		IL_0f51: dup
+		IL_0f52: ldc.i4.s 10
+		IL_0f54: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_MagazineCapacity(int32)
+		IL_0f59: nop
+		IL_0f5a: dup
+		IL_0f5b: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor()
+		IL_0f60: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_AllowedGrenadeIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_0f65: nop
+		IL_0f66: dup
+		IL_0f67: ldc.r4 0.0
+		IL_0f6c: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_WoundChanceOnPierce(float32)
+		IL_0f71: nop
+		IL_0f72: dup
+		IL_0f73: ldc.r4 0.05
+		IL_0f78: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_ArmorPenetration(float32)
+		IL_0f7d: nop
+		IL_0f7e: dup
+		IL_0f7f: ldc.r4 0.9
+		IL_0f84: callvirt instance void ['Assembly-CSharp']MGSC.WeaponRecord::set_FovLookAngleMult(float32)
+		IL_0f89: nop
+		IL_0f8a: stloc.s 13
+		IL_0f8c: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_0f91: ldstr "iom_lasgun"
+		IL_0f96: ldloc.s 13
+		IL_0f98: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_0f9d: nop
+		IL_0f9e: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0fa3: ldstr "rangeweapons"
+		IL_0fa8: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0fad: ldstr "iom_lasgun"
+		IL_0fb2: ldloc.s 12
+		IL_0fb4: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0fb9: nop
+		IL_0fba: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_0fbf: ldstr "lightBoots"
+		IL_0fc4: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.BootsDescriptor>(string)
+		IL_0fc9: stloc.s 14
+		IL_0fcb: nop
+		IL_0fcc: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_0fd1: ldstr "boots"
+		IL_0fd6: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_0fdb: ldstr "military_heavy_boots_1"
+		IL_0fe0: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_0fe5: call class [UnityEngine.CoreModule]UnityEngine.Object [UnityEngine.CoreModule]UnityEngine.Object::Instantiate(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_0fea: castclass ['Assembly-CSharp']MGSC.BootsDescriptor
+		IL_0fef: stloc.s 15
+		IL_0ff1: ldloc.s 15
+		IL_0ff3: ldloc.s 14
+		IL_0ff5: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_0ffa: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_0fff: ldloc.s 15
+		IL_1001: ldloc.s 14
+		IL_1003: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_1008: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_100d: ldloc.s 15
+		IL_100f: ldloc.s 14
+		IL_1011: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_1016: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_101b: newobj instance void ['Assembly-CSharp']MGSC.BootsRecord::.ctor()
+		IL_1020: dup
+		IL_1021: ldstr "iom_lightboots"
+		IL_1026: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_102b: nop
+		IL_102c: dup
+		IL_102d: ldloc.s 15
+		IL_102f: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_1034: nop
+		IL_1035: dup
+		IL_1036: ldc.i4.1
+		IL_1037: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_103c: dup
+		IL_103d: ldstr "IOM"
+		IL_1042: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_1047: nop
+		IL_1048: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_104d: nop
+		IL_104e: dup
+		IL_104f: ldc.i4.1
+		IL_1050: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_1055: nop
+		IL_1056: dup
+		IL_1057: ldc.r4 100
+		IL_105c: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_1061: nop
+		IL_1062: dup
+		IL_1063: ldc.r4 1.6
+		IL_1068: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_106d: nop
+		IL_106e: dup
+		IL_106f: ldc.i4.1
+		IL_1070: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_1075: nop
+		IL_1076: dup
+		IL_1077: ldc.i4.6
+		IL_1078: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_107d: nop
+		IL_107e: dup
+		IL_107f: ldc.i4.s 75
+		IL_1081: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_1086: nop
+		IL_1087: dup
+		IL_1088: ldc.i4.0
+		IL_1089: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_108e: nop
+		IL_108f: dup
+		IL_1090: ldstr "aram_armor"
+		IL_1095: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_109a: nop
+		IL_109b: dup
+		IL_109c: ldc.r4 6
+		IL_10a1: ldc.r4 7
+		IL_10a6: ldc.r4 0.0
+		IL_10ab: ldc.r4 0.0
+		IL_10b0: ldc.r4 0.0
+		IL_10b5: ldc.r4 0.0
+		IL_10ba: ldc.r4 0.0
+		IL_10bf: ldc.r4 0.0
+		IL_10c4: call class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist> ImperiumOfMan.Plugin::CreateResists(float32, float32, float32, float32, float32, float32, float32, float32)
+		IL_10c9: callvirt instance void ['Assembly-CSharp']MGSC.ResistRecord::set_ResistSheet(class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist>)
+		IL_10ce: nop
+		IL_10cf: dup
+		IL_10d0: ldc.i4.3
+		IL_10d1: callvirt instance void ['Assembly-CSharp']MGSC.BootsRecord::set_ArmorClass(valuetype ['Assembly-CSharp']MGSC.ArmorClass)
+		IL_10d6: nop
+		IL_10d7: dup
+		IL_10d8: ldc.i4.1
+		IL_10d9: callvirt instance void ['Assembly-CSharp']MGSC.BootsRecord::set_ArmorSubClass(valuetype ['Assembly-CSharp']MGSC.ArmorSubClass)
+		IL_10de: nop
+		IL_10df: stloc.s 16
+		IL_10e1: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_10e6: ldstr "iom_lightboots"
+		IL_10eb: ldloc.s 16
+		IL_10ed: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_10f2: nop
+		IL_10f3: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_10f8: ldstr "boots"
+		IL_10fd: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_1102: ldstr "iom_lightboots"
+		IL_1107: ldloc.s 15
+		IL_1109: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_110e: nop
+		IL_110f: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_1114: ldstr "lightLeggings"
+		IL_1119: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.LeggingsDescriptor>(string)
+		IL_111e: stloc.s 17
+		IL_1120: nop
+		IL_1121: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_1126: ldstr "leggings"
+		IL_112b: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_1130: ldstr "military_heavy_pants_1"
+		IL_1135: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_113a: call class [UnityEngine.CoreModule]UnityEngine.Object [UnityEngine.CoreModule]UnityEngine.Object::Instantiate(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_113f: castclass ['Assembly-CSharp']MGSC.LeggingsDescriptor
+		IL_1144: stloc.s 18
+		IL_1146: ldloc.s 18
+		IL_1148: ldloc.s 17
+		IL_114a: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_114f: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_1154: ldloc.s 18
+		IL_1156: ldloc.s 17
+		IL_1158: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_115d: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_1162: ldloc.s 18
+		IL_1164: ldloc.s 17
+		IL_1166: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_116b: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_1170: newobj instance void ['Assembly-CSharp']MGSC.LeggingsRecord::.ctor()
+		IL_1175: dup
+		IL_1176: ldstr "iom_lightleggings"
+		IL_117b: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_1180: nop
+		IL_1181: dup
+		IL_1182: ldloc.s 18
+		IL_1184: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_1189: nop
+		IL_118a: dup
+		IL_118b: ldc.i4.1
+		IL_118c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_1191: dup
+		IL_1192: ldstr "IOM"
+		IL_1197: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_119c: nop
+		IL_119d: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_11a2: nop
+		IL_11a3: dup
+		IL_11a4: ldc.i4.1
+		IL_11a5: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_11aa: nop
+		IL_11ab: dup
+		IL_11ac: ldc.r4 190
+		IL_11b1: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_11b6: nop
+		IL_11b7: dup
+		IL_11b8: ldc.r4 2
+		IL_11bd: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_11c2: nop
+		IL_11c3: dup
+		IL_11c4: ldc.i4.1
+		IL_11c5: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_11ca: nop
+		IL_11cb: dup
+		IL_11cc: ldc.i4.5
+		IL_11cd: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_11d2: nop
+		IL_11d3: dup
+		IL_11d4: ldc.i4.s 90
+		IL_11d6: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_11db: nop
+		IL_11dc: dup
+		IL_11dd: ldc.i4.0
+		IL_11de: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_11e3: nop
+		IL_11e4: dup
+		IL_11e5: ldstr "aram_armor"
+		IL_11ea: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_11ef: nop
+		IL_11f0: dup
+		IL_11f1: ldc.r4 8
+		IL_11f6: ldc.r4 8
+		IL_11fb: ldc.r4 0.0
+		IL_1200: ldc.r4 0.0
+		IL_1205: ldc.r4 2
+		IL_120a: ldc.r4 0.0
+		IL_120f: ldc.r4 0.0
+		IL_1214: ldc.r4 0.0
+		IL_1219: call class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist> ImperiumOfMan.Plugin::CreateResists(float32, float32, float32, float32, float32, float32, float32, float32)
+		IL_121e: callvirt instance void ['Assembly-CSharp']MGSC.ResistRecord::set_ResistSheet(class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist>)
+		IL_1223: nop
+		IL_1224: dup
+		IL_1225: ldc.i4.3
+		IL_1226: callvirt instance void ['Assembly-CSharp']MGSC.LeggingsRecord::set_ArmorClass(valuetype ['Assembly-CSharp']MGSC.ArmorClass)
+		IL_122b: nop
+		IL_122c: dup
+		IL_122d: ldc.i4.1
+		IL_122e: callvirt instance void ['Assembly-CSharp']MGSC.LeggingsRecord::set_ArmorSubClass(valuetype ['Assembly-CSharp']MGSC.ArmorSubClass)
+		IL_1233: nop
+		IL_1234: stloc.s 19
+		IL_1236: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_123b: ldstr "iom_lightleggings"
+		IL_1240: ldloc.s 19
+		IL_1242: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_1247: nop
+		IL_1248: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_124d: ldstr "leggings"
+		IL_1252: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_1257: ldstr "lightLeggings"
+		IL_125c: ldloc.s 18
+		IL_125e: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_1263: nop
+		IL_1264: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_1269: ldstr "lightChestplate"
+		IL_126e: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.ArmorDescriptor>(string)
+		IL_1273: stloc.s 20
+		IL_1275: nop
+		IL_1276: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_127b: ldstr "armors"
+		IL_1280: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_1285: ldstr "military_heavy_armor_1"
+		IL_128a: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_128f: call class [UnityEngine.CoreModule]UnityEngine.Object [UnityEngine.CoreModule]UnityEngine.Object::Instantiate(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_1294: castclass ['Assembly-CSharp']MGSC.ArmorDescriptor
+		IL_1299: stloc.s 21
+		IL_129b: ldloc.s 21
+		IL_129d: ldloc.s 20
+		IL_129f: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_12a4: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_12a9: ldloc.s 21
+		IL_12ab: ldloc.s 20
+		IL_12ad: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_12b2: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_12b7: ldloc.s 21
+		IL_12b9: ldloc.s 20
+		IL_12bb: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_12c0: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_12c5: newobj instance void ['Assembly-CSharp']MGSC.ArmorRecord::.ctor()
+		IL_12ca: dup
+		IL_12cb: ldstr "iom_lightChestplate"
+		IL_12d0: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_12d5: nop
+		IL_12d6: dup
+		IL_12d7: ldloc.s 21
+		IL_12d9: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_12de: nop
+		IL_12df: dup
+		IL_12e0: ldc.i4.1
+		IL_12e1: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_12e6: dup
+		IL_12e7: ldstr "IOM"
+		IL_12ec: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_12f1: nop
+		IL_12f2: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_12f7: nop
+		IL_12f8: dup
+		IL_12f9: ldc.i4.1
+		IL_12fa: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_12ff: nop
+		IL_1300: dup
+		IL_1301: ldc.r4 190
+		IL_1306: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_130b: nop
+		IL_130c: dup
+		IL_130d: ldc.r4 2.9
+		IL_1312: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_1317: nop
+		IL_1318: dup
+		IL_1319: ldc.i4.1
+		IL_131a: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_131f: nop
+		IL_1320: dup
+		IL_1321: ldc.i4.4
+		IL_1322: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_1327: nop
+		IL_1328: dup
+		IL_1329: ldc.i4.s 90
+		IL_132b: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_1330: nop
+		IL_1331: dup
+		IL_1332: ldc.i4.0
+		IL_1333: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_1338: nop
+		IL_1339: dup
+		IL_133a: ldstr "aram_armor"
+		IL_133f: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_1344: nop
+		IL_1345: dup
+		IL_1346: ldc.r4 12
+		IL_134b: ldc.r4 12
+		IL_1350: ldc.r4 0.0
+		IL_1355: ldc.r4 0.0
+		IL_135a: ldc.r4 2
+		IL_135f: ldc.r4 0.0
+		IL_1364: ldc.r4 0.0
+		IL_1369: ldc.r4 0.0
+		IL_136e: call class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist> ImperiumOfMan.Plugin::CreateResists(float32, float32, float32, float32, float32, float32, float32, float32)
+		IL_1373: callvirt instance void ['Assembly-CSharp']MGSC.ResistRecord::set_ResistSheet(class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist>)
+		IL_1378: nop
+		IL_1379: dup
+		IL_137a: ldc.i4.3
+		IL_137b: callvirt instance void ['Assembly-CSharp']MGSC.ArmorRecord::set_ArmorClass(valuetype ['Assembly-CSharp']MGSC.ArmorClass)
+		IL_1380: nop
+		IL_1381: dup
+		IL_1382: ldc.i4.1
+		IL_1383: callvirt instance void ['Assembly-CSharp']MGSC.ArmorRecord::set_ArmorSubClass(valuetype ['Assembly-CSharp']MGSC.ArmorSubClass)
+		IL_1388: nop
+		IL_1389: stloc.s 22
+		IL_138b: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_1390: ldstr "iom_lightChestplate"
+		IL_1395: ldloc.s 22
+		IL_1397: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_139c: nop
+		IL_139d: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_13a2: ldstr "armors"
+		IL_13a7: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_13ac: ldstr "lightChestplate"
+		IL_13b1: ldloc.s 21
+		IL_13b3: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_13b8: nop
+		IL_13b9: ldsfld class [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle ImperiumOfMan.Plugin::ModBundle
+		IL_13be: ldstr "lightHelmet"
+		IL_13c3: callvirt instance !!0 [UnityEngine.AssetBundleModule]UnityEngine.AssetBundle::LoadAsset<class ['Assembly-CSharp']MGSC.HelmetDescriptor>(string)
+		IL_13c8: stloc.s 23
+		IL_13ca: nop
+		IL_13cb: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_13d0: ldstr "helmets"
+		IL_13d5: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_13da: ldstr "military_heavy_helmet_1"
+		IL_13df: callvirt instance class [UnityEngine.CoreModule]UnityEngine.Object ['Assembly-CSharp']MGSC.DescriptorsCollection::GetDescriptor(string)
+		IL_13e4: call class [UnityEngine.CoreModule]UnityEngine.Object [UnityEngine.CoreModule]UnityEngine.Object::Instantiate(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_13e9: castclass ['Assembly-CSharp']MGSC.HelmetDescriptor
+		IL_13ee: stloc.s 24
+		IL_13f0: ldloc.s 24
+		IL_13f2: ldloc.s 23
+		IL_13f4: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_13f9: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_icon
+		IL_13fe: ldloc.s 24
+		IL_1400: ldloc.s 23
+		IL_1402: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_1407: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_smallIcon
+		IL_140c: ldloc.s 24
+		IL_140e: ldloc.s 23
+		IL_1410: ldfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_1415: stfld class [UnityEngine.CoreModule]UnityEngine.Sprite ['Assembly-CSharp']MGSC.ItemContentDescriptor::_shadow
+		IL_141a: newobj instance void ['Assembly-CSharp']MGSC.HelmetRecord::.ctor()
+		IL_141f: dup
+		IL_1420: ldstr "iom_lightHelmet"
+		IL_1425: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_Id(string)
+		IL_142a: nop
+		IL_142b: dup
+		IL_142c: ldloc.s 24
+		IL_142e: callvirt instance void ['Assembly-CSharp']MGSC.ConfigTableRecord::set_ContentDescriptor(class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_1433: nop
+		IL_1434: dup
+		IL_1435: ldc.i4.1
+		IL_1436: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_143b: dup
+		IL_143c: ldstr "IOM"
+		IL_1441: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_1446: nop
+		IL_1447: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Categories(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_144c: nop
+		IL_144d: dup
+		IL_144e: ldc.i4.1
+		IL_144f: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_TechLevel(int32)
+		IL_1454: nop
+		IL_1455: dup
+		IL_1456: ldc.r4 190
+		IL_145b: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Price(float32)
+		IL_1460: nop
+		IL_1461: dup
+		IL_1462: ldc.r4 1.8
+		IL_1467: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_Weight(float32)
+		IL_146c: nop
+		IL_146d: dup
+		IL_146e: ldc.i4.1
+		IL_146f: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_InventoryWidthSize(int32)
+		IL_1474: nop
+		IL_1475: dup
+		IL_1476: ldc.i4.4
+		IL_1477: callvirt instance void ['Assembly-CSharp']MGSC.ItemRecord::set_ItemClass(valuetype ['Assembly-CSharp']MGSC.ItemClass)
+		IL_147c: nop
+		IL_147d: dup
+		IL_147e: ldc.i4.s 105
+		IL_1480: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MaxDurability(int32)
+		IL_1485: nop
+		IL_1486: dup
+		IL_1487: ldc.i4.0
+		IL_1488: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_MinDurabilityAfterRepair(int32)
+		IL_148d: nop
+		IL_148e: dup
+		IL_148f: ldstr "aram_armor"
+		IL_1494: callvirt instance void ['Assembly-CSharp']MGSC.BreakableItemRecord::set_RepairCategory(string)
+		IL_1499: nop
+		IL_149a: dup
+		IL_149b: ldc.r4 6
+		IL_14a0: ldc.r4 9
+		IL_14a5: ldc.r4 0.0
+		IL_14aa: ldc.r4 0.0
+		IL_14af: ldc.r4 0.0
+		IL_14b4: ldc.r4 0.0
+		IL_14b9: ldc.r4 0.0
+		IL_14be: ldc.r4 0.0
+		IL_14c3: call class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist> ImperiumOfMan.Plugin::CreateResists(float32, float32, float32, float32, float32, float32, float32, float32)
+		IL_14c8: callvirt instance void ['Assembly-CSharp']MGSC.ResistRecord::set_ResistSheet(class [mscorlib]System.Collections.Generic.List`1<valuetype ['Assembly-CSharp']MGSC.DmgResist>)
+		IL_14cd: nop
+		IL_14ce: dup
+		IL_14cf: ldc.i4.3
+		IL_14d0: callvirt instance void ['Assembly-CSharp']MGSC.HelmetRecord::set_ArmorClass(valuetype ['Assembly-CSharp']MGSC.ArmorClass)
+		IL_14d5: nop
+		IL_14d6: dup
+		IL_14d7: ldc.i4.1
+		IL_14d8: callvirt instance void ['Assembly-CSharp']MGSC.HelmetRecord::set_ArmorSubClass(valuetype ['Assembly-CSharp']MGSC.ArmorSubClass)
+		IL_14dd: nop
+		IL_14de: dup
+		IL_14df: ldc.i4.1
+		IL_14e0: callvirt instance void ['Assembly-CSharp']MGSC.HelmetRecord::set_HideHair(bool)
+		IL_14e5: nop
+		IL_14e6: stloc.s 25
+		IL_14e8: call class ['Assembly-CSharp']MGSC.ItemsCollection ['Assembly-CSharp']MGSC.Data::get_Items()
+		IL_14ed: ldstr "iom_lightHelmet"
+		IL_14f2: ldloc.s 25
+		IL_14f4: callvirt instance void class ['Assembly-CSharp']MGSC.ConfigRecordCollection`1<class ['Assembly-CSharp']MGSC.BasePickupItemRecord>::AddRecord(string, !0)
+		IL_14f9: nop
+		IL_14fa: call class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection> ['Assembly-CSharp']MGSC.Data::get_Descriptors()
+		IL_14ff: ldstr "helmets"
+		IL_1504: callvirt instance !1 class [mscorlib]System.Collections.Generic.Dictionary`2<string, class ['Assembly-CSharp']MGSC.DescriptorsCollection>::get_Item(!0)
+		IL_1509: ldstr "lightHelmet"
+		IL_150e: ldloc.s 24
+		IL_1510: callvirt instance void ['Assembly-CSharp']MGSC.DescriptorsCollection::AddDescriptor(string, class [UnityEngine.CoreModule]UnityEngine.Object)
+		IL_1515: nop
+		IL_1516: newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::.ctor()
+		IL_151b: stloc.s 26
+		IL_151d: ldloc.s 26
+		IL_151f: ldc.i4.0
+		IL_1520: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1525: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_152a: nop
+		IL_152b: ldloc.s 26
+		IL_152d: ldc.i4.1
+		IL_152e: ldc.i4.4
+		IL_152f: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_1534: dup
+		IL_1535: ldloc.s 16
+		IL_1537: ldc.r4 3
+		IL_153c: ldc.r4 200
+		IL_1541: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_1546: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_154b: nop
+		IL_154c: dup
+		IL_154d: ldloc.s 19
+		IL_154f: ldc.r4 3
+		IL_1554: ldc.r4 200
+		IL_1559: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_155e: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_1563: nop
+		IL_1564: dup
+		IL_1565: ldloc.s 22
+		IL_1567: ldc.r4 3
+		IL_156c: ldc.r4 200
+		IL_1571: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_1576: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_157b: nop
+		IL_157c: dup
+		IL_157d: ldloc.s 25
+		IL_157f: ldc.r4 3
+		IL_1584: ldc.r4 200
+		IL_1589: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_158e: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_1593: nop
+		IL_1594: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1599: nop
+		IL_159a: ldloc.s 26
+		IL_159c: ldc.i4.2
+		IL_159d: ldc.i4.1
+		IL_159e: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_15a3: dup
+		IL_15a4: ldloc.s 13
+		IL_15a6: ldc.r4 10
+		IL_15ab: ldc.r4 300
+		IL_15b0: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_15b5: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_15ba: nop
+		IL_15bb: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_15c0: nop
+		IL_15c1: ldloc.s 26
+		IL_15c3: ldc.i4.3
+		IL_15c4: ldc.i4.1
+		IL_15c5: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_15ca: dup
+		IL_15cb: ldloc.s 6
+		IL_15cd: ldc.r4 10
+		IL_15d2: ldc.r4 300
+		IL_15d7: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_15dc: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_15e1: nop
+		IL_15e2: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_15e7: nop
+		IL_15e8: ldloc.s 26
+		IL_15ea: ldc.i4.4
+		IL_15eb: ldc.i4.1
+		IL_15ec: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_15f1: dup
+		IL_15f2: ldloc.s 10
+		IL_15f4: ldc.r4 10
+		IL_15f9: ldc.r4 300
+		IL_15fe: call class ['Assembly-CSharp']MGSC.ContentDropRecord ImperiumOfMan.Extensions::ToDropRecord(class ['Assembly-CSharp']MGSC.ItemRecord, float32, float32)
+		IL_1603: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_1608: nop
+		IL_1609: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_160e: nop
+		IL_160f: ldloc.s 26
+		IL_1611: ldc.i4.5
+		IL_1612: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1617: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_161c: nop
+		IL_161d: ldloc.s 26
+		IL_161f: ldc.i4.6
+		IL_1620: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1625: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_162a: nop
+		IL_162b: ldloc.s 26
+		IL_162d: ldc.i4.7
+		IL_162e: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1633: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1638: nop
+		IL_1639: ldloc.s 26
+		IL_163b: ldc.i4.8
+		IL_163c: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1641: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1646: nop
+		IL_1647: ldloc.s 26
+		IL_1649: ldc.i4.s 9
+		IL_164b: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1650: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1655: nop
+		IL_1656: ldloc.s 26
+		IL_1658: ldc.i4.s 10
+		IL_165a: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_165f: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1664: nop
+		IL_1665: call class ['Assembly-CSharp']MGSC.FactionDropCollection ['Assembly-CSharp']MGSC.Data::get_FactionDrop()
+		IL_166a: ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>> ['Assembly-CSharp']MGSC.FactionDropCollection::_recordsByFactions
+		IL_166f: ldstr "iom_faction_rewardEquipment"
+		IL_1674: ldloc.s 26
+		IL_1676: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>>::Add(!0, !1)
+		IL_167b: nop
+		IL_167c: newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::.ctor()
+		IL_1681: stloc.s 26
+		IL_1683: ldloc.s 26
+		IL_1685: ldc.i4.0
+		IL_1686: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_168b: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1690: nop
+		IL_1691: ldloc.s 26
+		IL_1693: ldc.i4.1
+		IL_1694: ldc.i4.1
+		IL_1695: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_169a: dup
+		IL_169b: newobj instance void ['Assembly-CSharp']MGSC.ContentDropRecord::.ctor()
+		IL_16a0: dup
+		IL_16a1: ldc.i4.1
+		IL_16a2: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_TechLevel(int32)
+		IL_16a7: nop
+		IL_16a8: dup
+		IL_16a9: ldc.i4.1
+		IL_16aa: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_16af: dup
+		IL_16b0: ldstr "itemChip"
+		IL_16b5: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_16ba: nop
+		IL_16bb: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_ContentIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_16c0: nop
+		IL_16c1: dup
+		IL_16c2: ldc.r4 1
+		IL_16c7: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Weight(float32)
+		IL_16cc: nop
+		IL_16cd: dup
+		IL_16ce: ldc.r4 100
+		IL_16d3: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Points(float32)
+		IL_16d8: nop
+		IL_16d9: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_16de: nop
+		IL_16df: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_16e4: nop
+		IL_16e5: ldloc.s 26
+		IL_16e7: ldc.i4.2
+		IL_16e8: ldc.i4.1
+		IL_16e9: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_16ee: dup
+		IL_16ef: newobj instance void ['Assembly-CSharp']MGSC.ContentDropRecord::.ctor()
+		IL_16f4: dup
+		IL_16f5: ldc.i4.2
+		IL_16f6: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_TechLevel(int32)
+		IL_16fb: nop
+		IL_16fc: dup
+		IL_16fd: ldc.i4.1
+		IL_16fe: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_1703: dup
+		IL_1704: ldstr "itemChip"
+		IL_1709: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_170e: nop
+		IL_170f: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_ContentIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_1714: nop
+		IL_1715: dup
+		IL_1716: ldc.r4 1
+		IL_171b: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Weight(float32)
+		IL_1720: nop
+		IL_1721: dup
+		IL_1722: ldc.r4 100
+		IL_1727: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Points(float32)
+		IL_172c: nop
+		IL_172d: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_1732: nop
+		IL_1733: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1738: nop
+		IL_1739: ldloc.s 26
+		IL_173b: ldc.i4.3
+		IL_173c: ldc.i4.1
+		IL_173d: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_1742: dup
+		IL_1743: newobj instance void ['Assembly-CSharp']MGSC.ContentDropRecord::.ctor()
+		IL_1748: dup
+		IL_1749: ldc.i4.3
+		IL_174a: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_TechLevel(int32)
+		IL_174f: nop
+		IL_1750: dup
+		IL_1751: ldc.i4.1
+		IL_1752: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_1757: dup
+		IL_1758: ldstr "itemChip"
+		IL_175d: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_1762: nop
+		IL_1763: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_ContentIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_1768: nop
+		IL_1769: dup
+		IL_176a: ldc.r4 1
+		IL_176f: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Weight(float32)
+		IL_1774: nop
+		IL_1775: dup
+		IL_1776: ldc.r4 100
+		IL_177b: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Points(float32)
+		IL_1780: nop
+		IL_1781: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_1786: nop
+		IL_1787: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_178c: nop
+		IL_178d: ldloc.s 26
+		IL_178f: ldc.i4.4
+		IL_1790: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1795: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_179a: nop
+		IL_179b: ldloc.s 26
+		IL_179d: ldc.i4.5
+		IL_179e: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_17a3: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_17a8: nop
+		IL_17a9: ldloc.s 26
+		IL_17ab: ldc.i4.6
+		IL_17ac: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_17b1: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_17b6: nop
+		IL_17b7: ldloc.s 26
+		IL_17b9: ldc.i4.7
+		IL_17ba: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_17bf: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_17c4: nop
+		IL_17c5: ldloc.s 26
+		IL_17c7: ldc.i4.8
+		IL_17c8: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_17cd: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_17d2: nop
+		IL_17d3: ldloc.s 26
+		IL_17d5: ldc.i4.s 9
+		IL_17d7: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_17dc: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_17e1: nop
+		IL_17e2: ldloc.s 26
+		IL_17e4: ldc.i4.s 10
+		IL_17e6: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_17eb: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_17f0: nop
+		IL_17f1: call class ['Assembly-CSharp']MGSC.FactionDropCollection ['Assembly-CSharp']MGSC.Data::get_FactionDrop()
+		IL_17f6: ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>> ['Assembly-CSharp']MGSC.FactionDropCollection::_recordsByFactions
+		IL_17fb: ldstr "iom_faction_rewardConsumables"
+		IL_1800: ldloc.s 26
+		IL_1802: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>>::Add(!0, !1)
+		IL_1807: nop
+		IL_1808: newobj instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::.ctor()
+		IL_180d: stloc.s 26
+		IL_180f: ldloc.s 26
+		IL_1811: ldc.i4.0
+		IL_1812: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1817: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_181c: nop
+		IL_181d: ldloc.s 26
+		IL_181f: ldc.i4.1
+		IL_1820: ldc.i4.1
+		IL_1821: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_1826: dup
+		IL_1827: newobj instance void ['Assembly-CSharp']MGSC.ContentDropRecord::.ctor()
+		IL_182c: dup
+		IL_182d: ldc.i4.1
+		IL_182e: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_TechLevel(int32)
+		IL_1833: nop
+		IL_1834: dup
+		IL_1835: ldc.i4.1
+		IL_1836: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_183b: dup
+		IL_183c: ldstr "rifle_basic_ammo"
+		IL_1841: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_1846: nop
+		IL_1847: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_ContentIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_184c: nop
+		IL_184d: dup
+		IL_184e: ldc.r4 4
+		IL_1853: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Weight(float32)
+		IL_1858: nop
+		IL_1859: dup
+		IL_185a: ldc.r4 200
+		IL_185f: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Points(float32)
+		IL_1864: nop
+		IL_1865: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_186a: nop
+		IL_186b: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1870: nop
+		IL_1871: ldloc.s 26
+		IL_1873: ldc.i4.2
+		IL_1874: ldc.i4.2
+		IL_1875: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor(int32)
+		IL_187a: dup
+		IL_187b: newobj instance void ['Assembly-CSharp']MGSC.ContentDropRecord::.ctor()
+		IL_1880: dup
+		IL_1881: ldc.i4.1
+		IL_1882: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_1887: dup
+		IL_1888: ldstr "rifle_armorpierce_ammo"
+		IL_188d: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_1892: nop
+		IL_1893: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_ContentIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_1898: nop
+		IL_1899: dup
+		IL_189a: ldc.r4 5
+		IL_189f: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Weight(float32)
+		IL_18a4: nop
+		IL_18a5: dup
+		IL_18a6: ldc.r4 150
+		IL_18ab: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Points(float32)
+		IL_18b0: nop
+		IL_18b1: dup
+		IL_18b2: ldc.i4.2
+		IL_18b3: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_TechLevel(int32)
+		IL_18b8: nop
+		IL_18b9: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_18be: nop
+		IL_18bf: dup
+		IL_18c0: newobj instance void ['Assembly-CSharp']MGSC.ContentDropRecord::.ctor()
+		IL_18c5: dup
+		IL_18c6: ldc.i4.1
+		IL_18c7: newobj instance void class [mscorlib]System.Collections.Generic.List`1<string>::.ctor(int32)
+		IL_18cc: dup
+		IL_18cd: ldstr "battery_basic_ammo"
+		IL_18d2: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<string>::Add(!0)
+		IL_18d7: nop
+		IL_18d8: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_ContentIds(class [mscorlib]System.Collections.Generic.List`1<string>)
+		IL_18dd: nop
+		IL_18de: dup
+		IL_18df: ldc.r4 3
+		IL_18e4: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Weight(float32)
+		IL_18e9: nop
+		IL_18ea: dup
+		IL_18eb: ldc.r4 100
+		IL_18f0: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_Points(float32)
+		IL_18f5: nop
+		IL_18f6: dup
+		IL_18f7: ldc.i4.2
+		IL_18f8: callvirt instance void ['Assembly-CSharp']MGSC.ContentDropRecord::set_TechLevel(int32)
+		IL_18fd: nop
+		IL_18fe: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::Add(!0)
+		IL_1903: nop
+		IL_1904: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1909: nop
+		IL_190a: ldloc.s 26
+		IL_190c: ldc.i4.3
+		IL_190d: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1912: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1917: nop
+		IL_1918: ldloc.s 26
+		IL_191a: ldc.i4.4
+		IL_191b: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1920: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1925: nop
+		IL_1926: ldloc.s 26
+		IL_1928: ldc.i4.5
+		IL_1929: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_192e: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1933: nop
+		IL_1934: ldloc.s 26
+		IL_1936: ldc.i4.6
+		IL_1937: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_193c: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_1941: nop
+		IL_1942: ldloc.s 26
+		IL_1944: ldc.i4.7
+		IL_1945: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_194a: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_194f: nop
+		IL_1950: ldloc.s 26
+		IL_1952: ldc.i4.8
+		IL_1953: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1958: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_195d: nop
+		IL_195e: ldloc.s 26
+		IL_1960: ldc.i4.s 9
+		IL_1962: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1967: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_196c: nop
+		IL_196d: ldloc.s 26
+		IL_196f: ldc.i4.s 10
+		IL_1971: newobj instance void class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>::.ctor()
+		IL_1976: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>::Add(!0, !1)
+		IL_197b: nop
+		IL_197c: call class ['Assembly-CSharp']MGSC.FactionDropCollection ['Assembly-CSharp']MGSC.Data::get_FactionDrop()
+		IL_1981: ldfld class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>> ['Assembly-CSharp']MGSC.FactionDropCollection::_recordsByFactions
+		IL_1986: ldstr "iom_faction_rewardChips"
+		IL_198b: ldloc.s 26
+		IL_198d: callvirt instance void class [mscorlib]System.Collections.Generic.Dictionary`2<string, class [mscorlib]System.Collections.Generic.Dictionary`2<int32, class [mscorlib]System.Collections.Generic.List`1<class ['Assembly-CSharp']MGSC.ContentDropRecord>>>::Add(!0, !1)
+		IL_1992: nop
+		IL_1993: ret
+	} // end of method Plugin::AfterBootstrap
