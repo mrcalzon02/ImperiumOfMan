@@ -422,14 +422,12 @@ package/ImperiumOfMan
 
 A local test copy should contain the manifest, compiled DLL, rebuilt asset bundle, and thumbnail directly inside one mod folder. It can be installed without first publishing to Steam Workshop.
 
-Example destination:
+After some basic testing I have discovered the local mod loading does not appear to in fact actually function, Therefore you must create a placeholder Steam mod to then overwrite locally for local testing using update mod system to confirm steam updates.
+Most in depth mod system information is here, https://steamcommunity.com/sharedfiles/filedetails/?id=3281671312
 
-```text
-C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan
-```
-
-Do not copy the entire Unity or GitHub project into the Quasimorph `Mods` directory. Only the built runtime package belongs there.
-
+The most important update cycle commands are here.
+<img width="730" height="366" alt="image" src="https://github.com/user-attachments/assets/50fda0db-2c47-4ea8-9199-900c73108346" />
+Seeing as Steam is notoriously fickle it actually updating mod content on a local machine overriding local mods for testing purposes seems like the most productive way forward which is counterproductive to development purposes slowing this entire process now because now I need to overwrite my local Steam mod cache with whatever testing version I'm using *manhually* Or create bespoke packaging instructions to do so.
 ### Required legacy-conflict test
 
 Before ordinary gameplay testing, perform these controlled tests with a disposable save:
