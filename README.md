@@ -420,7 +420,7 @@ The repository contains a staged runtime package under:
 package/ImperiumOfMan
 ```
 
-A local test copy should contain the manifest, compiled DLL, rebuilt asset bundle, and thumbnail directly inside one mod folder. It can be installed without first publishing to Steam Workshop.
+A local test copy should contain the manifest, compiled DLL, rebuilt asset bundle, and thumbnail directly inside one mod folder. It cannot be installed without first publishing to Steam Workshop. Public information to the contrary has proved false.
 
 After some basic testing I have discovered the local mod loading does not appear to in fact actually function, Therefore you must create a placeholder Steam mod to then overwrite locally for local testing using update mod system to confirm steam updates.
 Most in depth mod system information is here, https://steamcommunity.com/sharedfiles/filedetails/?id=3281671312
