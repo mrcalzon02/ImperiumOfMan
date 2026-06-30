@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using HarmonyLib;
 using MGSC;
@@ -55,7 +55,6 @@ namespace ImperiumOfMan
                 FactionType = FactionType.Corp,
                 AllianceType = "iom_alliance",
                 SpawnMissionChance = 0.1f,
-                Strategies = [ new(1f, FactionStrategy.Expansion) ],
                 StrategyDurationMinHours = 672,
                 StrategyDurationMaxHours = 1344,
                 GuardCreatureId = "elite_sbn",
