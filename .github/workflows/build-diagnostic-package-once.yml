@@ -1,0 +1,102 @@
+name: Build Diagnostic Package Once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/build-diagnostic-package-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Build reflection-only diagnostics DLL
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/iom-diagnostics
+          mkdir -p /tmp/iom-diagnostics
+          cp diagnostics/StationProbe.cs /tmp/iom-diagnostics/
+
+          cat > /tmp/iom-diagnostics/ImperiumReforged.Diagnostics.csproj <<'EOF'
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup>
+              <TargetFramework>netstandard2.0</TargetFramework>
+              <AssemblyName>ImperiumReforged.Diagnostics</AssemblyName>
+              <LangVersion>latest</LangVersion>
+              <Deterministic>true</Deterministic>
+            </PropertyGroup>
+          </Project>
+          EOF
+
+          dotnet build /tmp/iom-diagnostics/ImperiumReforged.Diagnostics.csproj -c Release
+          cp /tmp/iom-diagnostics/bin/Release/netstandard2.0/ImperiumReforged.Diagnostics.dll package/ImperiumOfMan/
+
+      - name: Add diagnostics assembly to manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq '.Assemblies |= (if index("ImperiumReforged.Diagnostics.dll") then . else . + ["ImperiumReforged.Diagnostics.dll"] end)' \
+            modmanifest.json > modmanifest.json.tmp
+          mv modmanifest.json.tmp modmanifest.json
+          cp modmanifest.json package/ImperiumOfMan/modmanifest.json
+
+          cat > package/ImperiumOfMan/STATION_DIAGNOSTICS.txt <<'EOF'
+          This test package contains a standalone reflection-only station diagnostic probe.
+
+          Reports are written to the ImperiumReforgedDiagnostics directory inside the installed Workshop item.
+          Reports are created when game data becomes available, when the active scene changes, after 30 and 120 seconds,
+          and whenever an empty REQUEST_DUMP.txt file is placed in that diagnostics directory.
+          EOF
+
+      - name: Commit completed runtime package
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add diagnostics/StationProbe.cs modmanifest.json package/ImperiumOfMan
+          git commit -m "Embed standalone station diagnostics into runtime package"
+          git push origin HEAD:main
+
+      - name: Publish diagnostic prerelease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PACKAGE_COMMIT=$(git rev-parse HEAD)
+
+          (
+            cd package
+            zip -r -9 ../ImperiumReforged-station-diagnostics.zip ImperiumOfMan
+          )
+
+          NOTES=$(cat <<EOF
+          Station diagnostic package built entirely from files available in this repository.
+
+          The existing working ImperiumOfMan.dll is preserved. A standalone reflection-only ImperiumReforged.Diagnostics.dll is added through modmanifest.json and starts through its module initializer when Quasimorph loads the assembly.
+
+          Reports are written beneath the installed Workshop item in ImperiumReforgedDiagnostics.
+
+          Package commit: $PACKAGE_COMMIT
+          EOF
+          )
+
+          if gh release view live-test-latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload live-test-latest ImperiumReforged-station-diagnostics.zip --repo "$GITHUB_REPOSITORY" --clobber
+            gh release edit live-test-latest --repo "$GITHUB_REPOSITORY" --target "$PACKAGE_COMMIT" \
+              --title "Imperium Reforged Station Diagnostics" --notes "$NOTES" --prerelease
+          else
+            gh release create live-test-latest ImperiumReforged-station-diagnostics.zip --repo "$GITHUB_REPOSITORY" \
+              --target "$PACKAGE_COMMIT" --title "Imperium Reforged Station Diagnostics" --notes "$NOTES" --prerelease
+          fi
