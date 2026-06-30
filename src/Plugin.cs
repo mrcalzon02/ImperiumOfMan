@@ -55,8 +55,6 @@ namespace ImperiumOfMan
                 FactionType = FactionType.Corp,
                 AllianceType = "iom_alliance",
                 SpawnMissionChance = 0.1f,
-                StrategyDurationMinHours = 672,
-                StrategyDurationMaxHours = 1344,
                 GuardCreatureId = "elite_sbn",
                 AgentCreatureId = "civilian",
                 MinQmorphosWhenVictims = 0,
