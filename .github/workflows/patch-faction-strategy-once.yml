@@ -1,0 +1,118 @@
+name: Patch Obsolete FactionStrategy Once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/patch-faction-strategy-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Create Cecil patcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/iom-patcher
+          dotnet new console -n IomPatcher -o /tmp/iom-patcher --framework net8.0
+          dotnet add /tmp/iom-patcher/IomPatcher.csproj package Mono.Cecil --version 0.11.5
+          cat > /tmp/iom-patcher/Program.cs <<'EOF'
+          using Mono.Cecil;
+          using Mono.Cecil.Cil;
+
+          string path = args[0];
+          using AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(path);
+          TypeDefinition plugin = assembly.MainModule.Types.Single(t => t.FullName == "ImperiumOfMan.Plugin");
+          MethodDefinition method = plugin.Methods.Single(m => m.Name == "AfterBootstrap" && m.Parameters.Count == 1);
+
+          bool ReferencesStrategy(Instruction instruction)
+          {
+              string text = instruction.Operand?.ToString() ?? string.Empty;
+              return text.Contains("MGSC.FactionStrategy", StringComparison.Ordinal) ||
+                     text.Contains("set_Strategies", StringComparison.Ordinal);
+          }
+
+          List<Instruction> references = method.Body.Instructions.Where(ReferencesStrategy).ToList();
+          if (references.Count == 0)
+          {
+              Console.WriteLine("No FactionStrategy instructions remain; nothing to patch.");
+              return;
+          }
+
+          Instruction start = references.First();
+          if (start.Previous?.OpCode == OpCodes.Dup)
+              start = start.Previous;
+
+          Instruction end = references.Last();
+          if (end.Next?.OpCode == OpCodes.Nop)
+              end = end.Next;
+
+          List<Instruction> remove = new();
+          for (Instruction current = start; current != null; current = current.Next)
+          {
+              remove.Add(current);
+              if (current == end) break;
+          }
+
+          ILProcessor il = method.Body.GetILProcessor();
+          foreach (Instruction instruction in remove)
+              il.Remove(instruction);
+
+          if (method.Body.Instructions.Any(ReferencesStrategy))
+              throw new InvalidOperationException("FactionStrategy references remain after patch.");
+
+          string output = path + ".patched";
+          assembly.Write(output);
+          File.Move(output, path, true);
+          Console.WriteLine($"Removed {remove.Count} obsolete strategy instructions from Plugin.AfterBootstrap.");
+          EOF
+
+      - name: Patch packaged DLL and source
+        shell: bash
+        run: |
+          set -euo pipefail
+          dotnet run --project /tmp/iom-patcher/IomPatcher.csproj -- package/ImperiumOfMan/ImperiumOfMan.dll
+          rm -f package/ImperiumOfMan/ImperiumOfMan.pdb
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('src/Plugin.cs')
+          text = path.read_text(encoding='utf-8-sig')
+          text = '\n'.join(line for line in text.splitlines() if 'Strategies = [ new(1f, FactionStrategy.Expansion) ]' not in line) + '\n'
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit patched runtime package
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/Plugin.cs package/ImperiumOfMan/ImperiumOfMan.dll package/ImperiumOfMan/ImperiumOfMan.pdb
+          git commit -m "Remove obsolete FactionStrategy startup blocker"
+          git push origin HEAD:main
+
+      - name: Publish compatibility prerelease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="station-compatibility-v1"
+          COMMIT=$(git rev-parse HEAD)
+          (cd package && zip -r -9 ../ImperiumReforged-station-compatibility-v1.zip ImperiumOfMan)
+          gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true
+          gh release create "$TAG" ImperiumReforged-station-compatibility-v1.zip \
+            --repo "$GITHUB_REPOSITORY" --target "$COMMIT" \
+            --title "Imperium Reforged Station Compatibility v1" \
+            --notes "Removes the obsolete MGSC.FactionStrategy assignment that prevented Plugin.AfterBootstrap from running. Includes the standalone station diagnostics assembly." \
+            --prerelease
