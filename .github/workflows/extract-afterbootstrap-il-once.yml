@@ -1,0 +1,49 @@
+name: Extract AfterBootstrap IL Once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/extract-afterbootstrap-il-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  extract-il:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Install ILSpy command line
+        shell: bash
+        run: |
+          set -euo pipefail
+          dotnet tool install --tool-path .tools ilspycmd
+
+      - name: Extract packaged assembly IL
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p diagnostics
+          .tools/ilspycmd -il package/ImperiumOfMan/ImperiumOfMan.dll > diagnostics/ImperiumOfMan.full.il.txt
+          awk '
+            /AfterBootstrap/ { capture=1 }
+            capture { print }
+            capture && /^\s*}\s*\/\/ end of method Plugin::AfterBootstrap/ { exit }
+          ' diagnostics/ImperiumOfMan.full.il.txt > diagnostics/AfterBootstrap.il.txt
+          test -s diagnostics/AfterBootstrap.il.txt
+
+      - name: Commit extracted IL
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add diagnostics/AfterBootstrap.il.txt
+          git commit -m "Record packaged AfterBootstrap IL for compatibility repair"
+          git push origin HEAD:main
