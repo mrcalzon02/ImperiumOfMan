@@ -22,7 +22,7 @@ jobs:
       - name: Check out main
         uses: actions/checkout@v4
 
-      - name: Assemble complete Windows live-test package
+      - name: Assemble complete Workshop staging package
         shell: bash
         run: |
           set -euo pipefail
@@ -36,7 +36,7 @@ jobs:
           mkdir -p release-dist/package /tmp/lib-harmony
           cp -a package/ImperiumOfMan/. release-dist/package/
 
-          echo "Downloading the runtime Harmony dependency required by the project deployment configuration."
+          echo "Downloading the Harmony runtime dependency used by this project."
           curl --fail --location --retry 3 \
             "https://www.nuget.org/api/v2/package/Lib.Harmony/2.3.3" \
             --output /tmp/lib-harmony.nupkg
@@ -80,24 +80,39 @@ jobs:
                   raise RuntimeError(f"thumbnail conversion failed: detected {image.format}")
           PY
 
-          cat > release-dist/package/INSTALL_LOCAL.txt <<'EOF'
-          ImperiumOfMan local live-test installation
+          cat > release-dist/package/STEAM_TESTING.txt <<'EOF'
+          ImperiumOfMan private Steam Workshop testing
 
-          1. Close Quasimorph completely.
-          2. Disable or unsubscribe from the discontinued andre_ImperiumOfMan package.
-          3. Remove every old ImperiumOfMan test folder and ZIP from the Quasimorph Mods directory.
-          4. Back up any existing folder at:
-             C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan
-          5. Put the newly downloaded ImperiumOfMan.zip inside:
-             C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods
-          6. Use Windows Extract All on ImperiumOfMan.zip.
-          7. Leave exactly one installed copy. Confirm these files exist directly inside Mods\ImperiumOfMan:
+          IMPORTANT:
+          Quasimorph code mods are registered through Steam Workshop. Copying this folder into
+          C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods does not register this DLL mod.
+
+          FIRST TEST ITEM
+
+          1. Close Quasimorph and remove previous loose ImperiumOfMan test folders from the game Mods directory.
+          2. Extract this package to a simple staging path with no spaces, for example:
+             C:\QuasimorphModTest\ImperiumOfMan
+          3. Confirm the staging folder directly contains:
              modmanifest.json
              ImperiumOfMan.dll
              0Harmony.dll
              imperiumofman.bundle
              thumbnail.png
-          8. Start Quasimorph with a backed-up or disposable save and review the log.
+          4. Start Quasimorph with the Official Developer Console Mod enabled.
+          5. Open the developer console and run:
+             mod_createworkshopitem C:\QuasimorphModTest\ImperiumOfMan
+          6. Record the Workshop item ID printed by the game.
+          7. Open that new Workshop item in Steam and subscribe to it.
+          8. Restart Steam and Quasimorph.
+          9. Run listmod in the developer console and confirm Cvar_ImperiumOfMan appears.
+
+          LATER UPDATES
+
+          Replace <ITEM_ID> with the ID created above, then run:
+             mod_updateworkshopitem <ITEM_ID> C:\QuasimorphModTest\ImperiumOfMan TRUE
+
+          Restart Steam and Quasimorph after each update. Keep the item non-public while it is under live testing.
+          Disable or unsubscribe from the discontinued andre_ImperiumOfMan item during ordinary tests.
           EOF
 
           (
@@ -110,12 +125,12 @@ jobs:
               thumbnail.png \
               > PACKAGE_CONTENTS_SHA256.txt
 
-            zip -r -9 ../ImperiumOfMan.zip .
+            zip -r -9 ../ImperiumOfMan-Workshop-Staging.zip .
           )
 
           (
             cd release-dist
-            sha256sum ImperiumOfMan.zip > SHA256SUMS.txt
+            sha256sum ImperiumOfMan-Workshop-Staging.zip > SHA256SUMS.txt
           )
 
       - name: Create or update GitHub prerelease
@@ -126,17 +141,17 @@ jobs:
           set -euo pipefail
 
           NOTES=$(cat <<EOF
-          Development prerelease for direct local Quasimorph testing.
+          Development package for private Steam Workshop testing.
 
-          This package now includes the required 0Harmony.dll runtime dependency and a genuine PNG thumbnail. Download ImperiumOfMan.zip, remove all previous test copies, and extract it inside:
+          Quasimorph did not discover the DLL mod from the local game Mods folder. Extract ImperiumOfMan-Workshop-Staging.zip to a separate staging directory such as:
 
-          C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods
+          C:\QuasimorphModTest\ImperiumOfMan
 
-          The final installation must contain exactly one copy at:
+          Then use the Official Developer Console Mod command:
 
-          C:\Program Files (x86)\Steam\steamapps\common\Quasimorph\Mods\ImperiumOfMan\modmanifest.json
+          mod_createworkshopitem C:\QuasimorphModTest\ImperiumOfMan
 
-          Disable the discontinued andre_ImperiumOfMan package and back up valuable saves before testing.
+          Subscribe to the newly created Workshop item and restart Steam and Quasimorph. Read STEAM_TESTING.txt inside the archive before proceeding.
 
           Source commit: $GITHUB_SHA
           EOF
@@ -145,26 +160,27 @@ jobs:
           if gh release view live-test-latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release delete-asset live-test-latest ImperiumOfMan-live-test.zip --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
             gh release delete-asset live-test-latest ImperiumOfMan.zip --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
+            gh release delete-asset live-test-latest ImperiumOfMan-Workshop-Staging.zip --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
             gh release delete-asset live-test-latest SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --yes >/dev/null 2>&1 || true
 
             gh release upload live-test-latest \
-              release-dist/ImperiumOfMan.zip \
+              release-dist/ImperiumOfMan-Workshop-Staging.zip \
               release-dist/SHA256SUMS.txt \
               --repo "$GITHUB_REPOSITORY"
 
             gh release edit live-test-latest \
               --repo "$GITHUB_REPOSITORY" \
               --target "$GITHUB_SHA" \
-              --title "ImperiumOfMan Live Test" \
+              --title "ImperiumOfMan Workshop Test Package" \
               --notes "$NOTES" \
               --prerelease
           else
             gh release create live-test-latest \
-              release-dist/ImperiumOfMan.zip \
+              release-dist/ImperiumOfMan-Workshop-Staging.zip \
               release-dist/SHA256SUMS.txt \
               --repo "$GITHUB_REPOSITORY" \
               --target "$GITHUB_SHA" \
-              --title "ImperiumOfMan Live Test" \
+              --title "ImperiumOfMan Workshop Test Package" \
               --notes "$NOTES" \
               --prerelease
           fi
