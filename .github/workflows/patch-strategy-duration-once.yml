@@ -1,0 +1,120 @@
+name: Patch Obsolete Strategy Durations Once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/patch-strategy-duration-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Create Cecil patcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/iom-duration-patcher
+          dotnet new console -n IomDurationPatcher -o /tmp/iom-duration-patcher --framework net8.0
+          dotnet add /tmp/iom-duration-patcher/IomDurationPatcher.csproj package Mono.Cecil --version 0.11.5
+
+          cat > /tmp/iom-duration-patcher/Program.cs <<'EOF'
+          using Mono.Cecil;
+          using Mono.Cecil.Cil;
+
+          string path = args[0];
+          using AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(path);
+          TypeDefinition plugin = assembly.MainModule.Types.Single(type => type.FullName == "ImperiumOfMan.Plugin");
+          MethodDefinition method = plugin.Methods.Single(candidate => candidate.Name == "AfterBootstrap" && candidate.Parameters.Count == 1);
+          ILProcessor il = method.Body.GetILProcessor();
+
+          string[] obsoleteSetters =
+          {
+              "MGSC.FactionRecord::set_StrategyDurationMinHours",
+              "MGSC.FactionRecord::set_StrategyDurationMaxHours"
+          };
+
+          int removedBlocks = 0;
+          foreach (string setter in obsoleteSetters)
+          {
+              Instruction call = method.Body.Instructions.FirstOrDefault(instruction =>
+                  instruction.Operand?.ToString()?.Contains(setter, StringComparison.Ordinal) == true);
+
+              if (call == null)
+              {
+                  Console.WriteLine($"{setter} already absent.");
+                  continue;
+              }
+
+              Instruction value = call.Previous ?? throw new InvalidOperationException($"Missing value instruction before {setter}.");
+              Instruction dup = value.Previous ?? throw new InvalidOperationException($"Missing dup instruction before {setter}.");
+              Instruction after = call.Next;
+
+              if (dup.OpCode != OpCodes.Dup)
+                  throw new InvalidOperationException($"Unexpected IL before {setter}: expected dup, found {dup.OpCode}.");
+
+              il.Remove(dup);
+              il.Remove(value);
+              il.Remove(call);
+              if (after != null && after.OpCode == OpCodes.Nop)
+                  il.Remove(after);
+
+              removedBlocks++;
+          }
+
+          foreach (string setter in obsoleteSetters)
+          {
+              if (method.Body.Instructions.Any(instruction =>
+                  instruction.Operand?.ToString()?.Contains(setter, StringComparison.Ordinal) == true))
+                  throw new InvalidOperationException($"Obsolete setter remains after patch: {setter}");
+          }
+
+          string output = path + ".patched";
+          assembly.Write(output);
+          File.Move(output, path, true);
+          Console.WriteLine($"Removed {removedBlocks} obsolete strategy-duration blocks.");
+          EOF
+
+      - name: Patch packaged DLL and source
+        shell: bash
+        run: |
+          set -euo pipefail
+          dotnet run --project /tmp/iom-duration-patcher/IomDurationPatcher.csproj -- package/ImperiumOfMan/ImperiumOfMan.dll
+          rm -f package/ImperiumOfMan/ImperiumOfMan.pdb
+          sed -i '/StrategyDurationMinHours = 672,/d' src/Plugin.cs
+          sed -i '/StrategyDurationMaxHours = 1344,/d' src/Plugin.cs
+
+      - name: Commit repaired package
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/Plugin.cs package/ImperiumOfMan/ImperiumOfMan.dll package/ImperiumOfMan/ImperiumOfMan.pdb
+          git commit -m "Remove obsolete faction strategy duration setters"
+          git push origin HEAD:main
+
+      - name: Publish compatibility v2 prerelease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="station-compatibility-v2"
+          COMMIT=$(git rev-parse HEAD)
+          (cd package && zip -r -9 ../ImperiumReforged-station-compatibility-v2.zip ImperiumOfMan)
+          gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true
+          gh release create "$TAG" ImperiumReforged-station-compatibility-v2.zip \
+            --repo "$GITHUB_REPOSITORY" --target "$COMMIT" \
+            --title "Imperium Reforged Station Compatibility v2" \
+            --notes "Removes obsolete FactionStrategy and StrategyDurationMinHours/StrategyDurationMaxHours calls from the packaged plugin. Includes station diagnostics." \
+            --prerelease
