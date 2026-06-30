@@ -1,0 +1,53 @@
+name: Publish Station Diagnostics Release Once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/publish-diagnostic-release-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Verify built diagnostic package
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f package/ImperiumOfMan/ImperiumOfMan.dll
+          test -f package/ImperiumOfMan/ImperiumReforged.Diagnostics.dll
+          test -f package/ImperiumOfMan/modmanifest.json
+          grep -q 'ImperiumReforged.Diagnostics.dll' package/ImperiumOfMan/modmanifest.json
+
+      - name: Publish fresh diagnostic prerelease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="station-diagnostics-v1"
+          COMMIT=$(git rev-parse HEAD)
+
+          (
+            cd package
+            zip -r -9 ../ImperiumReforged-station-diagnostics.zip ImperiumOfMan
+          )
+
+          gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true
+
+          gh release create "$TAG" \
+            ImperiumReforged-station-diagnostics.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$COMMIT" \
+            --title "Imperium Reforged Station Diagnostics" \
+            --notes "Built diagnostic package containing ImperiumReforged.Diagnostics.dll and the updated runtime manifest. Reports are written under the installed Workshop item's ImperiumReforgedDiagnostics directory." \
+            --prerelease
