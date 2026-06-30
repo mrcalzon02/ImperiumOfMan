@@ -5,11 +5,12 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
+
     <PropertyGroup>
         <GAME_NAME>Quasimorph</GAME_NAME>
-        <!-- Maintained fork private/live-test Workshop item. -->
         <SteamId>3754620214</SteamId>
     </PropertyGroup>
+
     <PropertyGroup>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App $(GAME_STEAM_ID)', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GAME_PATH>
         <_SteamLibraryPath>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
@@ -18,16 +19,27 @@
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">C:\Program Files (x86)\Steam\steamapps\common\$(GAME_NAME)</GAME_PATH>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">C:\SteamLibrary\steamapps\common\$(GAME_NAME)</GAME_PATH>
     </PropertyGroup>
-    <PropertyGroup>
-        <WorkshopPath>$(GAME_PATH)\..\..\workshop\content\2059170\$(SteamId)\</WorkshopPath>
-        <ManagedPath>$(GAME_PATH)\$(GAME_NAME)_Data\Managed\</ManagedPath>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Remove="Move To Root\**"/>
-        <EmbeddedResource Remove="Move To Root\**"/>
-        <None Remove="Move To Root\**"/>
-    </ItemGroup>
 
+    <PropertyGroup>
+        <RepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</RepositoryRoot>
+        <ManagedPath>$(GAME_PATH)\$(GAME_NAME)_Data\Managed\</ManagedPath>
+        <WorkshopPath>$(GAME_PATH)\..\..\workshop\content\2059170\$(SteamId)\</WorkshopPath>
+
+        <!-- Single authoritative inputs already present at repository root. -->
+        <ModManifestSource>$(RepositoryRoot)\modmanifest.json</ModManifestSource>
+        <AssetBundleSource>$(RepositoryRoot)\imperiumofman.bundle</AssetBundleSource>
+        <AssetBundleManifestSource>$(RepositoryRoot)\imperiumofman.bundle.manifest</AssetBundleManifestSource>
+        <ThumbnailSource>$(RepositoryRoot)\media\thumbnail.png</ThumbnailSource>
+
+        <!-- Generated runtime/Workshop output. Do not hand-maintain separate definitions here. -->
+        <RuntimePackagePath>$(RepositoryRoot)\package\ImperiumOfMan\</RuntimePackagePath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="Move To Root\**" />
+        <EmbeddedResource Remove="Move To Root\**" />
+        <None Remove="Move To Root\**" />
+    </ItemGroup>
 
     <ItemGroup>
         <Reference Include="Assembly-CSharp" publicize="true">
@@ -60,26 +72,50 @@
             <Private>False</Private>
         </Reference>
     </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Lib.harmony" Version="2.3.3"/>
-        <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
+        <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     </ItemGroup>
+
     <PropertyGroup>
         <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
-        <PackageFolder>$(ProjectDir)../package/</PackageFolder>
-
     </PropertyGroup>
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="@echo off&#xD;&#xA;set deployDir=&quot;$(WorkshopPath)&quot;&#xD;&#xA;&#xD;&#xA;xcopy /f /y &quot;../modmanifest.json&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;&#xD;&#xA;if '$(SteamId)'=='' (echo SteamId in project not set.  Aborting Workshop Deployment &amp;&amp; exit)&#xD;&#xA;echo deploying to %25deployDir%25&#xD;&#xA;&#xD;&#xA;mkdir &quot;$(WorkshopPath)&quot;&#xD;&#xA;&#xD;&#xA;xcopy /f /y &quot;$(ProjectDir)../media/thumbnail.png&quot; %25deployDir%25&#xD;&#xA;xcopy /f /y &quot;$(ProjectDir)../modmanifest.json&quot; %25deployDir%25&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;xcopy /f /y   &quot;$(TargetDir)$(TargetName).*&quot; %25deployDir%25&#xD;&#xA;xcopy /f /y   &quot;$(TargetDir)0Harmony.dll&quot; %25deployDir%25&#xD;&#xA;&#xD;&#xA;xcopy /f /y &quot;$(ProjectDir)..\ImperiumOfMan.bundle&quot; &quot;%25deployDir%25\&quot;&#xD;&#xA;"/>
-        <ItemGroup>
-            <WorkshopSourceFile Include="$(WorkshopPath)*.*"/>
-            <PackageRemoveFiles Include="$(PackageFolder)$(TargetName)/*.pdb"/>
-        </ItemGroup>
+
+    <Target Name="AssembleRuntimePackage" AfterTargets="Build">
+        <Error Condition="!Exists('$(ModManifestSource)')" Text="Missing authoritative Quasimorph manifest: $(ModManifestSource)" />
+        <Error Condition="!Exists('$(AssetBundleSource)')" Text="Missing existing Unity content bundle: $(AssetBundleSource)" />
+        <Error Condition="!Exists('$(ThumbnailSource)')" Text="Missing Workshop thumbnail source: $(ThumbnailSource)" />
+
+        <MakeDir Directories="$(RuntimePackagePath)" />
+
+        <!-- The root modmanifest.json is the only editable Quasimorph manifest. -->
+        <Copy SourceFiles="$(ModManifestSource)" DestinationFiles="$(RuntimePackagePath)modmanifest.json" SkipUnchangedFiles="true" />
+
+        <!-- Use the existing Unity-built bundle; do not synthesize or rename another source bundle. -->
+        <Copy SourceFiles="$(AssetBundleSource)" DestinationFiles="$(RuntimePackagePath)imperiumofman.bundle" SkipUnchangedFiles="true" />
+
+        <!-- Build output and runtime dependency. -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(RuntimePackagePath)ImperiumOfMan.dll" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="$(TargetDir)0Harmony.dll" DestinationFiles="$(RuntimePackagePath)0Harmony.dll" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)0Harmony.dll')" />
+        <Copy SourceFiles="$(ThumbnailSource)" DestinationFiles="$(RuntimePackagePath)thumbnail.png" SkipUnchangedFiles="true" />
+
+        <Message Importance="high" Text="Runtime package assembled from existing repository sources at $(RuntimePackagePath)" />
     </Target>
+
+    <Target Name="DeployWorkshopPackage" AfterTargets="AssembleRuntimePackage" Condition="'$(SteamId)' != ''">
+        <MakeDir Directories="$(WorkshopPath)" />
+        <ItemGroup>
+            <RuntimePackageFiles Include="$(RuntimePackagePath)*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(RuntimePackageFiles)" DestinationFolder="$(WorkshopPath)" SkipUnchangedFiles="true" />
+        <Message Importance="high" Text="Runtime package deployed to Workshop item $(SteamId): $(WorkshopPath)" />
+    </Target>
+
     <ItemGroup>
         <Reference Update="System">
             <Private>False</Private>
