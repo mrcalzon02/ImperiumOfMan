@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
         <OutputType>Library</OutputType>
@@ -8,11 +8,12 @@
 
     <PropertyGroup>
         <GAME_NAME>Quasimorph</GAME_NAME>
-        <SteamId>3754620214</SteamId>
+        <GameSteamAppId Condition="'$(GameSteamAppId)' == ''">2059170</GameSteamAppId>
+        <WorkshopItemId Condition="'$(WorkshopItemId)' == ''">3754620214</WorkshopItemId>
     </PropertyGroup>
 
     <PropertyGroup>
-        <GAME_PATH Condition="!Exists('$(GAME_PATH)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App $(GAME_STEAM_ID)', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GAME_PATH>
+        <GAME_PATH Condition="!Exists('$(GAME_PATH)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App $(GameSteamAppId)', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GAME_PATH>
         <_SteamLibraryPath>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)') AND '$(_SteamLibraryPath)' != ''">$(_SteamLibraryPath)\steamapps\common\$(GAME_NAME)</GAME_PATH>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">C:\Program Files\Steam\steamapps\common\$(GAME_NAME)</GAME_PATH>
@@ -23,7 +24,7 @@
     <PropertyGroup>
         <RepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</RepositoryRoot>
         <ManagedPath>$(GAME_PATH)\$(GAME_NAME)_Data\Managed\</ManagedPath>
-        <WorkshopPath>$(GAME_PATH)\..\..\workshop\content\2059170\$(SteamId)\</WorkshopPath>
+        <WorkshopPath>$(GAME_PATH)\..\..\workshop\content\$(GameSteamAppId)\$(WorkshopItemId)\</WorkshopPath>
 
         <!-- Single authoritative inputs already present at repository root. -->
         <ModManifestSource>$(RepositoryRoot)\modmanifest.json</ModManifestSource>
@@ -91,6 +92,8 @@
         <Error Condition="!Exists('$(AssetBundleSource)')" Text="Missing existing Unity content bundle: $(AssetBundleSource)" />
         <Error Condition="!Exists('$(ThumbnailSource)')" Text="Missing Workshop thumbnail source: $(ThumbnailSource)" />
 
+        <!-- RuntimePackagePath is generated output. Recreate it so stale diagnostic or test files cannot ship. -->
+        <RemoveDir Directories="$(RuntimePackagePath)" Condition="Exists('$(RuntimePackagePath)')" />
         <MakeDir Directories="$(RuntimePackagePath)" />
 
         <!-- The root modmanifest.json is the only editable Quasimorph manifest. -->
@@ -107,13 +110,13 @@
         <Message Importance="high" Text="Runtime package assembled from existing repository sources at $(RuntimePackagePath)" />
     </Target>
 
-    <Target Name="DeployWorkshopPackage" AfterTargets="AssembleRuntimePackage" Condition="'$(SteamId)' != ''">
+    <Target Name="DeployWorkshopPackage" AfterTargets="AssembleRuntimePackage" Condition="'$(WorkshopItemId)' != ''">
         <MakeDir Directories="$(WorkshopPath)" />
         <ItemGroup>
             <RuntimePackageFiles Include="$(RuntimePackagePath)*.*" />
         </ItemGroup>
         <Copy SourceFiles="@(RuntimePackageFiles)" DestinationFolder="$(WorkshopPath)" SkipUnchangedFiles="true" />
-        <Message Importance="high" Text="Runtime package deployed to Workshop item $(SteamId): $(WorkshopPath)" />
+        <Message Importance="high" Text="Runtime package deployed to Workshop item $(WorkshopItemId): $(WorkshopPath)" />
     </Target>
 
     <ItemGroup>
