@@ -6,14 +6,21 @@ namespace ImperiumOfMan
     {
         private static void RegisterStations()
         {
-            StationRecord donor = Data.Stations.GetRecord("Paragon");
-            if (donor == null || donor.ContentDescriptor == null)
+            StationRecord stationDonor = Data.Stations.GetRecord("Paragon");
+            StationBarterRecord barterDonor = Data.StationBarter.GetRecord("Paragon");
+            if (stationDonor == null || stationDonor.ContentDescriptor == null)
             {
                 throw new System.InvalidOperationException("Quasimorph station donor 'Paragon' is unavailable.");
             }
 
+            if (barterDonor == null)
+            {
+                throw new System.InvalidOperationException("Quasimorph station barter donor 'Paragon' is unavailable.");
+            }
+
             RegisterStation(
-                donor,
+                stationDonor,
+                barterDonor,
                 "iomTerra",
                 "earth",
                 powerGain: 2,
@@ -25,7 +32,8 @@ namespace ImperiumOfMan
                 maxPopulation: 60840);
 
             RegisterStation(
-                donor,
+                stationDonor,
+                barterDonor,
                 "iomMoom",
                 "fuller",
                 powerGain: 1,
@@ -37,7 +45,8 @@ namespace ImperiumOfMan
                 maxPopulation: 33034);
 
             RegisterStation(
-                donor,
+                stationDonor,
+                barterDonor,
                 "iomPhobos",
                 "phobos",
                 powerGain: 1,
@@ -49,7 +58,8 @@ namespace ImperiumOfMan
                 maxPopulation: 39932);
 
             RegisterStation(
-                donor,
+                stationDonor,
+                barterDonor,
                 "iomHavoc",
                 "havoc",
                 powerGain: 2,
@@ -62,7 +72,8 @@ namespace ImperiumOfMan
         }
 
         private static void RegisterStation(
-            StationRecord donor,
+            StationRecord stationDonor,
+            StationBarterRecord barterDonor,
             string id,
             string spaceObjectId,
             int powerGain,
@@ -76,7 +87,7 @@ namespace ImperiumOfMan
             Data.Stations.AddRecord(id, new StationRecord
             {
                 Id = id,
-                ContentDescriptor = donor.ContentDescriptor,
+                ContentDescriptor = stationDonor.ContentDescriptor,
                 SpaceObjectId = spaceObjectId,
                 InitialOwnerFactionId = "iom_faction",
                 Power = 0,
@@ -94,19 +105,24 @@ namespace ImperiumOfMan
                 SpawnOnStart = true
             });
 
-            Data.StationBarter.AddRecord(id, new StationBarterRecord
+            Data.StationBarter.AddRecord(id, CloneBarter(id, barterDonor));
+        }
+
+        private static StationBarterRecord CloneBarter(string id, StationBarterRecord donor)
+        {
+            return new StationBarterRecord
             {
                 Id = id,
                 ContentDescriptor = null,
-                CorpProduceItems = [],
-                CorpAdditionalConsumeItems = [],
-                CivResProduceItems = [],
-                CivResAdditionalConsumeItems = [],
-                QuasiProduceItems = [],
-                QuasiAdditionalConsumeItems = [],
-                PiratesProduceItems = [],
-                PiratesAdditionalConsumeItems = []
-            });
+                CorpProduceItems = [.. donor.CorpProduceItems],
+                CorpAdditionalConsumeItems = [.. donor.CorpAdditionalConsumeItems],
+                CivResProduceItems = [.. donor.CivResProduceItems],
+                CivResAdditionalConsumeItems = [.. donor.CivResAdditionalConsumeItems],
+                QuasiProduceItems = [.. donor.QuasiProduceItems],
+                QuasiAdditionalConsumeItems = [.. donor.QuasiAdditionalConsumeItems],
+                PiratesProduceItems = [.. donor.PiratesProduceItems],
+                PiratesAdditionalConsumeItems = [.. donor.PiratesAdditionalConsumeItems]
+            };
         }
     }
 }
