@@ -1,6 +1,4 @@
-﻿using System.IO;
 using MGSC;
-using UnityEngine;
 
 namespace ImperiumOfMan;
 
@@ -11,7 +9,7 @@ public static class Extensions
         return new ContentDropRecord
         {
             TechLevel = item.TechLevel,
-            ContentIds = [ item.Id ],
+            ContentIds = [item.Id],
             Weight = weight,
             Points = points
         };

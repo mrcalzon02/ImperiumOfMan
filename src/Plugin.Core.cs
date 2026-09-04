@@ -9,8 +9,6 @@ namespace ImperiumOfMan
 {
     public static partial class Plugin
     {
-        public static readonly Logger Logger = new Logger();
-
         public const string ItemCategory = "iom_faction";
         private const string HarmonyId = "Cvar_ImperiumOfMan";
 
