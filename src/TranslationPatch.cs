@@ -111,9 +111,32 @@ namespace ImperiumOfMan
                     continue;
                 }
 
-                Apply(target, language.Key == Localization.Lang.Russian ? Russian : English);
+                Apply(target, English);
+                if (language.Key == Localization.Lang.Russian)
+                {
+                    Apply(target, Russian);
+                }
                 ApplyStationAliases(target);
             }
+        }
+
+        internal static void AddItem(string id, string name, string description)
+        {
+            English["item." + id + ".name"] = name;
+            English["item." + id + ".shortdesc"] = description ?? name;
+            English["item." + id + ".desc"] = description ?? name;
+        }
+
+        internal static void AddRole(string id, string name)
+        {
+            English["monster." + id + ".name"] = name;
+            English["monster." + id + "_male.name"] = name;
+            English["monster." + id + "_female.name"] = name;
+        }
+
+        internal static void ApplyToLoadedLanguages()
+        {
+            LoadDBPostfix(Singleton<Localization>.Instance.db);
         }
 
         private static void Apply(Dictionary<string, string> target, Dictionary<string, string> source)

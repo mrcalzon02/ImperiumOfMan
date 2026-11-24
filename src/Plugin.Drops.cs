@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using MGSC;
 
 namespace ImperiumOfMan
@@ -7,74 +6,41 @@ namespace ImperiumOfMan
     {
         private static void RegisterFactionDrops()
         {
-            ItemRecord sawblade = Data.Items.GetSimpleRecord<ItemRecord>("trash_sawblade_1");
-            if (sawblade != null && !sawblade.Categories.Contains(ItemCategory))
-            {
-                sawblade.Categories.Add(ItemCategory);
-            }
+            AddRewards("rewardEquipment", 1, 3, 200,
+                _lasgun.Id, _lightBoots.Id, _lightLeggings.Id, _lightChestplate.Id, _lightHelmet.Id);
+            AddRewards("rewardEquipment", 2, 5, 200,
+                _cadiaBoots.Id, _cadiaLeggings.Id, _cadiaChestplate.Id, _cadiaHelmet.Id, "iom_bolt_pistol");
+            AddRewards("rewardEquipment", 3, 4, 275,
+                _servitorBackpack.Id, _longLas.Id, _plasmaPistol.Id, "iom_judgement");
+            AddRewards("rewardEquipment", 4, 5, 320, _bolter.Id, "iom_power_fist");
+            AddRewards("rewardEquipment", 5, 3, 400, _melta.Id, "iom_bolt_rifle", "iom_power_blade");
 
-            var equipmentDrops = CreateDropTable();
-            equipmentDrops[1] =
-            [
-                _lightBoots.ToDropRecord(3f, 200),
-                _lightLeggings.ToDropRecord(3f, 200),
-                _lightChestplate.ToDropRecord(3f, 200),
-                _lightHelmet.ToDropRecord(3f, 200)
-            ];
-            equipmentDrops[2] =
-            [
-                _lasgun.ToDropRecord(10f, 200),
-                _cadiaBoots.ToDropRecord(3f, 200),
-                _cadiaLeggings.ToDropRecord(3f, 200),
-                _cadiaChestplate.ToDropRecord(3f, 200),
-                _cadiaHelmet.ToDropRecord(3f, 200)
-            ];
-            equipmentDrops[3] =
-            [
-                _servitorBackpack.ToDropRecord(10f, 250),
-                _longLas.ToDropRecord(5f, 400),
-                _plasmaPistol.ToDropRecord(3f, 250)
-            ];
-            equipmentDrops[4] = [_bolter.ToDropRecord(10f, 300)];
-            equipmentDrops[5] = [_melta.ToDropRecord(7f, 310)];
-            Data.FactionDrop._recordsByFactions.Add("iom_faction_rewardEquipment", equipmentDrops);
+            AddRewards("rewardConsumables", 1, 5, 60, CorpseStarch, DirtyStarch, LasClip, Requisition);
+            AddRewards("rewardConsumables", 2, 4, 100, BoltClip, "iom_frag_grenade");
+            AddRewards("rewardConsumables", 3, 3, 140, "iom_kraken_clip", "iom_krak_grenade", PuritySeal);
+            AddRewards("rewardConsumables", 4, 2, 160, "iom_inferno_clip", "iom_hellfire_clip", "iom_metal_storm_clip");
+            AddRewards("rewardConsumables", 5, 2, 200,
+                "iom_tempest_clip", "iom_helfrost_clip", "iom_antiphasic_clip", "iom_melta_grenade");
 
-            var consumableDrops = CreateDropTable();
-            consumableDrops[1] = [CreateContentDrop(1, "low_chip", 1f, 100f)];
-            consumableDrops[2] = [CreateContentDrop(2, "mercenary_chip", 1f, 100f)];
-            consumableDrops[3] = [CreateContentDrop(3, "low_chip", 1f, 100f)];
-            Data.FactionDrop._recordsByFactions.Add("iom_faction_rewardConsumables", consumableDrops);
-
-            var ammunitionDrops = CreateDropTable();
-            ammunitionDrops[1] = [CreateContentDrop(1, "rifle_basic_ammo", 4f, 200f)];
-            ammunitionDrops[2] =
-            [
-                CreateContentDrop(2, "rifle_armorpierce_ammo", 5f, 150f),
-                CreateContentDrop(2, "battery_basic_ammo", 3f, 100f)
-            ];
-            Data.FactionDrop._recordsByFactions.Add("iom_faction_rewardChips", ammunitionDrops);
+            AddRewards("rewardChips", 1, 4, 180, FieldPlans);
+            AddRewards("rewardChips", 2, 4, 250, "mercenary_chip");
+            AddRewards("rewardChips", 3, 3, 275, ArsenalPlans);
+            AddRewards("rewardChips", 5, 3, 425, ForgePlans);
         }
 
-        private static Dictionary<int, List<ContentDropRecord>> CreateDropTable()
+        private static void AddRewards(string table, int level, float weight, float points, params string[] ids)
         {
-            var table = new Dictionary<int, List<ContentDropRecord>>(11);
-            for (int techLevel = 0; techLevel <= 10; techLevel++)
+            foreach (string id in ids)
             {
-                table.Add(techLevel, []);
+                var drop = new ContentDropRecord
+                {
+                    ContentIds = [id],
+                    TechLevel = level,
+                    Weight = weight,
+                    Points = points
+                };
+                Registrations.Add(() => Data.FactionDrop.AddRecord("iom_faction_" + table, drop));
             }
-
-            return table;
-        }
-
-        private static ContentDropRecord CreateContentDrop(int techLevel, string contentId, float weight, float points)
-        {
-            return new ContentDropRecord
-            {
-                TechLevel = techLevel,
-                ContentIds = [contentId],
-                Weight = weight,
-                Points = points
-            };
         }
     }
 }

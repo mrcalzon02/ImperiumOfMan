@@ -1,8 +1,12 @@
 {
   "UniqueModName": "Cvar_ImperiumOfMan",
   "Assemblies": [
-    "ImperiumOfMan.dll",
-    "ImperiumReforged.Diagnostics.dll"
+    "ImperiumOfMan.dll"
   ],
-  "Dependencies": []
+  "Dependencies": [],
+  "SteamTags": [
+    "1.0",
+    "New Content",
+    "Overhaul"
+  ]
 }

@@ -9,12 +9,11 @@
     <PropertyGroup>
         <GAME_NAME>Quasimorph</GAME_NAME>
         <GameSteamAppId Condition="'$(GameSteamAppId)' == ''">2059170</GameSteamAppId>
-        <WorkshopItemId Condition="'$(WorkshopItemId)' == ''">3754620214</WorkshopItemId>
     </PropertyGroup>
 
     <PropertyGroup>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App $(GameSteamAppId)', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GAME_PATH>
-        <_SteamLibraryPath>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
+        <_SteamLibraryPath Condition="!Exists('$(GAME_PATH)')">$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)') AND '$(_SteamLibraryPath)' != ''">$(_SteamLibraryPath)\steamapps\common\$(GAME_NAME)</GAME_PATH>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">C:\Program Files\Steam\steamapps\common\$(GAME_NAME)</GAME_PATH>
         <GAME_PATH Condition="!Exists('$(GAME_PATH)')">C:\Program Files (x86)\Steam\steamapps\common\$(GAME_NAME)</GAME_PATH>
@@ -24,12 +23,10 @@
     <PropertyGroup>
         <RepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</RepositoryRoot>
         <ManagedPath>$(GAME_PATH)\$(GAME_NAME)_Data\Managed\</ManagedPath>
-        <WorkshopPath>$(GAME_PATH)\..\..\workshop\content\$(GameSteamAppId)\$(WorkshopItemId)\</WorkshopPath>
 
         <!-- Single authoritative inputs already present at repository root. -->
         <ModManifestSource>$(RepositoryRoot)\modmanifest.json</ModManifestSource>
         <AssetBundleSource>$(RepositoryRoot)\imperiumofman.bundle</AssetBundleSource>
-        <AssetBundleManifestSource>$(RepositoryRoot)\imperiumofman.bundle.manifest</AssetBundleManifestSource>
         <ThumbnailSource>$(RepositoryRoot)\media\thumbnail.png</ThumbnailSource>
 
         <!-- Generated runtime/Workshop output. Do not hand-maintain separate definitions here. -->
@@ -43,6 +40,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(ManagedPath)0Harmony.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(ManagedPath)Newtonsoft.Json.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="Assembly-CSharp" publicize="true">
             <HintPath>$(ManagedPath)Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
@@ -72,15 +77,29 @@
             <HintPath>$(ManagedPath)UnityEngine.IMGUIModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>$(ManagedPath)UnityEngine.TextRenderingModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+            <HintPath>$(ManagedPath)UnityEngine.ImageConversionModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>$(ManagedPath)UnityEngine.AudioModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Food\**\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Utility\**\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Weapons\**\*.png">
+            <LogicalName>ImperiumOfMan.Art.%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\ImperialGrenade.pcm" LogicalName="ImperiumOfMan.Audio.ImperialGrenade.pcm" />
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Lib.Harmony" Version="2.3.3" />
-        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -92,8 +111,8 @@
         <Error Condition="!Exists('$(AssetBundleSource)')" Text="Missing existing Unity content bundle: $(AssetBundleSource)" />
         <Error Condition="!Exists('$(ThumbnailSource)')" Text="Missing Workshop thumbnail source: $(ThumbnailSource)" />
 
-        <!-- RuntimePackagePath is generated output. Recreate it so stale diagnostic or test files cannot ship. -->
-        <RemoveDir Directories="$(RuntimePackagePath)" Condition="Exists('$(RuntimePackagePath)')" />
+        <!-- Remove the private Harmony copy shipped by older builds. -->
+        <Delete Files="$(RuntimePackagePath)0Harmony.dll" />
         <MakeDir Directories="$(RuntimePackagePath)" />
 
         <!-- The root modmanifest.json is the only editable Quasimorph manifest. -->
@@ -102,21 +121,11 @@
         <!-- Use the existing Unity-built bundle; do not synthesize or rename another source bundle. -->
         <Copy SourceFiles="$(AssetBundleSource)" DestinationFiles="$(RuntimePackagePath)imperiumofman.bundle" SkipUnchangedFiles="true" />
 
-        <!-- Build output and runtime dependency. -->
+        <!-- The game supplies Harmony and Unity assemblies. -->
         <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(RuntimePackagePath)ImperiumOfMan.dll" SkipUnchangedFiles="true" />
-        <Copy SourceFiles="$(TargetDir)0Harmony.dll" DestinationFiles="$(RuntimePackagePath)0Harmony.dll" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)0Harmony.dll')" />
         <Copy SourceFiles="$(ThumbnailSource)" DestinationFiles="$(RuntimePackagePath)thumbnail.png" SkipUnchangedFiles="true" />
 
         <Message Importance="high" Text="Runtime package assembled from existing repository sources at $(RuntimePackagePath)" />
-    </Target>
-
-    <Target Name="DeployWorkshopPackage" AfterTargets="AssembleRuntimePackage" Condition="'$(WorkshopItemId)' != ''">
-        <MakeDir Directories="$(WorkshopPath)" />
-        <ItemGroup>
-            <RuntimePackageFiles Include="$(RuntimePackagePath)*.*" />
-        </ItemGroup>
-        <Copy SourceFiles="@(RuntimePackageFiles)" DestinationFolder="$(WorkshopPath)" SkipUnchangedFiles="true" />
-        <Message Importance="high" Text="Runtime package deployed to Workshop item $(WorkshopItemId): $(WorkshopPath)" />
     </Target>
 
     <ItemGroup>
