@@ -13,6 +13,7 @@ namespace ImperiumOfMan
         private const string HarmonyId = "Cvar_ImperiumOfMan";
 
         public static AssetBundle ModBundle;
+        private static readonly List<Action> Registrations = new();
 
         [Hook(ModHookType.BeforeBootstrap)]
         public static void BeforeConfig(IModContext context)
@@ -21,9 +22,14 @@ namespace ImperiumOfMan
             Debug.Log("[Cvar_ImperiumOfMan] BeforeBootstrap complete.");
         }
 
-        [Hook(ModHookType.AfterBootstrap)]
-        public static void AfterBootstrap(IModContext context)
+        [Hook(ModHookType.AfterConfigsLoaded)]
+        public static void AfterConfigsLoaded(IModContext context)
         {
+            if (!LegacyConflictGuard.BeforeImperiumRegistration(context))
+            {
+                return;
+            }
+
             if (context == null || string.IsNullOrWhiteSpace(context.ModContentPath))
             {
                 Debug.LogError("[Cvar_ImperiumOfMan] Missing mod content path; registration aborted.");
@@ -38,13 +44,48 @@ namespace ImperiumOfMan
                 return;
             }
 
-            RegisterFaction();
-            RegisterUnitDrops();
-            RegisterStations();
-            RegisterEquipment();
-            RegisterFactionDrops();
+            try
+            {
+                RegisterFaction();
+                RegisterEquipment();
+                RegisterGuardSupplies();
+                RegisterArbitesEquipment();
+                RegisterGuardProduction();
+                RegisterStations();
+                RegisterUnitDrops();
+                RegisterArbitesPatrol();
+                RegisterFactionDrops();
+                foreach (Action register in Registrations)
+                {
+                    register();
+                }
+            }
+            finally
+            {
+                Registrations.Clear();
+            }
+            TranslationPatch.ApplyToLoadedLanguages();
 
-            Debug.Log("[Cvar_ImperiumOfMan] AfterBootstrap registration complete.");
+            Debug.Log("[Cvar_ImperiumOfMan] AfterConfigsLoaded registration complete.");
+        }
+
+        private static void StageRecord<T>(ConfigRecordCollection<T> table, string id, T record) where T : class
+        {
+            if (table.GetRecord(id) != null)
+            {
+                throw new InvalidDataException("Quasimorph already has a record with Imperium ID " + id);
+            }
+            Registrations.Add(() => table.AddRecord(id, record));
+        }
+
+        private static void StageDescriptor(string tableName, string id, UnityEngine.Object descriptor)
+        {
+            var table = Data.Descriptors[tableName];
+            if (table.TryGetDescriptor(id, out _))
+            {
+                throw new InvalidDataException("Quasimorph already has a descriptor with Imperium ID " + id);
+            }
+            Registrations.Add(() => table.AddDescriptor(id, descriptor));
         }
 
         private static T LoadRequiredAsset<T>(string assetName) where T : UnityEngine.Object

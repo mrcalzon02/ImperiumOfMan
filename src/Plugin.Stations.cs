@@ -8,7 +8,7 @@ namespace ImperiumOfMan
         {
             StationRecord stationDonor = Data.Stations.GetRecord("Paragon");
             StationBarterRecord barterDonor = Data.StationBarter.GetRecord("Paragon");
-            if (stationDonor == null || stationDonor.ContentDescriptor == null)
+            if (stationDonor == null)
             {
                 throw new System.InvalidOperationException("Quasimorph station donor 'Paragon' is unavailable.");
             }
@@ -23,6 +23,8 @@ namespace ImperiumOfMan
                 barterDonor,
                 "iomTerra",
                 "earth",
+                "Military",
+                null,
                 powerGain: 2,
                 techLevelGain: 3,
                 uncapturable: true,
@@ -36,6 +38,8 @@ namespace ImperiumOfMan
                 barterDonor,
                 "iomMoom",
                 "fuller",
+                "SpaceStation",
+                LunaReceipt,
                 powerGain: 1,
                 techLevelGain: 1,
                 uncapturable: false,
@@ -49,6 +53,8 @@ namespace ImperiumOfMan
                 barterDonor,
                 "iomPhobos",
                 "phobos",
+                "Military",
+                PhobosReceipt,
                 powerGain: 1,
                 techLevelGain: 2,
                 uncapturable: false,
@@ -62,6 +68,8 @@ namespace ImperiumOfMan
                 barterDonor,
                 "iomHavoc",
                 "havoc",
+                "Industrial",
+                null,
                 powerGain: 2,
                 techLevelGain: 1,
                 uncapturable: false,
@@ -76,6 +84,8 @@ namespace ImperiumOfMan
             StationBarterRecord barterDonor,
             string id,
             string spaceObjectId,
+            string stationType,
+            string receipt,
             int powerGain,
             int techLevelGain,
             bool uncapturable,
@@ -84,7 +94,15 @@ namespace ImperiumOfMan
             int initialPopulation,
             int maxPopulation)
         {
-            Data.Stations.AddRecord(id, new StationRecord
+            if (Data.SpaceObjects.GetRecord(spaceObjectId) == null ||
+                Data.StationTypes.GetRecord(stationType) == null ||
+                Data.ProcMissionTemplates.GetRecord(missionTemplateId) == null ||
+                Data.Bramfaturas.GetRecord(bramfaturaId) == null)
+            {
+                throw new System.InvalidOperationException("Quasimorph station references are unavailable for " + id);
+            }
+
+            StageRecord(Data.Stations, id, new StationRecord
             {
                 Id = id,
                 ContentDescriptor = stationDonor.ContentDescriptor,
@@ -98,23 +116,23 @@ namespace ImperiumOfMan
                 MissionTemplateId = missionTemplateId,
                 MissionNameTemplateId = "mercurySurfaceLevels",
                 BramfaturaId = bramfaturaId,
-                StationType = "SpaceStation",
+                StationType = stationType,
                 SpaceObjectItemDropPercent = 0.1f,
                 InitialPopulation = initialPopulation,
                 MaxPopulation = maxPopulation,
                 SpawnOnStart = true
             });
 
-            Data.StationBarter.AddRecord(id, CloneBarter(id, barterDonor));
+            StageRecord(Data.StationBarter, id, CloneBarter(id, barterDonor, receipt));
         }
 
-        private static StationBarterRecord CloneBarter(string id, StationBarterRecord donor)
+        private static StationBarterRecord CloneBarter(string id, StationBarterRecord donor, string receipt)
         {
             return new StationBarterRecord
             {
                 Id = id,
                 ContentDescriptor = null,
-                CorpProduceItems = [.. donor.CorpProduceItems],
+                CorpProduceItems = receipt == null ? [.. donor.CorpProduceItems] : [.. donor.CorpProduceItems, receipt],
                 CorpAdditionalConsumeItems = [.. donor.CorpAdditionalConsumeItems],
                 CivResProduceItems = [.. donor.CivResProduceItems],
                 CivResAdditionalConsumeItems = [.. donor.CivResAdditionalConsumeItems],

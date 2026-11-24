@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MGSC;
 
@@ -5,18 +6,21 @@ namespace ImperiumOfMan
 {
     public static partial class Plugin
     {
+        private const string PdfRole = "iom_pdf";
+        private const string CadianRole = "iom_cadian";
+
         private static void RegisterFaction()
         {
             var imperatorPortrait = LoadRequiredAsset<PortraitDescriptor>("Imperator");
-            Data.Portraits.AddRecord("faction_iom_faction", new ConfigTableRecord
+            StageRecord(Data.Portraits, "faction_iom_faction", new ConfigTableRecord
             {
                 Id = "faction_iom_faction",
                 ContentDescriptor = imperatorPortrait
             });
-            Data.Descriptors["portraits"].AddDescriptor("faction_iom_faction", imperatorPortrait);
+            StageDescriptor("portraits", "faction_iom_faction", imperatorPortrait);
 
             var factionDescriptor = LoadRequiredAsset<FactionDescriptor>("ImperiumOfManFaction");
-            Data.Factions.AddRecord("iom_faction", new FactionRecord
+            StageRecord(Data.Factions, "iom_faction", new FactionRecord
             {
                 Id = "iom_faction",
                 ContentDescriptor = factionDescriptor,
@@ -27,27 +31,31 @@ namespace ImperiumOfMan
                 FactionType = FactionType.Corp,
                 AllianceType = "iom_alliance",
                 SpawnMissionChance = 0.1f,
-                GuardCreatureId = "elite_sbn",
-                AgentCreatureId = "civilian",
+                GuardCreatureId = PdfRole,
+                CEOGuardCreatureId = CadianRole,
+                AgentCreatureId = "manager",
+                CeoMobClassId = "chu_ceo",
                 MinQmorphosWhenVictims = 0,
                 UseGeneralRewards = true,
+                CanBeTraded = true,
+                CanBeCaptured = true,
                 PortraitsByStrategy = false,
                 ItemDropCategories = [ItemCategory]
             });
-            Data.Descriptors["factions"].AddDescriptor("iom_faction", factionDescriptor);
+            StageDescriptor("factions", "iom_faction", factionDescriptor);
 
             string questlineId = $"iom_faction{FactionQuestlineRecord.ENDGAME_LOOP_POSTFIX}";
-            Data.FactionQuestlines.AddRecord(questlineId, new FactionQuestlineRecord
+            StageRecord(Data.FactionQuestlines, questlineId, new FactionQuestlineRecord
             {
                 Id = questlineId,
                 ContentDescriptor = null,
                 FactionId = "iom_faction",
-                Strategies = [new(100f, "Expansion")],
+                Strategies = [new(100f, "Expansion"), new(60f, "Scouting"), new(45f, "Defense")],
                 NextStepOnFail = string.Empty
             });
 
             var allianceDescriptor = LoadRequiredAsset<AllianceDescriptor>("HumanAlliance");
-            Data.Alliances.AddRecord("iom_alliance", new AllianceRecord
+            StageRecord(Data.Alliances, "iom_alliance", new AllianceRecord
             {
                 Id = "iom_alliance",
                 ContentDescriptor = allianceDescriptor,
@@ -55,36 +63,63 @@ namespace ImperiumOfMan
                 DefaultFactionType = FactionType.Corp,
                 TradeFactionLists = ["iom_faction", "ChurchRevelation", "SBN"]
             });
-            Data.Descriptors["alliances"].AddDescriptor("iom_alliance", allianceDescriptor);
+            StageDescriptor("alliances", "iom_alliance", allianceDescriptor);
         }
 
         private static void RegisterUnitDrops()
         {
-            UnitDropRecord[] dropRecords =
-            [
-                CreateUnitDrop(1, 2, 2, 12, 80),
-                CreateUnitDrop(1, 1, 1, 6, 20),
-                CreateUnitDrop(2, 2, 2, 12, 90),
-                CreateUnitDrop(3, 1, 1, 6, 30),
-                CreateUnitDrop(4, 1, 1, 6, 25)
-            ];
+            RegisterImperialRole(PdfRole, "soldier", "Planetary Defence Trooper",
+                _lasgun.Id, _lightHelmet.Id, _lightChestplate.Id, _lightLeggings.Id, _lightBoots.Id);
+            RegisterImperialRole(CadianRole, "soldier", "Cadian Guardsman",
+                _lasgun.Id, _cadiaHelmet.Id, _cadiaChestplate.Id, _cadiaLeggings.Id, _cadiaBoots.Id, GuardFrag);
 
-            foreach (string locationId in Data.LocationUnitDrop._recordsByLocations.Keys)
+            var dropRecords = new List<UnitDropRecord> { CreateUnitDrop(1, 2, 3, 54, null) };
+            // Later missions can request an exact tech tier. Keep Guard formations eligible at those tiers.
+            for (int techLevel = 2; techLevel <= Data.Global.MaxTechLevel; techLevel++)
             {
-                Data.LocationUnitDrop._recordsByLocations[locationId].AddRange(dropRecords);
+                dropRecords.Add(CreateUnitDrop(techLevel, 1, 2, 95, CadianRole));
+            }
+
+            foreach (string locationId in Data.StationTypes.Ids)
+            {
+                var drops = Data.LocationUnitDrop.Get(locationId);
+                if (drops != null)
+                {
+                    Registrations.Add(() => drops.AddRange(dropRecords));
+                }
             }
         }
 
-        private static UnitDropRecord CreateUnitDrop(int techLevel, int width, int height, float weight, float points)
+        private static void RegisterImperialRole(string id, string donorId, string name, params string[] loadout)
+        {
+            var donor = Data.MobClasses.GetRecord(donorId)
+                ?? throw new InvalidOperationException("Imperium combat role " + id + " requires donor " + donorId);
+            var role = (MobClassRecord)CloneRecordMethod.Invoke(donor, null);
+            role.Id = id;
+            role.DefaultItemFactionTag = ItemCategory;
+            role.ItemCategoriesWhitelist = new() { ["Faction"] = 20 };
+            role.PrimaryWeapon = new() { [WeaponClass.None] = 1 };
+            role.SecondaryWeapon = new() { [WeaponClass.None] = 1 };
+            role.Head = [];
+            role.Armor = [];
+            role.Leggings = [];
+            role.Boots = [];
+            role.AdditItemClasses = [];
+            role.GrantedItems = [.. loadout];
+            StageRecord(Data.MobClasses, id, role);
+            Registrations.Add(() => TranslationPatch.AddRole(id, name));
+        }
+
+        private static UnitDropRecord CreateUnitDrop(int techLevel, int minSize, int maxSize, float points, string leader, string member = PdfRole)
         {
             return new UnitDropRecord
             {
                 TechLevel = techLevel,
-                UnitSize = new(width, height),
-                LeaderSpawn = [],
-                MobClasses = [new(1f, "soldier")],
-                AllowedFactions = ["iom_faction"],
-                Weight = weight,
+                UnitSize = new(minSize, maxSize),
+                LeaderSpawn = leader == null ? [] : [new(1f, leader)],
+                MobClasses = [new(1f, member)],
+                AllowedFactions = [ItemCategory],
+                Weight = 10,
                 Points = points
             };
         }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using HarmonyLib;
 using MGSC;
 using UnityEngine;
 
@@ -25,71 +24,17 @@ namespace ImperiumOfMan
         public const string LegacyWorkshopItemId = "3416931502";
         public const string QuasimorphWorkshopAppId = "2059170";
 
-        private const string HarmonyId = "Cvar_ImperiumOfMan.LegacyConflictGuard";
 
         private static readonly HashSet<string> ReportedReasons =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        private static bool _patchInstalled;
         private static bool _warningShown;
 
         public static bool ConflictDetected { get; private set; }
 
-        [Hook(ModHookType.BeforeBootstrap)]
-        public static void BeforeBootstrap(IModContext context)
-        {
-            InstallBootstrapGuard();
-            EvaluateConflict(context, checkRegisteredFaction: false);
-        }
-
-        private static void InstallBootstrapGuard()
-        {
-            if (_patchInstalled)
-            {
-                return;
-            }
-
-            MethodInfo target = AccessTools.Method(
-                typeof(Plugin),
-                nameof(Plugin.AfterBootstrap),
-                new[] { typeof(IModContext) });
-
-            MethodInfo prefix = AccessTools.Method(
-                typeof(LegacyConflictGuard),
-                nameof(BeforeImperiumRegistration));
-
-            if (target == null || prefix == null)
-            {
-                Debug.LogError(
-                    "[Cvar_ImperiumOfMan] Could not install the legacy conflict guard. " +
-                    "The maintained fork will not continue because duplicate registration cannot be prevented safely.");
-
-                ConflictDetected = true;
-                ShowConflictWarning(
-                    "The compatibility guard could not attach to the Imperium registration hook. " +
-                    "The maintained fork has stopped its own startup for safety. Check the game log and update the mod before continuing.");
-                return;
-            }
-
-            Harmony harmony = new Harmony(HarmonyId);
-            HarmonyMethod harmonyPrefix = new HarmonyMethod(prefix)
-            {
-                priority = Priority.First
-            };
-
-            harmony.Patch(target, prefix: harmonyPrefix);
-            _patchInstalled = true;
-
-            Debug.Log("[Cvar_ImperiumOfMan] Legacy conflict guard installed.");
-        }
-
-        /// <summary>
-        /// Harmony prefix for Plugin.AfterBootstrap. Returning false prevents the
-        /// maintained fork from registering duplicate game records.
-        /// </summary>
         public static bool BeforeImperiumRegistration(IModContext context)
         {
-            EvaluateConflict(context, checkRegisteredFaction: true);
+            EvaluateConflict(context);
 
             if (!ConflictDetected)
             {
@@ -102,7 +47,7 @@ namespace ImperiumOfMan
             return false;
         }
 
-        private static void EvaluateConflict(IModContext context, bool checkRegisteredFaction)
+        private static void EvaluateConflict(IModContext context)
         {
             foreach (string manifestPath in EnumerateCandidateManifests(context))
             {
@@ -133,7 +78,7 @@ namespace ImperiumOfMan
                 }
             }
 
-            if (checkRegisteredFaction && IsImperiumFactionAlreadyRegistered())
+            if (IsImperiumFactionAlreadyRegistered())
             {
                 AddConflictReason(
                     "The shared faction ID '" + SharedFactionId +

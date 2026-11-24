@@ -18,6 +18,18 @@ andre_ImperiumOfMan
 
 The long-term objective is not merely to make the old equipment visible again. The project is intended to restore the Imperium of Man as a complete faction that can exist, expand, trade, produce equipment, control stations, participate in progression, and function as a meaningful force to encounter in the campaign.
 
+## Low-tier Guard checkpoint
+
+The public-build package targets Quasimorph 1.0.4.590s.969afc6 (Steam build 25651594). PDF patrols field the service Lasgun and all four PDF flak pieces. From tech level two, Guard groups can field one Cadian support trooper with a Lasgun, four Cadian pieces and a frag grenade. Lasguns use Las Clips and accept standard BatteryCells ammunition.
+
+Luna starts with Las Clips and both Corpse Starch rations. Its station recipe restocks those supplies. Phobos starts with additional Las Clips and Imperial Field Plans. The plans unlock Las Clip production on the Magnum, and Phobos also manufactures munitions through normal station production. Guard equipment and supplies enter the Imperial faction's normal reward tables.
+
+A disposable campaign verified 120 native unit draws and 40 generated troop loadouts. A generated Phobos raid spawned three PDF and two Cadian troops with their correct armor, loaded Lasguns, reserve Las Clips and Cadian frag grenades. Phobos generated an Espionage contract at Rommel. Simulating success through the normal mission handler delivered 603 trade points, 11 reward entries and 10.8 reputation. The proceeds bought Las Clips and both rations at Luna, and the station restocked through native production.
+
+The Adeptus Arbites field patrol and Subductor roles on Terra. Live smoke tests verified that both roles could spawn as hostiles and allies with their worn armor textures, held weapon textures, and compatible reserve ammunition. A Guard raid regression passed on retry after one run did not spawn both roles.
+
+The design drafts cover future formations, balance checks, station assignments and production chains. [Imperial formations](IMPERIAL_FORMATIONS_DESIGN.md) · [Production chains](PRODUCTION_CHAIN_DESIGN.md)
+
 ## Project status
 
 The repository is currently in **restoration and integration development**.
@@ -51,7 +63,7 @@ If both packages are allowed to initialize in one Quasimorph session, the result
 - duplicate station records;
 - descriptors pointing to the wrong artwork or sound bank;
 - weapons and ammunition referring to records supplied by the other package;
-- startup exceptions during `AfterBootstrap`;
+- startup exceptions during `AfterConfigsLoaded`;
 - partially registered content;
 - campaign saves containing unstable or conflicting faction data.
 
@@ -87,7 +99,7 @@ When the guard detects the discontinued package or an existing `iom_faction` rec
 - write a detailed error to the Quasimorph or Unity log;
 - display a full-screen warning inside the game;
 - identify the reason and, where possible, the conflicting manifest path;
-- cancel this maintained fork's `AfterBootstrap` content registration for that session;
+- cancel this maintained fork's `AfterConfigsLoaded` content registration for that session;
 - leave the already loaded game process in the safest available state;
 - instruct the player to disable, unsubscribe from, or remove the discontinued package and restart Quasimorph.
 
@@ -123,7 +135,7 @@ The conflict guard is **source implemented** and the project now references Unit
 
 The old Workshop item ID has also been removed from the active build deployment setting. The project will not automatically copy new builds into the discontinued Workshop item's directory. A new Workshop ID must be assigned only after this fork receives its own separate Workshop publication.
 
-The currently committed runtime DLL must still be rebuilt from the updated source before the conflict guard can operate in a live game. The feature becomes **live verified** only after testing all of the following:
+The build packages the conflict guard with the playable DLL. The full legacy conflict test matrix remains part of release verification.
 
 - maintained fork only: normal startup proceeds;
 - discontinued package only: its historical behavior remains outside this fork's control;
@@ -414,20 +426,18 @@ This gate passes only when all four objects load, display correctly in inventory
 
 ## Local testing
 
-The repository contains a staged runtime package under:
+Build against the installed game assemblies with a current .NET SDK. Pass the Quasimorph install directory if Steam detection does not find it.
 
-```text
-package/ImperiumOfMan
+```powershell
+dotnet build .\src\ImperiumOfMan.csproj -c Release "-p:GAME_PATH=C:\Program Files (x86)\Steam\steamapps\common\Quasimorph"
 ```
 
-A local test copy should contain the manifest, compiled DLL, rebuilt asset bundle, and thumbnail directly inside one mod folder. It cannot be installed without first publishing to Steam Workshop. Public information to the contrary has proved false.
+The build stages `modmanifest.json`, `ImperiumOfMan.dll`, `imperiumofman.bundle` and `thumbnail.png` in `package/ImperiumOfMan`. The game supplies Harmony and Unity dependencies. The original Unity bundle provides inherited art, and the DLL embeds the Guard supply and Arbites sprites. Building stages a local package.
 
-After some basic testing I have discovered the local mod loading does not appear to in fact actually function, Therefore you must create a placeholder Steam mod to then overwrite locally for local testing using update mod system to confirm steam updates.
-Most in depth mod system information is here, https://steamcommunity.com/sharedfiles/filedetails/?id=3281671312
+The planned Steam Workshop release is **Imperium Reforged**. [Quasimorph Workshop files](https://steamcommunity.com/id/Mrcalzon02/myworkshopfiles?appid=2059170)
 
-The most important update cycle commands are here.
-<img width="730" height="366" alt="image" src="https://github.com/user-attachments/assets/50fda0db-2c47-4ea8-9199-900c73108346" />
-Seeing as Steam is notoriously fickle it actually updating mod content on a local machine overriding local mods for testing purposes seems like the most productive way forward which is counterproductive to development purposes slowing this entire process now because now I need to overwrite my local Steam mod cache with whatever testing version I'm using *manhually* Or create bespoke packaging instructions to do so.
+For a local run on the public build, place the staged files together in one folder under `%USERPROFILE%\AppData\LocalLow\Magnum Scriptum Ltd\Quasimorph\LocalUserPresets`. Activate a single copy of `Cvar_ImperiumOfMan` in the game. A fresh test campaign creates new Imperial stations and puts the starting supplies in stock. Existing Imperial saves pick up the supply recipes on load and retain their existing stock. The current Steam guide covers Workshop publishing. [Quasimorph developer modding guide](https://steamcommunity.com/sharedfiles/filedetails/?id=3281671312)
+
 ### Required legacy-conflict test
 
 Before ordinary gameplay testing, perform these controlled tests with a disposable save:

@@ -25,6 +25,15 @@ namespace ImperiumOfMan
             RegisterServitorBackpack();
             RegisterWeapons();
             RegisterArmor();
+            _servitorBackpack.TechLevel = 3;
+            _bolter.TechLevel = 4;
+            _longLas.TechLevel = 3;
+            _plasmaPistol.TechLevel = 3;
+            _melta.TechLevel = 5;
+            _cadiaBoots.TechLevel = 2;
+            _cadiaLeggings.TechLevel = 2;
+            _cadiaChestplate.TechLevel = 2;
+            _cadiaHelmet.TechLevel = 2;
         }
 
         private static void RegisterServitorBackpack()
@@ -52,8 +61,8 @@ namespace ImperiumOfMan
                 BackpackWeightMult = 0.35f
             };
 
-            Data.Items.AddRecord(_servitorBackpack.Id, _servitorBackpack);
-            Data.Descriptors["backpacks"].AddDescriptor(_servitorBackpack.Id, descriptor);
+            StageRecord(Data.Items, _servitorBackpack.Id, _servitorBackpack);
+            StageDescriptor("backpacks", _servitorBackpack.Id, descriptor);
         }
 
         private static void RegisterWeapons()
@@ -90,14 +99,14 @@ namespace ImperiumOfMan
             AddWeapon(_bolter, bolterDescriptor);
 
             WeaponDescriptor lasgunAsset = LoadRequiredAsset<WeaponDescriptor>("lasgun");
-            WeaponDescriptor lasgunDescriptor = CloneWeaponDescriptor("laser_sniper_1", lasgunAsset);
+            WeaponDescriptor lasgunDescriptor = CloneWeaponDescriptor("laser_marksman_1", lasgunAsset);
             _lasgun = new WeaponRecord
             {
                 Id = "iom_lasgun",
                 ContentDescriptor = lasgunDescriptor,
                 Categories = [ItemCategory],
                 TechLevel = 1,
-                Price = 300,
+                Price = 185,
                 Weight = 3,
                 InventoryWidthSize = 2,
                 ItemClass = ItemClass.Weapon,
@@ -106,12 +115,12 @@ namespace ImperiumOfMan
                 Unbreakable = false,
                 RepairItemIds = ["lens", "bulb", "microelectronics_parts"],
                 WeaponClass = WeaponClass.AssaultRifle,
-                WeaponSubClass = WeaponSubClass.Firearm,
+                WeaponSubClass = WeaponSubClass.Laser,
                 RequiredAmmo = "BatteryCells",
                 OverrideAmmo = [],
-                DefaultAmmoId = "battery_basic_ammo",
+                DefaultAmmoId = LasClip,
                 DefaultGrenadeId = string.Empty,
-                Damage = new DmgInfo { damage = string.Empty, minDmg = 10, maxDmg = 33, critChance = 0, critDmg = 2f },
+                Damage = new DmgInfo { damage = string.Empty, minDmg = 12, maxDmg = 25, critChance = 0, critDmg = 2f },
                 Firemodes = ["pulse_1", "pulse_2"],
                 Range = 7,
                 ReloadDuration = 2,
@@ -231,26 +240,34 @@ namespace ImperiumOfMan
 
         private static void AddWeapon(WeaponRecord record, WeaponDescriptor descriptor)
         {
-            Data.Items.AddRecord(record.Id, record);
-            Data.Descriptors["rangeweapons"].AddDescriptor(record.Id, descriptor);
+            if (record.Id == "iom_bolter")
+            {
+                descriptor._attackSoundBanks = [LoadRequiredAsset<SoundBank>("boltersoundbank")];
+            }
+            record.Traits = [];
+            record.MinRandomAmmoCount = record.MagazineCapacity / 2;
+            record.Falloff = 0.23f;
+            record.BonusAccuracy = 0.18f;
+            StageRecord(Data.Items, record.Id, record);
+            StageDescriptor("rangeweapons", record.Id, descriptor);
         }
 
         private static void RegisterArmor()
         {
             _lightBoots = CreateBoots(
-                "iom_lightboots", "lightBoots", 100, 1.6f, 75,
+                "iom_lightboots", "lightBoots", 55, 0.9f, 75,
                 CreateResists(3f, 4f, lacer: 3f), ArmorClass.LightArmor);
 
             _lightLeggings = CreateLeggings(
-                "iom_lightleggings", "lightLeggings", 190, 2f, 90,
+                "iom_lightleggings", "lightLeggings", 75, 1.3f, 90,
                 CreateResists(4f, 4f, lacer: 4f, cold: 2f), ArmorClass.LightArmor);
 
             _lightChestplate = CreateArmor(
-                "iom_lightChestplate", "lightChestplate", 190, 2.9f, 90,
+                "iom_lightChestplate", "lightChestplate", 110, 1.9f, 90,
                 CreateResists(7f, 8f, lacer: 7f, cold: 2f), ArmorClass.LightArmor);
 
             _lightHelmet = CreateHelmet(
-                "iom_lightHelmet", "lightHelmet", 190, 1.8f, 105,
+                "iom_lightHelmet", "lightHelmet", 65, 0.95f, 105,
                 CreateResists(4f, 7f, lacer: 4f), ArmorClass.LightArmor);
 
             _cadiaBoots = CreateBoots(
@@ -258,15 +275,15 @@ namespace ImperiumOfMan
                 CreateResists(6f, 7f, lacer: 7f), ArmorClass.MediumArmor);
 
             _cadiaLeggings = CreateLeggings(
-                "iom_cadialeggings", "cadiapants", 190, 2f, 90,
+                "iom_cadialeggings", "cadiapants", 135, 2f, 100,
                 CreateResists(8f, 8f, lacer: 8f, cold: 2f), ArmorClass.MediumArmor);
 
             _cadiaChestplate = CreateArmor(
-                "iom_cadiaChestplate", "cadiaarmor", 190, 2.9f, 90,
+                "iom_cadiaChestplate", "cadiaarmor", 170, 2.9f, 110,
                 CreateResists(12f, 12f, lacer: 10f, cold: 2f), ArmorClass.MediumArmor);
 
             _cadiaHelmet = CreateHelmet(
-                "iom_cadiaHelmet", "cadiahelmet", 190, 1.8f, 105,
+                "iom_cadiaHelmet", "cadiahelmet", 110, 1.5f, 110,
                 CreateResists(6f, 9f, lacer: 7f), ArmorClass.MediumArmor);
         }
 
@@ -292,8 +309,8 @@ namespace ImperiumOfMan
                 ArmorClass = armorClass,
                 ArmorSubClass = ArmorSubClass.Default
             };
-            Data.Items.AddRecord(id, record);
-            Data.Descriptors["boots"].AddDescriptor(id, descriptor);
+            StageRecord(Data.Items, id, record);
+            StageDescriptor("boots", id, descriptor);
             return record;
         }
 
@@ -319,8 +336,8 @@ namespace ImperiumOfMan
                 ArmorClass = armorClass,
                 ArmorSubClass = ArmorSubClass.Default
             };
-            Data.Items.AddRecord(id, record);
-            Data.Descriptors["leggings"].AddDescriptor(id, descriptor);
+            StageRecord(Data.Items, id, record);
+            StageDescriptor("leggings", id, descriptor);
             return record;
         }
 
@@ -346,8 +363,8 @@ namespace ImperiumOfMan
                 ArmorClass = armorClass,
                 ArmorSubClass = ArmorSubClass.Default
             };
-            Data.Items.AddRecord(id, record);
-            Data.Descriptors["armors"].AddDescriptor(id, descriptor);
+            StageRecord(Data.Items, id, record);
+            StageDescriptor("armors", id, descriptor);
             return record;
         }
 
@@ -374,8 +391,8 @@ namespace ImperiumOfMan
                 ArmorSubClass = ArmorSubClass.Default,
                 HideHair = true
             };
-            Data.Items.AddRecord(id, record);
-            Data.Descriptors["helmets"].AddDescriptor(id, descriptor);
+            StageRecord(Data.Items, id, record);
+            StageDescriptor("helmets", id, descriptor);
             return record;
         }
 
