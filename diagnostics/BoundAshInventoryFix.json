@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "build_type": "scoped IL patch with independently compiled new migration source; not a full-source game build",
+  "baseline_sha256": "ef5bd289d9348e2132f1b3b6a8fcc64d03b6ba849e6ee33094872ddbc765f850",
+  "candidate_sha256": "f32fc899fb3ed5932db31fd37a149b58dfab079276a0dea50ec011ea44c426f6",
+  "byte_identical_reproduction": true,
+  "unchanged_embedded_resources": 1419,
+  "unchanged_existing_method_bodies": 1786,
+  "changed_existing_methods": [
+    "body:System.Void ImperiumOfMan.Plugin::ApplyChaosItemArtwork(MGSC.ItemRecord)",
+    "body:System.Void ImperiumOfMan.Plugin::RegisterChaosPacts()"
+  ],
+  "new_migration_methods": 6,
+  "migration_compiled_code_equality_checks": 21,
+  "original_runtime_untouched": true,
+  "runtime_tested": false,
+  "source_sha256": {
+    "Plugin.ChaosPacts.cs": "45ba22769ebbc0ede2229d4c7b80417ca3e9f3567504fcba49c75970154c0e2b",
+    "Plugin.ChaosArt.cs": "f3eb7abe15642bbd172a5b270fc77acab4daaf27116a107eddf8077cc77c03b9",
+    "Plugin.BoundAshInventory.cs": "f8fb91d043f581012e52401a1e7c146c7d3e6305c18276474829f0d341da5587"
+  },
+  "tool_sources_sha256": {
+    "bound-ash-binary-patcher/Program.cs": "457d099deca380ebbb402555aaafb25f9ce9f8e10ae96d1944f7f62cb76bc931",
+    "binary-fix-tools/Program.cs": "23f41aec38184a0c4fdb13cfe42cfa33b777775cd4d4ac38fef84a3658df175f",
+    "bound-ash-migration-compile/Plugin.Constants.cs": "7fea9c5d9d7838f8e25843fdee762cd45e98915c7d6f351a2e8e2fc797b4dad6"
+  },
+  "deliverable": {
+    "path": "package/ImperiumOfMan-BoundAsh-Fix.zip",
+    "size_bytes": 11720535,
+    "sha256": "d30cf12922a96885d538be25b807fff7080c498ee6a50a851f26963443d30a26",
+    "loose_runtime_dll": "retained original baseline; use the ZIP for the patch"
+  }
+}

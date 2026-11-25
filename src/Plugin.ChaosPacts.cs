@@ -12,6 +12,7 @@ namespace ImperiumOfMan
     {
         private const string ChaosEssence = "iom_undivided_essence";
         private const string BoundAsh = ChaosItemPrefix + "bound_ash";
+        private const short BoundAshMaxStack = 30;
         private const string ForgeEmber = ChaosItemPrefix + "forge_ember";
         private const string WarpScrip = ChaosItemPrefix + "warp_scrip";
         private const string PactPrefix = "iom_undivided_";
@@ -61,6 +62,10 @@ namespace ImperiumOfMan
         private static void RegisterChaosPacts()
         {
             var ash = ChaosItem<PactComponentRecord>(BoundAsh, "demonic_eye", 2, 100);
+            // The donor's pact record is supplemental: its device record supplies these defaults.
+            // Bound Ash is a standalone pact component, so define its inventory behavior here.
+            ash.InventoryWidthSize = 1;
+            ash.MaxStack = BoundAshMaxStack;
             ash.Essence = ChaosEssence;
             ash.EssencePower = 225;
             ash.EssenceStability = 37;

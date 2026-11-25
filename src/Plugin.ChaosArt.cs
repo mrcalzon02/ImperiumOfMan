@@ -8,7 +8,7 @@ namespace ImperiumOfMan
 
         private static void ApplyChaosItemArtwork(ItemRecord item)
         {
-            ApplyItemArtwork(item.ItemDesc, item.Id);
+            ApplyItemArtwork(item.ItemDesc, item.Id, maxIconSize: item.Id == BoundAsh ? 22 : 0);
             RegisterEquipmentFittings(item);
         }
 
