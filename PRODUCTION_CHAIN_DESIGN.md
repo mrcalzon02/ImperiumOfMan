@@ -28,14 +28,14 @@ Use the room's function to telegraph which salvage is likely. An armor press can
 | Metal stock and parts | Ore from an asteroid work site | Smelt ore into refined metal stock. | Roll plate or draw rod from stock, then cut or stamp usable fittings, inserts or brackets where required. | Use the part in equipment assembly or trade it as an intermediate. |
 | Las Clips | Silicate rubble from a mining site and chemical feedstock from station salvage or trade | Silicate goes to industrial glass. Feedstock goes to a cell electrolyte. | A cell bench makes a sealed cell assembly from both inputs. | A Guard supply line or the Magnum packs a batch of Las Clips. |
 | Arbites carapace | Alloy-bearing ore and textile fiber from a vat or station supplier | Smelt alloy plate stock and process the fiber into industrial cloth. | An armor press makes overlapping plate inserts. A textile bench makes padded liners. | Final assembly combines inserts, liners and fasteners into a helmet, cuirass, greaves or boots. |
-| Corpse Starch | Biomass feedstock and water or nutrient stock | A closed vat produces a nutrient slurry. | A food line presses a ration base and prepares wrappers from packaging stock. | A packaging line yields sealed rations. Damaged or abandoned facilities can supply a contaminated salvage variant. |
+| Corpse Starch | Raw meat and bottled water | A closed vat produces raw nutrient biomass. | A food line presses a ration base and prepares wrappers from packaging stock. | A packaging line yields sealed rations. Damaged or abandoned facilities can supply a contaminated salvage variant. |
 | Electronics and sensors | Conductive scrap, trace mineral concentrate and recovered circuit stock | Produce conductive stock and cleaned substrates. | A component line builds circuit assemblies. | Combine assemblies with casing and fittings for a tool, sensor or upgrade. |
 
 The crew can buy a finished stack, assemble components found on a raid, or commit to the full raw-material chain. Give the low-tier Guard a reliable market and loot supply while making self-sufficiency more demanding. In the metal route, finding a usable bracket or plate insert skips two or three orders and gives the crew a reason to search a repair shop instead of hauling more ore.
 
 ## Utility, food, and standard supplies by tech level
 
-Each row lists what the tier adds to the Imperial supply line. Earlier Imperial stock stays in the pool as the faction advances. Station type affects which classes are stocked, and mission rewards use the native reputation limits. Each requisition chip contains one randomly selected recipe from its listed pool and unlocks that recipe on the Magnum. Its selection is saved on the chip and shown in the tooltip; further chips can contain other recipes or already known duplicates. Listed facility stock and native loot give additional ways to acquire the same item.
+Each row lists what the tier adds to the Imperial supply line. Earlier Imperial stock stays in the pool as the faction advances. Station type affects which classes are stocked, and mission rewards use the native reputation limits. Each requisition chip contains one randomly selected recipe from its listed pool and unlocks that recipe on the Magnum. Its selection is saved on the chip and shown in the tooltip; further chips can contain other recipes or already known duplicates. Normal weapon-ammunition and native armor-set companion unlocks still apply. Listed facility stock and native loot give additional ways to acquire the same item.
 
 | Imperial tech | Food and drink | Utility and field supplies | Standard ammunition and equipment |
 | --- | --- | --- | --- |
@@ -56,6 +56,22 @@ Each newly generated Imperial raid floor supplies one clean Corpse Starch per 20
 ### Manufacturing and freight
 
 These tiers belong to the manufacturer named in each row. Finished base-game goods remain available through their native trade and loot sources. The new multi-step Magnum production orders require the corresponding schematic.
+
+The Magnum's raw vat biomass order consumes one Piece of Flesh (`human_meat`) and one Water Bottle (`water_bottle_1`) to produce four biomass in 12 base hours. Sealed food cargo remains a finished trade good; it is not the feedstock for this order.
+
+Player fabrication uses loose materials and prepared components. Packaged food, Biowaste Tanks, Research Stations, and Quasi-samples retain their role as valuable trade cargo. Station industries can still buy and process bulk cargo through their existing freight chains.
+
+| Magnum recipe | Loose ingredients replacing trade cargo |
+| --- | --- |
+| Raw vat biomass | One Piece of Flesh and one Water Bottle yield four biomass. |
+| Harvested tobacco | One raw vat biomass and one Water Bottle yield four harvested tobacco. |
+| Sterile implant scaffold | Two raw vat biomass replace the Biowaste Tank; dressing and polymer stock remain required. |
+| Tissue Graft | Two raw vat biomass replace the Biowaste Tank; clinical refill and medical glue remain required. |
+| Aegis Ward | Two microelectronics parts and one lens replace the Research Station; fittings and textile remain required. |
+| Golden Aegis Ward | Four microelectronics parts and two lenses replace the two Research Stations; fittings, textile, and the Purity Seal remain required. |
+| Six custom quasi implants using research samples | Two raw vat biomass replace each Quasi-samples item in the player recipe. Their other quasi materials remain required; faction laboratory orders still accept sample cargo. |
+
+Recipe times, output quantities, chip pools, and unlock requirements remain the same. Explosives are a native crafting component and remain valid grenade ingredients.
 
 | Source | Tech | Supplies, components and acquisition |
 | --- | --- | --- |

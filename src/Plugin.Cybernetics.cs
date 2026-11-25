@@ -34,7 +34,7 @@ namespace ImperiumOfMan
 
             SharedRecipe(ServoCartridge, 4, 2, new("rod_parts", 1), new("metal_tread", 1), new(PolymerStock, 1));
             SharedRecipe(ImplantController, 5, 2, new("microelectronics_parts", 1), new("circuit_board", 1), new("wire", 1));
-            SharedRecipe(SterileScaffold, 5, 2, new("biomass_tank", 1), new(Dressing, 1), new(PolymerStock, 1));
+            SharedRecipe(SterileScaffold, 5, 2, new(Biomass, 2), new(Dressing, 1), new(PolymerStock, 1));
             AddFactionWorkshop(PlanetBridge, WinterBay, 1, "iom_winterbay_servo_cartridges", 108,
                 [new("rod_parts", 1), new("metal_tread", 1), new(PolymerStock, 1)], [new(ServoCartridge, 10)]);
             AddFactionWorkshop("SBN", "CathodeRampart", 2, "iom_cathode_implant_controllers", 120,
@@ -125,7 +125,10 @@ namespace ImperiumOfMan
         private static void AddCustomCybernetic(CyberneticsLab lab, string id, string title, int tier, ItemQuantity[] inputs)
         {
             AddCyberneticsLine(lab, tier, id, inputs);
-            IndustryRecipe(id, 8 + tier * 2, 1, inputs);
+            // Labs accept research cargo; Magnum fabrication uses loose organic feedstock.
+            var fabricationInputs = inputs.Select(input => input.ItemId == "quasisamples"
+                ? new ItemQuantity(Biomass, input.Count * 2) : input).ToArray();
+            IndustryRecipe(id, 8 + tier * 2, 1, fabricationInputs);
             var schematic = CloneItem<DatadiskRecord>(id + "_plans", "low_chip", tier, 110 + tier * 38, FieldPlans);
             schematic.Categories = [lab.Maker];
             RegisterCatalog(schematic, title + " Schematic", $"Teaches the Magnum crew to fabricate the {title}.",

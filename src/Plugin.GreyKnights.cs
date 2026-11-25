@@ -87,7 +87,7 @@ namespace ImperiumOfMan
             IndustryRecipe(PaladinSabatons, 20, 1, new(HeavyPlate, 1), new(Fittings, 2), new("ceramite_plates", 1), new("rubber", 2));
             IndustryRecipe(NemesisSword, 34, 1, new(Sheet, 2), new("lens", 2), new("weapon_parts", 2), new("microelectronics_parts", 2));
             IndustryRecipe(Psycannon, 36, 1, new(Sheet, 3), new(Fittings, 2), new("weapon_parts", 3), new("ceramite_plates", 2));
-            IndustryRecipe(AegisWard, 12, 1, new(Fittings, 1), new(Textile, 1), new("scientific_equipment", 1));
+            IndustryRecipe(AegisWard, 12, 1, new(Fittings, 1), new(Textile, 1), new("microelectronics_parts", 2), new("lens", 1));
             AddCatalog(PaladinPlans, "Grey Knights Paladin requisition",
                 "Patterns for warded Terminator armor, the Grey Knights weapons, the Aegis Ward, Tempest Bolt Clips and the Power Fist.",
                 ItemCategory, TitanContractTier, 850, PaladinHelm, PaladinCuirass, PaladinGreaves, PaladinSabatons,

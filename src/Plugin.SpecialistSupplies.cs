@@ -183,7 +183,7 @@ namespace ImperiumOfMan
 
         private static void RegisterSpecialistSupplyProduction()
         {
-            IndustryRecipe(Graft, 20, 1, new(Clinical, 1), new("biomass_tank", 1), new("medical_glue", 1));
+            IndustryRecipe(Graft, 20, 1, new(Clinical, 1), new(Biomass, 2), new("medical_glue", 1));
             var graftChip = CloneItem<DatadiskRecord>(Graft + "_plans", "low_chip", ScionTier, 320, FieldPlans);
             graftChip.Categories = [DaydreamChems];
             RegisterCatalog(graftChip, "Tissue Graft Schematic", "A DaydreamChems pattern for fabricating the Tissue Graft on the Magnum.",

@@ -93,7 +93,7 @@ namespace ImperiumOfMan
             AddMaterial(Tray, "plastic", "Prepacked dressing tray", "A prepared kit tray with a sterile dressing.", 26);
             AddMaterial(Clinical, "pills_antibiotics", "Sealed clinical refill", "An advanced refill for a military medkit.", 58, 2);
             AddMaterial(Instruments, "plastic", "Sterile instrument tray", "An arranged tray for surgical kits.", 47, 2);
-            AddMaterial(Biomass, "rags", "Raw vat biomass", "Unprocessed feedstock from a grow cycle.", 3);
+            AddMaterial(Biomass, "rags", "Raw vat biomass", "Unprocessed organic feedstock for ration vats and grow cycles.", 3);
             AddMaterial(RationBase, "ration_pack_1", "Vat ration base", "Processed biomass ready for ration packing.", 5);
             AddMaterial(Wrapper, "paper_towel", "Ration wrapper", "An empty wrapper for one field ration.", 2);
 
@@ -164,7 +164,7 @@ namespace ImperiumOfMan
             AddCatalog("iom_arbites_weapon_chip", "Arbites armory schematic", "Judgement shotgun and shock maul manufacture.",
                 ItemCategory, 3, 230, Judgement, ShockMaul);
 
-            IndustryRecipe(Leaf, 14, 4, new("regular_food_container", 1), new("water_bottle_1", 1));
+            IndustryRecipe(Leaf, 14, 4, new(Biomass, 1), new("water_bottle_1", 1));
             IndustryRecipe(Tobacco, 4, 4, new ItemQuantity(Leaf, 4));
             IndustryRecipe(FilterStock, 4, 2, new(PolymerStock, 1), new("acid", 1));
             IndustryRecipe(Filter, 2, 2, new(FilterStock, 1), new(Textile, 1));
@@ -187,7 +187,7 @@ namespace ImperiumOfMan
             AddCatalog("iom_clinical_chip", "DaydreamChems clinical schematic", "Advanced medkits, surgical kits, refills and instrument trays.",
                 "DaydreamChems", 2, 235, "medical_kit_2", "surgical_kit", Clinical, Instruments);
 
-            IndustryRecipe(Biomass, 12, 4, new("regular_food_container", 1), new("water_bottle_1", 1));
+            IndustryRecipe(Biomass, 12, 4, new("human_meat", 1), new("water_bottle_1", 1));
             IndustryRecipe(RationBase, 3, 4, new ItemQuantity(Biomass, 3));
             IndustryRecipe(Wrapper, 2, 4, new ItemQuantity("paper_towel", 2));
             IndustryRecipe(CorpseStarch, 3, 4, new(RationBase, 2), new(Wrapper, 2));

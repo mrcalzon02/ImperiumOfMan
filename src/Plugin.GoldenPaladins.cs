@@ -71,7 +71,7 @@ namespace ImperiumOfMan
             IndustryRecipe(GoldenSabatons, 25, 1, new(HeavyPlate, 2), new(Fittings, 2), new("ceramite_plates", 1), new("rubber", 2));
             IndustryRecipe(GoldenSword, 41, 1, new(Sheet, 3), new("lens", 2), new("weapon_parts", 3), new("microelectronics_parts", 3));
             IndustryRecipe(GoldenCannon, 44, 1, new(Sheet, 4), new(Fittings, 3), new("weapon_parts", 4), new("ceramite_plates", 2));
-            IndustryRecipe(GoldenWard, 16, 1, new(Fittings, 2), new(Textile, 1), new("scientific_equipment", 2), new(PuritySeal, 1));
+            IndustryRecipe(GoldenWard, 16, 1, new(Fittings, 2), new(Textile, 1), new("microelectronics_parts", 4), new("lens", 2), new(PuritySeal, 1));
             AddCatalog(GoldenPlans, "Golden Paladin requisition",
                 "Patterns for Golden Paladin armor, the Golden Nemesis Force Sword, Golden Psycannon and Golden Aegis Ward. The ward consumes a Purity Seal.",
                 ItemCategory, GoldenTier, 1125, GoldenHelm, GoldenCuirass, GoldenGreaves, GoldenSabatons,
