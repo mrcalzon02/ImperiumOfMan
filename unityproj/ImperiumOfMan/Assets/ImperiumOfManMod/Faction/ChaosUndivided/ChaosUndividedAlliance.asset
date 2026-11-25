@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1928594941, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: ChaosUndividedAlliance
+  m_EditorClassIdentifier: 
+  _normalIcon: {fileID: 21300000, guid: 7a74310b3eea4207b6b438cf18259b3c, type: 3}
+  _hoverIcon: {fileID: 21300000, guid: 2b9fcacffb79440e9a7502f9829c47f4, type: 3}

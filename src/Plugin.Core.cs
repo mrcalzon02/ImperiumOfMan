@@ -50,15 +50,53 @@ namespace ImperiumOfMan
                 RegisterEquipment();
                 RegisterGuardSupplies();
                 RegisterArbitesEquipment();
+                RegisterValhallanEquipment();
+                RegisterSteelLegionEquipment();
+                RegisterElysianEquipment();
+                RegisterKriegEquipment();
+                RegisterScionEquipment();
+                RegisterSkitariiEquipment();
+                RegisterSororitasEquipment();
+                RegisterOrdoXenosEquipment();
+                RegisterGreyKnightsEquipment();
+                RegisterGoldenPaladinEquipment();
+                RegisterSpecialistSupplies();
+                RegisterChaosEquipment();
+                RegisterChaosPacts();
+                RegisterChaosEnemies();
+                RegisterCommsNodeUpgrades();
+                RegisterShipSupportUpgrades();
                 RegisterGuardProduction();
+                RegisterIndustry();
+                RegisterMercenaryClasses();
                 RegisterStations();
+                RegisterFactionCampaigns();
+                RegisterTechnologyTier();
                 RegisterUnitDrops();
                 RegisterArbitesPatrol();
+                RegisterValhallanPatrol();
+                RegisterSteelLegionPatrol();
+                RegisterElysianPatrol();
+                RegisterKriegPatrol();
+                RegisterScionPatrol();
+                RegisterSkitariiPatrol();
+                RegisterSororitasPatrol();
+                RegisterOrdoXenosPatrol();
+                RegisterGreyKnightsPatrols();
+                RegisterGoldenPaladinPatrol();
+                RegisterChaosGarrisons();
                 RegisterFactionDrops();
+                RegisterChaosRewards();
                 foreach (Action register in Registrations)
                 {
                     register();
                 }
+                FinishIndustryRegistration();
+                RegisterImperialEquipmentFittings();
+                RegisterImperialDamageTiles();
+                RegisterImperialMachinery();
+                RegisterImperialSupplyClosetProps();
+                RegisterCampaignDeckTiles();
             }
             finally
             {

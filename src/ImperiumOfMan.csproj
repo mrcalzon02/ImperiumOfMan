@@ -48,6 +48,10 @@
             <HintPath>$(ManagedPath)Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="SimpleJSON">
+            <HintPath>$(ManagedPath)SimpleJSON.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>$(ManagedPath)UnityEngine.dll</HintPath>
@@ -77,17 +81,49 @@
             <HintPath>$(ManagedPath)UnityEngine.TextRenderingModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>$(ManagedPath)UnityEngine.AudioModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="UnityEngine.ImageConversionModule">
             <HintPath>$(ManagedPath)UnityEngine.ImageConversionModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.Physics2DModule">
+            <HintPath>$(ManagedPath)UnityEngine.Physics2DModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TilemapModule">
+            <HintPath>$(ManagedPath)UnityEngine.TilemapModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+            <HintPath>$(ManagedPath)Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(ManagedPath)UnityEngine.UI.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="$(RepositoryRoot)\media\ImperialInteriors\Runtime\*.png">
+            <LogicalName>ImperiumOfMan.Art.%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Include="$(RepositoryRoot)\media\ImperialInteriors\imperial-machinery.json">
+            <LogicalName>ImperiumOfMan.Art.ImperialMachinery.json</LogicalName>
+        </EmbeddedResource>
         <EmbeddedResource Include="$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Food\**\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Utility\LasClip\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Weapons\Frag\*.png">
             <LogicalName>ImperiumOfMan.Art.%(Filename)%(Extension)</LogicalName>
         </EmbeddedResource>
-        <EmbeddedResource Include="Art\Arbites\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Weapons\Judgement\*.png">
+        <EmbeddedResource Include="Art\**\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Weapons\Judgement\*.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Weapons\Powerblade\*.png;$(RepositoryRoot)\media\Mechanicus\Mechanicus-Mars-CRT.png">
+            <LogicalName>ImperiumOfMan.Art.%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Art\ChaosUndivided\Models\*.meshbytes;Art\ChaosUndivided\EquipmentModels\*.meshbytes;Art\Imperial\EquipmentModels\*.meshbytes">
+            <LogicalName>ImperiumOfMan.Art.%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Include="$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Portraits\ChaosUndividedComms.png;$(RepositoryRoot)\unityproj\ImperiumOfMan\Assets\ImperiumOfManMod\Faction\ChaosUndivided\*.png">
             <LogicalName>ImperiumOfMan.Art.%(Filename)%(Extension)</LogicalName>
         </EmbeddedResource>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">

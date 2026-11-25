@@ -1,0 +1,50 @@
+[
+  {
+    "key": "armor_press",
+    "name": "Armor plate press",
+    "footprint": [4, 3],
+    "output": "iom_pressed_insert",
+    "sites": ["iomTerra", "iomHavoc", "iomChainforge"],
+    "health": 220
+  },
+  {
+    "key": "furnace_caster",
+    "name": "Furnace and caster",
+    "footprint": [5, 3],
+    "output": "iom_rolled_plate",
+    "sites": ["iomFoundryPrimaris", "iomCinderCrucible", "iomChainforge"],
+    "health": 250
+  },
+  {
+    "key": "assembly_gantry",
+    "name": "Construction gantry",
+    "footprint": [5, 3],
+    "output": "iom_automata_chassis",
+    "sites": ["iomHavoc", "iomBroadsword", "iomChainforge"],
+    "health": 200
+  },
+  {
+    "key": "cell_line",
+    "name": "Las-cell assembly line",
+    "footprint": [4, 2],
+    "output": "iom_cell_stock",
+    "sites": ["iomPhobos", "iomHollowSignalDepot"],
+    "health": 165
+  },
+  {
+    "key": "vat_bank",
+    "name": "Sealed biomass vats",
+    "footprint": [4, 3],
+    "output": "iom_raw_vat_biomass",
+    "sites": ["iomMoom", "iomNeithVault", "iomOssuaryWorks"],
+    "health": 190
+  },
+  {
+    "key": "power_relay",
+    "name": "Hydraulic power relay",
+    "footprint": [3, 2],
+    "output": "electrical_parts_container",
+    "sites": ["iomBroadsword", "iomHollowSignalDepot", "iomVeiledGate", "iomBlackMeridian"],
+    "health": 175
+  }
+]

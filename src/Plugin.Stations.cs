@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using MGSC;
 
 namespace ImperiumOfMan
@@ -7,79 +9,78 @@ namespace ImperiumOfMan
         private static void RegisterStations()
         {
             StationRecord stationDonor = Data.Stations.GetRecord("Paragon");
-            StationBarterRecord barterDonor = Data.StationBarter.GetRecord("Paragon");
+            var lunaBarter = Data.StationBarter.GetRecord("SterlingsFarm");
+            var phobosBarter = Data.StationBarter.GetRecord("Canaan");
+            var havocBarter = Data.StationBarter.GetRecord("SampoQuern");
             if (stationDonor == null)
             {
                 throw new System.InvalidOperationException("Quasimorph station donor 'Paragon' is unavailable.");
             }
 
-            if (barterDonor == null)
+            if (lunaBarter == null || phobosBarter == null || havocBarter == null)
             {
-                throw new System.InvalidOperationException("Quasimorph station barter donor 'Paragon' is unavailable.");
+                throw new System.InvalidOperationException("The native farm, munitions depot and industrial trade profiles are unavailable.");
             }
 
-            RegisterStation(
-                stationDonor,
-                barterDonor,
-                "iomTerra",
-                "earth",
-                "Military",
-                null,
-                powerGain: 2,
-                techLevelGain: 3,
-                uncapturable: true,
-                missionTemplateId: "orbit_Military",
-                bramfaturaId: "No_Bramfatura",
-                initialPopulation: 22314,
-                maxPopulation: 60840);
+            RegisterImperialCapitals(stationDonor);
 
             RegisterStation(
                 stationDonor,
-                barterDonor,
-                "iomMoom",
+                lunaBarter,
+                LunaStation,
                 "fuller",
                 "SpaceStation",
-                LunaReceipt,
+                null,
                 powerGain: 1,
                 techLevelGain: 1,
                 uncapturable: false,
-                missionTemplateId: "orbit_Station",
+                missionTemplateId: "orbit_Farm",
                 bramfaturaId: "Duggur",
                 initialPopulation: 7201,
-                maxPopulation: 33034);
+                maxPopulation: 33034,
+                corpReceipts: ["growth_basic", "food_basic", "food_military", "data_memory"]);
 
             RegisterStation(
                 stationDonor,
-                barterDonor,
-                "iomPhobos",
+                phobosBarter,
+                PhobosStation,
                 "phobos",
                 "Military",
-                PhobosReceipt,
+                null,
                 powerGain: 1,
                 techLevelGain: 2,
                 uncapturable: false,
                 missionTemplateId: "orbit_Spaceport",
                 bramfaturaId: "Ur_Sleeping",
                 initialPopulation: 8451,
-                maxPopulation: 39932);
+                maxPopulation: 39932,
+                corpReceipts: ["growth_military", "factory_military", "data_military", "use_weapon", "use_tool"]);
+
+            AddStationReceipt(HavocFabrication, 60, [new(Metal, 2), new(PolymerStock, 1)], [new(Fittings, 3), new(Sheet, 1)]);
 
             RegisterStation(
                 stationDonor,
-                barterDonor,
-                "iomHavoc",
+                havocBarter,
+                HavocStation,
                 "havoc",
                 "Industrial",
-                null,
+                HavocFabrication,
                 powerGain: 2,
                 techLevelGain: 1,
                 uncapturable: false,
-                missionTemplateId: "orbit_Spaceport",
+                missionTemplateId: "orbit_Industrial",
                 bramfaturaId: "Gannix",
                 initialPopulation: 14451,
-                maxPopulation: 42112);
+                maxPopulation: 42112,
+                corpReceipts: havocBarter.CorpProduceItems.Where(receipt => receipt != "device_robot").ToList());
+
+            RegisterMechanicusSites(stationDonor);
+            RegisterInnerIndustrySites(stationDonor);
+            RegisterChaosSites(stationDonor, phobosBarter, havocBarter);
+            RegisterFringeOutposts(stationDonor, phobosBarter, havocBarter);
         }
 
-        private static void RegisterStation(
+        private static StationBarterRecord RegisterStation(
             StationRecord stationDonor,
             StationBarterRecord barterDonor,
             string id,
@@ -92,9 +93,13 @@ namespace ImperiumOfMan
             string missionTemplateId,
             string bramfaturaId,
             int initialPopulation,
-            int maxPopulation)
+            int maxPopulation,
+            float captureChance = 0.2f,
+            SpaceObjectRecord newSpaceObject = null,
+            List<string> corpReceipts = null,
+            string initialOwner = ItemCategory)
         {
-            if (Data.SpaceObjects.GetRecord(spaceObjectId) == null ||
+            if ((newSpaceObject?.Id != spaceObjectId && Data.SpaceObjects.GetRecord(spaceObjectId) == null) ||
                 Data.StationTypes.GetRecord(stationType) == null ||
                 Data.ProcMissionTemplates.GetRecord(missionTemplateId) == null ||
                 Data.Bramfaturas.GetRecord(bramfaturaId) == null)
@@ -102,19 +107,23 @@ namespace ImperiumOfMan
                 throw new System.InvalidOperationException("Quasimorph station references are unavailable for " + id);
             }
 
+            if (newSpaceObject != null)
+            {
+                StageRecord(Data.SpaceObjects, spaceObjectId, newSpaceObject);
+            }
             StageRecord(Data.Stations, id, new StationRecord
             {
                 Id = id,
                 ContentDescriptor = stationDonor.ContentDescriptor,
                 SpaceObjectId = spaceObjectId,
-                InitialOwnerFactionId = "iom_faction",
+                InitialOwnerFactionId = initialOwner,
                 Power = 0,
                 PowerGain = powerGain,
                 TechLevelGain = techLevelGain,
                 UncapturableByDefault = uncapturable,
-                CaptureChance = 0.2f,
+                CaptureChance = captureChance,
                 MissionTemplateId = missionTemplateId,
-                MissionNameTemplateId = "mercurySurfaceLevels",
+                MissionNameTemplateId = TranslationPatch.FloorNameTemplate,
                 BramfaturaId = bramfaturaId,
                 StationType = stationType,
                 SpaceObjectItemDropPercent = 0.1f,
@@ -123,16 +132,20 @@ namespace ImperiumOfMan
                 SpawnOnStart = true
             });
 
-            StageRecord(Data.StationBarter, id, CloneBarter(id, barterDonor, receipt));
+            var barter = CloneBarter(id, barterDonor, receipt, corpReceipts);
+            StageRecord(Data.StationBarter, id, barter);
+            return barter;
         }
 
-        private static StationBarterRecord CloneBarter(string id, StationBarterRecord donor, string receipt)
+        private static StationBarterRecord CloneBarter(string id, StationBarterRecord donor, string receipt,
+            List<string> corpReceipts)
         {
+            var produce = corpReceipts ?? donor.CorpProduceItems;
             return new StationBarterRecord
             {
                 Id = id,
                 ContentDescriptor = null,
-                CorpProduceItems = receipt == null ? [.. donor.CorpProduceItems] : [.. donor.CorpProduceItems, receipt],
+                CorpProduceItems = receipt == null ? [.. produce] : [.. produce, receipt],
                 CorpAdditionalConsumeItems = [.. donor.CorpAdditionalConsumeItems],
                 CivResProduceItems = [.. donor.CivResProduceItems],
                 CivResAdditionalConsumeItems = [.. donor.CivResAdditionalConsumeItems],

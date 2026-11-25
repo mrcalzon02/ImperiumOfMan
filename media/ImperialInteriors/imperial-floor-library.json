@@ -1,0 +1,156 @@
+[
+  {
+    "key": "ashlar",
+    "name": "Pale courtyard ashlar",
+    "period": 2,
+    "brightness": 0.83,
+    "source": "exec-b1eb453f-6b27-4932-ba46-4f66232343d3.png"
+  },
+  {
+    "key": "rust_tread",
+    "name": "Oxidized diamond tread",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-a3e6d54e-83da-42a7-b030-8eeca03ea9e5.png"
+  },
+  {
+    "key": "olive_plate",
+    "name": "Olive service plating",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-91babadb-afbe-4b88-a04d-dc7f88a76697.png"
+  },
+  {
+    "key": "riveted_tread",
+    "name": "Riveted conveyor tread",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-147a9995-06d1-479b-9553-1b82d5fdfadd.png"
+  },
+  {
+    "key": "foundry_wheel",
+    "name": "Foundry flywheel grilles",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-6302c0c1-8744-44ff-8d1c-171b556858ad.png"
+  },
+  {
+    "key": "jade_fault",
+    "name": "Jade-fractured slate",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-985d7440-213e-4d12-a83c-dd78cbc6b484.png"
+  },
+  {
+    "key": "copper_junction",
+    "name": "Copper junction plating",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-0261eece-6884-4082-a6ed-1aacf89ad229.png"
+  },
+  {
+    "key": "cloister",
+    "name": "Cloister marble lattice",
+    "period": 2,
+    "brightness": 0.77,
+    "source": "exec-061040eb-3e1c-4994-847e-f9fec7d3c850.png"
+  },
+  {
+    "key": "olive_rib",
+    "name": "Ribbed olive deck",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-141033d1-e75a-4ffe-8e3c-902647e59df6.png"
+  },
+  {
+    "key": "blood_inlay",
+    "name": "Oxblood obsidian inlay",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-53c3efff-cf12-4f88-b871-6bd808566f86.png"
+  },
+  {
+    "key": "ritual_rings",
+    "name": "Amethyst ritual rings",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-bf6f91f0-6eaa-4eb9-9354-ecd5c88d526f.png"
+  },
+  {
+    "key": "drain_plate",
+    "name": "Olive drainage grilles",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-8e2ee910-42fe-4d62-914f-e49798dfdc2f.png"
+  },
+  {
+    "key": "red_diamond",
+    "name": "Red and brass diamondwork",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-a2b6fe1a-3dd7-4a08-b33d-8a3347b50f49.png"
+  },
+  {
+    "key": "telemetry",
+    "name": "Cyan telemetry decks",
+    "period": 2,
+    "brightness": 0.9,
+    "source": "exec-31b28222-e9da-4db7-8aba-5f568250e534.png"
+  },
+  {
+    "key": "turbine_grid",
+    "name": "Turbine ventilation grid",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-337e271b-7df2-4b0c-abf1-3d2646443a86.png"
+  },
+  {
+    "key": "violet_conduit",
+    "name": "Violet conduit plating",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-bd63948e-ced6-4f33-8e0d-29c61bb4c1e9.png"
+  },
+  {
+    "key": "red_tread",
+    "name": "Crimson diamond tread",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-46e77739-c9d2-4495-ae0b-11b3b2285a9c.png"
+  },
+  {
+    "key": "loading_chevron",
+    "name": "Loading chevrons",
+    "period": 2,
+    "brightness": 0.95,
+    "source": "exec-8548b6b9-db14-41ba-b158-ad72d1b4d74d.png"
+  },
+  {
+    "key": "brass_seam",
+    "name": "Gunmetal with brass seams",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-e052b495-1609-4852-9fc0-e393e1a48383.png"
+  },
+  {
+    "key": "red_medallion",
+    "name": "Crimson seal pavers",
+    "period": 2,
+    "brightness": 1,
+    "source": "exec-970ecbce-2d2a-4c5d-90a9-29327b6b9428.png"
+  },
+  {
+    "key": "smoke_marble",
+    "name": "Veined smoke marble",
+    "period": 1,
+    "brightness": 1,
+    "source": "exec-c72dede1-5010-4462-8c49-477a7c40d135.png"
+  },
+  {
+    "key": "rust_grate",
+    "name": "Rust-backed duct grates",
+    "period": 1,
+    "brightness": 1,
+    "source": "exec-f338f899-c4d9-4742-a368-6a2b344d14cc.png"
+  }
+]

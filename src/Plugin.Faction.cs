@@ -18,6 +18,7 @@ namespace ImperiumOfMan
                 ContentDescriptor = imperatorPortrait
             });
             StageDescriptor("portraits", "faction_iom_faction", imperatorPortrait);
+            RegisterChaosUndividedComms();
 
             var factionDescriptor = LoadRequiredAsset<FactionDescriptor>("ImperiumOfManFaction");
             StageRecord(Data.Factions, "iom_faction", new FactionRecord
@@ -44,16 +45,6 @@ namespace ImperiumOfMan
             });
             StageDescriptor("factions", "iom_faction", factionDescriptor);
 
-            string questlineId = $"iom_faction{FactionQuestlineRecord.ENDGAME_LOOP_POSTFIX}";
-            StageRecord(Data.FactionQuestlines, questlineId, new FactionQuestlineRecord
-            {
-                Id = questlineId,
-                ContentDescriptor = null,
-                FactionId = "iom_faction",
-                Strategies = [new(100f, "Expansion"), new(60f, "Scouting"), new(45f, "Defense")],
-                NextStepOnFail = string.Empty
-            });
-
             var allianceDescriptor = LoadRequiredAsset<AllianceDescriptor>("HumanAlliance");
             StageRecord(Data.Alliances, "iom_alliance", new AllianceRecord
             {
@@ -64,6 +55,7 @@ namespace ImperiumOfMan
                 TradeFactionLists = ["iom_faction", "ChurchRevelation", "SBN"]
             });
             StageDescriptor("alliances", "iom_alliance", allianceDescriptor);
+            RegisterChaosFaction();
         }
 
         private static void RegisterUnitDrops()
@@ -90,13 +82,17 @@ namespace ImperiumOfMan
             }
         }
 
-        private static void RegisterImperialRole(string id, string donorId, string name, params string[] loadout)
+        private static MobClassRecord RegisterImperialRole(string id, string donorId, string name, params string[] loadout) =>
+            RegisterEquippedRole(id, donorId, name, ItemCategory, loadout);
+
+        private static MobClassRecord RegisterEquippedRole(string id, string donorId, string name,
+            string factionCategory, params string[] loadout)
         {
             var donor = Data.MobClasses.GetRecord(donorId)
-                ?? throw new InvalidOperationException("Imperium combat role " + id + " requires donor " + donorId);
+                ?? throw new InvalidOperationException("Combat role " + id + " requires donor " + donorId);
             var role = (MobClassRecord)CloneRecordMethod.Invoke(donor, null);
             role.Id = id;
-            role.DefaultItemFactionTag = ItemCategory;
+            role.DefaultItemFactionTag = factionCategory;
             role.ItemCategoriesWhitelist = new() { ["Faction"] = 20 };
             role.PrimaryWeapon = new() { [WeaponClass.None] = 1 };
             role.SecondaryWeapon = new() { [WeaponClass.None] = 1 };
@@ -108,6 +104,7 @@ namespace ImperiumOfMan
             role.GrantedItems = [.. loadout];
             StageRecord(Data.MobClasses, id, role);
             Registrations.Add(() => TranslationPatch.AddRole(id, name));
+            return role;
         }
 
         private static UnitDropRecord CreateUnitDrop(int techLevel, int minSize, int maxSize, float points, string leader, string member = PdfRole)
