@@ -1,0 +1,49 @@
+{
+  "native_build": {
+    "elapsed_seconds": 8.93,
+    "errors": 0,
+    "game_assembly_sha256": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+    "job_id": 139582588643,
+    "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45722065128",
+    "sdk": "9.0.203",
+    "status": "passed",
+    "warnings": 0
+  },
+  "package": {
+    "bytes": 11728251,
+    "filename": "ImperiumOfMan-1.1.1-FuryFoodChipFixes.zip",
+    "git_blob_sha": "ecaa7c2372aee53e993d1b8de33aafcfa2c02d19",
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 13837312,
+        "sha256": "20bc670f3a86fe32ac18cfff515d5ed4e3f4df97f5d3fdd5cfb42102b8428dbf"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    },
+    "sha256": "8445e076eca9a9c66b0daf8b5dbfc1b597642cb3d4c94d17de2a6b3d7be7ed86"
+  },
+  "schema": "iom.gameplay-fix-package.v1",
+  "source_sha": "1332988a4b5645727c966a2836e098bc9fd1af3d",
+  "source_url": "https://github.com/mrcalzon02/ImperiumOfMan/commit/1332988a4b5645727c966a2836e098bc9fd1af3d",
+  "validation": {
+    "chip_source_harness_assertions_passed": 16,
+    "food_source_harness_assertions_passed": 24,
+    "gameplay": "not_run",
+    "harnesses_use_game_api_test_doubles": true,
+    "live_game_or_save_modified": false,
+    "native_boot": "not_run",
+    "transport_chunks_verified": 30,
+    "zip_crc_and_member_hashes_verified": true
+  }
+}
