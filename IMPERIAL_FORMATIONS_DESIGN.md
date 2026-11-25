@@ -18,7 +18,7 @@ The Imperial Guard supplies the low-tier equipment and common troops. Each forma
 | **8** | The Golden Throne fields a Battle Sister and a flamer specialist on the final floor of its reliquary recovery contract and reverse Infiltration. |
 | **9** | An Interrogator and a Pistoleer support Phobos Quarantine and join the first Control counterattack on the final floor of its reverse contract. |
 | **10** | Titan Vault Containment deploys a Nemesis-armed Paladin and an Armsman on the final floor. Broadsword Boarding Defense deploys a Psycannon Paladin and an Armsman on the entrance floor. |
-| **11** | The Golden Paladin requisition unlocks seven gilded Grey Knights recipes. Golden Paladin Guard and its reverse Robbery deploy a Golden Paladin and an Armsman at the Golden Throne entrance. |
+| **11** | Each Golden Paladin requisition contains one randomly selected recipe from seven gilded Grey Knights possibilities. Golden Paladin Guard and its reverse Robbery deploy a Golden Paladin and an Armsman at the Golden Throne entrance. |
 
 ## Magnum mercenary call-ins
 

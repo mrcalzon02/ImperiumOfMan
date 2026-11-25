@@ -35,11 +35,11 @@ The crew can buy a finished stack, assemble components found on a raid, or commi
 
 ## Utility, food, and standard supplies by tech level
 
-Each row lists what the tier adds to the Imperial supply line. Earlier Imperial stock stays in the pool as the faction advances. Station type affects which classes are stocked, and mission rewards use the native reputation limits. A requisition unlocks its recipes on the Magnum. Listed facility stock and native loot give additional ways to acquire the same item.
+Each row lists what the tier adds to the Imperial supply line. Earlier Imperial stock stays in the pool as the faction advances. Station type affects which classes are stocked, and mission rewards use the native reputation limits. Each requisition chip contains one randomly selected recipe from its listed pool and unlocks that recipe on the Magnum. Its selection is saved on the chip and shown in the tooltip; further chips can contain other recipes or already known duplicates. Listed facility stock and native loot give additional ways to acquire the same item.
 
 | Imperial tech | Food and drink | Utility and field supplies | Standard ammunition and equipment |
 | --- | --- | --- | --- |
-| **1 · Planetary Defence Force** | Corpse Starch, bottled water and standard ration packs enter Imperial stock. Luna packs clean Corpse Starch. Clean and Dirty Corpse Starch are basic loot on every newly generated Imperial raid floor. | Bandages and splints. The Imperial ration line schematic teaches the biomass, ration base, wrapper and packing orders. | Las Clips, service Lasgun and PDF flak. Imperial Field Plans teach cell stock, sealed cells, empty clip housings and final packing. |
+| **1 · Planetary Defence Force** | Corpse Starch, bottled water and standard ration packs enter Imperial stock. Luna packs clean Corpse Starch. Clean and Dirty Corpse Starch are basic loot on every newly generated Imperial raid floor. | Bandages and splints. The Imperial ration line schematic can contain a biomass, ration base, wrapper or packing recipe. | Las Clips, service Lasgun and PDF flak. Imperial Field Plans draw one recipe from cell stock, sealed cells, empty clip housings and final packing. |
 | **2 · Cadian Guard** | — | Hydrogel bandages and melee repair kits. | Cadian flak and Guard Frag Grenades. Phobos produces grenades alongside Las Clips. |
 | **3 · Arbites, Valhallans, Steel Legion** | Valhallan Tanna enters Imperial stock and Luna's specialist supply. It reduces existing cold buildup. | Field medkits, Steel Legion Smoke Grenades and Spare Filters. Luna supplies Winter insulation and Havoc supplies Steel Legion seal lining. Both components are also taught by their regimental chips. | Standard shotgun shells for Judgement. Arbites carapace, winter gear, sealed Steel Legion gear, Long-Las and Plasma Pistol. Servitor backpack enters the equipment pool. |
 | **4 · Elysians** | — | Elysian Drop Harness and firearm repair kits. Native smoke grenades are carried by Elysian spotters. | Standard Heavy rifle ammunition for the Bolter. The Drop Lascarbine uses the existing BatteryCells supply. |
@@ -72,23 +72,23 @@ These tiers belong to the manufacturer named in each row. Finished base-game goo
 
 ### Specialist supply and fabrication
 
-All eight Bolt Clips use the Heavy ammo family. Ordinary Heavy rounds still fit the bolt weapons. The suppliers below restock small lots at their own tech levels. The Golden Throne stocks the armory patterns as the Imperium advances, and each requisition teaches the recipes listed in its row.
+All eight Bolt Clips use the Heavy ammo family. Ordinary Heavy rounds still fit the bolt weapons. The suppliers below restock small lots at their own tech levels. The Golden Throne stocks the armory patterns as the Imperium advances, and each requisition draws one recipe from its pool, including the possibilities listed in its row.
 
 | Tech | Items | Supplier and unlock |
 | --- | --- | --- |
 | **3** | Imperial Requisition | Earned from Imperial procedural contracts, including Arbites Security. Sell it at the Golden Throne for Imperial trade credit to spend on patterns. |
-| **4** | Bolt Clip and Bolt Pistol | Phobos stocks the standard clip and compact sidearm. The Elysian drop requisition teaches both recipes. |
-| **5** | Kraken Bolt Clip, Krak Grenade and Bolt Rifle | Havoc stocks the armor-piercing round, narrow-blast grenade and long-range rifle. The Krieg siege requisition teaches all three. |
-| **6** | Metal Storm Bolt Clip, Helfrost Bolt Clip and Tissue Graft | The Golden Throne's Tempestus armory stocks Metal Storm, which scatters two lacerating fragments. Luna stocks Helfrost, which deals Cold damage. The Tempestus requisition teaches both clips. Avicenna's Clinic stocks the chest graft at **DaydreamChems Tech 6**. |
-| **7** | Antiphasic Bolt Clip and Subdermal Underplate | Foundry Primaris stocks the Shock round and protective body implant. The Skitarii forge requisition teaches both. |
-| **8** | Inferno Bolt Clip, Melta Grenade and Purity Seal | The Golden Throne stocks the incendiary round and short-range Plasma grenade. The Sororitas armory requisition teaches both. Reliquary recovery pays two seals and can return after 28 days. Melta Grenade manufacture consumes one seal. |
-| **9** | Hellfire Bolt Clip and Detox Gland | Phobos stocks the Poison round and protective stomach implant. The Ordo Xenos requisition teaches both. |
-| **10** | Tempest Bolt Clip and Power Fist | Titan's vault armory stocks the Beam round and charged gauntlet. The Grey Knights Paladin requisition teaches both. |
-| **11** | Golden Paladin equipment and Golden Aegis Ward | The Golden Throne stocks the seven-recipe Golden Paladin requisition. The ward consumes one Purity Seal. The Golden Psycannon accepts all eight Bolt Clips. |
+| **4** | Bolt Clip and Bolt Pistol | Phobos stocks the standard clip and compact sidearm. Both recipes are possible results of the Elysian drop requisition. |
+| **5** | Kraken Bolt Clip, Krak Grenade and Bolt Rifle | Havoc stocks the armor-piercing round, narrow-blast grenade and long-range rifle. All three recipes are possible results of the Krieg siege requisition. |
+| **6** | Metal Storm Bolt Clip, Helfrost Bolt Clip and Tissue Graft | The Golden Throne's Tempestus armory stocks Metal Storm, which scatters two lacerating fragments. Luna stocks Helfrost, which deals Cold damage. Both clip recipes are in the Tempestus requisition pool. Avicenna's Clinic stocks the chest graft at **DaydreamChems Tech 6**. |
+| **7** | Antiphasic Bolt Clip and Subdermal Underplate | Foundry Primaris stocks the Shock round and protective body implant. Both recipes are in the Skitarii forge requisition pool. |
+| **8** | Inferno Bolt Clip, Melta Grenade and Purity Seal | The Golden Throne stocks the incendiary round and short-range Plasma grenade. Both recipes are in the Sororitas armory requisition pool. Reliquary recovery pays two seals and can return after 28 days. Melta Grenade manufacture consumes one seal. |
+| **9** | Hellfire Bolt Clip and Detox Gland | Phobos stocks the Poison round and protective stomach implant. Both recipes are in the Ordo Xenos requisition pool. |
+| **10** | Tempest Bolt Clip and Power Fist | Titan's vault armory stocks the Beam round and charged gauntlet. Both recipes are in the Grey Knights Paladin requisition pool. |
+| **11** | Golden Paladin equipment and Golden Aegis Ward | The Golden Throne stocks Golden Paladin requisitions, each carrying one of seven possible recipes. The ward consumes one Purity Seal. The Golden Psycannon accepts all eight Bolt Clips. |
 
 ### Support munitions and allied machines
 
-Imperial support patterns teach Magnum fabrication for conventional munitions, mines, battlefield devices, repair and recovery equipment, and native deployable allies. The items retain their native models, ammunition families, and deployment behavior. Patterns enter Imperial chip stock at the listed tier and are stocked at the supplier. Existing workbench recipes and other factions' unlocks still apply. AnCom supplies the manufacturing patterns for medium cartridges and flechette shells, and the Imperium also trades finished rounds.
+Imperial support patterns each contain one randomly selected Magnum recipe from a pool of conventional munitions, mines, battlefield devices, repair and recovery equipment, and native deployable allies. The table lists the possible recipes at each tier. The items retain their native models, ammunition families, and deployment behavior. Patterns enter Imperial chip stock at the listed tier and are stocked at the supplier. Existing workbench recipes and other factions' unlocks still apply. AnCom supplies the manufacturing patterns for medium cartridges and flechette shells, and the Imperium also trades finished rounds.
 
 | Imperial tech | Supplier | New support stock and fabrication |
 | --- | --- | --- |
@@ -120,7 +120,7 @@ Havoc builds ballistic turrets and industrial robots at Tech 2. Luna builds fire
 
 Phobos supplies cells and electrical parts to Foundry Primaris. Havoc supplies chassis to Luna, Foundry Primaris, and Broadsword. Foundry Primaris supplies logic cores to the automata factories and the Golden Throne. Broadsword turns surplus cores and electrical parts into AI modules for drones and the palace energy-barrier line. Ore cargo, tools, and electrical crates can also come from the contestable inner-system factories through player trade.
 
-The recipes expose their inputs as station demand. Imperial freight uses the game's reserve and cargo limits, and the player can deliver shortages through station barter. Each automata or component order waits for a full batch of materials and consumes it when the order starts. Stock produced by one line can feed the next. The Magnum starts with chassis and logic core fabrication, and the Tech 5 drone patterns add AI module fabrication. Existing drone schematics pick up that recipe on load. Havoc and Foundry raid salvage can yield their respective components, and the Magnum can shred surplus chassis and cores back into scrap.
+The recipes expose their inputs as station demand. Imperial freight uses the game's reserve and cargo limits, and the player can deliver shortages through station barter. Each automata or component order waits for a full batch of materials and consumes it when the order starts. Stock produced by one line can feed the next. The Magnum starts with chassis and logic core fabrication. AI module fabrication is a separate possible result of the Tech 5 drone pattern chip; it is not automatically taught when a drone recipe is learned or a save is loaded. Havoc and Foundry raid salvage can yield their respective components, and the Magnum can shred surplus chassis and cores back into scrap.
 
 ### Rations, medical supplies, and munitions freight
 
@@ -293,7 +293,7 @@ The new batches require their full inputs and supply both commerce and downstrea
 
 ## Cigarettes and manufacturer recipes
 
-The player buys the cigarette recipe from DaydreamChems, whose facilities cover growing and chemical processing. The faction's standard chip pool supplies the schematic. Its production facilities trade finished stock and have room loot that reflects their work. Learning the schematic unlocks cigarette-specific orders at compatible benches. Generic board stock and other shared materials can come from unrelated suppliers.
+The player buys the cigarette recipe from DaydreamChems, whose facilities cover growing and chemical processing. The faction's standard chip pool supplies the schematic. Its production facilities trade finished stock and have room loot that reflects their work. Each schematic contains one randomly selected recipe from the tobacco, filter, box, rolling and packing supply pool. Generic board stock and other shared materials can come from unrelated suppliers.
 
 | Operation | Inputs and output | Where the crew can recover the output |
 | --- | --- | --- |
@@ -305,7 +305,7 @@ The player buys the cigarette recipe from DaydreamChems, whose facilities cover 
 
 Boxes and filters can be made in parallel with growing. Salvaged loose cigarettes and spare boxes reduce the chain to a single packing order once the crew has learned the recipe. An intact pack is usable as soon as it is recovered. The installed crafting table already offers `cigarettes_1` directly from four sorbent pills at the medical printer. The overhaul would replace that direct crafting recipe so the faction purchase and packing step matter. Keep the existing item ID and its downstream uses, including the medical kit recipe that consumes it.
 
-For faction recipes in general, record the manufacturer, the tech level that adds the schematic to its chip pool, its price, compatible benches, and which orders it unlocks. Keep the unlock after purchase and save/reload. After capture, future restocks use the new owner's chip pool and the station's normal type weights.
+For faction recipes in general, record the manufacturer, the tech level that adds the schematic to its chip pool, its price, compatible benches, and the possible recipes in its pool. Keep the selected recipe fixed on the chip and retain learned recipes across save/reload. After capture, future restocks use the new owner's chip pool and the station's normal type weights.
 
 ## Collection and throughput
 

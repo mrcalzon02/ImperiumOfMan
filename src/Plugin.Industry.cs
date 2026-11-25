@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using HarmonyLib;
 using MGSC;
 
@@ -116,8 +115,8 @@ namespace ImperiumOfMan
             IndustryRecipe(MetalScrap, 3, 2, new ItemQuantity("rusty_plates", 3));
             IndustryRecipe(Cullet, 2, 2, new ItemQuantity("glass", 3));
             IndustryRecipe(Conductors, 2, 2, new ItemQuantity("wire", 3));
-            AddCatalog("iom_workshop_fundamentals_chip", "Workshop Fundamentals Schematic", "Patterns for sorting scrap and preparing metal, textiles, glass, and armor stock.",
-                ItemCategory, 1, 95, [MetalScrap, Cullet, Conductors, .. SharedIndustryRecipes]);
+            AddCatalog("iom_workshop_fundamentals_chip", "Workshop Fundamentals Schematic", "Patterns for sorting metal scrap, glass cullet, and conductive scrap.",
+                ItemCategory, 1, 95, MetalScrap, Cullet, Conductors);
 
             IndustryRecipe(CellStock, 3, 3, new("acid", 2), new("wire", 3));
             IndustryRecipe(Cell, 4, 4, new(GlassStock, 2), new(CellStock, 2));
@@ -281,7 +280,7 @@ namespace ImperiumOfMan
                     new(piece == SubductorCuirass ? HeavyPlate : insert, i == 0 || i == 2 ? 2 : 1),
                     new(Liner, 1), new(Fittings, 1));
             }
-            AddCatalog(chip, title, "Unlocks the complete armor set on the Magnum.",
+            AddCatalog(chip, title, "Patterns for the individual armor pieces in this set.",
                 faction, tier, price, outputs);
         }
 
@@ -297,12 +296,18 @@ namespace ImperiumOfMan
         private static void RegisterCatalog(DatadiskRecord disk, string title, string description, string faction,
             string[] outputs, bool restrictOtherSources = true, string supplier = null)
         {
+            outputs = outputs.Distinct().ToArray();
             IndustryCatalogs.Add(disk.Id, outputs);
             if (restrictOtherSources)
             {
                 LicensedProducts.UnionWith(outputs);
             }
-            disk.UnlockIds = [outputs[0]];
+            // Native item creation rolls one ID from this pool and saves it on that chip.
+            disk.UnlockIds = [.. outputs];
+            if (outputs.Length > 1)
+            {
+                description = "Contains one randomly selected fabrication recipe. " + description;
+            }
             RegisterItem("datadisks", disk, title, description);
             AddFactionReward(faction, "rewardChips", disk.TechLevel, 4, disk.Price, disk.Id);
             if (!CatalogStock.TryGetValue(faction, out var stock))
@@ -317,111 +322,14 @@ namespace ImperiumOfMan
         {
             Data.Global.StartReceipts.RemoveAll(LicensedProducts.Contains);
             Data.WorkbenchReceipts.RemoveAll(recipe => LicensedProducts.Contains(recipe.OutputItem));
-            foreach (DatadiskRecord disk in Data.Items.Records.OfType<CompositeItemRecord>()
-                .Select(record => record.GetRecord<DatadiskRecord>()).Where(record => record != null))
+            // Specialist supplies extend several pools after their chips are registered.
+            // Finalize only our records; native chips retain their original recipe pools.
+            foreach (var catalog in IndustryCatalogs)
             {
-                if (disk.UnlockType != DatadiskUnlockType.ProductionItem || IndustryCatalogs.ContainsKey(disk.Id))
-                {
-                    continue;
-                }
-                var remaining = disk.UnlockIds.Where(id => !LicensedProducts.Contains(id)).ToList();
-                if (remaining.Count > 0)
-                {
-                    disk.UnlockIds = remaining;
-                }
+                Data.Items.GetSimpleRecord<DatadiskRecord>(catalog.Key).UnlockIds =
+                    catalog.Value.Distinct().ToList();
             }
             _industryReady = true;
-        }
-
-        [HarmonyPatch(typeof(ItemInteractionSystem), nameof(ItemInteractionSystem.UnlockDatadisk))]
-        private static class LearnIndustryCatalog
-        {
-            private static bool Prefix(Statistics statistics, MagnumCargo magnumCargo, BasePickupItem item, out HashSet<string> __state)
-            {
-                __state = null;
-                if (!_industryReady)
-                {
-                    return true;
-                }
-                if (!IndustryCatalogs.TryGetValue(item.Id, out string[] outputs))
-                {
-                    __state = new HashSet<string>(magnumCargo.UnlockedProductionItems);
-                    return true;
-                }
-                if (item.Storage != null && outputs.Any(output => !magnumCargo.UnlockedProductionItems.Contains(output)))
-                {
-                    LearnRecipes(magnumCargo, outputs);
-                    UI.Staff.NotificationPanel.AddUnlockDatadiskNotify(item);
-                    statistics.IncreaseStatistic(StatisticType.ChipUnlock);
-                    item.Storage.Remove(item);
-                }
-                return false;
-            }
-
-            // Vanilla weapons can also teach their ammunition recipe. Licensed products use their catalog.
-            private static void Postfix(MagnumCargo magnumCargo, HashSet<string> __state)
-            {
-                if (__state != null)
-                {
-                    magnumCargo.UnlockedProductionItems.RemoveAll(id => LicensedProducts.Contains(id) && !__state.Contains(id));
-                }
-            }
-
-        }
-
-        [HarmonyPatch(typeof(ItemTooltipBuilder), "InitDatadisk")]
-        private static class IndustryCatalogTooltip
-        {
-            private static bool Prefix(DatadiskRecord record, TooltipFactory ____factory, MagnumCargo ____magnumCargo)
-            {
-                if (!IndustryCatalogs.TryGetValue(record.Id, out var outputs))
-                {
-                    return true;
-                }
-                if (____magnumCargo != null && outputs.All(____magnumCargo.UnlockedProductionItems.Contains))
-                {
-                    ____factory.AddPanelToTooltip().SetIcon("common_datadisk_red")
-                        .LocalizeName("tooltip.AlreadyUnlockedDatadisk").SetNameColor(Colors.LightRed);
-                }
-                ____factory.AddPanelToTooltip().SetIcon("common_datadisk").LocalizeName(TranslationPatch.CatalogRecipes);
-                var names = outputs.Select(output => Localization.Get("item." + output + ".name"));
-                ____factory.AddPanelToTooltip().SetMultilineName(string.Join(Environment.NewLine, names)).SetNameColor(Colors.White);
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(ScreenWithShipCargo), "DragControllerShowContextMenuCallback")]
-        private static class UnlockPartialIndustryCatalog
-        {
-            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                var code = instructions.ToList();
-                var knownRecipes = AccessTools.Field(typeof(MagnumCargo), nameof(MagnumCargo.UnlockedProductionItems));
-                var unlockId = AccessTools.PropertyGetter(typeof(DatadiskComponent), nameof(DatadiskComponent.UnlockId));
-                var indexOf = AccessTools.Method(typeof(List<string>), nameof(List<string>.IndexOf), [typeof(string)]);
-                var catalogIndex = AccessTools.Method(typeof(UnlockPartialIndustryCatalog), nameof(GetKnownRecipeIndex));
-                for (int index = 3; index < code.Count; index++)
-                {
-                    var instruction = code[index];
-                    if (instruction.Calls(indexOf) && code[index - 1].Calls(unlockId) && code[index - 3].LoadsField(knownRecipes))
-                    {
-                        code.Insert(index, new CodeInstruction(OpCodes.Ldarg_1).MoveLabelsFrom(instruction).MoveBlocksFrom(instruction));
-                        instruction.opcode = OpCodes.Call;
-                        instruction.operand = catalogIndex;
-                        break;
-                    }
-                }
-                return code;
-            }
-
-            private static int GetKnownRecipeIndex(List<string> known, string recipe, ItemSlot slot)
-            {
-                if (IndustryCatalogs.TryGetValue(slot.Item.Id, out var outputs))
-                {
-                    return outputs.All(known.Contains) ? 0 : -1;
-                }
-                return known.IndexOf(recipe);
-            }
         }
 
         private static void LearnRecipes(MagnumCargo cargo, IEnumerable<string> outputs)

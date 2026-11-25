@@ -16,9 +16,9 @@ At Tech 8, the Golden Throne can issue a contract to recover the Sororitas Reliq
 
 At Tech 9, the Ordo Xenos can issue Phobos Quarantine. An Interrogator with a Power Blade and a Pistoleer with a suppressed Needle Pistol deploy on the final floor. Their four-piece carapace weighs 7.7 kg.
 
-At Tech 10, a Grey Knights Paladin and an Armsman deploy on the final floor of Titan Vault Containment. Broadsword Boarding Defense fields an Armsman and a Psycannon Paladin on the entrance floor. The Paladin requisition teaches warded Terminator armor, the Nemesis Force Sword, Psycannon, Aegis Ward, Power Fist and Tempest Bolt Clips.
+At Tech 10, a Grey Knights Paladin and an Armsman deploy on the final floor of Titan Vault Containment. Broadsword Boarding Defense fields an Armsman and a Psycannon Paladin on the entrance floor. The Paladin requisition draws one recipe from a pool covering warded Terminator armor, the Nemesis Force Sword, Psycannon, Aegis Ward, Power Fist and Tempest Bolt Clips.
 
-The Imperium reaches Tech 11 after earning 5,500 XP at Tech 10. Golden Paladin Guard deploys a gilded Grey Knights Paladin and an Armsman on the entrance floor of the Golden Throne. The Golden Paladin requisition unlocks seven recipes for upgraded armor, weapons, and the Golden Aegis Ward.
+The Imperium reaches Tech 11 after earning 5,500 XP at Tech 10. Golden Paladin Guard deploys a gilded Grey Knights Paladin and an Armsman on the entrance floor of the Golden Throne. Each Golden Paladin requisition contains one randomly selected recipe from seven possibilities for upgraded armor, weapons, and the Golden Aegis Ward.
 
 ## Chaos Undivided
 
@@ -103,4 +103,4 @@ Six suppliers turn biomass, medical stock, and recycled packaging into medicines
 | Glass, electrical, and munitions components | Silicate feedstock, Glass cullet, Industrial glass, Conductive scrap, Recovered Circuit Assembly, Cell stock, Sealed cell assembly, Empty Las Clip housing, Sorted medium casing, Medium payload module, Empty specialist shell, Sealed flechette module |
 | Ration, cigarette, and medical components | Raw vat biomass, Vat ration base, Ration wrapper, Harvested tobacco, Prepared tobacco, Filter stock, Cigarette filters, Empty cigarette box, Loose cigarettes, Sterile dressing roll, Sealed treatment pack, Prepacked dressing tray, Advanced clinical refill, Sterile instrument tray |
 
-Manufacturing plans enter their manufacturer's standard chip pool at the required tech level. The station's current owner, station type, and normal restock rolls determine what appears in trade. Elysian flight armor weighs 5.7 kg, about 29% less than the Cadian set. Imperial Field Plans unlock Las Clips, cell stock, sealed cells, and clip housings.
+Every manufacturing chip contains one recipe randomly selected from its supply pool when the chip is created. Its tooltip identifies that recipe; duplicates of an already known recipe stay marked as learned. Plans enter their manufacturer's standard chip pool at the required tech level. The station's current owner, station type, and normal restock rolls determine what appears in trade. Elysian flight armor weighs 5.7 kg, about 29% less than the Cadian set. Imperial Field Plans can contain a recipe for Las Clips, cell stock, sealed cells, or clip housings.

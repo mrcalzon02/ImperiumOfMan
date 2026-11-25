@@ -21,7 +21,6 @@ namespace ImperiumOfMan
             SharedRecipe(LogicCore, 12, 1, new("circuit_board", 2), new("microelectronics_parts", 2),
                 new("capacitor_parts", 1), new(Cell, 1));
             IndustryRecipe(AiModule, 22, 1, new(LogicCore, 1), new("microelectronics_parts", 2), new("capacitor_parts", 1));
-            AddedSupplyRecipes.Add("packaged_drone", [AiModule]);
         }
 
         private static void RegisterAutomataWorkshops()

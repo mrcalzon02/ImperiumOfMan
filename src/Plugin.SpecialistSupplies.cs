@@ -29,7 +29,6 @@ namespace ImperiumOfMan
         private const string Gland = "iom_gland";
         private const string DaydreamChems = "DaydreamChems";
         private const string AvicennasClinic = "AvicennasClinic";
-        private static readonly Dictionary<string, string[]> AddedSupplyRecipes = new();
 
         private static void RegisterSpecialistSupplies()
         {
@@ -239,8 +238,7 @@ namespace ImperiumOfMan
         private static void ExtendSupplyCatalog(string chip, params string[] products)
         {
             var original = IndustryCatalogs[chip];
-            AddedSupplyRecipes.Add(original[0], products);
-            IndustryCatalogs[chip] = [.. original, .. products];
+            IndustryCatalogs[chip] = original.Concat(products).Distinct().ToArray();
             LicensedProducts.UnionWith(products);
         }
 

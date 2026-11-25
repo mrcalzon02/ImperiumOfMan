@@ -76,17 +76,6 @@ namespace ImperiumOfMan
                     }
                 }
                 LearnRecipes(cargo, SharedIndustryRecipes);
-                if (cargo.UnlockedProductionItems.Contains(LasClip))
-                {
-                    LearnRecipes(cargo, IndustryCatalogs[FieldPlans]);
-                }
-                foreach (var extension in AddedSupplyRecipes)
-                {
-                    if (cargo.UnlockedProductionItems.Contains(extension.Key))
-                    {
-                        LearnRecipes(cargo, extension.Value);
-                    }
-                }
             }
             RefreshIndustryMarkets(state.Get<Stations>(), state.Get<Factions>(), state.Get<SpaceTime>());
         }

@@ -11,14 +11,12 @@ namespace ImperiumOfMan
         internal const string CampaignLiftLocked = "iom.campaign.lift.locked";
         internal const string FloorNameTemplate = "mercurySurfaceLevels";
         internal const string ArrivalShuttleCaption = "mission." + FloorNameTemplate + ".arrival.name";
-        internal const string CatalogRecipes = "iom.catalog.recipes";
 
         private static readonly Dictionary<string, string> English = new Dictionary<string, string>
         {
             [CampaignStandingRequired] = "This campaign requires at least +{0} reputation with {1}.",
             [CampaignLiftLocked] = "Find the {0} on this deck to unlock the lift.",
             [ArrivalShuttleCaption] = "Arrival Shuttle",
-            [CatalogRecipes] = "Unlocks these Magnum recipes",
             ["item.iom_lasgun.name"] = "Lasgun",
             ["item.iom_lasgun.shortdesc"] = "A Guard service rifle with single shots and two-shot bursts. Takes Las Clips and compatible power cells.",
             ["item.iom_melta.name"] = "Melta Rifle",

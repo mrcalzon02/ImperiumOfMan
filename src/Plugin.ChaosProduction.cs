@@ -77,8 +77,8 @@ namespace ImperiumOfMan
                     _ => "Black Meridian Anchor Schematic"
                 };
                 string description = level == 10
-                    ? "Fabrication patterns for Shadowbound armor, the Umbral Suture, and Shadow Anchor Fragments."
-                    : "Fabrication patterns for the Undivided's weapons, armor, field supplies, and forge materials.";
+                    ? "Fabrication pool for Shadowbound armor, the Umbral Suture, and Shadow Anchor Fragments."
+                    : "Fabrication pool for the Undivided's weapons, armor, field supplies, and forge materials.";
                 string supplier = Array.Find(ChaosSites, site => site.FirstTier <= level && level <= site.LastTier).Id;
                 RegisterCatalog(chip, name, description, ChaosFaction, outputs.ToArray(), supplier: supplier);
             }
