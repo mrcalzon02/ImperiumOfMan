@@ -116,7 +116,8 @@ namespace ImperiumOfMan
             }
         }
 
-        private static T CloneItem<T>(string id, string donorId, int level, float price, string artwork = null)
+        private static T CloneItem<T>(string id, string donorId, int level, float price, string artwork = null,
+            int maxIconSize = 0)
             where T : ItemRecord
         {
             if (Data.Items.GetRecord(donorId) is not CompositeItemRecord composite ||
@@ -134,20 +135,20 @@ namespace ImperiumOfMan
             descriptor._overridenRenderId = string.Empty;
             if (artwork != null)
             {
-                ApplyItemArtwork(descriptor, artwork);
+                ApplyItemArtwork(descriptor, artwork, maxIconSize);
             }
             record.ContentDescriptor = descriptor;
             return record;
         }
 
-        private static void ApplyItemArtwork(ItemContentDescriptor descriptor, string artwork)
+        private static void ApplyItemArtwork(ItemContentDescriptor descriptor, string artwork, int maxIconSize = 0)
         {
-            descriptor._icon = ReadItemSprite(artwork + "_icon", descriptor.Icon);
+            descriptor._icon = ReadItemSprite(artwork + "_icon", descriptor.Icon, maxSize: maxIconSize);
             descriptor._smallIcon = ReadItemSprite(artwork + "_floor", descriptor.SmallIcon);
             descriptor._shadow = ReadItemSprite(artwork + "_shadow", descriptor.ShadowOnFloor);
         }
 
-        private static Sprite ReadItemSprite(string name, Sprite donor, bool keepReadable = false)
+        private static Sprite ReadItemSprite(string name, Sprite donor, bool keepReadable = false, int maxSize = 0)
         {
             string resource = "ImperiumOfMan.Art." + name + ".png";
             if (!SpriteResources.TryGetValue(resource, out string path))
@@ -166,7 +167,13 @@ namespace ImperiumOfMan
             Vector2 pivot = donor == null
                 ? new Vector2(0.5f, 0.5f)
                 : new Vector2(donor.pivot.x / donor.rect.width, donor.pivot.y / donor.rect.height);
-            float pixelsPerUnit = donor == null ? 100f : donor.pixelsPerUnit;
+            const float standardPixelsPerUnit = 100f;
+            float pixelsPerUnit = donor == null ? standardPixelsPerUnit : donor.pixelsPerUnit;
+            if (maxSize > 0)
+            {
+                // Quasimorph uses the sprite's native size in its inventory and production UI.
+                pixelsPerUnit = Mathf.Max(pixelsPerUnit, standardPixelsPerUnit * Mathf.Max(texture.width, texture.height) / maxSize);
+            }
             Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot, pixelsPerUnit);
             sprite.name = name;
             return sprite;

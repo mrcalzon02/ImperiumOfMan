@@ -221,14 +221,14 @@ namespace ImperiumOfMan
         }
 
         private static TrashRecord AddMaterial(string id, string donor, string title, string description, float price,
-            int techLevel = 1, string category = ItemCategory)
+            int techLevel = 1, string category = ItemCategory, int maxIconSize = 0)
         {
             var source = Data.Items.GetSimpleRecord<ItemRecord>(donor)
                 ?? throw new InvalidDataException("No production material descriptor donor " + donor);
             var descriptor = UnityEngine.Object.Instantiate(source.ItemDesc);
             descriptor.name = id;
             descriptor._overridenRenderId = string.Empty;
-            ApplyItemArtwork(descriptor, id);
+            ApplyItemArtwork(descriptor, id, maxIconSize);
             var material = new TrashRecord
             {
                 Id = id, ContentDescriptor = descriptor, Categories = [category], TechLevel = techLevel,

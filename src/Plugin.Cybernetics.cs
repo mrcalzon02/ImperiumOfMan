@@ -12,6 +12,7 @@ namespace ImperiumOfMan
         private const string ServoCartridge = "iom_servo_cartridge";
         private const string ImplantController = "iom_implant_controller";
         private const string SterileScaffold = "iom_sterile_scaffold";
+        private const int CyberneticsIconSize = 20;
         private static readonly Dictionary<string, string> ImplantAbilityDonors = new();
 
         private sealed class CyberneticsLab(string maker, string site, string depot, bool quasi = false)
@@ -25,11 +26,11 @@ namespace ImperiumOfMan
         private static void RegisterCyberneticsWorkshops()
         {
             AddMaterial(ServoCartridge, "metal_tread", "Servo cartridge", "A sealed actuator and bearing cartridge for replacement joints.",
-                38, 1, PlanetBridge).Weight = 0.20f;
+                38, 1, PlanetBridge, maxIconSize: CyberneticsIconSize).Weight = 0.20f;
             AddMaterial(ImplantController, "circuit_board", "Implant controller", "A shielded signal board for powered implants.",
-                48, 2, "SBN").Weight = 0.08f;
+                48, 2, "SBN", maxIconSize: CyberneticsIconSize).Weight = 0.08f;
             AddMaterial(SterileScaffold, "plastic", "Sterile implant scaffold", "A sealed support matrix for implant housings and grafts.",
-                42, 2, "DaydreamChems").Weight = 0.12f;
+                42, 2, "DaydreamChems", maxIconSize: CyberneticsIconSize).Weight = 0.12f;
 
             SharedRecipe(ServoCartridge, 4, 2, new("rod_parts", 1), new("metal_tread", 1), new(PolymerStock, 1));
             SharedRecipe(ImplantController, 5, 2, new("microelectronics_parts", 1), new("circuit_board", 1), new("wire", 1));
@@ -64,7 +65,8 @@ namespace ImperiumOfMan
             Dictionary<string, float> bonuses, Dictionary<string, float> penalties, ItemQuantity[] inputs)
         {
             string id = "iom_cyber_" + key;
-            var record = CloneItem<ImplantRecord>(id, lab.Quasi ? "warp_armor" : "neural_jack", tier, 190 + tier * 75, id);
+            var record = CloneItem<ImplantRecord>(id, lab.Quasi ? "warp_armor" : "neural_jack", tier, 190 + tier * 75, id,
+                maxIconSize: CyberneticsIconSize);
             record.SlotType = slot;
             record.AugmentationClass = lab.Quasi ? AugmentationClass.QuasiPassive : AugmentationClass.Passive;
             record.Categories = [lab.Maker];
@@ -81,7 +83,7 @@ namespace ImperiumOfMan
             string description, ItemQuantity[] inputs, params (string Name, int Value)[] tuning)
         {
             string id = "iom_cyber_" + key;
-            var implant = CloneItem<ImplantRecord>(id, donor, tier, 260 + tier * 80, id);
+            var implant = CloneItem<ImplantRecord>(id, donor, tier, 260 + tier * 80, id, maxIconSize: CyberneticsIconSize);
             implant.Categories = [lab.Maker];
             implant.Charges = charges;
             implant.Disassembly = [];
@@ -104,7 +106,7 @@ namespace ImperiumOfMan
             string description, Dictionary<string, float> bonuses, Dictionary<string, float> penalties, ItemQuantity[] inputs)
         {
             string id = "iom_cyber_" + key;
-            var replacement = CloneItem<AugmentationRecord>(id, donor, tier, 210 + tier * 80, id);
+            var replacement = CloneItem<AugmentationRecord>(id, donor, tier, 210 + tier * 80, id, maxIconSize: CyberneticsIconSize);
             var slots = replacement.WoundSlotIds;
             var slot = (WoundSlotRecord)CloneRecordMethod.Invoke(Data.WoundSlots.GetRecord(slots[0]), null);
             slot.Id = id + "_slot";
