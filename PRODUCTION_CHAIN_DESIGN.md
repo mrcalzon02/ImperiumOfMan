@@ -39,7 +39,7 @@ Each row lists what the tier adds to the Imperial supply line. Earlier Imperial 
 
 | Imperial tech | Food and drink | Utility and field supplies | Standard ammunition and equipment |
 | --- | --- | --- | --- |
-| **1 · Planetary Defence Force** | Corpse Starch, bottled water and standard ration packs enter Imperial stock. Luna packs clean Corpse Starch. Dirty Corpse Starch can turn up in Luna salvage. | Bandages and splints. The Imperial ration line schematic teaches the biomass, ration base, wrapper and packing orders. | Las Clips, service Lasgun and PDF flak. Imperial Field Plans teach cell stock, sealed cells, empty clip housings and final packing. |
+| **1 · Planetary Defence Force** | Corpse Starch, bottled water and standard ration packs enter Imperial stock. Luna packs clean Corpse Starch. Clean and Dirty Corpse Starch are basic loot on every newly generated Imperial raid floor. | Bandages and splints. The Imperial ration line schematic teaches the biomass, ration base, wrapper and packing orders. | Las Clips, service Lasgun and PDF flak. Imperial Field Plans teach cell stock, sealed cells, empty clip housings and final packing. |
 | **2 · Cadian Guard** | — | Hydrogel bandages and melee repair kits. | Cadian flak and Guard Frag Grenades. Phobos produces grenades alongside Las Clips. |
 | **3 · Arbites, Valhallans, Steel Legion** | Valhallan Tanna enters Imperial stock and Luna's specialist supply. It reduces existing cold buildup. | Field medkits, Steel Legion Smoke Grenades and Spare Filters. Luna supplies Winter insulation and Havoc supplies Steel Legion seal lining. Both components are also taught by their regimental chips. | Standard shotgun shells for Judgement. Arbites carapace, winter gear, sealed Steel Legion gear, Long-Las and Plasma Pistol. Servitor backpack enters the equipment pool. |
 | **4 · Elysians** | — | Elysian Drop Harness and firearm repair kits. Native smoke grenades are carried by Elysian spotters. | Standard Heavy rifle ammunition for the Bolter. The Drop Lascarbine uses the existing BatteryCells supply. |
@@ -50,6 +50,8 @@ Each row lists what the tier adds to the Imperial supply line. Earlier Imperial 
 | **9 · Ordo Xenos** | — | The Phobos Quarantine contract opens. | Standard Toxic ammunition supports the Needle Pistol. The Power Blade uses BatteryCells. |
 | **10 · Grey Knights** | — | Aegis Ward for Chaos wounds and active Quasimorphosis. Titan and Broadsword also have local repair supplies. | Paladin Terminator armor, Nemesis Force Sword and Psycannon. They use the existing BatteryCells and Heavy rifle supply. |
 | **11 · Golden Paladins** | — | Golden Aegis Ward and the Golden Paladin Guard contract. | Gilded Terminator armor, Golden Nemesis Force Sword and Golden Psycannon. Both weapons use the same ammunition families as the Tech 10 versions. |
+
+Each newly generated Imperial raid floor supplies one clean Corpse Starch per 200 reachable, clear floor cells, with a minimum of four and a maximum of sixteen, plus one Dirty Corpse Starch per four clean rations (rounded up). The first clean ration is near the arrival point; remaining rations go into distinct ordinary food-compatible containers with reachable access, or onto reachable floor tiles if those containers are absent or full. This applies from Tech 1 on every floor, including later stages; loading a previously generated floor does not replenish it. The added supply ranges from 2,060 to 8,240 calories per floor. Dirty Corpse Starch retains its existing health and poisoning penalties.
 
 ### Manufacturing and freight
 

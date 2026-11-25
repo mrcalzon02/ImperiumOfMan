@@ -42,7 +42,7 @@ namespace ImperiumOfMan
         private static readonly ChaosEnemy[] ChaosBestiary =
         [
             new("fury", "Fury", 1, "venus_cat", "venus_demon_cat", 54, 3, 18, "lacer",
-                CreateResists(blunt: 3, lacer: 8, beam: 8), 2, 25, "fury_sigil", 0.84f),
+                CreateResists(blunt: 3, lacer: 8, beam: 8), 2, 0, FurySigilKey, 0.84f),
             new("accursed_mutant", "Accursed Mutant", 2, "moon_slave", "moon_slave", 53, 2, 13, "pierce",
                 CreateResists(blunt: 7, lacer: 11), 4, 28, "carrion_mark", 0.93f, "venus_quasi_pistol_1", "quasi_1"),
             new("torment", "Torment", 2, "possessed_bigarm", "possessed_bigarm", 112, 3, 26, "lacer",
@@ -261,7 +261,7 @@ namespace ImperiumOfMan
                 ItemInteractionSystem.CreateItem(loot, WarpScrip, enemy.Bounty);
                 ItemInteractionSystem.CreateItem(loot, tier.Salvage.Id, enemy.Tier >= 6 ? 2 : 1);
                 ItemInteractionSystem.CreateItem(loot, enemy.Tier >= 6 ? ForgeEmber : BoundAsh, enemy.Tier >= 8 ? 2 : 1);
-                if (UnityEngine.Random.Range(0, 100) < enemy.SkullChance)
+                if (enemy.SkullChance > 0 && UnityEngine.Random.Range(0, 100) < enemy.SkullChance)
                 {
                     ItemInteractionSystem.CreateItem(loot, ChaosSkullId(enemy.Skull), 1);
                 }

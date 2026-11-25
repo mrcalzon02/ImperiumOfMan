@@ -62,6 +62,19 @@ namespace ImperiumOfMan
             var state = context.State;
             if (state.Get<MagnumCargo>() is MagnumCargo cargo)
             {
+                cargo.UnlockedProductionItems.RemoveAll(id => id == FurySigilSkull);
+                if (state.Get<SpaceTime>() is SpaceTime spaceTime)
+                {
+                    // Old saves can still have an order from the retired recipe. Native
+                    // cancellation refunds its ingredients and preserves the other jobs.
+                    foreach (var line in cargo.ItemProduceOrders.ToArray())
+                    {
+                        foreach (var order in line.Value.Where(order => order.OrderId == FurySigilSkull).ToArray())
+                        {
+                            ItemProductionSystem.CancelProduction(cargo, spaceTime, line.Key, order);
+                        }
+                    }
+                }
                 LearnRecipes(cargo, SharedIndustryRecipes);
                 if (cargo.UnlockedProductionItems.Contains(LasClip))
                 {
@@ -110,6 +123,17 @@ namespace ImperiumOfMan
                     {
                         TopUp(station, chip, 1);
                     }
+                }
+            }
+            var chaos = factions.Get(ChaosFaction, logMissing: false);
+            if (chaos?.Record.CanBeTraded == true && factions.IsEnabledFaction(chaos) && chaos.CurrentTechLevel >= 1)
+            {
+                // Keep the sigil in paid station stock, outside the shared contract-reward
+                // and raid-loot tables. Captured stations no longer receive it.
+                foreach (Station station in stations.Values.Where(station => station.OwnerFactionId == ChaosFaction &&
+                    !string.IsNullOrEmpty(station.SpaceObjectId)))
+                {
+                    TopUp(station, FurySigilSkull, 1);
                 }
             }
             foreach (var entry in IndustryMarkets)

@@ -22,7 +22,7 @@ The Imperium reaches Tech 11 after earning 5,500 XP at Tech 10. Golden Paladin G
 
 ## Chaos Undivided
 
-Chaos Undivided holds six stations, from Hollow Signal Depot on Phobos to Black Meridian in Titan orbit. Its eleven enemy forms drop Warp Scrip, fabrication salvage, and pact skulls. The Magnum can fabricate ten tiers of Chaos equipment and run skull rituals along two pact paths. At Tech 10, recover Shadowblade from Be’lakor at Black Meridian. [Chaos Undivided campaign and supply catalog](CHAOS_UNDIVIDED_DESIGN.md)
+Chaos Undivided holds six stations, from Hollow Signal Depot on Phobos to Black Meridian in Titan orbit. Its enemies drop Warp Scrip, fabrication salvage, and pact skulls. The Fury Sigil is purchased from Chaos Undivided stations from Tech 1; Furies do not drop it. The Magnum can fabricate ten tiers of Chaos equipment and run skull rituals along two pact paths. At Tech 10, recover Shadowblade from Be’lakor at Black Meridian. [Chaos Undivided campaign and supply catalog](CHAOS_UNDIVIDED_DESIGN.md)
 
 The Inner Writ and The Starless March each have 20 quests. Four raids give the crew a choice between the original target and recovering evidence. That choice can change station ownership, protect faction standing, or send the crew on an escort or a gate defense. [Campaign missions and endings](FACTION_CAMPAIGNS_DESIGN.md)
 
@@ -46,6 +46,8 @@ The raid HUD shows the available calls and their remaining uses. Choose a call, 
 - **Broadsword Station** is a permanent Imperial fleet base above Titan. Its yards supply firearm and armor repair kits. Broadsword Boarding Defense opens at Imperial Tech 10.
 
 Imperial and Chaos Undivided raids use Quasimorph's room pools with enlarged variants where the original walls and fixtures leave room to extend them. Compatible raid floors join those rooms with wide branching corridors and furnished side strips. Their floors use distinct Imperial or warp-corrupted finishes. Peaceful station visits use the same finishes with each station's own trade stock and stash. [Imperial interiors](media/ImperialInteriors/README.md)
+
+Imperial raid floors supply clean and decayed rations as ordinary loot from Tech 1. Larger floors receive more food, with a clean ration near the arrival point and the rest in reachable containers or on clear floor tiles. Newly generated floors receive 4–16 Corpse Starch and 1–4 Dirty Corpse Starch; already visited floors retain their saved loot.
 
 ### Contestable industry on Terra and Mars
 

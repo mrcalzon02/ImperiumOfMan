@@ -65,7 +65,7 @@ Chaos garrisons use eleven creature profiles. Furies close in packs, Accursed Mu
 
 | Enemy | Health target | Warp Scrip per hostile kill | Base scrip value | Skull chance |
 | --- | ---: | ---: | ---: | ---: |
-| Fury | 54 | 2 | 70 | 25% |
+| Fury | 54 | 2 | 70 | 0% |
 | Accursed Mutant | 53 | 4 | 140 | 28% |
 | Torment | 112 | 6 | 210 | 40% |
 | Chaos Spawn | 148 | 9 | 315 | 50% |
@@ -85,7 +85,9 @@ At Chaos Tech 10, a rival faction can offer an elimination contract at Black Mer
 
 ## Skull pacts and rituals
 
-Skulls fit the native pact slot and use the Morphanal ritual system. Upgrades and downgrades follow the current path. A sidegrade crosses to the other pact at the same rank. Bound Ash contributes stability and Soulforge Embers contribute power. The Undivided essence works with existing ritual materials, with agga favoring power and siaira favoring stability. Failed Undivided rituals yield Bound Ash.
+Skulls fit the native pact slot and use the Morphanal ritual system. Upgrades and downgrades follow the current path. A sidegrade crosses to the other pact at the same rank, except that rituals cannot create a Fury Sigil. Bound Ash contributes stability and Soulforge Embers contribute power. The Undivided essence works with existing ritual materials, with agga favoring power and siaira favoring stability. Failed Undivided rituals yield Bound Ash.
+
+The Fury Sigil is purchased from Chaos Undivided from Tech 1. Each station currently owned by the faction stocks one and replenishes it through normal market restocks. Furies drop scrip, salvage, and Bound Ash, but no sigil. The sigil is excluded from fabrication plans, mission rewards, and raid caches; Carrion Mark cannot sidegrade into it and Step Between cannot downgrade into it. An already owned sigil remains usable and can still upgrade or sidegrade into other pacts. [Pact records](src/Plugin.ChaosPacts.cs) · [Faction shop stock](src/Plugin.IndustrySupply.cs)
 
 | Skull rank | Ravage path | Veil path |
 | --- | --- | --- |

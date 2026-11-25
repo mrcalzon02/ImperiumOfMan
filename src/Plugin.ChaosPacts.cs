@@ -16,6 +16,8 @@ namespace ImperiumOfMan
         private const string ForgeEmber = ChaosItemPrefix + "forge_ember";
         private const string WarpScrip = ChaosItemPrefix + "warp_scrip";
         private const string PactPrefix = "iom_undivided_";
+        private const string FurySigilKey = "fury_sigil";
+        private const string FurySigilSkull = ChaosItemPrefix + "skull_" + FurySigilKey;
 
         private sealed class ChaosPact(string key, string name, string description, int tier, int curse, int recharge,
             PerkAIUsage ai, int cooldown, string parameters)
@@ -44,7 +46,7 @@ namespace ImperiumOfMan
                     5, 125, 230, PerkAIUsage.None, 20, "IRadius 3 SExplosionId mars_explosion")
             ],
             [
-                new("fury_sigil", "Fury Sigil", "Call one Fury into a free adjacent cell. The summoned ally carries no bounty.",
+                new(FurySigilKey, "Fury Sigil", "Call one Fury into a free adjacent cell. The summoned ally carries no bounty. Purchased from Chaos Undivided.",
                     1, 22, 40, PerkAIUsage.None, 8,
                     "IMaxDistance 1 SMobClass iom_chaos_fury SFaction iom_chaos_undivided BIsFollower true"),
                 new("step_between", "Step Between", "Step through shadow to a free visible cell within four tiles.",
@@ -109,9 +111,9 @@ namespace ImperiumOfMan
                     skull.Essence = ChaosEssence;
                     skull.Categories = [];
                     skull.CanBaronUse = pact.AI != PerkAIUsage.None;
-                    skull.Upgrade = ChaosSkullId(path[Math.Min(index + 1, path.Length - 1)].Key);
-                    skull.Downgrade = ChaosSkullId(path[Math.Max(index - 1, 0)].Key);
-                    skull.Sidegrade = ChaosSkullId(ChaosPacts[1 - branch][index].Key);
+                    skull.Upgrade = RitualTarget(path[Math.Min(index + 1, path.Length - 1)].Key);
+                    skull.Downgrade = RitualTarget(path[Math.Max(index - 1, 0)].Key);
+                    skull.Sidegrade = RitualTarget(ChaosPacts[1 - branch][index].Key);
                     ApplyChaosSkullArtwork(skull);
                     RegisterItem("skulls", skull, pact.Name + " Skull", pact.Description);
 
@@ -128,6 +130,10 @@ namespace ImperiumOfMan
                         Parameters = Parameters(pact.Parameters), ActiveWeaponClassLimit = [], ActiveWeaponSubClassLimit = []
                     });
                     Registrations.Add(() => TranslationPatch.AddChaosPact(id, pact.Name, pact.Description));
+
+                    // A self-target is the native terminal-path convention. Purchased sigils can
+                    // still evolve, but another skull cannot create this faction-only purchase.
+                    string RitualTarget(string target) => target == FurySigilKey ? skullId : ChaosSkullId(target);
                 }
             }
 

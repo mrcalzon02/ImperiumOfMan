@@ -52,7 +52,7 @@ namespace ImperiumOfMan
                 {
                     foreach (var pact in path)
                     {
-                        if (pact.Tier * 2 - 1 != level) continue;
+                        if (pact.Key == FurySigilKey || pact.Tier * 2 - 1 != level) continue;
                         string skull = ChaosSkullId(pact.Key);
                         // Tier-one skulls use loose essence so their patterns work before the ash schematic is available.
                         IndustryRecipe(skull, 6 + level * 2, 1, new("demonic_eye", pact.Tier),
