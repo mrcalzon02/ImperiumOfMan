@@ -14,7 +14,8 @@ namespace ImperiumOfMan
             private static void Prefix(Spaceship ____spaceship)
             {
                 Add(WeaponsModule, "engineer");
-                Add(DropModule, "hangar");
+                Add(DropModule, "engineer");
+                Add(CommsModule, "engineer");
 
                 void Add(string id, string anchor)
                 {
@@ -32,7 +33,11 @@ namespace ImperiumOfMan
         {
             private static void Prefix(ref string moduleId)
             {
-                moduleId = moduleId switch { WeaponsModule => "engineer", DropModule => "hangar", _ => moduleId };
+                moduleId = moduleId switch
+                {
+                    WeaponsModule or DropModule or CommsModule => "engineer",
+                    _ => moduleId
+                };
             }
         }
 
@@ -41,10 +46,20 @@ namespace ImperiumOfMan
         {
             private static void Postfix(MagnumModulePoint __instance)
             {
-                if (__instance.ModuleId is WeaponsModule or DropModule)
+                if (__instance.ModuleId is not (WeaponsModule or DropModule or CommsModule))
                 {
-                    __instance.transform.localPosition += new Vector3(0f, -46f, 0f);
+                    return;
                 }
+                // Native SnapToWorldBone resets localPosition every frame. These offsets are
+                // canvas units relative to Engineering, so they follow the ship and UI scale.
+                Vector3 offset = __instance.ModuleId switch
+                {
+                    WeaponsModule => new Vector3(-80f, 0f, 0f),
+                    CommsModule => new Vector3(32f, -46f, 0f),
+                    DropModule => new Vector3(0f, 64f, 0f),
+                    _ => Vector3.zero
+                };
+                __instance.transform.localPosition += offset;
             }
         }
 

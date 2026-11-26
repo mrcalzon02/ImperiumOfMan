@@ -8,6 +8,7 @@ namespace ImperiumOfMan
 {
     public static partial class Plugin
     {
+        private const string CommsModule = "iom_comms_node";
         private const string SecurityIntrusion = "iom_comms_security_intrusion";
         private const string EntranceOverride = "iom_comms_entrance_override";
         private const string ExtractionOverride = "iom_comms_extraction_override";
@@ -15,6 +16,7 @@ namespace ImperiumOfMan
 
         private static void RegisterCommsNodeUpgrades()
         {
+            AddModuleText(CommsModule, "Comms Node", "Upgrade security intrusion and site-defense overrides.");
             var intrusion = RegisterCommsUpgrade(SecurityIntrusion, null, 1, "CommsSecurityIntrusion",
                 "Security Intrusion", "Hijack one site turret at a random location on arrival.",
                 ["communication_relay", "communication_relay", "communication_relay",
@@ -28,21 +30,21 @@ namespace ImperiumOfMan
                 ["communication_relay", "ai_module", "electrical_parts_container"]);
         }
 
-        private static MagnumPerkRecord RegisterCommsUpgrade(string id, MagnumPerkRecord parent, int row,
+        private static MagnumPerkRecord RegisterCommsUpgrade(string id, MagnumPerkRecord parent, int column,
             string art, string name, string description, List<string> price)
         {
             var descriptor = ScriptableObject.CreateInstance<MagnumPerkDescriptor>();
             descriptor.name = id;
-            descriptor._icon = ReadItemSprite(art, null);
-            descriptor._lockedIcon = ReadItemSprite(art + "Locked", null);
+            descriptor._icon = SupportIcon(art);
+            descriptor._lockedIcon = SupportIcon(art, locked: true);
 
             var perk = new MagnumPerkRecord
             {
                 Id = id,
                 Enabled = true,
-                ModuleId = "navigation",
+                ModuleId = CommsModule,
                 DepartmentId = parent == null ? string.Empty : SecurityIntrusion,
-                PositionInGraph = new CellPosition(5, row),
+                PositionInGraph = new CellPosition(column, 1),
                 Parents = parent == null ? [] : [parent.Id],
                 Modifiers = [],
                 UpgradePrice = price,

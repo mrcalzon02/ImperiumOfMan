@@ -174,8 +174,24 @@ namespace ImperiumOfMan
             for (int i = 0; i < pixels.Length; i++)
             {
                 Color32 pixel = pixels[i];
-                pixels[i] = new Color32((byte)(pixel.r * 0.65f), (byte)(pixel.g * 0.65f),
-                    (byte)(pixel.b * 0.65f), pixel.a);
+                int brightness = Math.Max(pixel.r, Math.Max(pixel.g, pixel.b));
+                if (pixel.a == 0 || brightness <= 8)
+                {
+                    continue;
+                }
+                // Match the native tree's crimson shadow, line and highlight palette.
+                // Keep the original dark background and alpha; retain the artwork's
+                // separate brightness levels instead of tinting it to a flat silhouette.
+                Color32 shadow = new(88, 7, 28, 255);
+                Color32 line = new(141, 17, 49, 255);
+                Color32 highlight = new(194, 22, 66, 255);
+                Color32 lockedPixel = brightness <= 57
+                    ? Color32.Lerp(new Color32(3, 8, 6, 255), shadow, (brightness - 8) / 49f)
+                    : brightness <= 78
+                        ? Color32.Lerp(shadow, line, (brightness - 57) / 21f)
+                        : Color32.Lerp(line, highlight, (brightness - 78) / 65f);
+                lockedPixel.a = pixel.a;
+                pixels[i] = lockedPixel;
             }
             var texture = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false)
                 { name = key, filterMode = FilterMode.Point };
