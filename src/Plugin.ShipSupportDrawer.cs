@@ -184,7 +184,7 @@ namespace ImperiumOfMan
                 var rect = At(group, caption, Padding + index * (TileSize + TileGap), 24f, TileSize, TileSize);
                 var tile = rect.gameObject.AddComponent<SupportCallInTile>();
                 // Use the research descriptor itself so any icon replacement follows it.
-                var descriptor = Data.MagnumPerks.Get(perkId)?.ContentDescriptor as MagnumPerkDescriptor;
+                var descriptor = Data.MagnumPerks.GetRecord(perkId)?.ContentDescriptor as MagnumPerkDescriptor;
                 var icon = descriptor != null && descriptor._icon != null ? descriptor._icon : SupportIcon(art);
                 string reserve = action == SupportAction.Fire ? "Shared weapon reserve" : "Shared pod reserve";
                 tile.Configure(icon, caption, () => Activate(action, choice),
