@@ -55,17 +55,29 @@ namespace ImperiumOfMan
             UnityEngine.Object.Destroy(previous.gameObject);
         }
 
+        private static bool ProcessShipSupportDrawerInput(ref bool interruptProcessing)
+        {
+            if (_shipSupportConsumedFrame != Time.frameCount &&
+                (_shipSupportHud == null || !_shipSupportHud.ConsumesNativeInput()))
+                return true;
+            interruptProcessing = true;
+            return false;
+        }
+
+        // An ordinary raid calls the HUD directly, after simulation/turn updates
+        // and before player commands. Native overlays instead use UI.Process.
+        [HarmonyPatch(typeof(DungeonHudScreen), nameof(DungeonHudScreen.Process))]
+        private static class ShipSupportRaidInput
+        {
+            private static bool Prefix(ref bool interruptProcessing) =>
+                ProcessShipSupportDrawerInput(ref interruptProcessing);
+        }
+
         [HarmonyPatch(typeof(MGSC.UI), nameof(MGSC.UI.Process))]
         private static class ShipSupportDrawerInput
         {
-            private static bool Prefix(ref bool interruptProcessing)
-            {
-                if (_shipSupportConsumedFrame != Time.frameCount &&
-                    (_shipSupportHud == null || !_shipSupportHud.ConsumesNativeInput()))
-                    return true;
-                interruptProcessing = true;
-                return false;
-            }
+            private static bool Prefix(ref bool interruptProcessing) =>
+                ProcessShipSupportDrawerInput(ref interruptProcessing);
         }
 
         private sealed class ShipSupportHud : MonoBehaviour
