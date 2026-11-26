@@ -57,21 +57,23 @@ Each newly generated Imperial raid floor supplies one clean Corpse Starch per 20
 
 These tiers belong to the manufacturer named in each row. Finished base-game goods remain available through their native trade and loot sources. The new multi-step Magnum production orders require the corresponding schematic.
 
-The Magnum's raw vat biomass order consumes one Piece of Flesh (`human_meat`) and one Water Bottle (`water_bottle_1`) to produce four biomass in 12 base hours. Sealed food cargo remains a finished trade good; it is not the feedstock for this order.
+In 1.1.3, each custom Magnum recipe retains every ingredient type while its required quantities are halved, rounded up to whole items with a minimum of one. Each order produces twice its previous batch. Production times, recipe IDs, chip pools, and unlock requirements stay the same. Faction factory batches and existing native support recipes keep their own quantities. Existing queued orders retain the output and paid ingredients recorded when they were started. [Balance scope and examples](diagnostics/RecipeCostBatchBalance.md)
+
+The Magnum's raw vat biomass order consumes one Piece of Flesh (`human_meat`) and one Water Bottle (`water_bottle_1`) to produce eight biomass in 12 base hours. Sealed food cargo remains a finished trade good; it is not the feedstock for this order.
 
 Player fabrication uses loose materials and prepared components. Packaged food, Biowaste Tanks, Research Stations, and Quasi-samples retain their role as valuable trade cargo. Station industries can still buy and process bulk cargo through their existing freight chains.
 
 | Magnum recipe | Loose ingredients replacing trade cargo |
 | --- | --- |
-| Raw vat biomass | One Piece of Flesh and one Water Bottle yield four biomass. |
-| Harvested tobacco | One raw vat biomass and one Water Bottle yield four harvested tobacco. |
-| Sterile implant scaffold | Two raw vat biomass replace the Biowaste Tank; dressing and polymer stock remain required. |
-| Tissue Graft | Two raw vat biomass replace the Biowaste Tank; clinical refill and medical glue remain required. |
-| Aegis Ward | Two microelectronics parts and one lens replace the Research Station; fittings and textile remain required. |
-| Golden Aegis Ward | Four microelectronics parts and two lenses replace the two Research Stations; fittings, textile, and the Purity Seal remain required. |
-| Six custom quasi implants using research samples | Two raw vat biomass replace each Quasi-samples item in the player recipe. Their other quasi materials remain required; faction laboratory orders still accept sample cargo. |
+| Raw vat biomass | One Piece of Flesh and one Water Bottle yield eight biomass. |
+| Harvested tobacco | One raw vat biomass and one Water Bottle yield eight harvested tobacco. |
+| Sterile implant scaffold | One raw vat biomass replaces the Biowaste Tank; dressing and polymer stock remain required. |
+| Tissue Graft | One raw vat biomass replaces the Biowaste Tank; clinical refill and medical glue remain required. |
+| Aegis Ward | One microelectronics part and one lens replace the Research Station; fittings and textile remain required. |
+| Golden Aegis Ward | Two microelectronics parts and one lens replace the two Research Stations; fittings, textile, and the Purity Seal remain required. |
+| Six custom quasi implants using research samples | One raw vat biomass per former Quasi-samples item is required in the player recipe. Their other quasi materials remain required; faction laboratory orders still accept sample cargo. |
 
-Recipe times, output quantities, chip pools, and unlock requirements remain the same. Explosives are a native crafting component and remain valid grenade ingredients.
+Explosives are a native crafting component and remain valid grenade ingredients. The same quantity reduction and doubled batches apply to custom rations, weapons, armor, ammunition, implants, and their component recipes.
 
 | Source | Tech | Supplies, components and acquisition |
 | --- | --- | --- |
@@ -92,18 +94,18 @@ Ore and bottled water are independent starting materials. Their orders consume p
 
 | Output per order | Ingredients consumed | Base hours | Availability |
 | --- | --- | --- | --- |
-| 2 metal smelting feedstock (ore) | None | 3 | Shared starter recipe |
-| 2 Water Bottles | None | 3 | Shared starter recipe |
-| 2 refined metal stock | 3 ore | 6 | Shared starter recipe |
-| 2 conductive scrap | 3 ore | 2 | Workshop Fundamentals schematic pool |
-| 1 Cable | 3 conductive scrap | 3 | Shared starter recipe |
-| 2 silicate feedstock | 3 ore | 2 | Shared starter recipe |
-| 2 basic Glass | 2 silicate feedstock | 2 | Shared starter recipe |
-| 2 Industrial Glass | 3 silicate feedstock | 4 | Shared starter recipe |
+| 4 metal smelting feedstock (ore) | None | 3 | Shared starter recipe |
+| 4 Water Bottles | None | 3 | Shared starter recipe |
+| 4 refined metal stock | 2 ore | 6 | Shared starter recipe |
+| 4 conductive scrap | 2 ore | 2 | Workshop Fundamentals schematic pool |
+| 2 Cable | 2 conductive scrap | 3 | Shared starter recipe |
+| 4 silicate feedstock | 2 ore | 2 | Shared starter recipe |
+| 4 basic Glass | 1 silicate feedstock | 2 | Shared starter recipe |
+| 4 Industrial Glass | 2 silicate feedstock | 4 | Shared starter recipe |
 
-Glass and Industrial Glass are alternative products of silicate. The basic route has a one-to-one yield; industrial refining yields two units from three silicate and takes twice as long. Neither route needs pre-existing glass or cullet. Water feeds the existing biomass, tobacco, medical, and other water-consuming recipes; those recipes still require their other listed ingredients.
+Glass and Industrial Glass are alternative products of silicate. The basic route produces four Glass from one silicate; industrial refining produces four Industrial Glass from two silicate and takes twice as long. Neither route needs pre-existing glass or cullet. Water feeds the existing biomass, tobacco, medical, and other water-consuming recipes; those recipes still require their other listed ingredients.
 
-Recycling one sorted metal scrap recovers one ore, and recycling one cullet recovers one silicate. This keeps stored salvage useful without requiring a backwards manufacturing step. The optional Glass-to-cullet sorting order consumes three Glass for two cullet, so returning through silicate and basic Glass loses one Glass. Industrial Glass recycling also loses material on a complete return to Industrial Glass.
+Recycling one sorted metal scrap recovers one ore, and recycling one cullet recovers one silicate. The optional Glass-to-cullet sorting order now consumes two Glass for four cullet. With the larger fabrication batches, recycling and remaking Glass can increase material quantities; the [balance diagnostic](diagnostics/RecipeCostBatchBalance.md#recycling-diagnostic) records this consequence. Recycling outputs themselves are unchanged.
 
 Ore Cargo (`ore_cargo`) is a bulk source of the same raw materials. Its native container opening/disassembly action consumes each selected crate and yields twelve ore, six silicate feedstock, and six conductive scrap. All three outputs are guaranteed; the game splits stacks and handles inventory overflow through its usual item-placement path. The crate's native trade category, weight, stack capacity, and station-industry uses are retained. Existing unopened crates use the updated contents without adding items during save loading. No raw-material-to-Ore-Cargo repacking recipe is added.
 

@@ -4,6 +4,8 @@ Imperium of Man is a Warhammer 40,000 fan mod for Quasimorph. It adds the Imperi
 
 **Current download:** [ImperiumOfMan-1.1.2-RecipeFoundations.zip](package/ImperiumOfMan-1.1.2-RecipeFoundations.zip). Includes the ore, water, glass, and Ore Cargo corrections. [Installation and build details](package/README.md).
 
+**1.1.3 source update:** lower ingredient quantities and doubled custom crafting batches are committed. [Native build 45762690450](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45762690450) is queued; a verified 1.1.3 download is not yet available. The 1.1.3 quantities below describe the updated source, not the older 1.1.2 ZIP.
+
 Planetary Defence Troopers carry Lasguns and wear flak armor. Cadian Guardsmen reinforce them with Lasguns and Guard Frag Grenades. On Terra, Arbites Vigilants carry Judgement shotguns and Arbites Subductors wield Arbites Shock Mauls. You can fight alongside the Arbites or face them as enemies.
 
 At Imperial Tech 3, Arbites, Valhallan, and Steel Legion requisitions enter the Imperial chip pool. Valhallan gear protects against cold and cryo damage. Steel Legion sealed armor protects against poison. At Tech 4, Elysian drop requisitions enter the same pool, and Phobos can issue an orbital Security contract featuring a drop rifleman and a Long-Las spotter.
@@ -59,7 +61,9 @@ Six production sites start under minor human factions and can change hands throu
 
 See the [Tech 1–11 supply map](PRODUCTION_CHAIN_DESIGN.md#utility-food-and-standard-supplies-by-tech-level) for food, ammunition, tools, manufacturing materials, and where to get them.
 
-The Magnum can produce **two metal smelting feedstock (ore)** or **two Water Bottles** in three base hours without consuming ingredients. These starting recipes are available in new games and added when an existing save loads. Ore can become refined metal, conductive scrap for Cable, or silicate feedstock. Two silicate make two basic Glass in two base hours; three silicate make two Industrial Glass in four base hours. The conductive-scrap recipe remains part of the Workshop Fundamentals schematic pool. [Material recipes and yields](PRODUCTION_CHAIN_DESIGN.md#magnum-material-foundations)
+In **1.1.3**, custom Magnum recipes keep every ingredient type, halve the required quantities rounded up to whole items with a minimum of one, and produce twice their previous batch. Production times and schematic requirements stay the same. A Lasgun order uses one rolled armor plate, one armor fitting, and one weapon component to produce two rifles. [Crafting quantities and scope](diagnostics/RecipeCostBatchBalance.md)
+
+The Magnum can produce **four metal smelting feedstock (ore)** or **four Water Bottles** in three base hours without consuming ingredients. These starting recipes are available in new games and added when an existing save loads. Ore can become refined metal, conductive scrap for Cable, or silicate feedstock. One silicate makes four basic Glass in two base hours; two silicate make four Industrial Glass in four base hours. The conductive-scrap recipe remains part of the Workshop Fundamentals schematic pool. [Material recipes and yields](PRODUCTION_CHAIN_DESIGN.md#magnum-material-foundations)
 
 **Ore Cargo** can be opened through its normal container action. Each crate yields **12 metal smelting feedstock, 6 silicate feedstock, and 6 conductive scrap**. Opening consumes the selected crate; intact cargo can still be traded or used by station industry. Existing crates receive the same contents when opened.
 
@@ -111,4 +115,4 @@ Six suppliers turn biomass, medical stock, and recycled packaging into medicines
 
 Every manufacturing chip contains one recipe randomly selected from its supply pool when the chip is created. Its tooltip identifies that selection; duplicates of an already known recipe stay marked as learned. Normal weapon-ammunition and native armor-set companion unlocks still apply. Plans enter their manufacturer's standard chip pool at the required tech level. The station's current owner, station type, and normal restock rolls determine what appears in trade. Elysian flight armor weighs 5.7 kg, about 29% less than the Cadian set. Imperial Field Plans can contain a recipe for Las Clips, cell stock, sealed cells, or clip housings.
 
-On the Magnum, one Piece of Flesh and one Water Bottle produce four raw vat biomass. Tobacco, implant, graft, and ward recipes use raw biomass or loose parts in place of packaged trade goods. Food cargo, Biowaste Tanks, Research Stations, and Quasi-samples remain available for trade. [Player fabrication ingredients](PRODUCTION_CHAIN_DESIGN.md#manufacturing-and-freight)
+On the Magnum, one Piece of Flesh and one Water Bottle produce eight raw vat biomass. One vat ration base and one wrapper produce eight Corpse Starch; one raw vat biomass and one wrapper produce six Dirty Corpse Starch. Tobacco, implant, graft, and ward recipes use raw biomass or loose parts in place of packaged trade goods. Food cargo, Biowaste Tanks, Research Stations, and Quasi-samples remain available for trade. [Player fabrication ingredients](PRODUCTION_CHAIN_DESIGN.md#manufacturing-and-freight)

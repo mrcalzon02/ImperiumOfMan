@@ -1,0 +1,6 @@
+{
+  "schema": "iom.native-validation.v1",
+  "request_id": "custom-recipe-costs-and-batches-001",
+  "source_sha": "a107c145f32ed9e6b567aa4380ae840a4e7d79d2",
+  "mode": "native-build"
+}

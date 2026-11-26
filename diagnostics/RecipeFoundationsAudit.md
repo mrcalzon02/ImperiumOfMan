@@ -1,5 +1,7 @@
 # Recipe foundations and dependency audit
 
+**Historical 1.1.2 audit.** The 1.1.3 [recipe cost and batch change](RecipeCostBatchBalance.md) supersedes the quantities and recycling-return calculations below. This document retains the original implementation and build evidence; its material-loss results do not describe 1.1.3.
+
 Implementation commit: `c474fe05e5257236a6c5ff2854d2df30273071cd` (includes Ore Cargo unpacking). The foundational recipe tree was first published as `0272f112f236b331d8e8f13c20f8a0f68175ce9d`.
 
 Compared with remote baseline `bbf977dda6e16933a4f6c9b504b079b365ea8d15`.
