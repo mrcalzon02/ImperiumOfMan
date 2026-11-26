@@ -1,0 +1,264 @@
+{
+  "schema": "iom.crafting-map-runtime-recovery.v1",
+  "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99",
+  "source_tree_sha": "01fc2ceefdbc865442b932d59f0502f87e227b5e",
+  "assembly_version": "1.1.11.0",
+  "status": "verified_native_test_package_gameplay_acceptance_incomplete_manual_foreground_required",
+  "package": {
+    "repository_path": "package/ImperiumOfMan-1.1.11-CraftingMap.zip",
+    "publication_commit": "2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3",
+    "bytes": 11819417,
+    "sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
+    "dll_sha256": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8"
+  },
+  "observed": [
+    "The verified candidate reached the native main menu; mod registration completed in the retained player logs.",
+    "Sessions 009, 010 and 011 ended before any requested mouse or keyboard input was consumed. Session 010 consumed one capture-only request.",
+    "Session 011 recorded process exit code 0. The prior controller did not record exit codes for 009 or 010.",
+    "All three sessions restored the original package, verified all 11 original campaign files unchanged, and removed the disposable fixture.",
+    "Sessions 012 and 013 were blocked by Windows foreground activation before a first frame or any action. Both restored the original package and protected saves and removed their fixtures."
+  ],
+  "untracked_pointer_input": {
+    "session": "011",
+    "consumed_action_sequence": 0,
+    "recorded_mouse_or_keyboard_actions_consumed": 0,
+    "log_observation": "A Mod Config Menu exception stack includes its MainMenuButton callback, MGSC.CommonButton.OnPointerClick and Unity StandaloneInputModule.ReleaseMouse/ProcessMouseEvent.",
+    "exception": "NullReferenceException: Object reference not set to an instance of an object",
+    "stack": [
+      "MGSC.SliderWrapper.Awake",
+      "ModConfigMenu.ModConfigMenu.ConfigureRangeButtonPrefab",
+      "ModConfigMenu.ModConfigMenu.Awake",
+      "ModConfigMenu.<>c:<MainMenuButton>b__8_0",
+      "MGSC.CommonButton.OnPointerClick",
+      "UnityEngine.EventSystems.StandaloneInputModule.ReleaseMouse",
+      "UnityEngine.EventSystems.StandaloneInputModule.ProcessMouseEvent"
+    ],
+    "actor_identified": false,
+    "exit_cause_established": false,
+    "qualification": "The stack records pointer input outside this session's consumed action stream. It does not identify the actor or prove why Quasimorph subsequently exited."
+  },
+  "not_verified_in_this_binary": [
+    "Copied campaign load",
+    "Crafting Map visual appearance and compact controls",
+    "Expanded branch layout and line routing in Unity",
+    "Ingredient Tree interaction and source filters",
+    "New item and recipe icon display",
+    "Intermediate material recipes in Production",
+    "Visible Ore Cargo sale offer",
+    "Completed paid Ore Cargo transfer"
+  ],
+  "exit_diagnostics": {
+    "controller_commit": "6b746da4a092b8edbbd5856c4a2901c8af37cac5",
+    "session_py_blob": "16232ed0dbc3c81c236249996460d719019f559c",
+    "scope": "The two existing process-poll failure branches now preserve exit code, detection time, phase and consumed sequence. Input validation, ownership, limits, save protection and cleanup are unchanged.",
+    "detection_time_is_not_exact_exit_time": true
+  },
+  "background_worker_review": {
+    "commissioning_run": 45887583722,
+    "controller_sha": "4ae4d9b501256cfcaaf5d6eb8f34c78f6db28d00",
+    "finding": "The preceding LCI commissioning job intentionally retained a persistent node. Its scheduling group differs from the headed session group, so an empty Actions queue does not establish a completely idle host.",
+    "inspected_guards": "The inspected LCI worker defers or pauses when Quasimorph is present. Its teardown targets its own retained child process objects. No Quasimorph-directed input or broad process-kill path was found in the inspected chain.",
+    "causal_link_to_game_exit_established": false,
+    "limitation": "The commissioning log predates the game sessions and does not establish every later background event."
+  },
+  "sessions": [
+    {
+      "session": "009",
+      "run": 45887627504,
+      "delivery": "f49869d44f1392c6bee8c365c79826568c886915",
+      "controller": "5e8a70f7d2186cb2720842c74ee9af0e3cad04af",
+      "consumed": [
+        "none"
+      ],
+      "log_blob": "5340c43ce97e2c48f348c9a60ea8a0ac672ef1fa",
+      "receipt_blob": "68da050f2df41d5a6b3e60331825acef33f78c8d",
+      "prefix": "runner-results/quasimorph-headed/45887627504-1",
+      "status": "failed",
+      "sequence": 0,
+      "error": "RuntimeError: Owned game exited during the interactive slot",
+      "owned_game_exit": null,
+      "installed_package": {
+        "ImperiumOfMan.dll": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8",
+        "imperiumofman.bundle": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e",
+        "modmanifest.json": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2",
+        "thumbnail.png": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      },
+      "frame": {
+        "action_sequence": 0,
+        "captured_at": 1795724029.6131952,
+        "height": 1080,
+        "hwnd": 393716,
+        "number": 0,
+        "path": "runner-results/quasimorph-headed/45887627504-1/frames/0000/frame.png",
+        "pid": 8712,
+        "sha256": "eed26c7cc3ebef6f467c8eb211514514c966c8dd2596c8e7ed03ec97d16f255d",
+        "transport_manifest": "runner-results/quasimorph-headed/45887627504-1/frames/0000/base64/manifest.json",
+        "width": 1920
+      },
+      "original_package_restored": true,
+      "existing_campaign_files_unchanged": true,
+      "protected_campaign_files": 11,
+      "fixture_cleanup_complete": true,
+      "finished_utc_epoch": 1795724043.7480078,
+      "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45887627504",
+      "receipt_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/f49869d44f1392c6bee8c365c79826568c886915/runner-results/quasimorph-headed/45887627504-1/final-receipt.json",
+      "player_log_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/f49869d44f1392c6bee8c365c79826568c886915/runner-results/quasimorph-headed/45887627504-1/player-log-tail.txt"
+    },
+    {
+      "session": "010",
+      "run": 45889842321,
+      "delivery": "c07c875602c4b532eec337cfea52acbe7d40b17b",
+      "controller": "a58f4d8fd6d7d52e86accc04112cb56411173a1f",
+      "consumed": [
+        "capture"
+      ],
+      "log_blob": "f9fab6ce8e1bd011fd4d34c51583bc08606af23b",
+      "receipt_blob": "54c028d89262aba41ff55efe333a44ada52342c6",
+      "prefix": "runner-results/quasimorph-headed/45889842321-1",
+      "status": "failed",
+      "sequence": 1,
+      "error": "RuntimeError: Owned game exited during the interactive slot",
+      "owned_game_exit": null,
+      "installed_package": {
+        "ImperiumOfMan.dll": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8",
+        "imperiumofman.bundle": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e",
+        "modmanifest.json": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2",
+        "thumbnail.png": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      },
+      "frame": {
+        "action_sequence": 1,
+        "captured_at": 1795724310.2868109,
+        "height": 1080,
+        "hwnd": 2031662,
+        "number": 1,
+        "path": "runner-results/quasimorph-headed/45889842321-1/frames/0001/frame.png",
+        "pid": 13044,
+        "sha256": "e90e690625c85e0bb98a3b9dc435f046364ee11249be0bf99dee02eb8b710d4e",
+        "transport_manifest": "runner-results/quasimorph-headed/45889842321-1/frames/0001/base64/manifest.json",
+        "width": 1920
+      },
+      "original_package_restored": true,
+      "existing_campaign_files_unchanged": true,
+      "protected_campaign_files": 11,
+      "fixture_cleanup_complete": true,
+      "finished_utc_epoch": 1795724344.7851334,
+      "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45889842321",
+      "receipt_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/c07c875602c4b532eec337cfea52acbe7d40b17b/runner-results/quasimorph-headed/45889842321-1/final-receipt.json",
+      "player_log_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/c07c875602c4b532eec337cfea52acbe7d40b17b/runner-results/quasimorph-headed/45889842321-1/player-log-tail.txt"
+    },
+    {
+      "session": "011",
+      "run": 45890936468,
+      "delivery": "4dc6d3db7509d4d6cb30398013ee5b001e03de30",
+      "controller": "f36ea5e4f3a56c53ae59549515c966e8d62f9cca",
+      "consumed": [
+        "none"
+      ],
+      "log_blob": "e76b08809ae65a69368b5db3f8f2d81af41c93a5",
+      "receipt_blob": "5b3d7a11efe5f38778f3af9f2948c2b192db5a6c",
+      "prefix": "runner-results/quasimorph-headed/45890936468-1",
+      "status": "failed",
+      "sequence": 0,
+      "error": "RuntimeError: Owned game exited during the interactive slot (exit code 0)",
+      "owned_game_exit": {
+        "code": 0,
+        "detected_utc_epoch": 1795724897.1739922,
+        "phase": "interactive",
+        "sequence": 0
+      },
+      "installed_package": {
+        "ImperiumOfMan.dll": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8",
+        "imperiumofman.bundle": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e",
+        "modmanifest.json": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2",
+        "thumbnail.png": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      },
+      "frame": {
+        "action_sequence": 0,
+        "captured_at": 1795724852.991537,
+        "height": 900,
+        "hwnd": 1376762,
+        "number": 0,
+        "path": "runner-results/quasimorph-headed/45890936468-1/frames/0000/frame.png",
+        "pid": 14396,
+        "sha256": "fa18ec5224bc944bfeadf7fe269c2f05d5a5b03f473732411f94e140dc42fa36",
+        "transport_manifest": "runner-results/quasimorph-headed/45890936468-1/frames/0000/base64/manifest.json",
+        "width": 1600
+      },
+      "original_package_restored": true,
+      "existing_campaign_files_unchanged": true,
+      "protected_campaign_files": 11,
+      "fixture_cleanup_complete": true,
+      "finished_utc_epoch": 1795724899.4586654,
+      "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45890936468",
+      "receipt_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/4dc6d3db7509d4d6cb30398013ee5b001e03de30/runner-results/quasimorph-headed/45890936468-1/final-receipt.json",
+      "player_log_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/4dc6d3db7509d4d6cb30398013ee5b001e03de30/runner-results/quasimorph-headed/45890936468-1/player-log-tail.txt"
+    },
+    {
+      "session": "012",
+      "run": 45892441444,
+      "delivery": "a059ee8a473fff7fb906004ad9a8d772d04e43fa",
+      "controller": "1b504f86ad750aa1fa823da90e34b2f1ed71a01e",
+      "receipt_blob": "0082592e134c6d0b9bdee38084a08e37c4e96f5f",
+      "prefix": "runner-results/quasimorph-headed/45892441444-1",
+      "status": "failed",
+      "sequence": 0,
+      "error": "RuntimeError: Windows refused foreground activation",
+      "owned_game_exit": null,
+      "consumed": [],
+      "installed_package": {
+        "ImperiumOfMan.dll": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8",
+        "imperiumofman.bundle": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e",
+        "modmanifest.json": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2",
+        "thumbnail.png": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      },
+      "frame": null,
+      "original_package_restored": true,
+      "existing_campaign_files_unchanged": true,
+      "protected_campaign_files": 11,
+      "fixture_cleanup_complete": true,
+      "finished_utc_epoch": 1795726206.0043573,
+      "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45892441444",
+      "receipt_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/a059ee8a473fff7fb906004ad9a8d772d04e43fa/runner-results/quasimorph-headed/45892441444-1/final-receipt.json"
+    },
+    {
+      "session": "013",
+      "run": 45894151252,
+      "delivery": "8c2db7ed394d02e3ffc3918eefa729c931d2c2c0",
+      "controller": "bfec68acdac05080ec92f60e39ddbaf36ccf7c1f",
+      "receipt_blob": "0597bcc612fa8611ac186b065f1defa7ea21d9d2",
+      "prefix": "runner-results/quasimorph-headed/45894151252-1",
+      "status": "failed",
+      "sequence": 0,
+      "error": "RuntimeError: Windows refused foreground activation",
+      "owned_game_exit": null,
+      "consumed": [],
+      "installed_package": {
+        "ImperiumOfMan.dll": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8",
+        "imperiumofman.bundle": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e",
+        "modmanifest.json": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2",
+        "thumbnail.png": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      },
+      "frame": null,
+      "original_package_restored": true,
+      "existing_campaign_files_unchanged": true,
+      "protected_campaign_files": 11,
+      "fixture_cleanup_complete": true,
+      "finished_utc_epoch": 1795726558.02485,
+      "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45894151252",
+      "receipt_url": "https://github.com/mrcalzon02/Dens-Mortis/blob/8c2db7ed394d02e3ffc3918eefa729c931d2c2c0/runner-results/quasimorph-headed/45894151252-1/final-receipt.json"
+    }
+  ],
+  "next_step": "When the user can keep the test window in the foreground, launch a new bounded session with the exact published b89 package. Load the disposable campaign, verify map/recipe/icon behavior, inspect a real Ore Cargo sale and paid transfer, then stop and verify package/save restoration. No rebuild is needed for this resumption.",
+  "user_clarification": "The user confirmed closing Quasimorph after it appeared idle during screenshot round trips. The next session resumes with explicit coordination to leave the test window open.",
+  "current_blocker": {
+    "kind": "native_window_foreground_activation",
+    "sessions": [
+      "012",
+      "013"
+    ],
+    "error": "Windows refused foreground activation",
+    "mouse_or_keyboard_actions_consumed": 0,
+    "current_session_running": false,
+    "required_step": "The test machine must be available and the owned Quasimorph test window brought to the foreground manually. Resume coordinated input from a fresh observed frame; root closes the test instance afterward."
+  }
+}

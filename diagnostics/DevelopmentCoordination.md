@@ -1,6 +1,6 @@
 # Development reconciliation — 26 November 2026
 
-The concurrent **Fix Icon Borders** recovery and **Prepare Change Notes / Crafting map appearance** work was reconciled in [2db1cebb69b4086a7dfce80816b2f83d482cfbd6](https://github.com/mrcalzon02/ImperiumOfMan/commit/2db1cebb69b4086a7dfce80816b2f83d482cfbd6). The active continuation is a **verified 1.1.11 native test package; runtime acceptance pending**, compiled from [b89e15990b42d8bc4911237d5d1502fe0c283d99](https://github.com/mrcalzon02/ImperiumOfMan/commit/b89e15990b42d8bc4911237d5d1502fe0c283d99), tree `01fc2ceefdbc865442b932d59f0502f87e227b5e`. Its native build and package checks passed, and the test ZIP was published in [2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3](https://github.com/mrcalzon02/ImperiumOfMan/commit/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3). Headed acceptance remains pending.
+The concurrent **Fix Icon Borders** recovery and **Prepare Change Notes / Crafting map appearance** work was reconciled in [2db1cebb69b4086a7dfce80816b2f83d482cfbd6](https://github.com/mrcalzon02/ImperiumOfMan/commit/2db1cebb69b4086a7dfce80816b2f83d482cfbd6). The active continuation is a **verified 1.1.11 native test package; in-game checks incomplete; manual foreground step required**, compiled from [b89e15990b42d8bc4911237d5d1502fe0c283d99](https://github.com/mrcalzon02/ImperiumOfMan/commit/b89e15990b42d8bc4911237d5d1502fe0c283d99), tree `01fc2ceefdbc865442b932d59f0502f87e227b5e`. Its native build and package checks passed, and the test ZIP was published in [2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3](https://github.com/mrcalzon02/ImperiumOfMan/commit/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3). Runtime validation is paused with no active test game; the same published package can be used after a coordinated foreground handoff.
 
 ## What overlapped
 
@@ -34,7 +34,7 @@ The reconciliation carried the recovered publication forward on `main`; it did n
 
 | Deliverable | Exact version and source | Current evidence boundary |
 | --- | --- | --- |
-| Current native test package | 1.1.11.0, `b89e15990b42d8bc4911237d5d1502fe0c283d99` | Native build and package verification passed; published in `2c5f6dc`. [Build receipt](https://github.com/mrcalzon02/ImperiumOfMan/blob/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/diagnostics/CraftingMapBuildReceipt-1.1.11.json). Session-009 runtime acceptance pending. |
+| Current native test package | 1.1.11.0, `b89e15990b42d8bc4911237d5d1502fe0c283d99` | Native build and package verification passed; published in `2c5f6dc`. [Build receipt](CraftingMapBuildReceipt-1.1.11.json). In-game checks incomplete after sessions 009–013; a manual foreground step is required. [Runtime record](CraftingMapRuntimeRecovery-b89e159.json). |
 | Earlier appearance baseline | 1.1.11.0, `e6c3026b3a11e4194b4597866099fcee850d836a` | Native build [45878912836](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45878912836) and its package passed. Session 008 loaded and reviewed it, identified blank compact buttons, then restored the original package and protected campaign files. This superseded baseline does not validate the expanded candidate. [Receipt](CraftingMapNativeStyleBaselineReceipt.json). |
 | Historical corrected runtime | 1.1.10.0, `5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad` | [ZIP and receipt](../package/README.md) verified; this binary had no separate headed session. |
 | Recovered source/art review | 1.1.10.0, `5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad` | 235 entries; 233 manifest-listed files verified; all 140 included build-source files match this revision. It intentionally predates the 1.1.11 appearance changes. |
@@ -50,16 +50,27 @@ The recovered source/art ZIP is 17,105,316 bytes, SHA-256 `3d7adb09bd1b7b8492607
 - Ceramic feedstock and Electronic substrate with two minimally changed Magnum consumers. Source balance checks preserve expanded material cost and time over two orders. First orders from unprepared stock take six/five base hours and leave one spare intermediate. [Exact quantities and limits](ManufacturingIntermediates.md).
 - Paid Ore Cargo top-ups of 3 at Rachmaninoff, 2 at Cinder Basin Mine and 2 at Foundry Primaris under the existing owner and Tech 1 gates. Rachmaninoff and Cinder require CoreWard ownership, so Cinder stops receiving the top-up after capture; Foundry Primaris remains Imperial. Production and trade can consume stock. Native API inspection confirms the storage path; actual listing and purchase remain a headed check. [Source audit](OreCargoMarketSourceAudit.md).
 
-## Build complete; finish runtime acceptance
+## Build complete; runtime check paused
 
-[Native run 45886658790](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45886658790) compiled exact source `b89e159` with zero warnings/errors in 9.68 seconds. Delivery `119cfe8c7c47a4d01d0263c203451fb64778a208` supplied 31 verified transport chunks. The reconstructed ZIP is 11,819,417 bytes, SHA-256 `db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539`; all four members, hashes, assembly version, TMP references and new compiled methods are verified. [Published receipt](https://github.com/mrcalzon02/ImperiumOfMan/blob/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/diagnostics/CraftingMapBuildReceipt-1.1.11.json).
+[Native run 45886658790](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45886658790) compiled exact source `b89e159` with zero warnings/errors in 9.68 seconds. Delivery `119cfe8c7c47a4d01d0263c203451fb64778a208` supplied 31 verified transport chunks. The reconstructed ZIP is 11,819,417 bytes, SHA-256 `db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539`; all four members, hashes, assembly version, TMP references and new compiled methods are verified. [Published receipt](CraftingMapBuildReceipt-1.1.11.json).
 
-[Headed session 009](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45887627504) uses controller `5e8a70f7d2186cb2720842c74ee9af0e3cad04af` and the exact b89 package. It is queued behind another job on the shared native machine. Runtime acceptance has not yet been established.
+The user subsequently confirmed closing the earlier test instances because they appeared idle during capture pauses. Those closures are no longer treated as an unexplained shutdown blocker. The latest two attempts stopped with `Windows refused foreground activation`, before their first frame or any input action. The requested foreground handoff was not completed before session 013 timed out.
 
-1. Continue the existing session-009 request under the coordinator's sole GUI control; avoid a duplicate native request.
-2. Check compact controls, family spacing/routing, ingredient tracing, recipe/item icons, search/filter navigation, detail scrolling and Production ownership. Confirm the new material registrations and an actual paid Ore Cargo purchase. Record any unperformed checks explicitly.
-3. Restore the original package and protected campaigns and remove the fixture.
-4. Add current screenshots, observed acceptance and cleanup evidence to the delivery notes. Keep the already-published test ZIP and its exact build identity separate from the pending runtime result.
+| Session | Run | Consumed action sequence | Final delivery |
+| --- | --- | --- | --- |
+| 009 | [45887627504](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45887627504) | 0; no input action | `f49869d44f1392c6bee8c365c79826568c886915` |
+| 010 | [45889842321](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45889842321) | 1; capture only | `c07c875602c4b532eec337cfea52acbe7d40b17b` |
+| 011 | [45890936468](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45890936468) | 0; exit code 0 | `4dc6d3db7509d4d6cb30398013ee5b001e03de30` |
+| 012 | [45892441444](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45892441444) | 0; no frame | `a059ee8a473fff7fb906004ad9a8d772d04e43fa` |
+| 013 | [45894151252](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45894151252) | 0; no frame | `8c2db7ed394d02e3ffc3918eefa729c931d2c2c0` |
+
+All five attempts restored the original package, verified all 11 protected campaign files unchanged and removed the disposable fixture. No test game remains active and no further validation session is queued. [Runtime recovery, logs and cleanup](CraftingMapRuntimeRecovery-b89e159.json).
+
+No campaign was loaded with the current binary. Its branch layout, compact controls, ingredient-tree interaction, icon display, intermediate recipes and paid Ore Cargo transfer still require in-game acceptance. The source artwork preview and historical 1.1.9 screenshots retain their separate attribution.
+
+1. Coordinate a time when Core30 is available. Once the next test instance starts, manually bring Quasimorph to the foreground and leave it open during capture pauses; the coordinator owns the test input and closes the instance when finished.
+2. Resume the exact published b89 package in a bounded session. Load the disposable campaign, perform the map/recipe/icon checks and an actual paid Ore Cargo purchase, then verify package/save restoration and fixture cleanup.
+3. Add the observed results and current screenshots to the delivery record. This resumption requires no new source change, release or build.
 
 ## Queue for later focused work
 

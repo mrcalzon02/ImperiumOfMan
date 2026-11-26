@@ -25,22 +25,25 @@ Added paid Ore Cargo restock targets: 3 at Rachmaninoff, 2 at Cinder Basin Mine 
 Corpse Starch and Dirty Corpse Starch remain finished food with no disassembly return. The removed eight-ration-to-biomass conversion stays removed. Forward manufacturing, eligible spoiled-organic recovery, clone harvesting and equipment salvage remain.
 
 VERIFICATION STATUS
-Verified native test package; game checks pending.
+Verified native test package; in-game checks incomplete. Manual foreground step required.
 Source: b89e15990b42d8bc4911237d5d1502fe0c283d99
 Source tree: 01fc2ceefdbc865442b932d59f0502f87e227b5e
 Assembly version: 1.1.11.0
 
 Native run 45886658790 compiled this source in 9.68 seconds with zero warnings and zero errors. All 31 transport chunks, the ZIP and its four runtime members, hashes, assembly version, TMP references and compiled graph/dependency methods are verified. The published test ZIP is 11,819,417 bytes, SHA-256 db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539.
 
-Local source checks verify material quantities, unchanged total costs and times, and the first-order spare unit. All 21 new sprite files are present at their required sizes. Session 009 is queued for the shared native machine. In-game appearance/navigation, new material registration and an actual paid Ore Cargo purchase remain pending for this binary.
+Local source checks verify material quantities, unchanged total costs and times, and the first-order spare unit. All 21 new sprite files are present at their required sizes. No campaign was loaded with this binary; map appearance, branch layout, icons, intermediate recipes and a paid Ore Cargo purchase remain unverified in game.
+
+Earlier test instances were closed during capture pauses, as subsequently confirmed. The latest attempts, sessions 012 and 013, stopped because Windows refused foreground activation, before a frame or any input action. All five attempts restored the original package, preserved all 11 protected campaign files and removed their fixtures. No test game remains active. Resume the same verified package when Core30 is available and Quasimorph can be manually brought to the foreground.
 
 Unknown output quantities or times remain unknown. Private scripted crafting outside the supported registered tables cannot be inferred. The map does not submit production orders automatically.
 
 The earlier e6c3026 appearance baseline and session 008 remain historical. The 1.1.10 ZIP retains its separate source-5fa verification. Historical 1.1.9 captures and its named-stack +4 transaction keep their original attribution.
 
-DOWNLOAD AND BUILD RECEIPT
+DOWNLOAD AND VERIFICATION
 https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip
-https://github.com/mrcalzon02/ImperiumOfMan/blob/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/diagnostics/CraftingMapBuildReceipt-1.1.11.json
+../../diagnostics/CraftingMapBuildReceipt-1.1.11.json
+../../diagnostics/CraftingMapRuntimeRecovery-b89e159.json
 
 SOURCE AND DETAILS
 https://github.com/mrcalzon02/ImperiumOfMan/commit/b89e15990b42d8bc4911237d5d1502fe0c283d99

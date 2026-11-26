@@ -3,7 +3,7 @@
   "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99",
   "source_tree_sha": "01fc2ceefdbc865442b932d59f0502f87e227b5e",
   "assembly_version": "1.1.11.0",
-  "status": "native_build_verified_test_package_published_runtime_acceptance_pending",
+  "status": "native_build_and_test_package_verified_gameplay_acceptance_incomplete",
   "source_change": "Expanded Crafting Map candidate: separate processing families, routed dependency branches, native TMP styling and icons, player-facing names and recipe descriptions, bounded ingredient trees from registered base-game and installed-mod data, two manufacturing intermediates, and replenishing Ore Cargo supply. The earlier native-style baseline is retained as historical evidence.",
   "native_compile": "passed",
   "compiler_warnings": 0,
@@ -123,16 +123,38 @@
   "gameplay_validation": "not_run_in_native_build",
   "live_game_or_save_modified_by_native_build": false,
   "headed_validation_followup": {
-    "session": "009",
-    "run_id": 45887627504,
-    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45887627504",
-    "controller_sha": "5e8a70f7d2186cb2720842c74ee9af0e3cad04af",
     "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99",
     "candidate_sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
-    "acceptance": "pending",
     "operator": "root",
-    "runtime_evidence": "Pending the session owner's observations and cleanup receipt. Package publication and runtime acceptance are tracked separately.",
-    "status": "planned_runtime_acceptance_pending"
+    "acceptance": "incomplete",
+    "native_main_menu_startup": "observed",
+    "campaign_load": "not_verified",
+    "current_session_running": false,
+    "session_ids": [
+      "009",
+      "010",
+      "011",
+      "012",
+      "013"
+    ],
+    "receipt": "diagnostics/CraftingMapRuntimeRecovery-b89e159.json",
+    "prior_shutdown_clarification": "The user confirmed closing Quasimorph after it appeared idle during screenshot round trips. The next session resumes with explicit coordination to leave the test window open.",
+    "current_blocker": {
+      "kind": "native_window_foreground_activation",
+      "sessions": [
+        "012",
+        "013"
+      ],
+      "error": "Windows refused foreground activation",
+      "mouse_or_keyboard_actions_consumed": 0,
+      "current_session_running": false,
+      "required_step": "The test machine must be available and the owned Quasimorph test window brought to the foreground manually. Resume coordinated input from a fresh observed frame; root closes the test instance afterward."
+    },
+    "restoration": {
+      "all_five_attempts_restored_original_package": true,
+      "all_five_attempts_verified_11_original_campaign_files_unchanged": true,
+      "all_five_attempts_cleaned_disposable_fixture": true
+    }
   },
   "native_api_inspection": {
     "status": "partial",
@@ -211,7 +233,7 @@
     "native_build_run_id": 45878912836,
     "relationship": "Earlier native-style baseline; its package is not this expanded b89 candidate."
   },
-  "verification_scope": "Exact source b89e15990b42d8bc4911237d5d1502fe0c283d99 compiled against installed native references with zero warnings and errors. All 31 transport chunks, the reconstructed ZIP size, SHA256, Git blob SHA and CRC, all four runtime members and their hashes, mod identity, assembly version, compiled TMP types, and new graph/dependency method bodies were verified. After initial unreferenced blob upload, the test package was published in commit 2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3 and its public URL returned HTTP200 application/zip with byte-identical content. Runtime acceptance remains pending; no runtime success is inferred from compilation or metadata checks.",
+  "verification_scope": "Exact source b89e15990b42d8bc4911237d5d1502fe0c283d99 compiled against installed native references with zero warnings and errors. All 31 transport chunks, the reconstructed ZIP size, SHA256, Git blob SHA and CRC, all four runtime members and their hashes, mod identity, assembly version, compiled TMP types, and new graph/dependency method bodies were verified. After initial unreferenced blob upload, the test package was published in commit 2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3 and its public URL returned HTTP200 application/zip with byte-identical content. The candidate reached the native main menu, but no copied campaign or gameplay acceptance was completed. The user confirmed closing earlier instances during capture pauses; the last two attempts were blocked by Windows foreground activation before the first frame. All five attempts restored the original package and protected campaign files. Current detailed scope is in CraftingMapRuntimeRecovery-b89e159.json.",
   "public_download_verification": {
     "url": "https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip",
     "http_status": 200,

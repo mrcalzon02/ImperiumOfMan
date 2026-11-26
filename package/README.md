@@ -6,11 +6,11 @@
 
 Ceramic feedstock and Electronic substrate separate two preparation stages while preserving total material cost and base time over two assembly orders. The first order from unprepared stock takes six base hours for four plates or five for four boards and leaves one spare intermediate. Paid Ore Cargo restock targets are 3 at Rachmaninoff, 2 at Cinder Basin Mine and 2 at Foundry Primaris, under existing ownership and Tech 1 requirements. Rachmaninoff and Cinder require CoreWard ownership; Cinder stops receiving this top-up if captured. Foundry Primaris remains Imperial. Production and trade can reduce stock between top-ups.
 
-**[Download ImperiumOfMan-1.1.11-CraftingMap.zip](https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip)** · [GitHub file page](https://github.com/mrcalzon02/ImperiumOfMan/blob/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip) · [Published build receipt](https://github.com/mrcalzon02/ImperiumOfMan/blob/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/diagnostics/CraftingMapBuildReceipt-1.1.11.json) · [Installation](#install-the-verified-1111-package-for-testing).
+**[Download ImperiumOfMan-1.1.11-CraftingMap.zip](https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip)** · [GitHub file page](https://github.com/mrcalzon02/ImperiumOfMan/blob/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip) · [Published build receipt](../diagnostics/CraftingMapBuildReceipt-1.1.11.json) · [Installation](#install-the-verified-1111-package-for-testing).
 
 [Native run 45886658790](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45886658790) passed in **9.68 seconds with zero warnings and zero errors**. Verification checked all 31 transport chunks, the ZIP CRC and hashes, four exact runtime members, assembly 1.1.11.0, TMP references and compiled graph/dependency methods. The ZIP is **11,819,417 bytes**, SHA-256 `db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539`.
 
-**Game checks are pending.** [Session 009](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45887627504) is queued for the shared native machine; map behaviour, new registrations and a paid Ore Cargo purchase have not yet been accepted for this binary. [Change notes](../docs/crafting/CHANGE_NOTES_1.1.11.txt) · [Material quantities and timing](../diagnostics/ManufacturingIntermediates.md) · [Gallery and current delivery status](../docs/crafting/DELIVERABLES.md).
+**Verified native test package; in-game checks incomplete. A manual foreground step is required.** Sessions 012 and 013 stopped at the Windows foreground-activation check, before a frame or any input action. No campaign was loaded with this binary; map layout, icons, intermediate recipes and a paid Ore Cargo purchase remain unverified in game. Sessions 009–013 restored the original package, preserved all 11 protected campaign files and removed their fixtures. No test game remains active. Resume when Core30 is available and the next Quasimorph test window can be brought to the foreground. [Runtime recovery record](../diagnostics/CraftingMapRuntimeRecovery-b89e159.json) · [Change notes](../docs/crafting/CHANGE_NOTES_1.1.11.txt) · [Material quantities and timing](../diagnostics/ManufacturingIntermediates.md) · [Gallery](../docs/crafting/DELIVERABLES.md).
 
 ## Install the verified 1.1.11 package for testing
 
@@ -25,7 +25,7 @@ Close Quasimorph and extract the complete 1.1.11 ZIP linked above. Copy these fo
 D:\SteamLibrary B\steamapps\workshop\content\2059170\3754620214\
 ```
 
-For another Steam library, use the same `steamapps\workshop\content\2059170\3754620214\` suffix. Keep the four files directly inside that folder. This is the verified native test package; its focused in-game checks are still pending.
+For another Steam library, use the same `steamapps\workshop\content\2059170\3754620214\` suffix. Keep the four files directly inside that folder. This is the verified native test package; its in-game checks remain incomplete, with a coordinated manual foreground step required to resume validation.
 
 ## Historical verified package — 1.1.10 finished-ration output correction
 
