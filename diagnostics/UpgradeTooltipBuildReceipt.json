@@ -1,0 +1,98 @@
+{
+  "schema": "iom.verified-release-candidate.v1",
+  "source_sha": "d2da0db3a4b794cdfa25ae8369c3ef098e0d40ac",
+  "tooltip_change_sha": "11ed2b0c134683021b5a228161e0db8c1b16650d",
+  "assembly_version": "1.1.8.0",
+  "request": {
+    "mode": "native-build",
+    "request_id": "call-in-drawer-native-lookup-002",
+    "schema": "iom.native-validation.v1",
+    "source_sha": "d2da0db3a4b794cdfa25ae8369c3ef098e0d40ac"
+  },
+  "workflow": {
+    "repository": "mrcalzon02/Dens-Mortis",
+    "run_id": 45802511629,
+    "job_id": 139849111754,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45802511629",
+    "controller_sha": "fe364f2e22362b23a3981d245c507b7196bb5f1a"
+  },
+  "delivery": {
+    "repository": "mrcalzon02/Dens-Mortis",
+    "prefix": "runner-results/quasimorph-native/45802511629-1"
+  },
+  "native_compile": "passed",
+  "compiler_warnings": 0,
+  "compiler_errors": 0,
+  "game_executable_sha256": "85a6ceaaef775d537bd4eab4e62d9b9c3c4f88c6a48c32c5093b7bfa0f0e2f8e",
+  "game_reference_sha256": {
+    "0Harmony.dll": "498ede1d20a87afaa6c7b1ed5b3beb505b01dc418b952c1be5c322204404b033",
+    "Assembly-CSharp.dll": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+    "SimpleJSON.dll": "2521e3c93c6992ee48981059a8e473152631ae7467002e60e8b9bf6f3b92ff82",
+    "Unity.RenderPipelines.Universal.Runtime.dll": "eacb4ef9bf829643ff08d29b5fcd4c03b9551b1892cb84ba1f8dc2d116197a28",
+    "UnityEngine.AssetBundleModule.dll": "888102f4fac12e8695d185d6770f637d520167caf2aa620d17c5ad1527eb08c3",
+    "UnityEngine.AudioModule.dll": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88",
+    "UnityEngine.CoreModule.dll": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e",
+    "UnityEngine.IMGUIModule.dll": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78",
+    "UnityEngine.ImageConversionModule.dll": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b",
+    "UnityEngine.InputLegacyModule.dll": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375",
+    "UnityEngine.Physics2DModule.dll": "6489c192c7fff6e4ed2d6bffdb26cb64133143bb117cacda3cb4bd730162294a",
+    "UnityEngine.TextRenderingModule.dll": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d",
+    "UnityEngine.TilemapModule.dll": "71c4505976bd5e8f5e74206fe69ce4baae96a9eb3e46a467d2a4bd5ac598f69b",
+    "UnityEngine.UI.dll": "5c7fb38aaa094f9709f29340062d4ce0603f110e2e91a30887c3212dcec5231f",
+    "UnityEngine.UIModule.dll": "f3e21499db60bd6a7569f2209d304828eb6778e1143b72a71ad72b4a61848097",
+    "UnityEngine.dll": "9568a6c178e9c322a6b155213be04661c920fcf46418e8e38b4af9646362d5c6"
+  },
+  "tooltip_api_types": {
+    "MGSC.TooltipFactory": "read",
+    "MGSC.PropertiesTooltip": "read",
+    "MGSC.TooltipProperty": "read",
+    "MGSC.ItemTooltipBuilder": "read"
+  },
+  "package": {
+    "path": "package/ImperiumOfMan-1.1.8-NativeTooltips.zip",
+    "bytes": 11779133,
+    "sha256": "c236dc5104f2278194585177279e0b053d76f3b2e8b2a45a8a6490347a9b74e0",
+    "git_blob_sha": "55d64389b15885d04ed651cf3e8c6c5e898f1513",
+    "zip_crc_verified": true,
+    "transport_chunks_verified": 30,
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 14033408,
+        "sha256": "521e30e27e34a8a7376e0cd8b9f5c0657be633a3331cfcb9960f9f054f7346d2"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    }
+  },
+  "compiled_metadata": {
+    "status": "read",
+    "method": "dnfile_static_metadata",
+    "name": "ImperiumOfMan",
+    "version": "1.1.8.0",
+    "assembly_loaded_or_executed": false
+  },
+  "coverage": {
+    "registered_upgrades": 44,
+    "concise_upgrade_subtitles": 44,
+    "dedicated_effect_row_paths": 44,
+    "module_subtitles": 4,
+    "body_keys_resolved": 70,
+    "original_item_paragraphs_preserved": 29,
+    "source_audit": "UpgradeTooltipSourceAudit.json",
+    "integration_audit": "UpgradeTooltipIntegrationAudit.json"
+  },
+  "native_boot": "not_run",
+  "gameplay_validation": "not_run",
+  "live_tooltip_hover_capture": "not_run",
+  "version_scope": "This receipt covers 1.1.8 at d2da0db. The later 1.1.9 occult redesign is a separate source/build."
+}

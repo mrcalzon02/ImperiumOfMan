@@ -1,0 +1,666 @@
+{
+  "schema": "iom.upgrade-tooltip-integration-audit.v1",
+  "kind": "static source coverage and semantic review; not native compile, runtime or visual proof",
+  "created_utc": "2026-11-26T10:40:44.133179+00:00",
+  "source_sha": "d2da0db3a4b794cdfa25ae8369c3ef098e0d40ac",
+  "assembly_version": "1.1.8.0",
+  "worktree_clean_before_and_after": true,
+  "source_or_remote_mutations_performed": false,
+  "registration_files_scanned": 103,
+  "upgrade_registration_call_files": [
+    "Plugin.CommsNode.cs",
+    "Plugin.OccultProduction.cs",
+    "Plugin.OccultResearch.cs",
+    "Plugin.ShipSupport.cs"
+  ],
+  "registered_upgrade_count": 44,
+  "previous_audited_upgrade_count": 32,
+  "new_comms_replacement_count": 12,
+  "group_counts": {
+    "comms_roots": 3,
+    "comms_replacements": 12,
+    "ship_mounts": 3,
+    "troop_roster_tiers": 10,
+    "occult_facilities": 4,
+    "occult_research_ranks": 5,
+    "other_ship_support": 7
+  },
+  "subtitles_covered": 44,
+  "dedicated_effect_branches_covered": 44,
+  "native_postfix_gate_covered": 44,
+  "current_registered_upgrades_using_generic_prose_fallback": [],
+  "maximum_upgrade_subtitle_characters": 20,
+  "maximum_upgrade_subtitle_words": 3,
+  "registered_module_count": 4,
+  "module_subtitles_covered": 4,
+  "maximum_module_subtitle_characters": 23,
+  "maximum_module_subtitle_words": 4,
+  "module_subtitles": {
+    "iom_comms_node": "Non-story missions only",
+    "iom_occult_production": "Occult fabrication",
+    "iom_ship_weapons": "Orbital fire support",
+    "iom_drop_support": "Supply and troop drops"
+  },
+  "body_label_keys_checked": 70,
+  "body_label_keys_missing": [],
+  "original_item_paragraphs_retained": 29,
+  "original_item_paragraph_count": 29,
+  "comms_catalogue": {
+    "locations": [
+      {
+        "root_id": "iom_comms_security_intrusion",
+        "label": "Random",
+        "position_key": "random",
+        "row": 1
+      },
+      {
+        "root_id": "iom_comms_entrance_override",
+        "label": "Entrance",
+        "position_key": "entrance",
+        "row": 2
+      },
+      {
+        "root_id": "iom_comms_extraction_override",
+        "label": "Extraction",
+        "position_key": "extraction",
+        "row": 3
+      }
+    ],
+    "types": [
+      {
+        "key": "ballistic",
+        "package": "stationary_turret",
+        "name": "Ballistic turret"
+      },
+      {
+        "key": "flamer",
+        "package": "fire_turret",
+        "name": "Flamer turret"
+      },
+      {
+        "key": "beamer",
+        "package": "energy_turret",
+        "name": "Beamer turret"
+      },
+      {
+        "key": "arc",
+        "package": "iom_arc_sentry",
+        "name": "Arc Sentry"
+      },
+      {
+        "key": "lance",
+        "package": "iom_lance_sentry",
+        "name": "Lance Sentry"
+      }
+    ],
+    "registered_count": 15,
+    "upgrades": [
+      {
+        "id": "iom_comms_security_intrusion",
+        "location": "Random",
+        "tier": 0,
+        "turret": "Ballistic turret",
+        "package": "stationary_turret",
+        "subtitle": "Security override",
+        "added_turrets": 1,
+        "turrets_at_location": 1,
+        "replaces": null,
+        "required_previous_tier": null,
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_security_intrusion_flamer",
+        "location": "Random",
+        "tier": 1,
+        "turret": "Flamer turret",
+        "package": "fire_turret",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Ballistic turret",
+        "required_previous_tier": "iom_comms_security_intrusion",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_security_intrusion_beamer",
+        "location": "Random",
+        "tier": 2,
+        "turret": "Beamer turret",
+        "package": "energy_turret",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Flamer turret",
+        "required_previous_tier": "iom_comms_security_intrusion_flamer",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_security_intrusion_arc",
+        "location": "Random",
+        "tier": 3,
+        "turret": "Arc Sentry",
+        "package": "iom_arc_sentry",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Beamer turret",
+        "required_previous_tier": "iom_comms_security_intrusion_beamer",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_security_intrusion_lance",
+        "location": "Random",
+        "tier": 4,
+        "turret": "Lance Sentry",
+        "package": "iom_lance_sentry",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Arc Sentry",
+        "required_previous_tier": "iom_comms_security_intrusion_arc",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_entrance_override",
+        "location": "Entrance",
+        "tier": 0,
+        "turret": "Ballistic turret",
+        "package": "stationary_turret",
+        "subtitle": "Entrance defense",
+        "added_turrets": 1,
+        "turrets_at_location": 1,
+        "replaces": null,
+        "required_previous_tier": null,
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_entrance_override_flamer",
+        "location": "Entrance",
+        "tier": 1,
+        "turret": "Flamer turret",
+        "package": "fire_turret",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Ballistic turret",
+        "required_previous_tier": "iom_comms_entrance_override",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_entrance_override_beamer",
+        "location": "Entrance",
+        "tier": 2,
+        "turret": "Beamer turret",
+        "package": "energy_turret",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Flamer turret",
+        "required_previous_tier": "iom_comms_entrance_override_flamer",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_entrance_override_arc",
+        "location": "Entrance",
+        "tier": 3,
+        "turret": "Arc Sentry",
+        "package": "iom_arc_sentry",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Beamer turret",
+        "required_previous_tier": "iom_comms_entrance_override_beamer",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_entrance_override_lance",
+        "location": "Entrance",
+        "tier": 4,
+        "turret": "Lance Sentry",
+        "package": "iom_lance_sentry",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Arc Sentry",
+        "required_previous_tier": "iom_comms_entrance_override_arc",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_extraction_override",
+        "location": "Extraction",
+        "tier": 0,
+        "turret": "Ballistic turret",
+        "package": "stationary_turret",
+        "subtitle": "Extraction defense",
+        "added_turrets": 1,
+        "turrets_at_location": 1,
+        "replaces": null,
+        "required_previous_tier": null,
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_extraction_override_flamer",
+        "location": "Extraction",
+        "tier": 1,
+        "turret": "Flamer turret",
+        "package": "fire_turret",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Ballistic turret",
+        "required_previous_tier": "iom_comms_extraction_override",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_extraction_override_beamer",
+        "location": "Extraction",
+        "tier": 2,
+        "turret": "Beamer turret",
+        "package": "energy_turret",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Flamer turret",
+        "required_previous_tier": "iom_comms_extraction_override_flamer",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_extraction_override_arc",
+        "location": "Extraction",
+        "tier": 3,
+        "turret": "Arc Sentry",
+        "package": "iom_arc_sentry",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Beamer turret",
+        "required_previous_tier": "iom_comms_extraction_override_beamer",
+        "dedicated_native_rows": true
+      },
+      {
+        "id": "iom_comms_extraction_override_lance",
+        "location": "Extraction",
+        "tier": 4,
+        "turret": "Lance Sentry",
+        "package": "iom_lance_sentry",
+        "subtitle": "Turret replacement",
+        "added_turrets": 0,
+        "turrets_at_location": 1,
+        "replaces": "Arc Sentry",
+        "required_previous_tier": "iom_comms_extraction_override_arc",
+        "dedicated_native_rows": true
+      }
+    ]
+  },
+  "source_contract_checks": {
+    "comms_root_and_location_order_match": true,
+    "lookup_spans_every_location_and_tier": true,
+    "root_adds_one_replacement_adds_zero": true,
+    "one_turret_per_location": true,
+    "replacement_shows_previous_turret_and_required_perk": true,
+    "preview_type_is_requested_tier_root_type_is_current_effective": true,
+    "effective_type_matches_deployment_selector": true,
+    "effective_type_chooses_highest_purchased_for_each_location": true,
+    "non_story_restriction_visible_and_enforced": true,
+    "arrival_once_per_raid_clear_tile_rows_match_deployment": true,
+    "replacements_require_own_previous_tier": true,
+    "long_registration_prose_stored_in_desc_not_subName": true,
+    "body_labels_installed_into_loaded_languages": true,
+    "native_postfix_adds_pooled_property_rows": true,
+    "preview_does_not_use_current_ship_progression": true,
+    "price_grid_remains_after_effect_rows": true,
+    "facility_rows_use_registered_recipe_and_effective_batch": true,
+    "facility_base_time_label_is_accurate": true,
+    "research_counts_only_registered_outputs": true,
+    "initialization_binds_comms_kits_after_staging": true
+  },
+  "original_tooltip_scope_evidence": {
+    "path": "/tmp/iom-tooltip-native-api/upgrade-tooltip-audit-final.json",
+    "sha256": "f51a2392b1b643dac3c7a26901ebd4e8cce7330cebe6b5f8f78e6675f0c52a60",
+    "source_sha": "11ed2b0c134683021b5a228161e0db8c1b16650d",
+    "baseline": "1be4c891ec8642fb36377aae80f37cb87a821f2b",
+    "audit_preserved_unchanged": true,
+    "protected_gameplay_files_identical_in_original_commit": {
+      "Plugin.ShipSupport.cs": true,
+      "Plugin.ShipSupportRaid.cs": true,
+      "Plugin.CommsNode.cs": true,
+      "Plugin.Technology.cs": true,
+      "Plugin.ShipSupportUi.cs": true,
+      "Plugin.OccultProduction.cs": true,
+      "Plugin.OccultResearch.cs": true
+    },
+    "changed_files_in_original_commit": [
+      "src/Plugin.ItemTooltipDescriptions.cs",
+      "src/Plugin.UpgradeTooltipPanels.cs",
+      "src/Plugin.UpgradeTooltips.cs",
+      "src/Properties/AssemblyInfo.cs",
+      "src/TranslationPatch.ShortHeaders.cs",
+      "src/TranslationPatch.UpgradeTooltipText.cs",
+      "src/TranslationPatch.cs"
+    ],
+    "intentional_release_metadata": {
+      "path": "src/Properties/AssemblyInfo.cs",
+      "old_version": "1.1.6.0",
+      "new_version": "1.1.7.0",
+      "only_assembly_version_changed": true
+    },
+    "note": "Original presentation-only commit is checked independently. Later integrated Comms, purchase and UI changes are not attributed to that commit."
+  },
+  "upgrades": [
+    {
+      "id": "iom_barrage_calls",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Fire support charges",
+      "dedicated_effect_branch": "Dedicated BarrageCalls effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_barrage_duration",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Barrage duration",
+      "dedicated_effect_branch": "Dedicated BarrageDuration effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_barrage_rounds",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Salvo capacity",
+      "dedicated_effect_branch": "Dedicated BarrageRounds effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_entrance_override",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Entrance defense",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_entrance_override_arc",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_entrance_override_beamer",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_entrance_override_flamer",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_entrance_override_lance",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_extraction_override",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Extraction defense",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_extraction_override_arc",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_extraction_override_beamer",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_extraction_override_flamer",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_extraction_override_lance",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_security_intrusion",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Security override",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_security_intrusion_arc",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_security_intrusion_beamer",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_security_intrusion_flamer",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_comms_security_intrusion_lance",
+      "registration_source": "Plugin.CommsNode.cs",
+      "subtitle": "Turret replacement",
+      "dedicated_effect_branch": "Comms catalogue / location and replacement effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_10",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_11",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_2",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_3",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_4",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_5",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_6",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_7",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_8",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_drop_troops_9",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop roster",
+      "dedicated_effect_branch": "Troop tier / per-choice roster rows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_gun_mount",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Orbital gun",
+      "dedicated_effect_branch": "Ship mount definition / effective salvo",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_laser_mount",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Orbital laser",
+      "dedicated_effect_branch": "Ship mount definition / effective salvo",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_mercenary_pod",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop deployment",
+      "dedicated_effect_branch": "Dedicated TroopDrop effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_missile_mount",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Orbital missiles",
+      "dedicated_effect_branch": "Ship mount definition / effective salvo",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_clone_vat",
+      "registration_source": "Plugin.OccultProduction.cs",
+      "subtitle": "Clone cultivation",
+      "dedicated_effect_branch": "OccultUpgradeTooltipRows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_containment_cradle",
+      "registration_source": "Plugin.OccultProduction.cs",
+      "subtitle": "Occult containment",
+      "dedicated_effect_branch": "OccultUpgradeTooltipRows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_essence_still",
+      "registration_source": "Plugin.OccultProduction.cs",
+      "subtitle": "Essence extraction",
+      "dedicated_effect_branch": "OccultUpgradeTooltipRows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_gavvakh_retort",
+      "registration_source": "Plugin.OccultProduction.cs",
+      "subtitle": "Reagent distillation",
+      "dedicated_effect_branch": "OccultUpgradeTooltipRows",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_research_1",
+      "registration_source": "Plugin.OccultResearch.cs",
+      "subtitle": "Occult research",
+      "dedicated_effect_branch": "OccultResearchTooltipRows / registered recipe counts",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_research_2",
+      "registration_source": "Plugin.OccultResearch.cs",
+      "subtitle": "Occult research",
+      "dedicated_effect_branch": "OccultResearchTooltipRows / registered recipe counts",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_research_3",
+      "registration_source": "Plugin.OccultResearch.cs",
+      "subtitle": "Occult research",
+      "dedicated_effect_branch": "OccultResearchTooltipRows / registered recipe counts",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_research_4",
+      "registration_source": "Plugin.OccultResearch.cs",
+      "subtitle": "Occult research",
+      "dedicated_effect_branch": "OccultResearchTooltipRows / registered recipe counts",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_occult_research_5",
+      "registration_source": "Plugin.OccultResearch.cs",
+      "subtitle": "Occult research",
+      "dedicated_effect_branch": "OccultResearchTooltipRows / registered recipe counts",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_pod_calls",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Drop support charges",
+      "dedicated_effect_branch": "Dedicated PodCalls effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_pod_capacity",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Troop capacity",
+      "dedicated_effect_branch": "Dedicated PodCapacity effects",
+      "native_postfix_gate": true
+    },
+    {
+      "id": "iom_supply_pod",
+      "registration_source": "Plugin.ShipSupport.cs",
+      "subtitle": "Supply delivery",
+      "dedicated_effect_branch": "Dedicated SupplyDrop effects",
+      "native_postfix_gate": true
+    }
+  ],
+  "limitations": [
+    "Static inventory expands the actual catalogue loops and checks source branches; it does not instantiate the game registry.",
+    "Enabled Comms replacement records depend on installed package and mob records; unavailable tiers are disabled at finalization.",
+    "Subtitle bounds are character and word counts; on-screen fit and native layout have not been rendered in this audit.",
+    "Native compilation and runtime behavior are separate evidence from the runner; no build was requested or executed by this audit."
+  ],
+  "issues": []
+}

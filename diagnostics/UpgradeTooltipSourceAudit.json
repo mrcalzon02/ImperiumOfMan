@@ -1,0 +1,46 @@
+{
+  "kind": "static presentation coverage diagnostic; not runtime or visual proof",
+  "baseline": "1be4c891ec8642fb36377aae80f37cb87a821f2b",
+  "registered_upgrade_count": 32,
+  "registration_files_scanned": 101,
+  "upgrade_registration_call_files": [
+    "Plugin.CommsNode.cs",
+    "Plugin.OccultProduction.cs",
+    "Plugin.OccultResearch.cs",
+    "Plugin.ShipSupport.cs"
+  ],
+  "registered_module_count": 4,
+  "modules_covered": 4,
+  "subtitles_covered": 32,
+  "effect_branches_covered": 32,
+  "maximum_upgrade_subtitle_characters": 20,
+  "maximum_upgrade_subtitle_words": 3,
+  "original_item_paragraphs_retained": 29,
+  "original_item_paragraph_count": 29,
+  "body_label_keys_checked": 68,
+  "source_preservation": {
+    "Plugin.ShipSupport.cs": true,
+    "Plugin.ShipSupportRaid.cs": true,
+    "Plugin.CommsNode.cs": true,
+    "Plugin.Technology.cs": true,
+    "Plugin.ShipSupportUi.cs": true,
+    "Plugin.OccultProduction.cs": true,
+    "Plugin.OccultResearch.cs": true
+  },
+  "presentation_files": [
+    "src/Plugin.ItemTooltipDescriptions.cs",
+    "src/Plugin.UpgradeTooltipPanels.cs",
+    "src/Plugin.UpgradeTooltips.cs",
+    "src/TranslationPatch.ShortHeaders.cs",
+    "src/TranslationPatch.UpgradeTooltipText.cs",
+    "src/TranslationPatch.cs"
+  ],
+  "intentional_release_metadata": {
+    "path": "src/Properties/AssemblyInfo.cs",
+    "old_version": "1.1.6.0",
+    "new_version": "1.1.7.0",
+    "only_assembly_version_changed": true
+  },
+  "issues": [],
+  "source_sha": "11ed2b0c134683021b5a228161e0db8c1b16650d"
+}
