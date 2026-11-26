@@ -92,6 +92,7 @@ namespace ImperiumOfMan
                     register();
                 }
                 FinishIndustryRegistration();
+                LogCraftingCoverage();
                 RegisterImperialEquipmentFittings();
                 RegisterImperialDamageTiles();
                 RegisterImperialMachinery();

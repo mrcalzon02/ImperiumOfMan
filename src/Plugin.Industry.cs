@@ -58,10 +58,10 @@ namespace ImperiumOfMan
 
         private static void RegisterIndustry()
         {
-            AddMaterial(Ore, "rusty_plates", "Metal smelting feedstock", "Raw ore for metal, conductor, and silicate production. The Magnum can collect it using production time alone.", 4);
+            AddMaterial(Ore, "rusty_plates", "Metal smelting feedstock", "Mixed raw ore for metal, conductors, silicates, reactive minerals, and carbon feedstock. The Magnum can collect it using production time alone.", 4);
             AddMaterial(MetalScrap, "rusty_plates", "Sorted metal scrap", "Reclaimed alloy and ferrous scrap. Recycle it aboard the Magnum to recover smelting feedstock.", 2);
-            AddMaterial(Fiber, "rags", "Reclaimed fiber", "Shredded textiles for reprocessing.", 2);
-            AddMaterial(Polymer, "plastic", "Polymer scrap", "Shredded housings and armor polymer.", 2);
+            AddMaterial(Fiber, "rags", "Reclaimed fiber", "Separated pulp fiber or recovered textiles, ready for textile processing.", 2);
+            AddMaterial(Polymer, "plastic", "Polymer scrap", "Shredded housings and armor polymer. Recycle it aboard the Magnum to recover moldable polymer stock.", 2);
             AddMaterial(Cullet, "glass", "Glass cullet", "Crushed glass. Recycle it aboard the Magnum to recover silicate feedstock.", 2);
             AddMaterial(Conductors, "wire", "Conductive scrap", "Conductive material separated from ore or recovered from equipment, ready for cable production.", 3);
             AddMaterial(Silicate, "glass", "Silicate feedstock", "Mineral feedstock separated from ore for basic or industrial glass production.", 3);
@@ -73,7 +73,7 @@ namespace ImperiumOfMan
             AddMaterial(Liner, "rags", "Fitted armor liner", "A padded liner for field and protective armor.", 19);
             AddMaterial(Plate, "rusty_plates", "Pressed armor insert", "Shaped plate for standard protective armor.", 24);
             AddMaterial(HeavyPlate, "rusty_plates", "Reinforced carapace insert", "Heavy plate for reinforced carapace armor.", 45);
-            AddMaterial(PolymerStock, "plastic", "Moldable polymer stock", "Refined polymer for clip housings and medical trays.", 7);
+            AddMaterial(PolymerStock, "plastic", "Moldable polymer stock", "Polymer refined from organic oil and chemical extract, or recovered from scrap, for housings and medical trays.", 7);
             AddMaterial(GlassStock, "glass", "Industrial glass", "Refined glass for power cells.", 7);
             AddMaterial(CellStock, "acid", "Cell stock", "Prepared chemical stock for sealed power cells.", 8);
             AddMaterial(Cell, "battery_basic_ammo", "Sealed cell assembly", "Tested cell assembly for a Guard Las Clip.", 11);
@@ -93,17 +93,19 @@ namespace ImperiumOfMan
             AddMaterial(Tray, "plastic", "Prepacked dressing tray", "A prepared kit tray with a sterile dressing.", 26);
             AddMaterial(Clinical, "pills_antibiotics", "Sealed clinical refill", "An advanced refill for a military medkit.", 58, 2);
             AddMaterial(Instruments, "plastic", "Sterile instrument tray", "An arranged tray for surgical kits.", 47, 2);
-            AddMaterial(Biomass, "rags", "Raw vat biomass", "Unprocessed organic feedstock for ration vats and grow cycles.", 3);
+            AddMaterial(Biomass, "rags", "Raw vat biomass", "Unprocessed organic feedstock for pulp, oil, chemical separation, ration vats, and grow cycles.", 3);
             AddMaterial(RationBase, "ration_pack_1", "Vat ration base", "Processed biomass ready for ration packing.", 5);
             AddMaterial(Wrapper, "paper_towel", "Ration wrapper", "An empty wrapper for one field ration.", 2);
+
+            RegisterRawMaterialChemistry();
 
             // Extraction and water recovery start the material chains without consuming finished goods.
             SharedRecipe(Ore, 3, 2);
             SharedRecipe("water_bottle_1", 3, 2);
             SharedRecipe(Metal, 6, 2, new ItemQuantity(Ore, 3));
             SharedRecipe(Textile, 4, 2, new ItemQuantity(Fiber, 3));
-            SharedRecipe(Fiber, 2, 2, new ItemQuantity("rags", 3));
-            SharedRecipe(PolymerStock, 4, 2, new ItemQuantity(Polymer, 3));
+            SharedRecipe(Fiber, 2, 2, new ItemQuantity(RawPulp, 3));
+            SharedRecipe(PolymerStock, 4, 2, new(OrganicOil, 2), new(ChemicalExtract, 1));
             SharedRecipe(Polymer, 2, 2, new ItemQuantity("plastic", 3));
             SharedRecipe(Silicate, 2, 2, new ItemQuantity(Ore, 3));
             SharedRecipe("glass", 2, 2, new ItemQuantity(Silicate, 2));
@@ -117,9 +119,9 @@ namespace ImperiumOfMan
             SharedRecipe(HeavyPlate, 5, 1, new(Plate, 2), new(Sheet, 1));
             IndustryRecipe(MetalScrap, 3, 2, new ItemQuantity("rusty_plates", 3));
             IndustryRecipe(Cullet, 2, 2, new ItemQuantity("glass", 3));
-            IndustryRecipe(Conductors, 2, 2, new ItemQuantity(Ore, 3));
-            AddCatalog("iom_workshop_fundamentals_chip", "Workshop Fundamentals Schematic", "Patterns for sorting metal and glass scrap, and separating conductors from ore.",
-                ItemCategory, 1, 95, MetalScrap, Cullet, Conductors);
+            SharedRecipe(Conductors, 2, 2, new ItemQuantity(Ore, 3));
+            AddCatalog("iom_workshop_fundamentals_chip", "Workshop Fundamentals Schematic", "Patterns for sorting metal and glass scrap. Ore separation is available as a basic Magnum recipe.",
+                ItemCategory, 1, 95, MetalScrap, Cullet);
 
             IndustryRecipe(CellStock, 3, 3, new("acid", 2), new("wire", 3));
             IndustryRecipe(Cell, 4, 4, new(GlassStock, 2), new(CellStock, 2));
@@ -190,13 +192,12 @@ namespace ImperiumOfMan
             AddCatalog("iom_clinical_chip", "DaydreamChems clinical schematic", "Advanced medkits, surgical kits, refills and instrument trays.",
                 "DaydreamChems", 2, 235, "medical_kit_2", "surgical_kit", Clinical, Instruments);
 
-            IndustryRecipe(Biomass, 12, 4, new("human_meat", 1), new("water_bottle_1", 1));
             IndustryRecipe(RationBase, 3, 4, new ItemQuantity(Biomass, 3));
             IndustryRecipe(Wrapper, 2, 4, new ItemQuantity("paper_towel", 2));
             IndustryRecipe(CorpseStarch, 3, 4, new(RationBase, 2), new(Wrapper, 2));
             IndustryRecipe(DirtyStarch, 2, 3, new(Biomass, 2), new(Wrapper, 1));
-            AddCatalog("iom_ration_chip", "Imperial ration line schematic", "Vat biomass, ration base, wrappers, and two grades of Corpse Starch.",
-                ItemCategory, 1, 95, CorpseStarch, Biomass, RationBase, Wrapper, DirtyStarch);
+            AddCatalog("iom_ration_chip", "Imperial ration line schematic", "Ration base, wrappers, and two grades of Corpse Starch. Raw biomass preparation is available as a basic Magnum recipe.",
+                ItemCategory, 1, 95, CorpseStarch, RationBase, Wrapper, DirtyStarch);
 
             RegisterValhallanProduction();
             RegisterSteelLegionProduction();
@@ -210,6 +211,7 @@ namespace ImperiumOfMan
             RegisterGoldenPaladinProduction();
             RegisterSpecialistSupplyProduction();
             RegisterAutomataComponents();
+            RegisterComponentFoundations();
             RegisterSupportProduction();
             RegisterProvisioningWorkshops();
             RegisterBaseGameWorkshops();
@@ -223,14 +225,14 @@ namespace ImperiumOfMan
         }
 
         private static TrashRecord AddMaterial(string id, string donor, string title, string description, float price,
-            int techLevel = 1, string category = ItemCategory, int maxIconSize = 0)
+            int techLevel = 1, string category = ItemCategory, int maxIconSize = 0, string artwork = null)
         {
             var source = Data.Items.GetSimpleRecord<ItemRecord>(donor)
                 ?? throw new InvalidDataException("No production material descriptor donor " + donor);
             var descriptor = UnityEngine.Object.Instantiate(source.ItemDesc);
             descriptor.name = id;
             descriptor._overridenRenderId = string.Empty;
-            ApplyItemArtwork(descriptor, id, maxIconSize);
+            ApplyItemArtwork(descriptor, artwork ?? id, maxIconSize);
             var material = new TrashRecord
             {
                 Id = id, ContentDescriptor = descriptor, Categories = [category], TechLevel = techLevel,

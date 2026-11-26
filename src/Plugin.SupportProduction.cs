@@ -188,8 +188,10 @@ namespace ImperiumOfMan
         {
             string id = "iom_support_plans_" + tier;
             var chip = CloneItem<DatadiskRecord>(id, "low_chip", tier, 100 + tier * 38, FieldPlans);
+            // Basic materials are learned automatically; keep them in trade stock, not new chip rolls.
+            var unlocks = products.Where(product => !SharedIndustryRecipes.Contains(product)).ToArray();
             RegisterCatalog(chip, title, "Magnum fabrication patterns for Imperial support stock at this tech level.",
-                ItemCategory, products, restrictOtherSources: false, supplier: supplier);
+                ItemCategory, unlocks, restrictOtherSources: false, supplier: supplier);
             AddSupportStock(tier, supplier, stock);
             AddStandardSupplies(tier, 2, products);
             foreach (string product in products)
