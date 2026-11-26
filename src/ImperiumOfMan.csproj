@@ -101,6 +101,10 @@
             <HintPath>$(ManagedPath)Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnityEngine.UIModule">
+            <HintPath>$(ManagedPath)UnityEngine.UIModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="UnityEngine.UI">
             <HintPath>$(ManagedPath)UnityEngine.UI.dll</HintPath>
             <Private>False</Private>
