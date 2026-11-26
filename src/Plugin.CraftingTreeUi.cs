@@ -847,6 +847,10 @@ namespace ImperiumOfMan
                         }
                         foreach (var edge in _window._edges)
                         {
+                            // Keep quantities tied to the current selection; unrelated
+                            // connections can share the same label midpoint.
+                            if (edge.From.Key != _window._selectedKey && edge.To.Key != _window._selectedKey)
+                                continue;
                             Vector2 point = ScreenPoint((edge.From.Position + edge.To.Position) * 0.5f);
                             if (!viewport.Contains(point))
                                 continue;
@@ -1153,15 +1157,35 @@ namespace ImperiumOfMan
             {
                 Paint(root, new Color32(24, 39, 29, 255));
                 var scroll = root.gameObject.AddComponent<ScrollRect>();
-                var viewport = Stretch(root, "Viewport", 0, 0, 0, 0);
+                // Reserve the gutter even when the bar hides, so labels never
+                // reflow or sit beneath the 10-unit track and its margins.
+                var viewport = Stretch(root, "Viewport", 0, 0, 16, 0);
                 viewport.gameObject.AddComponent<RectMask2D>();
                 var content = Rect(viewport, "Content", new Vector2(0, 1), Vector2.one);
                 content.pivot = new Vector2(0.5f, 1);
                 content.sizeDelta = Vector2.zero;
+
+                var track = Rect(root, "Vertical scrollbar", new Vector2(1, 0), Vector2.one);
+                track.offsetMin = new Vector2(-12, 2);
+                track.offsetMax = new Vector2(-2, -2);
+                Paint(track, ButtonColor);
+                var slidingArea = Stretch(track, "Sliding area", 1, 1, 1, 1);
+                var handle = Stretch(slidingArea, "Handle", 0, 0, 0, 0);
+                var handleImage = Paint(handle, DimColor);
+                var scrollbar = track.gameObject.AddComponent<Scrollbar>();
+                scrollbar.direction = Scrollbar.Direction.BottomToTop;
+                scrollbar.handleRect = handle;
+                scrollbar.targetGraphic = handleImage;
+                scrollbar.navigation = new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.None };
+                scrollbar.size = 1f;
+                scrollbar.value = 1f;
+
                 scroll.viewport = viewport;
                 scroll.content = content;
                 scroll.horizontal = false;
                 scroll.vertical = true;
+                scroll.verticalScrollbar = scrollbar;
+                scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
                 scroll.movementType = ScrollRect.MovementType.Clamped;
                 scroll.scrollSensitivity = 28f;
                 scroll.inertia = false;
