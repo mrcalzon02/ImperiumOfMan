@@ -2,7 +2,7 @@
 
 ## Status and intended result
 
-**This is a future implementation design.** The 1.1.4 update adds raw-material chemistry, ordinary component recipes, and a diagnostic of registered material dependencies. It does not implement an in-game crafting browser, a complete active-game export, an automatic production planner, or the proposed occult production upgrade. Native compilation has passed; [the audit](diagnostics/RawMaterialChemistryAudit.md) records package verification separately from game boot and gameplay. This design does not claim that the future features are implemented or that the update has been playtested.
+**The first in-game browser is implemented in the 1.1.5 source.** Open Production or its recipe picker to reveal the left-edge **Crafting map** tab. The pop-out uses loaded item and recipe registries, a zoomable/pannable graph, click-to-highlight selection, and a lower details panel in muted sage green. The earlier standalone HTML remains a historical source reference. Quantity planning, queue execution, full runtime exports, and the occult production upgrade remain later expansion work. Native build and gameplay status are recorded in [the crafting-map audit](diagnostics/CraftingMapAudit.md).
 
 The intended result is one searchable index in which the player can select any item, see every known way to acquire or manufacture it, follow its ingredients back to their sources, and see what else consumes it. Items without crafting recipes remain in the index with an explanation. The index must describe the actual loaded game and mods when running in-game.
 
@@ -18,8 +18,9 @@ The phrase **crafting tree** describes the presentation. The underlying model is
 | [Source recipe browser](docs/crafting/recipe-map.html) and [source graph data](docs/crafting/recipe-graph.json) | **Source snapshot** | Relationships extracted from this repository. They are not a capture of the active game or other installed mods. |
 | [Raw-material overview SVG](docs/crafting/raw-material-overview.svg) / [PNG](docs/crafting/raw-material-overview.png) | **Source snapshot** | A readable overview of the ordinary manufacturing foundations. |
 | [Occult proposal SVG](docs/crafting/occult-proposal.svg) / [PNG](docs/crafting/occult-proposal.png) | **Proposal** | Future occult design; these routes must not appear as existing game recipes. |
-| Complete active-game recipe index and JSON export | **Proposed** | Registered items, manufacturing, workbenches, station production, recovery, acquisition context, and access requirements. |
-| In-game search, graph window, and cost preview | **Proposed** | Read-only browsing first; queue execution is a later phase. |
+| Loaded item and recipe snapshot | **1.1.5 source** | All registered item IDs; Magnum, workbench, station, and recovery routes; current recipe knowledge/cargo and station listings. Unknown native workbench values remain explicit. |
+| In-game search and graph pop-out | **1.1.5 source** | Left-edge Production tab, muted sage interface, zoom/pan, click highlighting, and lower details. |
+| Complete runtime JSON export, acquisition context, and cost preview | **Later expansion** | Extend the first read-only implementation; quantity planning and queue execution remain separate phases. |
 | Occult production upgrade, icon, and zero-ingredient foundation | **Proposed** | See [Occult production interface](#9-occult-production-interface) and the [full occult specification](OCCULT_PRODUCTION_DESIGN.md). |
 
 The current source audit reports 365 explicit Magnum outputs, of which 306 are structurally reachable from its declared raw roots plus preserved native Sorbent. The remaining 59 have contextual acquisition gates; the audit reports no unexplained ordinary leaf ingredients or manufacturing cycles in that source graph. These are **source-audit counts**, not a count of every item or recipe in the native game. The generated graph and [chemistry audit](diagnostics/RawMaterialChemistryAudit.md) are the detailed snapshot records.
@@ -138,15 +139,15 @@ Raw roots also have different meanings. Current ore and water production are tim
 
 ### Entry point and layout
 
-Start with a **Crafting Index** button reachable from the ship's engineering/module area. The repository already adds module points and controls through the ship-support UI; reuse those patterns after checking available space and screen lifecycle. Do not assume a native production-window method that has not been inspected. A later item-tooltip or production-screen shortcut should open the same item selection, not a separate implementation.
+The accepted interface is a **Crafting map** tab on the left edge, visible only while Production or its item-selection window is open. The collapsed tab has a right-pointing handle. Expanding it slides out a panel with a collapse handle at its right edge. Use the same muted sage green as the existing control interface. Concrete native Show/Hide methods for both production windows have been inspected; the entry hooks live in `Plugin.CraftingTreeEntry.cs`. A general ship-screen button is superseded by this requirement.
 
-Use three coordinated areas:
+Use three coordinated areas. The first implementation supplies the graph and current recipe details; broader filtering, acquisition explanations, and quantity planning below remain expansion targets:
 
 1. **Search and filters:** localized name, stable ID, item class, faction, venue, material family, availability, and whether the entry is native, mod-defined, or of uncertain origin.
 2. **Graph view:** the selected item, its producer operations, ingredients, and expandable upstream branches. A **Used by** view reverses the relationship to show consumers.
 3. **Details and plan:** the selected operation, actual batch inputs and outputs, time, unlock sources, missing requirements, and quantity preview.
 
-Search must find an item with no recipe. Selecting a new item should preserve back/forward navigation and a breadcrumb for the branch the player followed. Repeated references can appear as compact links to one canonical item node; do not duplicate stock or demand because an item appears in several branches.
+Search must find an item with no recipe. A single click highlights a node and updates the lower details panel without changing the pan or zoom. Mouse-wheel zoom follows the pointer; click-drag pans the graph. An explicit focus action or double-click may recenter a different branch. Preserve useful navigation history. Repeated references can appear as compact links to one canonical item node; do not duplicate stock or demand because an item appears in several branches.
 
 The first opening shows a searchable catalogue and material-family overview, not every node drawn simultaneously. Expand one or two dependency levels by default. Let the player expand all upstream dependencies for the selected target, collapse a family, switch to consumers, and switch between Magnum-only and all venues. The full export remains complete even when the visible graph is collapsed.
 
@@ -318,7 +319,7 @@ The following decisions remain bounded implementation work, with defaults alread
 | Decision | Default | Evidence still needed |
 | --- | --- | --- |
 | Full native item enumeration | Read the registered item collection once per definition snapshot | Installed native API shape, including composite records and disabled/internal entries. |
-| Production-screen shortcut | Start from the proven ship-module UI; add shortcuts later | Actual native screen lifecycle and safe attachment point. |
+| Production entry | Left-edge Crafting map tab on both concrete production windows | Installed-version lifecycle inspection and in-game layout/interaction check. |
 | Workbench yield/time/access | Capture only verified fields; mark remaining values unknown | Installed native implementation and a representative workbench operation. |
 | Native effective time | Show base time until native modifiers can be reproduced exactly | Current production calculations and queue scheduling behavior. |
 | Refresh events | Refresh on opening and by explicit action; avoid per-frame registry scans | Reliable recipe/unlock/progression notifications in the installed build. |

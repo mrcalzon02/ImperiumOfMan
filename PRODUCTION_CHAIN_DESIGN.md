@@ -351,7 +351,7 @@ The station batches require their full inputs and supply both commerce and downs
 
 ### Planned live crafting map and occult production
 
-[Crafting-tree expansion design](CRAFTING_TREE_EXPANSION_DESIGN.md) specifies a live recipe index, a dependency/consumer window, and separate occult resource and equipment families. These are future features. The [current visual map](docs/crafting/recipe-map.html) is generated from source-known recipes and marks native-dependent fallbacks; it is not a snapshot of an active save. Existing reward-only and exotic inputs remain external in 1.1.4.
+The 1.1.5 source adds an in-game **Crafting map** tab on the left edge of Production and its recipe picker. It reads loaded items and recipes, opens a muted sage graph panel, and supports zoom, pan, node highlighting, and lower-panel recipe details. [Implementation and validation](diagnostics/CraftingMapAudit.md). The [crafting-tree expansion design](CRAFTING_TREE_EXPANSION_DESIGN.md) also specifies later quantity planning, exports, and separate occult resource/equipment families. The [offline visual map](docs/crafting/recipe-map.html) remains the historical source snapshot. Existing reward-only and exotic acquisition rules are unchanged by the browser.
 
 ## Cigarettes and manufacturer recipes
 

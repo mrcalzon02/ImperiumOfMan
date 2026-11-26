@@ -6,9 +6,11 @@ Imperium of Man is a Warhammer 40,000 fan mod for Quasimorph. It adds the Imperi
 
 **1.1.4 update:** biomass separation, mineral chemistry, and ordinary component manufacturing extend the lower ingredient quantities and doubled custom batches from 1.1.3. [Native build 45773773570](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45773773570) compiled against the installed game. Game boot and gameplay are still unverified. [Chemistry changes and verification](diagnostics/RawMaterialChemistryAudit.md)
 
-**Crafting expansion design:** [live recipe browser and occult production plan](CRAFTING_TREE_EXPANSION_DESIGN.md), with a [searchable source recipe map](docs/crafting/recipe-map.html). The map is a source snapshot; the live game window and occult production upgrade are future work.
+**In-game crafting map (1.1.5 source):** Production and its recipe picker have a left-edge **Crafting map** tab. The sage-green pop-out reads the loaded game recipes and supports zoom, drag-to-pan, node highlighting, and item/recipe details. Native validation is in progress. [Implementation and validation](diagnostics/CraftingMapAudit.md).
 
-[Download the crafting design review](docs/crafting/ImperiumReforged-Crafting-Design-Review.zip) for the plans, offline map, diagrams, draft change notes, and source references. This is a documentation bundle; the game download is listed above.
+**Crafting expansion design:** [browser architecture and occult production plan](CRAFTING_TREE_EXPANSION_DESIGN.md). The [offline recipe map](docs/crafting/recipe-map.html) is the older source snapshot; the new browser is inside the mod. Occult production and the quantity/queue planner remain future work.
+
+[Historical 1.1.4 design review bundle](docs/crafting/ImperiumReforged-Crafting-Design-Review.zip): the earlier plans, offline source map, diagrams, and change notes. Use the game download above for the mod and the linked current design documents for subsequent implementation changes.
 
 Planetary Defence Troopers carry Lasguns and wear flak armor. Cadian Guardsmen reinforce them with Lasguns and Guard Frag Grenades. On Terra, Arbites Vigilants carry Judgement shotguns and Arbites Subductors wield Arbites Shock Mauls. You can fight alongside the Arbites or face them as enemies.
 

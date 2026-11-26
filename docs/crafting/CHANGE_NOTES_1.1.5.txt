@@ -1,0 +1,16 @@
+DRAFT CHANGE NOTES — 1.1.5
+
+[h1]In-game Crafting map[/h1]
+[list]
+[*]Added a Crafting map tab on the left edge of Production and its recipe picker.
+[*]The tab opens a muted sage-green graph panel with mouse-wheel zoom, click-drag panning, and click-to-highlight selection.
+[*]Connected item and recipe nodes show ingredient relationships, alternative producers, and downstream uses. A lower panel shows details, inputs, outputs, time, and captured availability.
+[*]Search reads the loaded item catalogue, including items without a crafting recipe. Routes include Magnum production, workbenches, station industry, disassembly, and ship recycling.
+[*]The map uses effective custom batches and the current modified-project output. Recipe knowledge, cargo availability, and station listings refresh when opening the map or pressing Refresh.
+[*]Closing Production removes the tab. Collapsing the map returns normal Production control. The map does not change recipes, unlocks, cargo, or production orders.
+[/list]
+
+The existing 1.1.4 chemistry, reduced recipe costs, and larger custom output batches remain included. Occult production and automatic queue planning remain separate future work.
+
+VALIDATION
+Current installed-game compilation and package verification are pending. Game boot, visual capture, and interaction testing have not been run. See diagnostics/CraftingMapAudit.md for the final verified status.
