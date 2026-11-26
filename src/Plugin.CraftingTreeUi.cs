@@ -47,17 +47,17 @@ namespace ImperiumOfMan
             UnityEngine.Object.Destroy(window.gameObject);
         }
 
-        // Native SpaceGameMode processes global shortcuts after individual window input.
-        // Suppress that input read while our expanded map owns focus; keep its game tick intact.
-        [HarmonyPatch(typeof(InputController), "GetInput", new[] { typeof(KeyLayout) })]
+        // Native SpaceGameMode ticks the game before UI.Process handles navigation and hotkeys.
+        // Suppress only that UI processing while our expanded map owns focus.
+        [HarmonyPatch(typeof(MGSC.UI), nameof(MGSC.UI.Process))]
         private static class CraftingMapNativeInput
         {
-            private static bool Prefix(ref GameKey.KeyType __result)
+            private static bool Prefix(ref bool interruptProcessing)
             {
                 if ((_craftingMapWindow == null || !_craftingMapWindow.BlocksNativeInput) &&
                     _craftingMapClosedFrame != Time.frameCount)
                     return true;
-                __result = GameKey.KeyType.None;
+                interruptProcessing = true;
                 return false;
             }
         }

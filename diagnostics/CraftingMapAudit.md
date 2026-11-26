@@ -4,7 +4,7 @@
 
 The map belongs inside the mod. A narrow **Crafting map** tab appears on the left edge while Production or its item-selection window is open. Expanding the tab reveals a sage-green graph panel; its right-edge handle collapses it. The canvas supports mouse-wheel zoom, click-drag panning, and click-to-highlight selection. Details remain below the graph. Single-click selection preserves the current view; an explicit focus action can recenter a branch.
 
-The entry hooks are in [Plugin.CraftingTreeEntry.cs](../src/Plugin.CraftingTreeEntry.cs). They target the concrete `MagnumProductionWindow.Show()/Hide()` and `MagnumSelectItemToProduceWindow.Show(int)/Hide()` lifecycle methods. The earlier proposed ship-screen button was removed before publication.
+The entry hooks are in [Plugin.CraftingTreeEntry.cs](../src/Plugin.CraftingTreeEntry.cs). They target the concrete private `OnEnable()` methods of `MagnumProductionWindow` and `MagnumSelectItemToProduceWindow` in the installed game. An owner-bound companion observes deactivation/destruction and removes only that owner's tab. The earlier proposed ship-screen button was removed before publication.
 
 ## Loaded game data
 
@@ -18,11 +18,13 @@ Learned recipe state, cargo ingredients, and current station listings are captur
 
 [Plugin.CraftingTreeUi.cs](../src/Plugin.CraftingTreeUi.cs) contains the native Unity UI. It uses actual item sprites and muted sage colors, a connected graph canvas, compact search/venue controls, and a lower information panel. Catalogue and inventory scans occur only on opening or explicit Refresh. Lifecycle and input handling keep the map associated with Production and return control when it is collapsed or closed.
 
+The expanded map intercepts `MGSC.UI.Process(out bool interruptProcessing)` and reports that input was consumed. Current `SpaceGameMode.Update` ticks the game before calling that method, so the map blocks native navigation and hotkeys without replacing the game loop. The block persists through the closing animation and its final frame.
+
 ## Validation status
 
 - Focused compile/behavior checks of the actual index source passed against API-shaped fixtures: complete item discovery, alternatives and cycles, cooutputs, effective batches, learned/material state, station listings, modified projects, salvage distinctions, unknown workbench values, explicit refresh, and partial adapter failures.
-- Bundled native metadata and IL confirmed the concrete Production/recipe-picker lifecycle and the native input API used by the interface.
-- Current installed-game native compilation and API inspection: pending.
+- Current installed-game API inspection corrected the obsolete bundled DLL's `Show`/`Hide` and `InputController.GetInput` assumptions. The installed production views use `OnEnable`, and the verified native input boundary is `UI.Process`. Inspected `Assembly-CSharp.dll` SHA-256: `d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe`.
+- Current installed-game native compilation of the corrected hooks: pending.
 - Runtime package verification: pending.
 - Game boot, visual capture, mouse interactions, and gameplay: not run.
 
