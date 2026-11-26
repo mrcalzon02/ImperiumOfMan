@@ -219,6 +219,8 @@ namespace ImperiumOfMan
             RegisterMaintenanceWorkshops();
             RegisterArmoryWorkshops();
             RegisterCyberneticsWorkshops();
+            // Occult recipes validate after their cybernetics ingredients are staged.
+            RegisterOccultProduction();
             RegisterPharmaceuticalWorkshops();
             RegisterChaosProduction();
             RegisterShredding();

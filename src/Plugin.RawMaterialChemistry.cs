@@ -51,7 +51,6 @@ namespace ImperiumOfMan
             SharedRecipe("tin", 3, 2, new ItemQuantity(Metal, 2));
 
             RegisterSpoiledOrganicRecycling();
-            RegisterOccultProduction();
         }
     }
 }
