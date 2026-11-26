@@ -1,0 +1,55 @@
+digraph Chemistry {
+graph [rankdir=TB,bgcolor="#101714",pad="0.5",nodesep="0.28",ranksep="0.75",splines=polyline,
+fontname="DejaVu Sans",fontcolor="#e8eee6",fontsize=23,labelloc=t,
+label="RAW MATERIALS TO SHARED CHEMISTRY\n1.1.4 source · every incoming ingredient is required\nQuantities are effective units per order; time is base hours"];
+node [shape=box,style="rounded,filled",fillcolor="#24372b",color="#627b66",
+fontname="DejaVu Sans",fontcolor="#e8eee6",fontsize=15,margin="0.16,0.12"];
+edge [color="#9eafa0",fontname="DejaVu Sans",fontcolor="#e8eee6",fontsize=12,arrowsize=.7];
+"acid" [label="Acid\n4 units · 3 h",fillcolor="#4b4028"];
+"iom_chemical_extract" -> "acid" [label="1"];
+"iom_reactive_minerals" -> "acid" [label="1"];
+"water_bottle_1" -> "acid" [label="1"];
+"gas_ammo" [label="Gasoline / Gas fuel\n12 units · 4 h",fillcolor="#4b4028"];
+"iom_organic_oil" -> "gas_ammo" [label="1"];
+"iom_carbon_feedstock" -> "gas_ammo" [label="1"];
+"iom_chemical_extract" -> "gas_ammo" [label="1"];
+"human_meat" [label="Piece of Flesh\nGathered organic source",fillcolor="#394d5a"];
+"iom_carbon_feedstock" [label="Carbon-rich mineral\nfeedstock\n4 units · 3 h",fillcolor="#24372b"];
+"iom_metal_ore" -> "iom_carbon_feedstock" [label="2"];
+"iom_chemical_extract" [label="Chemical extract\n4 units · 3 h",fillcolor="#24372b"];
+"iom_raw_vat_biomass" -> "iom_chemical_extract" [label="1"];
+"water_bottle_1" -> "iom_chemical_extract" [label="1"];
+"iom_conductive_scrap" [label="Conductive scrap\n4 units · 2 h",fillcolor="#4b4028"];
+"iom_metal_ore" -> "iom_conductive_scrap" [label="2"];
+"iom_metal_ore" [label="Mixed ore feedstock\n4 units · 3 h\nNo item ingredients",fillcolor="#394d5a"];
+"iom_organic_oil" [label="Organic oil\n4 units · 3 h",fillcolor="#24372b"];
+"iom_raw_vat_biomass" -> "iom_organic_oil" [label="1"];
+"iom_polymer_stock" [label="Moldable polymer stock\n4 units · 4 h",fillcolor="#24372b"];
+"iom_organic_oil" -> "iom_polymer_stock" [label="1"];
+"iom_chemical_extract" -> "iom_polymer_stock" [label="1"];
+"iom_raw_cellulose_pulp" [label="Raw cellulose pulp\n4 units · 2 h",fillcolor="#24372b"];
+"iom_raw_vat_biomass" -> "iom_raw_cellulose_pulp" [label="1"];
+"water_bottle_1" -> "iom_raw_cellulose_pulp" [label="1"];
+"iom_raw_silicate" [label="Silicate feedstock\n4 units · 2 h",fillcolor="#4b4028"];
+"iom_metal_ore" -> "iom_raw_silicate" [label="2"];
+"iom_raw_vat_biomass" [label="Raw vat biomass\n8 units · 12 h",fillcolor="#24372b"];
+"human_meat" -> "iom_raw_vat_biomass" [label="1"];
+"water_bottle_1" -> "iom_raw_vat_biomass" [label="1"];
+"iom_reactive_minerals" [label="Reactive mineral\nfraction\n4 units · 3 h",fillcolor="#24372b"];
+"iom_metal_ore" -> "iom_reactive_minerals" [label="2"];
+"iom_reclaimed_fiber" [label="Reclaimed fiber\n4 units · 2 h",fillcolor="#4b4028"];
+"iom_raw_cellulose_pulp" -> "iom_reclaimed_fiber" [label="2"];
+"iom_refined_metal" [label="Refined metal stock\n4 units · 6 h",fillcolor="#4b4028"];
+"iom_metal_ore" -> "iom_refined_metal" [label="2"];
+"paper_towel" [label="Paper Towels\n4 units · 2 h",fillcolor="#4b4028"];
+"iom_raw_cellulose_pulp" -> "paper_towel" [label="1"];
+"water_bottle_1" -> "paper_towel" [label="1"];
+"plastic" [label="Plastic\n4 units · 3 h",fillcolor="#4b4028"];
+"iom_organic_oil" -> "plastic" [label="1"];
+"iom_chemical_extract" -> "plastic" [label="1"];
+"rubber" [label="Rubber\n4 units · 3 h",fillcolor="#4b4028"];
+"iom_polymer_stock" -> "rubber" [label="1"];
+"iom_carbon_feedstock" -> "rubber" [label="1"];
+"water_bottle_1" [label="Water Bottle\n4 units · 3 h\nNo item ingredients",fillcolor="#394d5a"];
+{rank=same; "human_meat"; "water_bottle_1"; "iom_metal_ore";}
+}

@@ -39,7 +39,7 @@ Each row lists what the tier adds to the Imperial supply line. Earlier Imperial 
 
 | Imperial tech | Food and drink | Utility and field supplies | Standard ammunition and equipment |
 | --- | --- | --- | --- |
-| **1 · Planetary Defence Force** | Corpse Starch, bottled water and standard ration packs enter Imperial stock. Luna packs clean Corpse Starch. Clean and Dirty Corpse Starch are basic loot on every newly generated Imperial raid floor. | Bandages and splints. The Imperial ration line schematic can contain a biomass, ration base, wrapper or packing recipe. | Las Clips, service Lasgun and PDF flak. Imperial Field Plans draw one recipe from cell stock, sealed cells, empty clip housings and final packing. |
+| **1 · Planetary Defence Force** | Corpse Starch, bottled water and standard ration packs enter Imperial stock. Luna packs clean Corpse Starch. Clean and Dirty Corpse Starch are basic loot on every newly generated Imperial raid floor. | Bandages and splints. Raw biomass preparation is shared; the Imperial ration line schematic can contain a ration base, wrapper or packing recipe. | Las Clips, service Lasgun and PDF flak. Imperial Field Plans draw one recipe from cell stock, sealed cells, empty clip housings and final packing. |
 | **2 · Cadian Guard** | — | Hydrogel bandages and melee repair kits. | Cadian flak and Guard Frag Grenades. Phobos produces grenades alongside Las Clips. |
 | **3 · Arbites, Valhallans, Steel Legion** | Valhallan Tanna enters Imperial stock and Luna's specialist supply. It reduces existing cold buildup. | Field medkits, Steel Legion Smoke Grenades and Spare Filters. Luna supplies Winter insulation and Havoc supplies Steel Legion seal lining. Both components are also taught by their regimental chips. | Standard shotgun shells for Judgement. Arbites carapace, winter gear, sealed Steel Legion gear, Long-Las and Plasma Pistol. Servitor backpack enters the equipment pool. |
 | **4 · Elysians** | — | Elysian Drop Harness and firearm repair kits. Native smoke grenades are carried by Elysian spotters. | Standard Heavy rifle ammunition for the Bolter. The Drop Lascarbine uses the existing BatteryCells supply. |
@@ -59,6 +59,8 @@ These tiers belong to the manufacturer named in each row. Finished base-game goo
 
 In 1.1.3, each custom Magnum recipe retains every ingredient type while its required quantities are halved, rounded up to whole items with a minimum of one. Each order produces twice its previous batch. Production times, recipe IDs, chip pools, and unlock requirements stay the same. Faction factory batches and existing native support recipes keep their own quantities. Existing queued orders retain the output and paid ingredients recorded when they were started. [Balance scope and examples](diagnostics/RecipeCostBatchBalance.md)
 
+In 1.1.4, explicit raw-material and ordinary component recipes extend those rules. Biomass and conductor separation become shared foundations; newly generated ration and workshop chips no longer roll those already-known recipes. New support chips likewise omit shared gasoline production while retaining finished fuel in trade stock. Existing saved chip selections and learned IDs remain valid. Selected native Magnum ingredient lists now use the new chemical and component routes; other native support recipes remain native. [Chemistry scope and dependency audit](diagnostics/RawMaterialChemistryAudit.md)
+
 The Magnum's raw vat biomass order consumes one Piece of Flesh (`human_meat`) and one Water Bottle (`water_bottle_1`) to produce eight biomass in 12 base hours. Sealed food cargo remains a finished trade good; it is not the feedstock for this order.
 
 Player fabrication uses loose materials and prepared components. Packaged food, Biowaste Tanks, Research Stations, and Quasi-samples retain their role as valuable trade cargo. Station industries can still buy and process bulk cargo through their existing freight chains.
@@ -77,7 +79,7 @@ Explosives are a native crafting component and remain valid grenade ingredients.
 
 | Source | Tech | Supplies, components and acquisition |
 | --- | --- | --- |
-| **Imperial and shared workshops** | 1 | The Magnum produces ore and bottled water using time alone. Ore feeds refined metal, conductive scrap, or silicate; silicate becomes basic or industrial glass at different yields, and conductors become Cable. Sorted metal scrap and cullet provide optional recycling inputs. Reclaimed fiber becomes textile, flak laminate and liners. Polymer scrap becomes moldable stock. Shared refining recipes are available aboard the Magnum. Dedicated stations stock or produce these materials from the start. |
+| **Imperial and shared workshops** | 1 | The Magnum produces ore and bottled water using time alone. Ore feeds metal, conductors, silicate, reactive minerals, and carbon feedstock. Biomass separates into pulp, oil, and chemical extract. These foundations supply ordinary loose chemicals, materials, and mechanical/electrical parts. Scrap provides optional recovery routes. Shared recipes are available aboard the Magnum. Dedicated stations stock or produce established materials from the start. |
 | **Luna and Neith** | 1 | Luna stocks biomass, vat ration base and wrappers. Havoc sends bulk water to Neith, which grows biomass for Luna's ration line and also stocks bottled water. Dirty Corpse Starch can appear in Luna raid salvage. The Magnum ration line makes clean Corpse Starch. |
 | **Phobos** | 1 | Stocks silicate, cell stock, sealed cell assemblies and empty Las Clip housings. The schematic comes from standard Imperial chip rolls. |
 | **AnCom · Akatsuki** | 1 | The cartridge schematic covers medium cartridges, sorted casings and payload modules. Akatsuki stocks the components. |
@@ -90,22 +92,39 @@ Explosives are a native crafting component and remain valid grenade ingredients.
 
 ### Magnum material foundations
 
-Ore and bottled water are independent starting materials. Their orders consume production time without requiring any item, including a bottle, scrap, Cable, or Glass. All shared recipes below are granted when a new Magnum is created and when an existing save loads. Conductive scrap keeps its existing Workshop Fundamentals schematic unlock.
+Ore and bottled water are independent starting materials. Their orders consume production time without requiring any item, including a bottle, scrap, Cable, or Glass. Flesh is the gathered organic starting resource. All shared recipes below are granted when a new Magnum is created and when an existing save loads. Biomass and conductive scrap are now shared foundations.
 
 | Output per order | Ingredients consumed | Base hours | Availability |
 | --- | --- | --- | --- |
 | 4 metal smelting feedstock (ore) | None | 3 | Shared starter recipe |
 | 4 Water Bottles | None | 3 | Shared starter recipe |
 | 4 refined metal stock | 2 ore | 6 | Shared starter recipe |
-| 4 conductive scrap | 2 ore | 2 | Workshop Fundamentals schematic pool |
+| 4 conductive scrap | 2 ore | 2 | Shared starter recipe |
 | 2 Cable | 2 conductive scrap | 3 | Shared starter recipe |
 | 4 silicate feedstock | 2 ore | 2 | Shared starter recipe |
 | 4 basic Glass | 1 silicate feedstock | 2 | Shared starter recipe |
 | 4 Industrial Glass | 2 silicate feedstock | 4 | Shared starter recipe |
+| 8 raw vat biomass | 1 Piece of Flesh + 1 Water Bottle | 12 | Shared starter recipe |
+| 4 raw cellulose pulp | 1 biomass + 1 Water Bottle | 2 | Shared starter recipe |
+| 4 organic oil | 1 biomass | 3 | Shared starter recipe |
+| 4 chemical extract | 1 biomass + 1 Water Bottle | 3 | Shared starter recipe |
+| 4 reactive mineral fraction | 2 ore | 3 | Shared starter recipe |
+| 4 carbon-rich mineral feedstock | 2 ore | 3 | Shared starter recipe |
+| 4 Acid | 1 chemical extract + 1 reactive mineral + 1 Water Bottle | 3 | Shared starter recipe |
+| 12 Gasoline / Gas fuel | 1 organic oil + 1 carbon feedstock + 1 chemical extract | 4 | Shared starter recipe |
+| 4 reclaimed fiber | 2 raw pulp | 2 | Shared starter recipe |
+| 4 moldable polymer stock | 1 organic oil + 1 chemical extract | 4 | Shared starter recipe |
+| 4 Paper Towels | 1 raw pulp + 1 Water Bottle | 2 | Shared starter recipe |
+| 4 Plastic | 1 organic oil + 1 chemical extract | 3 | Shared starter recipe |
+| 4 Rubber | 1 polymer stock + 1 carbon feedstock | 3 | Shared starter recipe |
 
 Glass and Industrial Glass are alternative products of silicate. The basic route produces four Glass from one silicate; industrial refining produces four Industrial Glass from two silicate and takes twice as long. Neither route needs pre-existing glass or cullet. Water feeds the existing biomass, tobacco, medical, and other water-consuming recipes; those recipes still require their other listed ingredients.
 
-Recycling one sorted metal scrap recovers one ore, and recycling one cullet recovers one silicate. The optional Glass-to-cullet sorting order now consumes two Glass for four cullet. With the larger fabrication batches, recycling and remaking Glass can increase material quantities; the [balance diagnostic](diagnostics/RecipeCostBatchBalance.md#recycling-diagnostic) records this consequence. Recycling outputs themselves are unchanged.
+Recycling one sorted metal scrap recovers one ore, recycling one cullet recovers one silicate, and recycling one polymer scrap now recovers one moldable polymer stock. The optional Glass-to-cullet sorting order consumes two Glass for four cullet. With the larger fabrication batches, recycling and remaking goods can increase material quantities; the [balance diagnostic](diagnostics/RecipeCostBatchBalance.md#recycling-diagnostic) records this consequence. The new chemistry audit records the additional polymer recovery route; it does not claim a lossless or exploit-free economy.
+
+The five new chemical/mineral fractions are abstract game materials. Their native outputs use the existing item IDs so other recipes can consume them directly. Ordinary mechanical and electrical recipes make four parts per order; explicit new ammunition recipes make twelve units, and finished medicine, repair, grenade, and cyborg orders make two. Sorbent preserves an existing native recipe exactly and gains a raw-material fallback only when that recipe is absent.
+
+Finished support ammunition and cyborg components retain their established support-tier patterns. Three additional DaydreamChems catalogs offer medicine/splint recipes at tiers 2, 3, and 4 while preserving native starter, workbench, and other schematic access. Each chip still selects one recipe. [Complete source recipe map](docs/crafting/recipe-map.html)
 
 Ore Cargo (`ore_cargo`) is a bulk source of the same raw materials. Its native container opening/disassembly action consumes each selected crate and yields twelve ore, six silicate feedstock, and six conductive scrap. All three outputs are guaranteed; the game splits stacks and handles inventory overflow through its usual item-placement path. The crate's native trade category, weight, stack capacity, and station-industry uses are retained. Existing unopened crates use the updated contents without adding items during save loading. No raw-material-to-Ore-Cargo repacking recipe is added.
 
@@ -135,7 +154,7 @@ Imperial support patterns each contain one randomly selected Magnum recipe from 
 | **2** | Havoc | Ballistic turret, industrial robot, body parts and drill assembly, melee repair kit, standard BatteryCells, sawblades, police cartridges, shotgun slugs, improvised smoke and incendiaries. Havoc also stocks robot parts crates. |
 | **3** | Luna | Fire turret, recreational robot, body parts and blade assembly, engineering repair kit, burst ammunition, Dilthey cells, Heavy rifle loads, standard fragmentation, high-explosive and toxic grenades. |
 | **4** | Foundry Primaris | Energy turret, security robot, body parts and machine gun assembly, deployable cover, firearm and technical repair kits, standard rifle ammunition, expanding small rounds, smoke and thermal grenades. |
-| **5** | Broadsword Station | Security drone, standard rockets, gas, Cold cartridges and explosive shotgun shells. |
+| **5** | Broadsword Station | Security drone, standard rockets, gas trade stock, Cold cartridges and explosive shotgun shells. Gas production is a shared material foundation and is omitted from new chip rolls. |
 | **6** | Golden Throne | Armor repair, nanoinjector, Plasma rifle rounds, Heavy flak, poisoned sawblades, frost and toxic gas grenades, and nanorobot grenades. |
 | **7** | Foundry Primaris | Incendiary rockets and Heavy rounds, Dragon shotgun shells, and Hellfire Grenades. |
 | **8** | Golden Throne | Deployable energy barrier and armor-piercing rifle rounds. |
@@ -328,7 +347,11 @@ Pine Gap grows biomass from bulk water. Sundog turns that biomass and water into
 | Sunlight | DarkFlora → Ji-Stratagem | Cryopentol at Tech 3 and Fibromine at Tech 4 |
 | SBN | Cathode Rampart → Humankind's Hope Citadel | Nanoinjectors at Tech 6, assembled from implant controllers, clinical refills, and polymer stock |
 
-The new batches require their full inputs and supply both commerce and downstream industry. Naloxone goes into Avicenna's surgical kits, Fibromine feeds cryolaser and Helfrost production, and Drug Cargo supplies existing gas and toxic munitions. Sorbent, Osteodron, and Tranexam ship from their established EStation lines. Finished goods use their native effects, artwork, and Magnum recipes.
+The station batches require their full inputs and supply both commerce and downstream industry. Naloxone goes into Avicenna's surgical kits, Fibromine feeds cryolaser and Helfrost production, and Drug Cargo supplies station gas and toxic munitions. Sorbent, Osteodron, and Tranexam ship from their established EStation lines. Finished goods retain native effects and artwork. The 1.1.4 Magnum foundations explicitly replace selected medicine ingredient lists with loose chemical routes; Sorbent retains its existing native recipe where present.
+
+### Planned live crafting map and occult production
+
+[Crafting-tree expansion design](CRAFTING_TREE_EXPANSION_DESIGN.md) specifies a live recipe index, a dependency/consumer window, and separate occult resource and equipment families. These are future features. The [current visual map](docs/crafting/recipe-map.html) is generated from source-known recipes and marks native-dependent fallbacks; it is not a snapshot of an active save. Existing reward-only and exotic inputs remain external in 1.1.4.
 
 ## Cigarettes and manufacturer recipes
 

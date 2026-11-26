@@ -1,0 +1,33 @@
+DRAFT CHANGE NOTES — 1.1.3–1.1.4
+Native compilation and package verification passed. Game boot and gameplay verification are pending. This is not a Steam release announcement.
+
+[h1]Crafting quantities and production chains[/h1]
+[list]
+[*]Custom Magnum recipes keep their different ingredient types while reducing each required quantity by half, rounded up to a whole item with a minimum of one.
+[*]Existing custom production batches are doubled. For example, one rolled plate, one armor fitting, and one weapon component produce two service Lasguns.
+[*]Raw vat biomass can now be separated into cellulose pulp, organic oil, and chemical extract.
+[*]Ore now supplies reactive minerals and carbon-rich feedstock alongside refined metal, silicate, and conductive material.
+[*]Added connected routes for native acid, gasoline, paper, plastic, rubber, propellant, explosives, and other ordinary crafting inputs.
+[*]Added explicit manufacturing routes for mechanical and electrical components, selected medicines, ammunition, repair supplies, and ordinary cyborg parts.
+[*]New component orders produce four units; the new ammunition orders produce twelve units. Finished medicine, repair, grenade, and cyborg orders produce two.
+[*]Biomass preparation and conductor separation are shared recipes available to new and existing saves. New chips no longer roll those already-known recipes; shared gasoline production is also omitted from new support-chip rolls.
+[*]Reclaimed fiber now starts from raw pulp. Polymer stock starts from oil and chemical extract. Polymer scrap can be recycled back into moldable stock.
+[*]New medicine schematic pools retain native recipe access. Existing support tiers continue to govern finished ammunition and cyborg recipes. Every custom chip still contains one selected recipe.
+[*]Sorbent preserves its existing native production recipe. If that recipe is absent, a carbon-feedstock-and-water fallback is available.
+[/list]
+
+[h1]Crafting reference and future expansion design[/h1]
+[list]
+[*]Added a searchable source recipe map covering 365 explicit Magnum recipes, 303 station records, and 30 conditional native fallbacks. Native-only definitions still require an active-game capture.
+[*]Added a raw-material flowchart, an occult-production proposal flowchart, and a reviewed design for a live in-game crafting index.
+[*]Documented future occult production: clone stock, torment imprints, suffering essence, Gavvakh, and separate otherworldly material and equipment families. These occult recipes and the new game window are proposals, not implemented features.
+[/list]
+
+VERIFICATION STATUS
+The source dependency audit found no duplicate explicit Magnum outputs, no player-manufacturing cycles, and no unexplained ordinary ingredient leaves beyond the deliberately preserved native Sorbent branch. Reward, recovery, and exotic materials remain explicit external sources. Combined station/recovery loops remain a balance-review topic.
+
+Source implementation: de43df89d6b5878422606fa69c43a4c544f2987e
+Native build: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45773773570
+Native compilation passed against the installed game with zero warnings and zero errors. The 1.1.4 Chemistry Foundations ZIP passed checksum, CRC, all four runtime-file hashes, DLL version/method/constant checks, and all 15 reused artwork-resource checks. No game boot or gameplay pass is claimed by these draft notes.
+Runtime package: package/ImperiumOfMan-1.1.4-ChemistryFoundations.zip
+Package SHA-256: 820924a63ecceb21aa8008af45538d697507de993de1420d016072a2ccb6e637

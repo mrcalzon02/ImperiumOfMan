@@ -1,0 +1,6 @@
+{
+  "schema": "iom.native-validation.v1",
+  "request_id": "raw-material-chemistry-002",
+  "source_sha": "de43df89d6b5878422606fa69c43a4c544f2987e",
+  "mode": "native-build"
+}

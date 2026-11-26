@@ -1,0 +1,131 @@
+// FUTURE DESIGN PROPOSAL ONLY. No occult runtime implementation.
+// User-facing date: 25 November 2026 (America/Anchorage).
+// Project baseline: de43df89d6b5878422606fa69c43a4c544f2987e.
+// All quantities below are final displayed quantities, not helper arguments.
+// Primary identity sources and complete formulas: ../../OCCULT_PRODUCTION_DESIGN.md.
+digraph OccultProposal {
+  graph [rankdir=TB, newrank=true, compound=true, bgcolor="#fbfcfe",
+    fontname="DejaVu Sans", fontsize=21, fontcolor="#162236",
+    label="OCCULT PRODUCTION — FUTURE DESIGN\n25 November 2026 · no runtime implementation · final displayed quantities",
+    labelloc=t, labeljust=c, pad=0.25, nodesep=0.28, ranksep=0.28, splines=polyline,
+    dpi=110];
+  node [shape=box, style="rounded,filled", fillcolor="#f4edfb", color="#8165a5",
+    fontname="DejaVu Sans", fontsize=11, fontcolor="#241b35", penwidth=1.25,
+    margin="0.16,0.12", width=2.75];
+  edge [color="#735496", penwidth=1.45, arrowsize=0.7,
+    fontname="DejaVu Sans", fontsize=9, fontcolor="#51435f"];
+
+  subgraph cluster_root {
+    graph [label="A. Ingredient-free starter chain\n20 serial ship-hours → 2 Gavvakh", fontsize=15,
+      color="#c8bbd8", fillcolor="#f9f6fc", style="rounded,filled", margin=18];
+
+    capability [label="PROPOSED INSTALLED CAPABILITIES\nClone Vat · Cradle · Still · Retort\nConstruction costs are separate",
+      fillcolor="#fff4da", color="#ae863c", style="rounded,dashed,filled"];
+    gestation [label="CLONE GESTATION · 8 h\nInventory inputs: none\nOutput: 2 Raw Clones\nNEW stock; not combat actors"];
+    torment [label="TORMENT CULTIVATION · 4 h\nConsumes 2 Raw Clones\nOutput: 4 Torment Imprints\nNEW intermediate"];
+    separation [label="SUFFERING SEPARATION · 4 h\nConsumes 4 Torment Imprints\nOutput: 4 Essence of Suffering\nNEW intermediate"];
+    retort [label="GAVVAKH CONDENSATION · 4 h\nConsumes 4 Essence of Suffering\nProposed manufacturing process"];
+    gavvakh [label="2 GAVVAKH\nVERIFIED NATIVE ITEM\nquasi_medical_kit_1\nNative ritual essence: gavvakh",
+      fillcolor="#e7f4eb", color="#2f8057", fontcolor="#173f2a", penwidth=1.7];
+    harvest [label="ALTERNATIVE FLESH HARVEST · 2 h\nConsumes 1 Raw Clone\nChoose instead of torment\nEach clone is consumed once"];
+    flesh [label="4 FLESH\nVERIFIED NATIVE ID: human_meat\nFeeds the ordinary biomass chain",
+      fillcolor="#e7f4eb", color="#2f8057", fontcolor="#173f2a"];
+    exclusions [label="ACQUISITION RULES RETAINED\nFury Sigil: purchase only\nShadowblade: finale reward\nPurity Seals: reliquary rewards\nNo clone or essence substitution",
+      fillcolor="#fff1e8", color="#b87848", fontcolor="#674225"];
+
+    capability -> gestation [style=dotted, color="#aa8030", label="required; not consumed"];
+    gestation -> torment [label="2 clones consumed"];
+    torment -> separation [label="4 imprints consumed"];
+    separation -> retort [label="4 essence consumed"];
+    retort -> gavvakh [label="2 units produced"];
+    gestation:w -> harvest:w [label="OR consume 1 clone", constraint=false,
+      color="#806c8c", fontcolor="#6d587b"];
+    gavvakh -> harvest [style=invis, weight=30];
+    harvest -> flesh [label="4 units produced"];
+    flesh -> exclusions [style=invis, weight=30];
+  }
+
+  subgraph cluster_families {
+    graph [label="B. Distinct family routes — representative stages\nEach requires family attunement + its pattern/tier\nKnowledge is not consumed; ordinary inputs differ", fontsize=15,
+      color="#bed0dc", fillcolor="#f5f9fc", style="rounded,filled", margin=18];
+
+    gannix_process [label="GANNIX · proposed plate formation\n1 Gavvakh + 1 Rolled Armor Plate\n+ 1 Silicate Feedstock"];
+    gannix_output [label="2 venus_armor_plates\nVERIFIED NATIVE ID\nRitual essence remains Siaira",
+      fillcolor="#e7f4eb", color="#2f8057", fontcolor="#173f2a"];
+    { rank=same; gannix_process; gannix_output; }
+    gannix_process -> gannix_output;
+
+    mercury_process [label="SHARTAMAKHUM · proposed glass\n1 Suffering Essence + 1 Industrial Glass\n+ 1 Reactive Minerals"];
+    mercury_output [label="4 mercury_glass\nVERIFIED NATIVE ID\nRitual essence remains Eon",
+      fillcolor="#e7f4eb", color="#2f8057", fontcolor="#173f2a"];
+    { rank=same; mercury_process; mercury_output; }
+    mercury_process -> mercury_output;
+
+    duggur_process [label="DUGGUR · proposed lunar plate\n1 Suffering Essence\n+ 1 Pressed Armor Insert"];
+    duggur_output [label="4 moon_armor_plates\nVERIFIED NATIVE ID\nRitual essence remains Agga",
+      fillcolor="#e7f4eb", color="#2f8057", fontcolor="#173f2a"];
+    { rank=same; duggur_process; duggur_output; }
+    duggur_process -> duggur_output;
+
+    ur_process [label="UR · proposed skin growth\n1 Gavvakh + 1 Raw Vat Biomass\n+ 1 Moldable Polymer Stock"];
+    ur_output [label="4 mars_skin\nVERIFIED NATIVE ID\nSeparate gear/fuel/body-part patterns",
+      fillcolor="#e7f4eb", color="#2f8057", fontcolor="#173f2a"];
+    { rank=same; ur_process; ur_output; }
+    ur_process -> ur_output;
+
+    ron_process [label="RON · proposed membrane\n1 Suffering Essence + 1 Processed Textile\n+ 1 water_bottle_1"];
+    ron_output [label="4 ECHO MEMBRANES\nNEW MOD MATERIAL CONCEPT\nFeeds vials, masks and casters",
+      fillcolor="#eadefa", color="#7956a2", fontcolor="#493364"];
+    { rank=same; ron_process; ron_output; }
+    ron_process -> ron_output;
+
+    cattaram_process [label="CATTARAM · proposed crystal growth\n1 Suffering Essence + 1 Silicate Feedstock\n+ 1 Reactive Minerals"];
+    cattaram_output [label="4 SEED CRYSTALS\nNEW MOD MATERIAL CONCEPT\nFeeds lattices, armor and shards",
+      fillcolor="#eadefa", color="#7956a2", fontcolor="#493364"];
+    { rank=same; cattaram_process; cattaram_output; }
+    cattaram_process -> cattaram_output;
+
+    scrivnus_process [label="SCRIVNUS · proposed bone binding\n1 Suffering Essence + 1 human_rib\n+ 1 Refined Metal Stock"];
+    scrivnus_output [label="4 SENTENCE BONES\nNEW MOD MATERIAL CONCEPT\nChains, armor, blades and quills",
+      fillcolor="#eadefa", color="#7956a2", fontcolor="#493364"];
+    { rank=same; scrivnus_process; scrivnus_output; }
+    scrivnus_process -> scrivnus_output;
+
+    flauros_process [label="FLAUROS · proposed culture\n1 Gavvakh + 1 Raw Vat Biomass\n+ 1 water_bottle_1"];
+    flauros_output [label="4 SPORE CULTURE\nNEW MOD MATERIAL CONCEPT\nWeave, food, armor and capsules",
+      fillcolor="#eadefa", color="#7956a2", fontcolor="#493364"];
+    { rank=same; flauros_process; flauros_output; }
+    flauros_process -> flauros_output;
+
+    olirna_process [label="OLIRNA · proposed thread\n1 Suffering Essence + 1 Processed Textile\n+ 1 Chemical Extract"];
+    olirna_output [label="4 DREAM THREAD\nNEW MOD MATERIAL CONCEPT\nMemory Glass → gear and ammunition",
+      fillcolor="#eadefa", color="#7956a2", fontcolor="#493364"];
+    { rank=same; olirna_process; olirna_output; }
+    olirna_process -> olirna_output;
+
+    undivided_process [label="CHAOS UNDIVIDED · integration\nOccult routes supply demonic_eye,\nmercury_glass and quasi_basic_ammo\nExisting ordinary inputs remain"];
+    undivided_output [label="CURRENT MOD CATALOG\n10 distinct material tiers\n40 armor pieces · 9 crafted weapons\nUtilities and two pact paths",
+      fillcolor="#e3eefb", color="#3e6e9a", fontcolor="#234560"];
+    { rank=same; undivided_process; undivided_output; }
+    undivided_process -> undivided_output [label="feeds existing recipes"];
+
+    inventory_note [label="COMPLETE CONCEPT SCOPE; NATIVE MAPPING STILL TO AUDIT\nAll nine families have proposed weapons, ammunition, four armor slots,\nutility and implant/pact coverage in the design document.\nNo guessed native Olirna/Scrivnus material IDs. Exported *Feral rows are inactive;\nthese patterns do not enable factions or campaign spawns.",
+      fillcolor="#eef2f6", color="#97a6b5", fontcolor="#3d4f60", width=6.6];
+
+    gannix_process -> mercury_process -> duggur_process -> ur_process -> ron_process ->
+      cattaram_process -> scrivnus_process -> flauros_process -> olirna_process ->
+      undivided_process [style=invis, weight=80];
+    gannix_output -> mercury_output -> duggur_output -> ur_output -> ron_output ->
+      cattaram_output -> scrivnus_output -> flauros_output -> olirna_output ->
+      undivided_output [style=invis, weight=80];
+    undivided_output -> inventory_note [style=invis, weight=50];
+  }
+
+  { rank=same; capability; gannix_process; gannix_output; }
+  capability -> gannix_process [style=invis, constraint=false, weight=200];
+
+  legend [shape=box, label="READING THE DIAGRAM\nSolid arrows: proposed material flow. Dotted arrow: required installed capability.\nGreen: verified native item identity. Lavender: new mod concept. Blue: current mod content.\nAll counts are final displayed quantities; do not halve/double them again.\nNative ritual affinities stay unchanged. Sources and full staged formulas: OCCULT_PRODUCTION_DESIGN.md.",
+    fillcolor="#ffffff", color="#bac7d2", fontcolor="#334457", fontsize=11, width=10];
+  exclusions -> legend [style=invis, weight=10];
+  inventory_note -> legend [style=invis, weight=40];
+}

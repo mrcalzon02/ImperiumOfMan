@@ -1,0 +1,125 @@
+{
+  "schema": "iom.verified-release-candidate.v1",
+  "source_sha": "de43df89d6b5878422606fa69c43a4c544f2987e",
+  "assembly_version": "1.1.4.0",
+  "request": {
+    "mode": "native-build",
+    "request_id": "raw-material-chemistry-002",
+    "schema": "iom.native-validation.v1",
+    "source_sha": "de43df89d6b5878422606fa69c43a4c544f2987e"
+  },
+  "workflow": {
+    "repository": "mrcalzon02/Dens-Mortis",
+    "run_id": 45773773570,
+    "job_id": 139752399222,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45773773570",
+    "controller_sha": "886e2e8b4ef644baac72b5c1811b2f413167263c"
+  },
+  "delivery": {
+    "repository": "mrcalzon02/Dens-Mortis",
+    "commit": "bf4fe578b5a3aaf94bfd06d3448276bfa3ee77dc",
+    "prefix": "runner-results/quasimorph-native/45773773570-1",
+    "build_receipt_blob_sha": "7f1f91abe96a92c3cfb1eee6929c0358b3d8df17",
+    "transport_manifest_blob_sha": "80c2e930a5441be1cd216423368c85df25529c37",
+    "native_build_log_blob_sha": "d883527d803e52b8219dad849d96214fddd7202b"
+  },
+  "native_compile": "passed",
+  "compiler_warnings": 0,
+  "compiler_errors": 0,
+  "game_executable_sha256": "85a6ceaaef775d537bd4eab4e62d9b9c3c4f88c6a48c32c5093b7bfa0f0e2f8e",
+  "game_reference_sha256": {
+    "0Harmony.dll": "498ede1d20a87afaa6c7b1ed5b3beb505b01dc418b952c1be5c322204404b033",
+    "Assembly-CSharp.dll": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+    "SimpleJSON.dll": "2521e3c93c6992ee48981059a8e473152631ae7467002e60e8b9bf6f3b92ff82",
+    "Unity.RenderPipelines.Universal.Runtime.dll": "eacb4ef9bf829643ff08d29b5fcd4c03b9551b1892cb84ba1f8dc2d116197a28",
+    "UnityEngine.AssetBundleModule.dll": "888102f4fac12e8695d185d6770f637d520167caf2aa620d17c5ad1527eb08c3",
+    "UnityEngine.AudioModule.dll": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88",
+    "UnityEngine.CoreModule.dll": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e",
+    "UnityEngine.IMGUIModule.dll": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78",
+    "UnityEngine.ImageConversionModule.dll": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b",
+    "UnityEngine.InputLegacyModule.dll": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375",
+    "UnityEngine.Physics2DModule.dll": "6489c192c7fff6e4ed2d6bffdb26cb64133143bb117cacda3cb4bd730162294a",
+    "UnityEngine.TextRenderingModule.dll": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d",
+    "UnityEngine.TilemapModule.dll": "71c4505976bd5e8f5e74206fe69ce4baae96a9eb3e46a467d2a4bd5ac598f69b",
+    "UnityEngine.UI.dll": "5c7fb38aaa094f9709f29340062d4ce0603f110e2e91a30887c3212dcec5231f",
+    "UnityEngine.dll": "9568a6c178e9c322a6b155213be04661c920fcf46418e8e38b4af9646362d5c6"
+  },
+  "package": {
+    "path": "package/ImperiumOfMan-1.1.4-ChemistryFoundations.zip",
+    "bytes": 11732085,
+    "sha256": "820924a63ecceb21aa8008af45538d697507de993de1420d016072a2ccb6e637",
+    "git_blob_sha": "4513ea73e0ae7f16dd710bc1533c3ee2f6cfb824",
+    "zip_crc_verified": true,
+    "transport_chunks_verified": 30,
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 13853184,
+        "sha256": "b242734105e510aa00fabd26069bba2e16be57c52483bde3ab6177e3a107112f"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    }
+  },
+  "compiled_metadata": {
+    "assembly_version": "1.1.4.0",
+    "assembly_loaded_or_executed": false,
+    "compiled_methods_verified": [
+      "RegisterRawMaterialChemistry",
+      "RegisterComponentFoundations",
+      "RegisterMechanicalFoundations",
+      "RegisterElectricalFoundations",
+      "RegisterMedicalFoundations",
+      "RegisterMunitionsFoundations",
+      "RegisterCyborgFoundations",
+      "LogCraftingCoverage",
+      "ReachableCraftingMaterials",
+      "IndustryRecipe"
+    ],
+    "chemistry_constants_verified": {
+      "OrganicOil": "iom_organic_oil",
+      "CarbonFeedstock": "iom_carbon_feedstock",
+      "ReactiveMinerals": "iom_reactive_minerals",
+      "ChemicalExtract": "iom_chemical_extract",
+      "RawPulp": "iom_raw_cellulose_pulp"
+    },
+    "borrowed_artwork_resources_verified": [
+      "ImperiumOfMan.Art.iom_raw_vat_biomass_icon.png",
+      "ImperiumOfMan.Art.iom_raw_vat_biomass_floor.png",
+      "ImperiumOfMan.Art.iom_raw_vat_biomass_shadow.png",
+      "ImperiumOfMan.Art.iom_polymer_stock_icon.png",
+      "ImperiumOfMan.Art.iom_polymer_stock_floor.png",
+      "ImperiumOfMan.Art.iom_polymer_stock_shadow.png",
+      "ImperiumOfMan.Art.iom_cell_stock_icon.png",
+      "ImperiumOfMan.Art.iom_cell_stock_floor.png",
+      "ImperiumOfMan.Art.iom_cell_stock_shadow.png",
+      "ImperiumOfMan.Art.iom_raw_silicate_icon.png",
+      "ImperiumOfMan.Art.iom_raw_silicate_floor.png",
+      "ImperiumOfMan.Art.iom_raw_silicate_shadow.png",
+      "ImperiumOfMan.Art.iom_conductive_scrap_icon.png",
+      "ImperiumOfMan.Art.iom_conductive_scrap_floor.png",
+      "ImperiumOfMan.Art.iom_conductive_scrap_shadow.png"
+    ],
+    "total_embedded_resource_count": 1419,
+    "native_boot": "not_run",
+    "gameplay_validation": "not_run"
+  },
+  "native_boot": "not_run",
+  "gameplay_validation": "not_run",
+  "live_game_or_save_modified": false,
+  "first_attempt": {
+    "run_id": 45770493091,
+    "source_sha": "073b79b2789cd18e986dfbb4a679fc24bf7eec1b",
+    "result": "compile_failed",
+    "reason": "Five single-input params calls required explicit ItemQuantity constructors; corrected in the source revision above. Exported recipe records and reachability are unchanged."
+  }
+}

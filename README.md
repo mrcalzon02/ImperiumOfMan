@@ -2,9 +2,13 @@
 
 Imperium of Man is a Warhammer 40,000 fan mod for Quasimorph. It adds the Imperium as a campaign faction you can take contracts from, earn reputation and equipment with, and barter with at its stations.
 
-**Current download:** [ImperiumOfMan-1.1.2-RecipeFoundations.zip](package/ImperiumOfMan-1.1.2-RecipeFoundations.zip). Includes the ore, water, glass, and Ore Cargo corrections. [Installation and build details](package/README.md).
+**Current test download:** [ImperiumOfMan-1.1.4-ChemistryFoundations.zip](package/ImperiumOfMan-1.1.4-ChemistryFoundations.zip). Native compilation and package verification passed. [Installation and build details](package/README.md).
 
-**1.1.3 source update:** lower ingredient quantities and doubled custom crafting batches are committed. [Native build 45762690450](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45762690450) is queued; a verified 1.1.3 download is not yet available. The 1.1.3 quantities below describe the updated source, not the older 1.1.2 ZIP.
+**1.1.4 update:** biomass separation, mineral chemistry, and ordinary component manufacturing extend the lower ingredient quantities and doubled custom batches from 1.1.3. [Native build 45773773570](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45773773570) compiled against the installed game. Game boot and gameplay are still unverified. [Chemistry changes and verification](diagnostics/RawMaterialChemistryAudit.md)
+
+**Crafting expansion design:** [live recipe browser and occult production plan](CRAFTING_TREE_EXPANSION_DESIGN.md), with a [searchable source recipe map](docs/crafting/recipe-map.html). The map is a source snapshot; the live game window and occult production upgrade are future work.
+
+[Download the crafting design review](docs/crafting/ImperiumReforged-Crafting-Design-Review.zip) for the plans, offline map, diagrams, draft change notes, and source references. This is a documentation bundle; the game download is listed above.
 
 Planetary Defence Troopers carry Lasguns and wear flak armor. Cadian Guardsmen reinforce them with Lasguns and Guard Frag Grenades. On Terra, Arbites Vigilants carry Judgement shotguns and Arbites Subductors wield Arbites Shock Mauls. You can fight alongside the Arbites or face them as enemies.
 
@@ -63,7 +67,9 @@ See the [Tech 1–11 supply map](PRODUCTION_CHAIN_DESIGN.md#utility-food-and-sta
 
 In **1.1.3**, custom Magnum recipes keep every ingredient type, halve the required quantities rounded up to whole items with a minimum of one, and produce twice their previous batch. Production times and schematic requirements stay the same. A Lasgun order uses one rolled armor plate, one armor fitting, and one weapon component to produce two rifles. [Crafting quantities and scope](diagnostics/RecipeCostBatchBalance.md)
 
-The Magnum can produce **four metal smelting feedstock (ore)** or **four Water Bottles** in three base hours without consuming ingredients. These starting recipes are available in new games and added when an existing save loads. Ore can become refined metal, conductive scrap for Cable, or silicate feedstock. One silicate makes four basic Glass in two base hours; two silicate make four Industrial Glass in four base hours. The conductive-scrap recipe remains part of the Workshop Fundamentals schematic pool. [Material recipes and yields](PRODUCTION_CHAIN_DESIGN.md#magnum-material-foundations)
+The Magnum can produce **four metal smelting feedstock (ore)** or **four Water Bottles** in three base hours without consuming ingredients. These starting recipes are available in new games and added when an existing save loads. Ore can become refined metal, conductive scrap for Cable, silicate, reactive minerals, or carbon-rich feedstock. One silicate makes four basic Glass in two base hours; two silicate make four Industrial Glass in four base hours. Conductor separation is now a shared foundation. [Material recipes and yields](PRODUCTION_CHAIN_DESIGN.md#magnum-material-foundations)
+
+Raw vat biomass separates into **cellulose pulp, organic oil, and chemical extract**. These combine with mineral fractions to supply acid, gasoline, plastics, rubber, paper, propellant, and explosives. Loose metal and chemical stock also feed mechanical parts, electronics, medicines, ammunition, and ordinary cyborg components. Basic material recipes are shared; finished medicine and equipment retain schematic access. [Raw-material flowchart](docs/crafting/raw-material-overview.svg)
 
 **Ore Cargo** can be opened through its normal container action. Each crate yields **12 metal smelting feedstock, 6 silicate feedstock, and 6 conductive scrap**. Opening consumes the selected crate; intact cargo can still be traded or used by station industry. Existing crates receive the same contents when opened.
 
