@@ -55,6 +55,7 @@ namespace ImperiumOfMan
             MagnumCargo cargo = null;
             Stations stations = null;
             MagnumProjects projects = null;
+            MagnumProgression occultProgression = null;
             Capture("campaign access", () =>
             {
                 var game = SingletonMonoBehaviour<SpaceGameMode>.Instance;
@@ -63,6 +64,7 @@ namespace ImperiumOfMan
                     cargo = game.Get<MagnumCargo>();
                     stations = game.Get<Stations>();
                     projects = game.Get<MagnumProjects>();
+                    occultProgression = game.Get<MagnumProgression>();
                 }
             });
 
@@ -105,6 +107,16 @@ namespace ImperiumOfMan
                             available > 0 ? "Cargo has ingredients for " + available + " order(s). " :
                             "Cargo ingredients missing. ";
                         route.Access += "Production-line availability is separate.";
+                    }
+                    if (OccultRecipeRequirements.TryGetValue(receipt.Id, out string occultPerk))
+                    {
+                        bool? installed = occultProgression == null ? (bool?)null : occultProgression.IsPerkPurchased(occultPerk);
+                        route.Access += " Requires Occult Research: " + OccultResearchTitle(occultPerk) + ".";
+                        if (installed == false) { route.Ready = false; route.Access += " Research locked."; }
+                    }
+                    else if (OccultResearchUnlocks.TryGetValue(receipt.OutputItem, out string researchPerk))
+                    {
+                        route.Access += " Learn through " + OccultResearchTitle(researchPerk) + " or a faction schematic.";
                     }
                     if (output != receipt.OutputItem)
                     {

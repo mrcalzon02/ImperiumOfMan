@@ -23,12 +23,13 @@ namespace ImperiumOfMan
                 Image ____icon, Image ____upgradeAvailableIcon)
             {
                 var perkRecord = __0;
-                if (perkRecord.ModuleId is not (WeaponsModule or DropModule or CommsModule))
+                if (perkRecord.ModuleId is not (WeaponsModule or DropModule or CommsModule or OccultModule))
                 {
                     return;
                 }
 
-                bool major = perkRecord.Id is SupplyDrop or TroopDrop or SecurityIntrusion ||
+                bool major = perkRecord.ModuleId == OccultModule ||
+                    perkRecord.Id is SupplyDrop or TroopDrop or SecurityIntrusion ||
                     perkRecord.ModuleId == WeaponsModule &&
                     perkRecord.Id is not (BarrageDuration or BarrageRounds or BarrageCalls);
                 var geometry = __instance.GetComponent<ShipUpgradeNodeGeometry>() ??

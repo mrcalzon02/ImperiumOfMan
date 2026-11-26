@@ -52,7 +52,7 @@ namespace ImperiumOfMan
 
         private static void RegisterOccultProduction()
         {
-            AddModuleText(OccultModule, "Occult Production", "Grow and process clone stock.");
+            AddModuleText(OccultModule, "Occult Research", "Study occult materials and equipment.");
             var vat = RegisterSupportPerk(OccultModule, CloneVat, "OccultCloneVat", "Clone Vat",
                 "Grow two raw clones.", 0, 0, null,
                 ["construction_equipment", "medical_equipment", "engineering_parts_container"]);
@@ -62,9 +62,11 @@ namespace ImperiumOfMan
             var still = RegisterSupportPerk(OccultModule, EssenceStill, "OccultStill", "Essence Still",
                 "Separate suffering essence.", 2, 0, cradle,
                 ["medical_equipment", "scientific_equipment"]);
-            RegisterSupportPerk(OccultModule, GavvakhRetort, "OccultRetort", "Gavvakh Retort",
+            var retort = RegisterSupportPerk(OccultModule, GavvakhRetort, "OccultRetort", "Gavvakh Retort",
                 "Condense native Gavvakh.", 3, 0, still,
                 ["engineering_parts_container", "scientific_equipment", "communication_relay"]);
+
+            RegisterOccultResearchRanks(retort);
 
             AddMaterial(RawClone, "rags", "Raw Clone", "Contained vat-grown organic stock.",
                 1, maxIconSize: 24);
@@ -79,6 +81,8 @@ namespace ImperiumOfMan
             RegisterOccultRecipe(TormentImprint, ContainmentCradle, 4, 4, new ItemQuantity(RawClone, 2));
             RegisterOccultRecipe(SufferingEssence, EssenceStill, 4, 4, new ItemQuantity(TormentImprint, 4));
             RegisterOccultRecipe(NativeGavvakh, GavvakhRetort, 4, 2, new ItemQuantity(SufferingEssence, 4));
+
+            RegisterOccultResearchRecipes();
 
             // Alternative harvest is a deliberate ship recycling order, not a raid
             // creature or a repeatable death event. It spends the same clone token
@@ -125,9 +129,12 @@ namespace ImperiumOfMan
                 if (progression.IsPerkPurchased(requirement.Value))
                     LearnRecipes(cargo, [requirement.Key]);
                 // Only remove our private intermediates, not a native learned item.
-                else if (requirement.Key != NativeGavvakh)
+                else if (requirement.Key == RawClone || requirement.Key == TormentImprint || requirement.Key == SufferingEssence)
                     cargo.UnlockedProductionItems.RemoveAll(id => id == requirement.Key);
             }
+            foreach (var research in OccultResearchUnlocks)
+                if (progression.IsPerkPurchased(research.Value))
+                    LearnRecipes(cargo, [research.Key]);
         }
 
         [Hook(ModHookType.AfterSaveLoaded)]
@@ -198,8 +205,10 @@ namespace ImperiumOfMan
         {
             private static void Postfix(MagnumModulePoint __instance)
             {
-                if (__instance.ModuleId == OccultModule)
-                    __instance.transform.localPosition += new Vector3(90f, 45f, 0f);
+                if (__instance.ModuleId != OccultModule) return;
+                var placement = __instance.GetComponent<OccultPipPlacement>() ??
+                    __instance.gameObject.AddComponent<OccultPipPlacement>();
+                placement.Place();
             }
         }
     }

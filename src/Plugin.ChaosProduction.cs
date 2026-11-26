@@ -81,6 +81,7 @@ namespace ImperiumOfMan
                     : "Fabrication pool for the Undivided's weapons, armor, field supplies, and forge materials.";
                 string supplier = Array.Find(ChaosSites, site => site.FirstTier <= level && level <= site.LastTier).Id;
                 RegisterCatalog(chip, name, description, ChaosFaction, outputs.ToArray(), supplier: supplier);
+                RegisterChaosResearchPatterns(level, outputs);
             }
         }
 
