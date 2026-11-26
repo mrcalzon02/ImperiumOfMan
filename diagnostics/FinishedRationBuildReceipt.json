@@ -1,0 +1,567 @@
+{
+  "schema": "iom.finished-ration-build-receipt.v1",
+  "source_sha": "5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad",
+  "source_tree_sha": "88e94d76de57d7240b853e6d054d77c0ba119900",
+  "assembly_version": "1.1.10.0",
+  "status": "native_compile_package_and_static_correction_verified",
+  "native_compile": "passed",
+  "package": {
+    "path": "package/ImperiumOfMan-1.1.10-CraftingMap.zip",
+    "verified": true,
+    "bytes": 11794130,
+    "sha256": "8af3889a259a8a988d7e2a154d4a87af653b59b3a05de5c9616a32e529e00cf1",
+    "git_blob_sha": "23af475717941b31052bac180a47568267881483",
+    "primary_repository_blob_uploaded_and_sha_verified": true,
+    "zip_crc_verified": true,
+    "member_count": 4,
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 13995520,
+        "sha256": "fbf5ab4900c2cdc7263a3241b765e883e539ad97c2620cc22ebe68c6efe5f154"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    },
+    "mod_identity": "Cvar_ImperiumOfMan",
+    "assemblies": [
+      "ImperiumOfMan.dll"
+    ]
+  },
+  "source_change": "Remove finished Imperial rations from recycling and remove their bulk-only machinery. Preserve 1 Raw Vat Biomass + 1 wrapper -> 6 Dirty Corpse Starch / 2 base hours.",
+  "gameplay_validation": "No game was launched for this corrected source. Prior gameplay and visual observations retain their historical source attribution.",
+  "historical_validation": {
+    "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+    "assembly_version": "1.1.9.0",
+    "receipt": "diagnostics/OccultBuildReceipt.json",
+    "package": "package/ImperiumOfMan-1.1.9-CraftingMap.zip",
+    "ui_evidence": "docs/crafting/native-occult-ui-347de7d.json"
+  },
+  "native_build": {
+    "run_id": 45870535209,
+    "run_attempt": 1,
+    "job_id": 140084470278,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45870535209",
+    "controller_sha": "7c371b4c23356cb073a8682a7d00182cb96eeac0",
+    "request": {
+      "mode": "native-build",
+      "request_id": "occult-food-cycle-correction-001",
+      "schema": "iom.native-validation.v1",
+      "source_sha": "5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad"
+    },
+    "workflow_path": ".github/workflows/quasimorph-native-validation.yml",
+    "workflow_git_blob_sha": "042358c3781bd9d5131ea2c4ee4d0133e7d0dfc4",
+    "worker_git_blob_sha": "bc8864ab726b91f8bbc3c2444d510afeaf026be7",
+    "publisher_git_blob_sha": "348629d3fd891cfdc74a9654f7ed547413e58e5d",
+    "result": "NATIVE_COMPILE_PASSED_GAMEPLAY_NOT_RUN",
+    "delivery_commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+    "delivery_prefix": "runner-results/quasimorph-native/45870535209-1",
+    "request_only_commit_verified": true
+  },
+  "native_boot": "not_run",
+  "compiler_warnings": 0,
+  "compiler_errors": 0,
+  "native_compile_elapsed": "00:00:12.43",
+  "assembly_executed_during_local_verification": false,
+  "live_game_or_save_modified_by_native_build": false,
+  "installed_native_references": {
+    "game_executable_sha256": "85a6ceaaef775d537bd4eab4e62d9b9c3c4f88c6a48c32c5093b7bfa0f0e2f8e",
+    "managed_assemblies_sha256": {
+      "0Harmony.dll": "498ede1d20a87afaa6c7b1ed5b3beb505b01dc418b952c1be5c322204404b033",
+      "Assembly-CSharp.dll": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+      "SimpleJSON.dll": "2521e3c93c6992ee48981059a8e473152631ae7467002e60e8b9bf6f3b92ff82",
+      "Unity.RenderPipelines.Universal.Runtime.dll": "eacb4ef9bf829643ff08d29b5fcd4c03b9551b1892cb84ba1f8dc2d116197a28",
+      "UnityEngine.AssetBundleModule.dll": "888102f4fac12e8695d185d6770f637d520167caf2aa620d17c5ad1527eb08c3",
+      "UnityEngine.AudioModule.dll": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88",
+      "UnityEngine.CoreModule.dll": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e",
+      "UnityEngine.IMGUIModule.dll": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78",
+      "UnityEngine.ImageConversionModule.dll": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b",
+      "UnityEngine.InputLegacyModule.dll": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375",
+      "UnityEngine.Physics2DModule.dll": "6489c192c7fff6e4ed2d6bffdb26cb64133143bb117cacda3cb4bd730162294a",
+      "UnityEngine.TextRenderingModule.dll": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d",
+      "UnityEngine.TilemapModule.dll": "71c4505976bd5e8f5e74206fe69ce4baae96a9eb3e46a467d2a4bd5ac598f69b",
+      "UnityEngine.UI.dll": "5c7fb38aaa094f9709f29340062d4ce0603f110e2e91a30887c3212dcec5231f",
+      "UnityEngine.UIModule.dll": "f3e21499db60bd6a7569f2209d304828eb6778e1143b72a71ad72b4a61848097",
+      "UnityEngine.dll": "9568a6c178e9c322a6b155213be04661c920fcf46418e8e38b4af9646362d5c6"
+    }
+  },
+  "transport_verification": {
+    "schema": "iom.native-candidate-base64.v1",
+    "chunks_verified": 30,
+    "candidate_sha256": "8af3889a259a8a988d7e2a154d4a87af653b59b3a05de5c9616a32e529e00cf1",
+    "candidate_git_blob_sha": "23af475717941b31052bac180a47568267881483",
+    "strict_base64_decode": true,
+    "candidate_exact_bytes_reconstructed": true
+  },
+  "embedded_artwork": {
+    "count": 24,
+    "byte_identical_to_pinned_source": true,
+    "byte_identical_to_historical_347de7d_candidate": true,
+    "historical_source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+    "historical_candidate_sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+    "research_states": {
+      "count": 12,
+      "dimensions": [
+        36,
+        36
+      ]
+    },
+    "inventory_icons": {
+      "count": 4,
+      "dimensions": [
+        24,
+        24
+      ]
+    },
+    "floor_and_shadow_sprites": {
+      "count": 8,
+      "dimensions": [
+        16,
+        16
+      ]
+    },
+    "all_rgba": true,
+    "resources": {
+      "ImperiumOfMan.Art.OccultResearch1.png": {
+        "bytes": 416,
+        "sha256": "023b53664b660f4305dc8d1458e7246bba3d3b42b854ac6839bf7f7d8dbd2740",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch1Locked.png": {
+        "bytes": 400,
+        "sha256": "c95aa6d88ed3b5ff76d2e2253b0f52211e526bd60491bad2dfa73b6bdfb1394f",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch2.png": {
+        "bytes": 526,
+        "sha256": "7469e1731b3c4936600621dbf1135f279b473dbfd9c86e9018755557c7d1ec12",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch2Locked.png": {
+        "bytes": 521,
+        "sha256": "3aa257a79ecf9016e700f0370c966fa6d4681bc8167b88200937192d8c8309bf",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch3.png": {
+        "bytes": 539,
+        "sha256": "64d31041ea0bd2872718733221ac572388ba78bb2deeb52166bb975c73c94632",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch3Locked.png": {
+        "bytes": 545,
+        "sha256": "d9fc96e6686f00a885afbcc755fdab5bb41b03479204bf4eb9a4a11132b7bba2",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch4.png": {
+        "bytes": 553,
+        "sha256": "b1a10d8bdfb2d209c909a32bc5edb9aac7599ae798cc5bb9302c4f268ecd1473",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch4Locked.png": {
+        "bytes": 552,
+        "sha256": "7f6bc154d83b06d40e4f874427ebf6c0c657a8b537af6f79ae71218e325e0aa9",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch5.png": {
+        "bytes": 551,
+        "sha256": "25e9be46d3e9d6a06a38fef2cedd535ca0e50aca8be39ee38cf413e6e106fd81",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch5Locked.png": {
+        "bytes": 549,
+        "sha256": "899dfafedd42c62f4898bbbb8ae170a3624a08955ca06f0a9986e9bad6530ab6",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch6.png": {
+        "bytes": 442,
+        "sha256": "cd281c9dff71e220497d58694d154ac11b4a967e82ff1a6f798f6afbbac5fd84",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.OccultResearch6Locked.png": {
+        "bytes": 441,
+        "sha256": "284be476352b6ef33ee6a3a8b69fc77daccfe6af8d8bf5d1ccafddf1367fd112",
+        "size": [
+          36,
+          36
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_pattern_icon.png": {
+        "bytes": 892,
+        "sha256": "c895056619f027e74aa7e9ac9f9c100637811c5d5508dde7f445a3986b7a3d47",
+        "size": [
+          24,
+          24
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_pattern_floor.png": {
+        "bytes": 461,
+        "sha256": "43bff5016c5ac030d5a5e0944c85bdb63de79e70a501ae1ca42717b9f205351f",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_pattern_shadow.png": {
+        "bytes": 127,
+        "sha256": "90dfd898d2b51e5db7473a51fe2f6d31f2d04d4d4111ea17ed878dae5849d80d",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_raw_clone_icon.png": {
+        "bytes": 933,
+        "sha256": "35c0a3d5bedf0fd0d4e4a6a910af9d994082f0ade325d05b7b2469c1fd6c907f",
+        "size": [
+          24,
+          24
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_raw_clone_floor.png": {
+        "bytes": 489,
+        "sha256": "be963bf576d8146fc2c9b6ea2824b9534521b89febe9fb6c674eb65defcfc633",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_raw_clone_shadow.png": {
+        "bytes": 133,
+        "sha256": "1c8a46ca566c185816d20c6381ce5d20972d5f82d92666feddea885c3729ed6d",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_suffering_essence_icon.png": {
+        "bytes": 661,
+        "sha256": "27fa5eb9781672ba3153cd1792c67cf746b0b3ffe017fdeb19d27c527e4fd0fe",
+        "size": [
+          24,
+          24
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_suffering_essence_floor.png": {
+        "bytes": 361,
+        "sha256": "bcb03d3ca75fd504b76f22731d7ba806699c0bc1dc139396cd836327b29aaaeb",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_suffering_essence_shadow.png": {
+        "bytes": 110,
+        "sha256": "92483bf6ba253bfa99901919f0273f07dccd1e3869364a1bfa36e7c512121b2b",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_torment_imprint_icon.png": {
+        "bytes": 856,
+        "sha256": "4f6a5e5cd6389555eae7e53b46f6adb30be88615fab078453ceafb39acfd56b1",
+        "size": [
+          24,
+          24
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_torment_imprint_floor.png": {
+        "bytes": 448,
+        "sha256": "eff7bf5ae63313da7ed8063a049d6beb1cf39aa32108735e9af8f7c03e243e6a",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      },
+      "ImperiumOfMan.Art.iom_occult_torment_imprint_shadow.png": {
+        "bytes": 127,
+        "sha256": "8bc7d19103c68b660a91ad41d9b1286e49f7a83ae8aadbc32ef79df61a279d35",
+        "size": [
+          16,
+          16
+        ],
+        "mode": "RGBA"
+      }
+    }
+  },
+  "compiled_correction_checks": {
+    "schema": "iom.finished-ration-compiled-checks.v1",
+    "dll_sha256": "fbf5ab4900c2cdc7263a3241b765e883e539ad97c2620cc22ebe68c6efe5f154",
+    "assembly_executed": false,
+    "removed_bulk_hook_types_absent": [
+      "RequireCompleteBulkShredBatch",
+      "RefreshOrganicRecyclingControl",
+      "RecheckOrganicRecyclingControl",
+      "OrganicRecyclingButtonPreview",
+      "ShowOrganicRecyclingControlPreview",
+      "HideOrganicRecyclingControlPreview",
+      "AddOwnedOrganicRecyclingTooltip",
+      "AddCatalogueOrganicRecyclingTooltip"
+    ],
+    "removed_bulk_helper_methods_absent": [
+      "GetShredInputBatch",
+      "CountSelectedShredInput",
+      "HasRecyclableSelection",
+      "RegisterOrganicRecyclingUiText",
+      "OrganicRecyclingUiText",
+      "HasOrganicBulkSelection",
+      "OrganicRecyclingSelectionPreview",
+      "AddOrganicRecyclingTooltip"
+    ],
+    "removed_bulk_fields_absent": [
+      "ShredInputBatches",
+      "OrganicRecyclingTooltipPrefix",
+      "OrganicRecyclingTooltipText"
+    ],
+    "dirty_starch_reverse_registration_absent": true,
+    "forward_dirty_starch_recipe_present": true,
+    "forward_recipe_il": [
+      {
+        "offset": 5790,
+        "opcode": "ldstr",
+        "operand": "iom_dirty_corpse_starch"
+      },
+      {
+        "offset": 5795,
+        "opcode": "ldc.r4",
+        "operand": 2.0
+      },
+      {
+        "offset": 5800,
+        "opcode": "ldc.i4.3",
+        "operand": null
+      },
+      {
+        "offset": 5801,
+        "opcode": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "offset": 5802,
+        "opcode": "newarr",
+        "operand": "token(0x01000047)"
+      },
+      {
+        "offset": 5807,
+        "opcode": "dup",
+        "operand": null
+      },
+      {
+        "offset": 5808,
+        "opcode": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "offset": 5809,
+        "opcode": "ldstr",
+        "operand": "iom_raw_vat_biomass"
+      },
+      {
+        "offset": 5814,
+        "opcode": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "offset": 5815,
+        "opcode": "newobj",
+        "operand": "MGSC.ItemQuantity::.ctor"
+      },
+      {
+        "offset": 5820,
+        "opcode": "stelem",
+        "operand": "token(0x01000047)"
+      },
+      {
+        "offset": 5825,
+        "opcode": "dup",
+        "operand": null
+      },
+      {
+        "offset": 5826,
+        "opcode": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "offset": 5827,
+        "opcode": "ldstr",
+        "operand": "iom_ration_wrapper"
+      },
+      {
+        "offset": 5832,
+        "opcode": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "offset": 5833,
+        "opcode": "newobj",
+        "operand": "MGSC.ItemQuantity::.ctor"
+      },
+      {
+        "offset": 5838,
+        "opcode": "stelem",
+        "operand": "token(0x01000047)"
+      },
+      {
+        "offset": 5843,
+        "opcode": "call",
+        "operand": "ImperiumOfMan.Plugin::IndustryRecipe"
+      }
+    ],
+    "finished_ration_disassembly_new_empty_collection": true,
+    "disassembly_reset_il": [
+      {
+        "offset": 23,
+        "opcode": "call",
+        "operand": "ImperiumOfMan.Plugin::CloneItem<generic>"
+      },
+      {
+        "offset": 28,
+        "opcode": "stloc.0",
+        "operand": null
+      },
+      {
+        "offset": 29,
+        "opcode": "ldloc.0",
+        "operand": null
+      },
+      {
+        "offset": 30,
+        "opcode": "newobj",
+        "operand": "System.Collections.Generic.List`1<MGSC.ItemQuantity>::.ctor"
+      },
+      {
+        "offset": 35,
+        "opcode": "callvirt",
+        "operand": "MGSC.ItemRecord::set_Disassembly"
+      },
+      {
+        "offset": 40,
+        "opcode": "ldloc.0",
+        "operand": null
+      },
+      {
+        "offset": 41,
+        "opcode": "ldarg.3",
+        "operand": null
+      }
+    ],
+    "scope": "Static metadata and CIL of the exact compiled candidate; no game or assembly execution. Recipe declaration is preserved, including the existing shared IndustryRecipe scaling."
+  },
+  "evidence": [
+    {
+      "commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+      "path": "runner-results/quasimorph-native/45870535209-1/build-receipt.json",
+      "git_blob_sha": "7087d55b6d15626c9c38aed694f3a0f62785dcc8",
+      "bytes": 6295,
+      "sha256": "0e8c797a209eb156e6dfd3974196ab91d4955aca2cc8401d89c3eb73e18f4b86"
+    },
+    {
+      "commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+      "path": "runner-results/quasimorph-native/45870535209-1/request.json",
+      "git_blob_sha": "d1223d0697c3cb007f333f608323d0f9574aa324",
+      "bytes": 187,
+      "sha256": "bef6ca177ed7a745dae946a88e2b331f7215310056f24addc81c5fcf53a89703"
+    },
+    {
+      "commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+      "path": "runner-results/quasimorph-native/45870535209-1/native-build.log",
+      "git_blob_sha": "8c60ea0aa27433b9baa81d021813fc7190f117cf",
+      "bytes": 722,
+      "sha256": "f129dd8d4b9566e73ee5445eca1e2cdc517b81bdc76d8d7045a6669b942975dc"
+    },
+    {
+      "commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+      "path": "runner-results/quasimorph-native/45870535209-1/candidate-base64/manifest.json",
+      "git_blob_sha": "de9d5a3c1802fa09735205b77fc14eefae4888d0",
+      "bytes": 5425,
+      "sha256": "033f18cbc91bfa66bc8d97688bab95c8195523679f4078c88961de058d5daab9"
+    },
+    {
+      "commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+      "path": "runner-results/quasimorph-native/45870535209-1/native-api-receipt.json",
+      "git_blob_sha": "f56c07c26356f78eb7635cba0635740258e06439",
+      "bytes": 2177,
+      "sha256": "bfe5a608303b6f6ced1daf2646a9c65c28ef7d5e14f859c56850ac1a636b0234"
+    },
+    {
+      "commit": "ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc",
+      "path": "runner-results/quasimorph-native/45870535209-1/source-head.log",
+      "git_blob_sha": "b5edd9b27f6fb0a9791c687f1b9afc75f5d437a9",
+      "bytes": 373,
+      "sha256": "fc8a6d6d4c975e492cdf96f8668fc89eba6e42e7a49fd2bc6019c26f53b31e71"
+    }
+  ],
+  "verification_scope": "The exact source commit compiled against installed native assemblies with zero compiler warnings or errors. The delivered runtime ZIP, all four members, assembly version and all 24 occult PNG resources were independently verified. Static metadata/CIL confirms removal of the Dirty Corpse Starch reverse profile and its bulk UI machinery, a fresh empty Disassembly list for finished rations, and preservation of the forward biomass/wrapper recipe. The game and assembly were not executed during this correction validation; no new gameplay or visual acceptance is claimed.",
+  "not_exercised_on_corrected_source": [
+    "Native game boot and gameplay.",
+    "Live production output delivery or cargo quantity deltas.",
+    "Live recycling selection or completion.",
+    "Research purchases, physical-pattern learning and legacy migration.",
+    "New visual captures; historical source347de7d captures retain their original attribution."
+  ]
+}
