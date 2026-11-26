@@ -1,0 +1,36 @@
+{
+  "schema": "iom.crafting-map-layout-check.v1",
+  "status": "passed_pure_geometry_and_independent_source_review",
+  "verification_scope": "The production geometry helper was executed directly by the C# harness. Native Unity compilation, font rendering and in-game interactions require the separate native build and headed review.",
+  "node_limit": 240,
+  "edge_limit": 2400,
+  "render_edges_per_chunk": 512,
+  "assertions_per_run": 2698505,
+  "runs": [
+    {
+      "reviewer": "crafting_code_review",
+      "elapsed_ms": 392
+    },
+    {
+      "reviewer": "runner_recovery",
+      "elapsed_ms": 339
+    }
+  ],
+  "invariants": [
+    "Nonoverlapping card bounds",
+    "Orthogonal paths avoid all card interiors",
+    "Unique boundary ports",
+    "No coincident segments in representative fan-out/shared/cyclic fixtures",
+    "Deterministic results after input reordering",
+    "Selected graph and screen anchor retained after expansion",
+    "All context and selected mesh chunks remain under 65000 vertices"
+  ],
+  "source_git_blobs": {
+    "src/Plugin.CraftingTreeUi.cs": "48e4b971b6b9010f09823040acbf1a19c546b277",
+    "src/Plugin.CraftingTreeLayout.cs": "35f5534c9b67929357e10c476040db2da70f5ca7",
+    "src/CraftingGraphLayout.cs": "12398a993b20f2234d67e4401281c0c47976090e",
+    "tools/crafting/layout-tests/CraftingGraphLayout.Tests.csproj": "da97192b084e98537bd74363e9e4270b2afa837c",
+    "tools/crafting/layout-tests/Program.cs": "29f36825a34b8c00bd694f299487fa221218249f"
+  },
+  "run_command": "dotnet run --project tools/crafting/layout-tests/CraftingGraphLayout.Tests.csproj"
+}

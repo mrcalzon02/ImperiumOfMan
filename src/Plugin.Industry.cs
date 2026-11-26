@@ -98,6 +98,7 @@ namespace ImperiumOfMan
             AddMaterial(Wrapper, "paper_towel", "Ration wrapper", "An empty wrapper for one field ration.", 2);
 
             RegisterRawMaterialChemistry();
+            RegisterManufacturingIntermediates();
 
             // Extraction and water recovery start the material chains without consuming finished goods.
             SharedRecipe(Ore, 3, 2);

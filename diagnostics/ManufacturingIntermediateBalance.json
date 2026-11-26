@@ -1,0 +1,80 @@
+{
+  "schema": "iom.manufacturing-intermediate-balance.v1",
+  "status": "passed_bounded_source_check",
+  "baseline_source_sha": "e6c3026b3a11e4194b4597866099fcee850d836a",
+  "working_tree_head": "2db1cebb69b4086a7dfce80816b2f83d482cfbd6",
+  "checked_source_sha256": {
+    "src/Plugin.Industry.cs": "fd6629941ffc3745e44e127db9d38785d0cf10671cf5913c6d8973dddbff68e0",
+    "src/Plugin.ComponentFoundations.cs": "a080060431d08cfebb24e20b7a2e0fbba4c38882dc7cf3bee635ede3050d43a3",
+    "src/Plugin.ManufacturingIntermediates.cs": "7c44dfac262df2471069fd1e042f10ee0323fe1ca2518e3f6609e378669da545",
+    "src/Plugin.IndustrySupply.cs": "af503ee4e61e76102f3a88a4621384f5a1e734cb309ed5abce841acb6c98ff7b"
+  },
+  "actual_helper_policy": {
+    "ingredient_rule": "ceil_half_minimum_one",
+    "batch_multiplier": 2
+  },
+  "cases": [
+    {
+      "consumer": "ceramite_plates",
+      "intermediate": "iom_ceramic_feedstock",
+      "preparation_effective_inputs": {
+        "iom_raw_silicate": 2,
+        "iom_chemical_extract": 2
+      },
+      "preparation_output": 2,
+      "preparation_base_hours": 2.0,
+      "before_effective_inputs": {
+        "iom_rolled_plate": 1,
+        "iom_raw_silicate": 1,
+        "iom_chemical_extract": 1
+      },
+      "after_effective_inputs": {
+        "iom_rolled_plate": 1,
+        "iom_ceramic_feedstock": 1
+      },
+      "consumer_output": 4,
+      "before_base_hours": 5.0,
+      "after_assembly_base_hours": 4.0,
+      "amortized_total_base_hours": 5.0,
+      "first_order_from_zero_intermediates_base_hours": 6.0,
+      "first_order_spare_intermediates": 1,
+      "two_consumer_orders_total_base_hours": 10.0,
+      "expanded_material_cost_unchanged": true,
+      "shared_recipe_access_unchanged": true
+    },
+    {
+      "consumer": "circuit_board",
+      "intermediate": "iom_electronic_substrate",
+      "preparation_effective_inputs": {
+        "iom_polymer_stock": 2,
+        "acid": 2
+      },
+      "preparation_output": 2,
+      "preparation_base_hours": 2.0,
+      "before_effective_inputs": {
+        "iom_polymer_stock": 1,
+        "wire": 1,
+        "acid": 1
+      },
+      "after_effective_inputs": {
+        "iom_electronic_substrate": 1,
+        "wire": 1
+      },
+      "consumer_output": 4,
+      "before_base_hours": 4.0,
+      "after_assembly_base_hours": 3.0,
+      "amortized_total_base_hours": 4.0,
+      "first_order_from_zero_intermediates_base_hours": 5.0,
+      "first_order_spare_intermediates": 1,
+      "two_consumer_orders_total_base_hours": 8.0,
+      "expanded_material_cost_unchanged": true,
+      "shared_recipe_access_unchanged": true
+    }
+  ],
+  "other_exported_recipes_unchanged": true,
+  "new_material_manufacturing_cycles": [],
+  "registration_precedes_consumers": true,
+  "new_material_disassembly": "Independent empty lists; no recycling profiles added",
+  "finished_ration_and_protected_recycling_source_unchanged": true,
+  "scope": "Source-export normalization and dependency checks only. No native assemblies or game were executed; native registration, runtime output delivery and active-order save compatibility remain separate checks."
+}

@@ -64,7 +64,7 @@ namespace ImperiumOfMan
             }
         }
 
-        private sealed class CraftingMapWindow : MonoBehaviour
+        private sealed partial class CraftingMapWindow : MonoBehaviour
         {
             private const int MapNodeLimit = 240;
             private const int MapEdgeLimit = 2400;
@@ -95,7 +95,6 @@ namespace ImperiumOfMan
             private readonly Dictionary<string, MapNode> _nodes = new Dictionary<string, MapNode>();
             private readonly List<MapEdge> _edges = new List<MapEdge>();
             private readonly Dictionary<string, MapEdge> _edgeLookup = new Dictionary<string, MapEdge>();
-            private readonly Dictionary<int, int> _columnRows = new Dictionary<int, int>();
             private readonly HashSet<string> _highlightNodes = new HashSet<string>();
             private string _selectedKey;
             private string _rootItem;
@@ -183,7 +182,7 @@ namespace ImperiumOfMan
                 Frame(heading, TextColor, true);
                 Text(At(heading, "Title", 12f, 3f, 240f, 30f), "CRAFTING MAP", 20);
                 _catalogStatus = Text(Span(_panel, "Catalogue status", 0.23f, 0.66f, 12f, 22f),
-                    "Open the map to read the loaded recipes", 12);
+                    "Open the map to explore recipes", 12);
                 var refresh = AtRight(_panel, "Refresh", 92f, 5f, 88f, 28f);
                 TextButton(refresh, "REFRESH", () => RefreshIndex(true));
                 TextButton(AtRight(_panel, "Close", 8f, 5f, 76f, 28f), "CLOSE", Collapse);
@@ -254,6 +253,7 @@ namespace ImperiumOfMan
                     "EXPAND INPUTS", () => ExpandSelection(true), 12);
                 _expandUsesLabel = TextButton(At(controls, "Expand uses", 398, 4, 142, 26),
                     "EXPAND USES", () => ExpandSelection(false), 12);
+                TextButton(At(controls, "Trace ingredients", 550, 4, 172, 26), "INGREDIENT TREE", TraceSelectedIngredients, 12);
                 var status = Span(frame, "Graph information strip", 0, 1, 1, 27, 1, 1);
                 Paint(status, new Color32(10, 18, 14, 255));
                 _mapStatus = Text(Stretch(status, "Map status", 9, 2, 9, 2),
@@ -280,13 +280,13 @@ namespace ImperiumOfMan
                 var outputs = Span(details, "Output column", 0.5f, 1f, 39, 101, 8, 12);
                 _inputTitle = Text(Span(inputs, "Input heading", 0, 1, 0, 22, 0, 68), "INPUTS", 12);
                 _outputTitle = Text(Span(outputs, "Output heading", 0, 1, 0, 22, 0, 68), "OUTPUTS", 12);
-                TextButton(AtRight(inputs, "Previous inputs", 34, 0, 28, 22), "‹", () => { _inputPage = Math.Max(0, _inputPage - 1); DrawDetailRows(); }, 16);
-                TextButton(AtRight(inputs, "Next inputs", 0, 0, 28, 22), "›", () => { _inputPage = Math.Min(Math.Max(0, (_inputDetails.Count - 1) / DetailPage), _inputPage + 1); DrawDetailRows(); }, 16);
-                TextButton(AtRight(outputs, "Previous outputs", 34, 0, 28, 22), "‹", () => { _outputPage = Math.Max(0, _outputPage - 1); DrawDetailRows(); }, 16);
-                TextButton(AtRight(outputs, "Next outputs", 0, 0, 28, 22), "›", () => { _outputPage = Math.Min(Math.Max(0, (_outputDetails.Count - 1) / DetailPage), _outputPage + 1); DrawDetailRows(); }, 16);
+                TextButton(AtRight(inputs, "Previous inputs", 34, 0, 28, 22), "<", () => { _inputPage = Math.Max(0, _inputPage - 1); DrawDetailRows(); }, 16);
+                TextButton(AtRight(inputs, "Next inputs", 0, 0, 28, 22), ">", () => { _inputPage = Math.Min(Math.Max(0, (_inputDetails.Count - 1) / DetailPage), _inputPage + 1); DrawDetailRows(); }, 16);
+                TextButton(AtRight(outputs, "Previous outputs", 34, 0, 28, 22), "<", () => { _outputPage = Math.Max(0, _outputPage - 1); DrawDetailRows(); }, 16);
+                TextButton(AtRight(outputs, "Next outputs", 0, 0, 28, 22), ">", () => { _outputPage = Math.Min(Math.Max(0, (_outputDetails.Count - 1) / DetailPage), _outputPage + 1); DrawDetailRows(); }, 16);
                 _inputRows = Scroll(Stretch(inputs, "Input list", 0, 0, 0, 25));
                 _outputRows = Scroll(Stretch(outputs, "Output list", 0, 0, 0, 25));
-                _detailNote = Text(Span(details, "Selected information", 0, 1, 146, 28, 12, 12),
+                _detailNote = Text(Span(details, "Selected information", 0, 1, 142, 34, 12, 12),
                     "Expand a branch to follow its recipes. Counts belong to each individual production order.", 11);
                 _detailNote.color = DimColor;
             }
@@ -297,8 +297,8 @@ namespace ImperiumOfMan
                 Paint(_searchPanel, PanelColor);
                 Frame(_searchPanel, TextColor, true);
                 _searchCount = Text(At(_searchPanel, "Results count", 8, 5, 250, 24), "", 12);
-                TextButton(AtRight(_searchPanel, "Previous results", 70, 5, 28, 24), "‹", () => { _searchPage = Math.Max(0, _searchPage - 1); DrawSearchResults(); }, 16);
-                TextButton(AtRight(_searchPanel, "Next results", 36, 5, 28, 24), "›", () => { _searchPage = Math.Min(Math.Max(0, (_matches.Count - 1) / SearchPage), _searchPage + 1); DrawSearchResults(); }, 16);
+                TextButton(AtRight(_searchPanel, "Previous results", 70, 5, 28, 24), "<", () => { _searchPage = Math.Max(0, _searchPage - 1); DrawSearchResults(); }, 16);
+                TextButton(AtRight(_searchPanel, "Next results", 36, 5, 28, 24), ">", () => { _searchPage = Math.Min(Math.Max(0, (_matches.Count - 1) / SearchPage), _searchPage + 1); DrawSearchResults(); }, 16);
                 TextButton(AtRight(_searchPanel, "Hide results", 4, 5, 26, 24), "×", () => _searchPanel.gameObject.SetActive(false), 16);
                 _searchRows = Stretch(_searchPanel, "Results", 6, 6, 6, 34);
                 _searchPanel.gameObject.SetActive(false);
@@ -383,9 +383,10 @@ namespace ImperiumOfMan
                     _recipes.Clear();
                     foreach (var recipe in _index.Recipes)
                         _recipes[recipe.Key] = recipe;
-                    int partial = (_index.Summary ?? "").IndexOf("Partial capture:", StringComparison.Ordinal);
-                    _catalogStatus.text = partial < 0 ? _index.Items.Count + " items · " + _index.Recipes.Count + " loaded recipes" : _index.Summary.Substring(partial);
-                    _catalogStatus.color = partial < 0 ? DimColor : new Color32(220, 195, 135, 255);
+                    bool partial = _index.IncompleteSources.Length > 0;
+                    _catalogStatus.text = partial ? "Some details unavailable. Refresh to try again." :
+                        _index.Items.Count + " items · " + _index.Recipes.Count + " recipes";
+                    _catalogStatus.color = partial ? new Color32(220, 195, 135, 255) : DimColor;
                     if (string.IsNullOrEmpty(_rootItem) || !_index.Items.ContainsKey(_rootItem))
                         _rootItem = _index.Items.ContainsKey("iom_metal_ore") ? "iom_metal_ore" : _allItems.FirstOrDefault()?.Id;
                     if (preserveMap && oldNodes.Length > 0)
@@ -404,27 +405,19 @@ namespace ImperiumOfMan
                                 node.Position = previous.Position;
                                 node.Column = previous.Column;
                             }
-                        _columnRows.Clear();
-                        foreach (var node in _nodes.Values)
-                        {
-                            int offset = Mathf.RoundToInt(node.Position.y / 104f);
-                            int row = offset == 0 ? 0 : Math.Abs(offset) * 2 - (offset < 0 ? 1 : 0);
-                            _columnRows.TryGetValue(node.Column, out int used);
-                            _columnRows[node.Column] = Math.Max(used, row + 1);
-                        }
                         _selectedKey = _nodes.ContainsKey(selection ?? "") ? selection : ItemKey(_rootItem);
                         Changed(false);
                     }
                     else if (_rootItem != null)
                         FocusItem(_rootItem);
                     else
-                        _mapStatus.text = "No registered inventory items were available in this capture.";
+                        _mapStatus.text = "No items are available. Refresh to try again.";
                 }
                 catch (Exception error)
                 {
                     Debug.LogError("[Cvar_ImperiumOfMan] Crafting map capture failed: " + error);
-                    _catalogStatus.text = "Recipe capture failed — see game log";
-                    _detailNote.text = "Could not refresh the loaded crafting data. Use Refresh to try again.";
+                    _catalogStatus.text = "Recipes unavailable — refresh to try again";
+                    _detailNote.text = "Recipes could not be refreshed. Use Refresh to try again.";
                 }
             }
 
@@ -453,7 +446,7 @@ namespace ImperiumOfMan
             private bool InVenue(CraftingRecipe recipe) => _venue == "All" || recipe.Venue == _venue;
             private static string ItemKey(string id) => "item:" + id;
             private static string RecipeKey(string id) => "recipe:" + id;
-            private string Name(string id) => _index != null && _index.Items.TryGetValue(id, out var item) ? item.Name ?? item.Id : id;
+            private string Name(string id) => _index != null && _index.Items.TryGetValue(id, out var item) ? item.Name ?? CraftingItemName(id) : CraftingItemName(id);
 
             private void FindItems()
             {
@@ -481,7 +474,7 @@ namespace ImperiumOfMan
                     var item = _matches[i];
                     string id = item.Id;
                     ItemButton(Span(_searchRows, id, 0, 1, (i - start) * 30f, 28f), item.Icon,
-                        item.Name ?? item.Id, () =>
+                        Name(id), () =>
                         {
                             _search.DeactivateInputField();
                             _searchPanel.gameObject.SetActive(false);
@@ -495,7 +488,8 @@ namespace ImperiumOfMan
                 _nodes.Clear();
                 _edges.Clear();
                 _edgeLookup.Clear();
-                _columnRows.Clear();
+                _layout = null;
+                _layoutDirty = true;
             }
 
             private void FocusItem(string id)
@@ -527,18 +521,10 @@ namespace ImperiumOfMan
                     return existing;
                 _index.Items.TryGetValue(id, out var item);
                 var node = new MapNode { Key = key, ItemId = id, Item = item, Column = column,
-                    Position = NextPosition(column), Size = new Vector2(190, 68) };
+                    Position = Vector2.zero, Size = new Vector2(220, 84) };
                 _nodes.Add(key, node);
+                _layoutDirty = true;
                 return node;
-            }
-
-            private Vector2 NextPosition(int column)
-            {
-                _columnRows.TryGetValue(column, out int row);
-                _columnRows[column] = row + 1;
-                // Stable positions: expanding a branch never shuffles existing nodes.
-                int offset = row == 0 ? 0 : (row + 1) / 2 * (row % 2 == 1 ? -1 : 1);
-                return new Vector2(column * 260f, offset * 104f);
             }
 
             private bool AddRecipe(CraftingRecipe recipe, int column)
@@ -551,8 +537,9 @@ namespace ImperiumOfMan
                 if (_nodes.Count + newItems + 1 > MapNodeLimit || _edges.Count + recipe.Inputs.Count + recipe.Outputs.Count > MapEdgeLimit)
                     return false;
                 var node = new MapNode { Key = key, Recipe = recipe, Column = column,
-                    Position = NextPosition(column), Size = new Vector2(154, 64) };
+                    Position = Vector2.zero, Size = new Vector2(244, 84) };
                 _nodes.Add(key, node);
+                _layoutDirty = true;
                 foreach (var input in recipe.Inputs)
                     AddEdge(AddItem(input.ItemId, column - 1), node, input.Count);
                 foreach (var output in recipe.Outputs)
@@ -572,6 +559,7 @@ namespace ImperiumOfMan
                 var edge = new MapEdge { From = from, To = to, Count = count };
                 _edges.Add(edge);
                 _edgeLookup.Add(key, edge);
+                _layoutDirty = true;
             }
 
             private List<CraftingRecipe> Routes(string id, bool inputs)
@@ -636,11 +624,12 @@ namespace ImperiumOfMan
 
             private void Changed(bool fit)
             {
+                ArrangeGraph();
                 Highlight();
                 DrawDetails();
                 _expandInputsLabel.text = "EXPAND INPUTS · " + RemainingBranches(true);
                 _expandUsesLabel.text = "EXPAND USES · " + RemainingBranches(false);
-                _mapStatus.text = _nodes.Count + " map nodes · drag to pan · wheel to zoom · click to highlight · double-click to focus";
+                _mapStatus.text = _nodes.Count + " items & recipes · drag to pan · wheel to zoom · click to highlight · double-click to focus";
                 _view.RefreshVisuals();
                 if (fit)
                     _view.FocusSelection();
@@ -678,20 +667,22 @@ namespace ImperiumOfMan
                     var producers = Routes(node.ItemId, true);
                     var consumers = Routes(node.ItemId, false);
                     _detailTitle.text = Name(node.ItemId);
-                    _detailMeta.text = producers.Count + " producing routes · " + consumers.Count + " uses";
+                    _detailMeta.text = producers.Count + " recipes · " + consumers.Count + " uses";
                     foreach (var recipe in producers)
                         _inputDetails.Add(RecipeDetail(recipe));
                     foreach (var recipe in consumers)
                         _outputDetails.Add(RecipeDetail(recipe));
-                    _detailNote.text = producers.Count == 0
+                    _detailNote.text = node.Item != null && !node.Item.Registered
+                        ? "This ingredient is unavailable in the current game."
+                        : producers.Count == 0
                         ? "No producing recipe in this source view. Loot, trade, rewards, or another system may supply this item. Try All sources."
-                        : "Select a process node for exact per-order inputs, outputs, access, and base time. Expand follows more branches; Focus starts a map here.";
+                        : "Select a recipe for its ingredients, products, requirements and time. Expand follows more recipes; Focus starts a map here.";
                 }
                 else
                 {
                     var recipe = node.Recipe;
                     _detailTitle.text = recipe.Name;
-                    _detailMeta.text = recipe.Venue + " · " + (recipe.Hours.HasValue ? recipe.Hours.Value.ToString("0.##") + " base h" : "time not captured");
+                    _detailMeta.text = VenueLabel(recipe.Venue) + " · " + (recipe.Hours.HasValue ? recipe.Hours.Value.ToString("0.##") + " h before bonuses" : "time unavailable");
                     foreach (var input in recipe.Inputs)
                         _inputDetails.Add(AmountDetail(input));
                     foreach (var output in recipe.Outputs)
@@ -705,7 +696,7 @@ namespace ImperiumOfMan
 
             private DetailRow RecipeDetail(CraftingRecipe recipe)
             {
-                return new DetailRow { Caption = recipe.Venue + " · " + recipe.Name,
+                return new DetailRow { Caption = VenueLabel(recipe.Venue) + " · " + recipe.Name, Icon = RecipeIcon(recipe),
                     Action = () =>
                     {
                         string key = RecipeKey(recipe.Key);
@@ -733,8 +724,8 @@ namespace ImperiumOfMan
             private void DrawDetailRows()
             {
                 bool item = _nodes.TryGetValue(_selectedKey ?? "", out var node) && node.ItemId != null;
-                DrawDetailColumn(_inputRows, _inputTitle, _inputDetails, ref _inputPage, item ? "Produced by" : "All required inputs");
-                DrawDetailColumn(_outputRows, _outputTitle, _outputDetails, ref _outputPage, item ? "Used by" : "Outputs of this order");
+                DrawDetailColumn(_inputRows, _inputTitle, _inputDetails, ref _inputPage, item ? "Produced by" : "Ingredients");
+                DrawDetailColumn(_outputRows, _outputTitle, _outputDetails, ref _outputPage, item ? "Used by" : "Produces");
             }
 
             private void DrawDetailColumn(RectTransform content, TextMeshProUGUI title, List<DetailRow> rows, ref int page, string heading)
@@ -771,6 +762,7 @@ namespace ImperiumOfMan
                 public int Column;
                 public Vector2 Position;
                 public Vector2 Size;
+                public int Group;
             }
 
             private sealed class MapEdge
@@ -778,6 +770,7 @@ namespace ImperiumOfMan
                 public MapNode From;
                 public MapNode To;
                 public int Count;
+                public CraftingGraphLayout.Edge Layout;
             }
 
             private sealed class CraftingMapGraphic : MaskableGraphic, IPointerDownHandler, IPointerClickHandler,
@@ -789,14 +782,19 @@ namespace ImperiumOfMan
                 private Vector2 _lastDrag;
                 private bool _dragged;
                 private readonly List<NodeLabel> _labels = new List<NodeLabel>();
-                private readonly List<TextMeshProUGUI> _counts = new List<TextMeshProUGUI>();
+                private readonly List<CountLabel> _counts = new List<CountLabel>();
+                private readonly List<TextMeshProUGUI> _bandLabels = new List<TextMeshProUGUI>();
+                private readonly List<CraftingMapConnections> _contextLines = new List<CraftingMapConnections>();
+                private readonly List<CraftingMapConnections> _selectedLines = new List<CraftingMapConnections>();
+                private RectTransform _contextRoot, _selectedRoot;
                 private static readonly Color LineColor = new Color32(45, 94, 76, 210);
-                private static readonly Color LitLineColor = new Color32(165, 190, 122, 255);
 
                 public void Initialize(CraftingMapWindow window)
                 {
                     _window = window;
                     raycastTarget = true;
+                    _contextRoot = Stretch(transform, "Recipe connections", 0, 0, 0, 0);
+                    _selectedRoot = Stretch(transform, "Selected connections", 0, 0, 0, 0);
                 }
 
                 private Vector2 ScreenPoint(Vector2 graph) => rectTransform.rect.center + _pan + graph * _zoom;
@@ -829,6 +827,11 @@ namespace ImperiumOfMan
 
                 private UnityEngine.Rect Bounds()
                 {
+                    if (_window._layout != null)
+                    {
+                        var area = _window._layout.Bounds;
+                        return new UnityEngine.Rect(area.Left, area.Bottom, area.Width, area.Height);
+                    }
                     float left = float.MaxValue, right = float.MinValue, top = float.MinValue, bottom = float.MaxValue;
                     foreach (var node in _window._nodes.Values)
                     {
@@ -855,10 +858,28 @@ namespace ImperiumOfMan
                     SetVerticesDirty();
                     if (_window == null)
                         return;
+                    RefreshConnections(_contextRoot, _contextLines, false);
+                    RefreshConnections(_selectedRoot, _selectedLines, true);
                     _window._zoomLabel.text = Mathf.RoundToInt(_zoom * 100f) + "%";
                     var viewport = rectTransform.rect;
-                    int labelIndex = 0, countIndex = 0;
-                    if (_zoom >= 0.4f)
+                    int labelIndex = 0, countIndex = 0, bandIndex = 0;
+                    if (_window._layout != null && _zoom >= 0.4f)
+                        foreach (var band in _window._layout.Bands)
+                        {
+                            var area = ScreenRect(band.Bounds);
+                            if (!viewport.Overlaps(area)) continue;
+                            while (_bandLabels.Count <= bandIndex)
+                                _bandLabels.Add(_window.Text(Rect(transform, "Processing heading", Vector2.zero, Vector2.zero), "", 12));
+                            var heading = _bandLabels[bandIndex++];
+                            heading.gameObject.SetActive(true);
+                            heading.text = GroupTitle(band.Group).ToUpperInvariant();
+                            heading.fontSize = Mathf.Clamp(12f * _zoom, 8f, 15f);
+                            heading.color = GroupColor(band.Group);
+                            heading.enableWordWrapping = false;
+                            heading.overflowMode = TextOverflowModes.Overflow;
+                            Position(heading.rectTransform, new UnityEngine.Rect(area.x + 8f, area.yMax - 21f * _zoom - 12f, Math.Max(40f, area.width - 16f), 24f));
+                        }
+                    if (_zoom >= 0.18f)
                     {
                         foreach (var node in _window._nodes.Values)
                         {
@@ -869,42 +890,75 @@ namespace ImperiumOfMan
                             label.Root.gameObject.SetActive(true);
                             Position(label.Root, area);
                             bool item = node.ItemId != null;
-                            label.Icon.sprite = item ? node.Item?.Icon : null;
-                            label.Icon.gameObject.SetActive(label.Icon.sprite != null && _zoom >= 0.65f);
-                            float iconWidth = label.Icon.gameObject.activeSelf ? 30f * _zoom : 0f;
-                            label.Icon.rectTransform.offsetMin = new Vector2(5f, 6f);
-                            label.Icon.rectTransform.offsetMax = new Vector2(5f + iconWidth, -6f);
-                            label.Name.rectTransform.offsetMin = new Vector2(7f + iconWidth, area.height * 0.27f);
+                            bool showText = _zoom >= 0.42f, showMeta = _zoom >= 0.7f;
+                            label.Icon.sprite = item ? node.Item?.Icon : _window.RecipeIcon(node.Recipe);
+                            float iconSize = Mathf.Min(Mathf.Clamp(34f * _zoom, 12f, 44f), Math.Min(area.height - 4f, area.width - 4f));
+                            label.Icon.gameObject.SetActive(label.Icon.sprite != null && iconSize >= 8f);
+                            float iconWidth = label.Icon.gameObject.activeSelf && showText ? iconSize + 5f : 0f;
+                            label.Icon.rectTransform.anchorMin = label.Icon.rectTransform.anchorMax = new Vector2(showText ? 0f : 0.5f, 0.5f);
+                            label.Icon.rectTransform.pivot = new Vector2(showText ? 0f : 0.5f, 0.5f);
+                            label.Icon.rectTransform.anchoredPosition = new Vector2(showText ? 6f : 0f, 0f);
+                            label.Icon.rectTransform.sizeDelta = new Vector2(iconSize, iconSize);
+                            label.Name.gameObject.SetActive(showText);
+                            label.Meta.gameObject.SetActive(showMeta);
+                            float metaFont = Mathf.Clamp(Mathf.RoundToInt(10f * _zoom), 9, 16);
+                            float metaHeight = Math.Max(16f, metaFont * 1.6f);
+                            label.Name.rectTransform.offsetMin = new Vector2(7f + iconWidth, showMeta ? metaHeight + 4f : 3f);
                             label.Name.rectTransform.offsetMax = new Vector2(-6f, -3f);
                             label.Name.text = item ? _window.Name(node.ItemId) : node.Recipe.Name;
-                            label.Name.fontSize = Mathf.Clamp(Mathf.RoundToInt(14f * _zoom), 10, 24);
+                            label.Name.fontSize = Mathf.Clamp(Mathf.RoundToInt(14f * _zoom), 9, 24);
                             label.Name.color = _window._selectedKey == node.Key ? AccentColor : TextColor;
                             label.Meta.rectTransform.offsetMin = new Vector2(7f + iconWidth, 2f);
-                            label.Meta.rectTransform.offsetMax = new Vector2(-6f, -area.height * 0.68f);
-                            label.Meta.fontSize = Mathf.Clamp(Mathf.RoundToInt(10f * _zoom), 9, 16);
-                            label.Meta.text = item ? "ITEM" : node.Recipe.Venue.ToUpperInvariant() + (node.Recipe.Hours.HasValue ? " · " + node.Recipe.Hours.Value.ToString("0.##") + " h" : "");
+                            label.Meta.rectTransform.offsetMax = new Vector2(-6f, metaHeight + 2f - area.height);
+                            label.Meta.fontSize = metaFont;
+                            label.Meta.text = item ? node.Item != null && !node.Item.Registered ? "UNAVAILABLE ITEM" : "ITEM" :
+                                VenueLabel(node.Recipe.Venue).ToUpperInvariant() + (node.Recipe.Hours.HasValue ? " · " + node.Recipe.Hours.Value.ToString("0.##") + " h before bonuses" : "");
                         }
-                        foreach (var edge in _window._edges)
+                        if (_zoom >= 0.42f) foreach (var edge in _window._edges)
                         {
                             // Keep quantities tied to the current selection; unrelated
                             // connections can share the same label midpoint.
                             if (edge.From.Key != _window._selectedKey && edge.To.Key != _window._selectedKey)
                                 continue;
-                            Vector2 point = ScreenPoint((edge.From.Position + edge.To.Position) * 0.5f);
+                            if (edge.Layout == null) continue;
+                            var position = edge.From.Key == _window._selectedKey ? edge.Layout.ToLabel : edge.Layout.FromLabel;
+                            Vector2 point = ScreenPoint(new Vector2(position.X, position.Y));
                             if (!viewport.Contains(point))
                                 continue;
                             var label = GetCount(countIndex++);
-                            label.gameObject.SetActive(true);
-                            label.text = edge.Count > 0 ? edge.Count.ToString() : "?";
-                            label.fontSize = Mathf.Clamp(Mathf.RoundToInt(11f * _zoom), 10, 16);
-                            label.color = Highlighted(edge) ? AccentColor : DimColor;
-                            Position(label.rectTransform, new UnityEngine.Rect(point.x - 20f, point.y + 2f, 40f, 20f));
+                            label.Root.gameObject.SetActive(true);
+                            label.Text.text = edge.Count > 0 ? edge.Count.ToString() : "?";
+                            label.Text.fontSize = Mathf.Clamp(Mathf.RoundToInt(11f * _zoom), 9, 14);
+                            label.Text.color = AccentColor;
+                            Position(label.Root, new UnityEngine.Rect(point.x - 17f, point.y - 8f, 34f, 18f));
                         }
                     }
                     for (int i = labelIndex; i < _labels.Count; i++)
                         _labels[i].Root.gameObject.SetActive(false);
                     for (int i = countIndex; i < _counts.Count; i++)
-                        _counts[i].gameObject.SetActive(false);
+                        _counts[i].Root.gameObject.SetActive(false);
+                    for (int i = bandIndex; i < _bandLabels.Count; i++)
+                        _bandLabels[i].gameObject.SetActive(false);
+                }
+
+                private UnityEngine.Rect ScreenRect(CraftingGraphLayout.Box area)
+                    => new UnityEngine.Rect(ScreenPoint(new Vector2(area.Left, area.Bottom)), new Vector2(area.Width, area.Height) * _zoom);
+
+                private void RefreshConnections(RectTransform root, List<CraftingMapConnections> layers, bool selected)
+                {
+                    if (root == null) return;
+                    int needed = Math.Max(1, (_window._edges.Count + 511) / 512);
+                    while (layers.Count < needed)
+                    {
+                        var layer = Stretch(root, "Connection group", 0, 0, 0, 0).gameObject.AddComponent<CraftingMapConnections>();
+                        layer.Initialize(this, selected, layers.Count * 512);
+                        layers.Add(layer);
+                    }
+                    for (int i = 0; i < layers.Count; i++)
+                    {
+                        layers[i].gameObject.SetActive(i < needed);
+                        if (i < needed) layers[i].SetVerticesDirty();
+                    }
                 }
 
                 private bool Highlighted(MapEdge edge) =>
@@ -926,20 +980,16 @@ namespace ImperiumOfMan
                     var viewport = rectTransform.rect;
                     // Keep the complete canvas draggable even after panning past every node.
                     Quad(helper, viewport, new Color(0f, 0f, 0f, 0f));
-                    foreach (var edge in _window._edges)
+                    if (_window._layout != null) foreach (var band in _window._layout.Bands)
                     {
-                        bool forward = edge.To.Position.x >= edge.From.Position.x;
-                        Vector2 from = ScreenPoint(edge.From.Position + new Vector2(edge.From.Size.x * (forward ? 0.5f : -0.5f), 0));
-                        Vector2 to = ScreenPoint(edge.To.Position - new Vector2(edge.To.Size.x * (forward ? 0.5f : -0.5f), 0));
-                        float mid = (from.x + to.x) * 0.5f;
-                        Color color = Highlighted(edge) ? LitLineColor : LineColor;
-                        float width = Highlighted(edge) ? 2.2f : 1.2f;
-                        Segment(helper, from, new Vector2(mid, from.y), width, color, viewport);
-                        Segment(helper, new Vector2(mid, from.y), new Vector2(mid, to.y), width, color, viewport);
-                        Segment(helper, new Vector2(mid, to.y), to, width, color, viewport);
-                        Vector2 back = new Vector2(forward ? -6f : 6f, 0);
-                        Segment(helper, to, to + back + new Vector2(0, 4), width, color, viewport);
-                        Segment(helper, to, to + back - new Vector2(0, 4), width, color, viewport);
+                        var area = ScreenRect(band.Bounds);
+                        if (!viewport.Overlaps(area)) continue;
+                        Color tint = GroupColor(band.Group);
+                        tint.a = 0.055f;
+                        Quad(helper, area, tint);
+                        tint.a = 0.42f;
+                        Segment(helper, new Vector2(area.xMin, area.yMin), new Vector2(area.xMin, area.yMax), 2f, tint, viewport);
+                        Segment(helper, new Vector2(area.xMin, area.yMax), new Vector2(area.xMax, area.yMax), 1f, tint, viewport);
                     }
                     foreach (var node in _window._nodes.Values)
                     {
@@ -953,6 +1003,7 @@ namespace ImperiumOfMan
                         float inset = selected ? 1.5f : 1f;
                         Quad(helper, new UnityEngine.Rect(area.x + inset, area.y + inset, area.width - inset * 2, area.height - inset * 2),
                             selected ? SelectedColor : node.Recipe == null ? new Color32(8, 19, 13, 255) : new Color32(13, 29, 23, 255));
+                        Quad(helper, new UnityEngine.Rect(area.x + inset, area.y + inset, 2f, area.height - inset * 2), GroupColor(node.Group));
                         if (selected)
                         {
                             float tick = Mathf.Min(4f, area.height / 4f);
@@ -962,6 +1013,58 @@ namespace ImperiumOfMan
                             Quad(helper, new UnityEngine.Rect(area.xMax - tick, area.yMax - tick, tick, tick), AccentColor);
                         }
                     }
+                }
+
+                // Separate graphics keep the bounded 2,400-edge view below Unity's
+                // per-mesh vertex limit, including emphasis for dense selections.
+                private sealed class CraftingMapConnections : MaskableGraphic
+                {
+                    private CraftingMapGraphic _map;
+                    private bool _directOnly;
+                    private int _firstEdge;
+                    public void Initialize(CraftingMapGraphic map, bool directOnly, int firstEdge)
+                    { _map = map; _directOnly = directOnly; _firstEdge = firstEdge; raycastTarget = false; }
+
+                    protected override void OnPopulateMesh(VertexHelper helper)
+                    {
+                        helper.Clear();
+                        if (_map?._window == null) return;
+                        var viewport = rectTransform.rect;
+                        int endEdge = Math.Min(_map._window._edges.Count, _firstEdge + 512);
+                        for (int edgeIndex = _firstEdge; edgeIndex < endEdge; edgeIndex++)
+                        {
+                            var edge = _map._window._edges[edgeIndex];
+                            if (edge.Layout == null || edge.Layout.Points.Count < 2) continue;
+                            bool direct = edge.From.Key == _map._window._selectedKey || edge.To.Key == _map._window._selectedKey;
+                            if (_directOnly && !direct) continue;
+                            var points = edge.Layout.Points;
+                            if (!_directOnly && direct)
+                            {
+                                // All halos stay below all selected lines, including adjacent chunks.
+                                for (int i = 1; i < points.Count; i++)
+                                    Segment(helper, Point(points[i - 1]), Point(points[i]), 5.5f, new Color32(5, 12, 8, 255), viewport);
+                                continue;
+                            }
+                            bool related = _map.Highlighted(edge);
+                            Color tint = direct ? AccentColor : related ? GroupColor(edge.From.Recipe != null ? edge.From.Group : edge.To.Group) : LineColor;
+                            if (!direct && !related) tint.a = 0.22f;
+                            float width = direct ? 2f : related ? 1.6f : 1f;
+                            for (int i = 1; i < points.Count; i++)
+                                Segment(helper, Point(points[i - 1]), Point(points[i]), width, tint, viewport);
+                            var end = Point(points[points.Count - 1]);
+                            if (!viewport.Contains(end)) continue;
+                            var direction = (end - Point(points[points.Count - 2])).normalized;
+                            var tail = end - direction * (direct ? 7f : 5f);
+                            var side = new Vector2(-direction.y, direction.x) * (direct ? 3.5f : 2.5f);
+                            int start = helper.currentVertCount;
+                            helper.AddVert(end, tint, Vector2.zero);
+                            helper.AddVert(tail + side, tint, Vector2.zero);
+                            helper.AddVert(tail - side, tint, Vector2.zero);
+                            helper.AddTriangle(start, start + 1, start + 2);
+                        }
+                    }
+
+                    private Vector2 Point(CraftingGraphLayout.Point point) => _map.ScreenPoint(new Vector2(point.X, point.Y));
                 }
 
                 private static void Quad(VertexHelper helper, UnityEngine.Rect rect, Color color)
@@ -1028,12 +1131,17 @@ namespace ImperiumOfMan
                     return label;
                 }
 
-                private TextMeshProUGUI GetCount(int index)
+                private CountLabel GetCount(int index)
                 {
                     if (index < _counts.Count)
                         return _counts[index];
-                    var label = _window.Text(Rect(transform, "Per-order quantity", Vector2.zero, Vector2.zero), "", 11);
-                    label.alignment = TextAlignmentOptions.Midline;
+                    var root = Rect(transform, "Recipe quantity", Vector2.zero, Vector2.zero);
+                    var background = Paint(root, new Color32(5, 12, 8, 244));
+                    background.raycastTarget = false;
+                    var text = _window.Text(Stretch(root, "Quantity", 1, 0, 1, 0), "", 11);
+                    text.alignment = TextAlignmentOptions.Midline;
+                    text.enableWordWrapping = false;
+                    var label = new CountLabel { Root = root, Text = text };
                     _counts.Add(label);
                     return label;
                 }
@@ -1090,6 +1198,12 @@ namespace ImperiumOfMan
                     public Image Icon;
                     public TextMeshProUGUI Name;
                     public TextMeshProUGUI Meta;
+                }
+
+                private sealed class CountLabel
+                {
+                    public RectTransform Root;
+                    public TextMeshProUGUI Text;
                 }
             }
 
@@ -1249,6 +1363,12 @@ namespace ImperiumOfMan
                 Button(rect, caption, action);
                 var text = Text(Stretch(rect, "Label", 4, 1, 4, 1), caption, size);
                 text.alignment = TextAlignmentOptions.Midline;
+                if (caption != null && caption.Length == 1)
+                {
+                    // Native font line metrics can exceed these compact symbol buttons.
+                    text.enableWordWrapping = false;
+                    text.overflowMode = TextOverflowModes.Overflow;
+                }
                 return text;
             }
 

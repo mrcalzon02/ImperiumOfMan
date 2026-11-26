@@ -26,7 +26,7 @@ namespace ImperiumOfMan
             [HavocStation] = new(ItemCategory, [new(Ore, 8), new(Metal, 4), new(PolymerStock, 2), new(Flak, 3),
                 new(Liner, 4), new(Fittings, 4)], [Flak, Liner, Fittings, LegionSeal, AutomataChassis],
                 tieredStock: [new(KrakenClip, 8), new(KrakGrenade, 1), new(BoltRifle, 1)]),
-            [FoundryStation] = new(ItemCategory, [new(Ore, 8), new(Metal, 5), new(Sheet, 3), new(Fittings, 3)],
+            [FoundryStation] = new(ItemCategory, [new(OreCargo, 2), new(Ore, 8), new(Metal, 5), new(Sheet, 3), new(Fittings, 3)],
                 [Metal, Sheet, Fittings, LogicCore], tieredStock: [new(AntiphasicClip, 8), new(Underplate, 1)]),
             [NeithVault] = new(ItemCategory, [new(Biomass, 6), new("water_bottle_1", 5)], [Biomass, Treatment]),
             [TerraStation] = new(ItemCategory, [new(Sheet, 4), new(Textile, 2), new(Plate, 3), new(Liner, 4),
@@ -47,7 +47,11 @@ namespace ImperiumOfMan
                 new(Treatment, 3), new(Tray, 2), new("cigarettes_1", 4), new("medical_kit_1", 2)], [Loose, Carton, Dressing, Treatment, Tray]),
             [AvicennasClinic] = new(DaydreamChems, [new(Clinical, 2), new(Instruments, 2), new("medical_kit_2", 1),
                 new("surgical_kit", 1)], [Clinical, Instruments], minimumTier: 2, tieredStock: [new(Graft, 1)]),
-            ["Rachmaninoff"] = new("CoreWard", [new(Ore, 12), new(Silicate, 12)], [Ore, Silicate]),
+            // Native mining demand alone does not guarantee a crate remains for sale.
+            // These are ordinary paid station goods, replenished by the existing
+            // new-campaign, save-load and station-restock paths without changing prices.
+            ["Rachmaninoff"] = new("CoreWard", [new(OreCargo, 3), new(Ore, 12), new(Silicate, 12)], [Ore, Silicate]),
+            [CinderBasinMine] = new("CoreWard", [new(OreCargo, 2)], [Ore, Silicate]),
             ["Mammoth"] = new("PlanetBridge", [new(MetalScrap, 6), new(Fiber, 6), new(Polymer, 6),
                 new(Cullet, 6), new(Conductors, 4)], [MetalScrap, Fiber, Polymer, Cullet, Conductors])
         };

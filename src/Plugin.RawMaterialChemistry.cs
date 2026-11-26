@@ -12,23 +12,23 @@ namespace ImperiumOfMan
 
         private static void RegisterRawMaterialChemistry()
         {
-            // These are abstract industrial fractions, using existing embedded artwork.
+            // Each fraction has its own icon, floor sprite and shadow, keyed by its item ID.
             // Stage their records before any recipe that consumes them.
             AddMaterial(RawPulp, "rags", "Raw cellulose pulp",
                 "Fibrous material separated from vat biomass for paper, reclaimed fiber, and textile production.",
-                3, artwork: Biomass);
+                3, maxIconSize: 24);
             AddMaterial(OrganicOil, "acid", "Organic oil",
                 "An oil fraction separated from vat biomass. Feedstock for fuel, polymers, and medical preparations.",
-                4, artwork: PolymerStock);
+                4, maxIconSize: 24);
             AddMaterial(ChemicalExtract, "acid", "Chemical extract",
                 "A separated biomass reagent used with mineral feedstock to prepare industrial chemicals and medical supplies.",
-                4, artwork: CellStock);
+                4, maxIconSize: 24);
             AddMaterial(ReactiveMinerals, "glass", "Reactive mineral fraction",
                 "A separated ore fraction used with chemical extract for acid and other industrial reagents.",
-                3, artwork: Silicate);
+                3, maxIconSize: 24);
             AddMaterial(CarbonFeedstock, "powder", "Carbon-rich mineral feedstock",
                 "A carbon-rich ore fraction for fuel, rubber, sorbent, and propellant production.",
-                3, artwork: Conductors);
+                3, maxIconSize: 24);
 
             // Gathering flesh remains the organic entry point; ore and water have extraction orders.
             // The common recipe helper halves whole-item quantities and doubles these base batches.

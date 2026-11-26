@@ -1,0 +1,151 @@
+{
+  "schema": "iom.generated-resource-art.v1",
+  "generator": "image_gen",
+  "native_importer": "tools/export_chemistry_art.py",
+  "reference_images": [
+    "media/OccultProduction/Source/iom_occult_raw_clone.png",
+    "media/OccultProduction/Source/iom_occult_suffering_essence.png"
+  ],
+  "items": [
+    {
+      "id": "iom_raw_cellulose_pulp",
+      "source": "media/RawMaterialChemistry/Source/iom_raw_cellulose_pulp.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Raw cellulose pulp: one compact, irregular mound of damp PALE BEIGE fibrous pulp, with a few chunky torn strips and coarse off-white fibers. Clearly a soft fibrous material, not green biomass, not stone, not a rolled textile.",
+      "source_sha256": "2c38cf00cda089bd5d892592ee1f921846f0b2e994c7faad8f0b4247efe1b7f2",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_raw_cellulose_pulp_floor.png",
+          "sha256": "c0907b597256f3258ace11cd79d26aa717b6da63af94cbf4ec438aff3c505475"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_raw_cellulose_pulp_icon.png",
+          "sha256": "1a7e24e239bc3bb0defc8ab08259035ccb73fd1708a05d247ac1d53a3bf1c437"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_raw_cellulose_pulp_shadow.png",
+          "sha256": "e4db42bbb8d7e69f76a479ba2708a709fdfe3df318dc9670e99817e322a2e1ed"
+        }
+      ]
+    },
+    {
+      "id": "iom_organic_oil",
+      "source": "media/RawMaterialChemistry/Source/iom_organic_oil.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Organic oil: one squat worn dark-olive metal oil canister with a short angled pour spout and a single visible amber-brown oil droplet at its mouth. Simple broad silhouette, muted brass rim, no labels. Clearly liquid feedstock in an industrial can, not a polymer ingot.",
+      "source_sha256": "3b158a034ce9fa6f3611f9de1738a6274d5326466c9ca8644d4feea3821116af",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_organic_oil_floor.png",
+          "sha256": "89b350ee1570ba420f0b1abd39c60771e451770e9cb53f471268118c50e407f6"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_organic_oil_icon.png",
+          "sha256": "63457040ac496fe12b686693d06dba44f44d0736acac7173cb4e9de7f6fe024f"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_organic_oil_shadow.png",
+          "sha256": "5b36422a99f8897afce954a242e8ae0aec8cdafa99e818e1dc2d188f5aa10a0c"
+        }
+      ]
+    },
+    {
+      "id": "iom_chemical_extract",
+      "source": "media/RawMaterialChemistry/Source/iom_chemical_extract.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Chemical extract: one short broad teal-blue glass reagent bottle with a dark ribbed stopper and a narrow dull steel collar. A clearly visible turquoise liquid fill and one pale glass highlight. Compact chunky silhouette readable at tiny size. No markings. It must not resemble a battery.",
+      "source_sha256": "cce74aa6d5744fd59d2404a84da414b195d4e94d923f7b126fd6f64ebeeff4a6",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_chemical_extract_floor.png",
+          "sha256": "825e44054e7eb30a67d69aa81e5a06049143ee621b7953ed9e77daca7ae2e332"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_chemical_extract_icon.png",
+          "sha256": "22b8cebc1dacede4f4eadb4f06c00d07439ecdaefcaf3abe81ee58964d28c6a0"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_chemical_extract_shadow.png",
+          "sha256": "82923d4563355c1dc095e6f8eb61c5c5d4c00279d2cc6f906530fd2c81e4fd7c"
+        }
+      ]
+    },
+    {
+      "id": "iom_reactive_minerals",
+      "source": "media/RawMaterialChemistry/Source/iom_reactive_minerals.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Reactive mineral fraction: a compact cluster of three angular yellow-green mineral fragments with sulfur-yellow cut faces and darker olive-green rough exteriors. Distinct broken crystalline silhouette, a few pale ivory highlights. These are real industrial mineral chunks, not magical glowing gems.",
+      "source_sha256": "39119106e6d9ec265d746c08646117b065797c6f521b6555357c5e960ad17c2d",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_reactive_minerals_floor.png",
+          "sha256": "1ebf264d879726a5dc16c48301d041e0d217f40a01e4e9450a331388a1bae381"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_reactive_minerals_icon.png",
+          "sha256": "09e95b9f691c4d690f05e4602243d532865f1ffaddaa8db554e62dd1220f1adf"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_reactive_minerals_shadow.png",
+          "sha256": "8af7113a9a10e380bf8311ae1956f016afecf28b311ab8d80f6d3c3206336c4b"
+        }
+      ]
+    },
+    {
+      "id": "iom_carbon_feedstock",
+      "source": "media/RawMaterialChemistry/Source/iom_carbon_feedstock.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Carbon-rich mineral feedstock: a compact pile of three matte charcoal-black coal chunks with broad blue-gray broken facets and sparse lighter gray edge pixels, one small granular chip. Strong irregular rock silhouette. No metallic sheen, wires, containers, glow or smoke.",
+      "source_sha256": "a8e6ac0e55db82e8f7c3bd56dd5b410afda3ecc397959a1ba87adc8e2cc5c16b",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_carbon_feedstock_floor.png",
+          "sha256": "28466b99773719685762ca9156f9ed4dd2be8cd878648516ce90f4d239c11205"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_carbon_feedstock_icon.png",
+          "sha256": "aa257dd18d650ec316d7bef50fe7c26128dc40a025295d360481ea46c5eb9ffa"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_carbon_feedstock_shadow.png",
+          "sha256": "182f2d7a88e540535d2882d85e0054967fbc633e2f6eb7a4e47de9fe75c830f9"
+        }
+      ]
+    },
+    {
+      "id": "iom_ceramic_feedstock",
+      "source": "media/RawMaterialChemistry/Source/iom_ceramic_feedstock.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Ceramic feedstock: one small shallow battered gray-steel mixing pan containing a compact pile of warm ivory ceramic granules and powder, with two short chalky angular ceramic chips on top. A wide, low silhouette, simple dull steel rim and warm off-white contents. Clearly prepared industrial ceramic powder, not raw ore, food, or fibrous pulp.",
+      "source_sha256": "402b400f32c1ecca0345f75cfe501ebdfa28d0ac17389b58e0066f31ac7f1012",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_ceramic_feedstock_floor.png",
+          "sha256": "1f5c3e4e87fbbafb2ecc1a87f0cb0e34ff1ce5363e4b53f272c0fde896daa408"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_ceramic_feedstock_icon.png",
+          "sha256": "6e94b802bb10f6bd40573ecaf664c8ee4618966be11123483123296b19fc22b4"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_ceramic_feedstock_shadow.png",
+          "sha256": "e69acafce72393565403da5c49fdf64ca28bf9c46a4abb957a806527f6a60b29"
+        }
+      ]
+    },
+    {
+      "id": "iom_electronic_substrate",
+      "source": "media/RawMaterialChemistry/Source/iom_electronic_substrate.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single inventory item sprite master for Quasimorph / ImperiumOfMan. The reference images establish only the grimy, chunky low-resolution pixel-art style and viewing angle; create the NEW subject described below, without reusing their objects. Make it look hand-pixeled on roughly a 32 by 32 pixel grid, enlarged cleanly, using deliberately large crisp pixel clusters, a restrained 8\u201312-color material palette, dark readable outline, simple 3/4 top-down isometric inventory view, upper-left lighting. Optimize the silhouette to remain distinguishable when imported at 24 by 24 pixels. Center one isolated complete object occupying 75\u201385% of a square transparent canvas. Real transparent alpha outside the silhouette. No background, ground plane, cast shadow, UI tile, border, text, numbers, logos, glow, smooth gradients, antialiasing or tiny decorative detail. Electronic substrate: two offset rectangular bare dark green laminate board blanks, slightly angled in 3/4 top-down view. The top blank has a simple thin copper border and two broad copper tracks with three small square connection pads, but no mounted components or chips. Strong flat angular silhouette, muted green and dull copper. Clearly an unfinished electronic board substrate, not a finished circuit board.",
+      "source_sha256": "5159b6f25dc8904b58019866bb2ffa3b94cb9c53ce1534cda58f144fdb922222",
+      "runtime_assets": [
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_electronic_substrate_floor.png",
+          "sha256": "a3818209d2b602d90f6d011c1c4dfc1de5aeeeb24a23b0aa599d76ddcc2af686"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_electronic_substrate_icon.png",
+          "sha256": "bce1f13aa6f9f61984d597f579dbe53089f8b4f30f56a3ef08922b54fc647ab9"
+        },
+        {
+          "path": "src/Art/RawMaterialChemistry/iom_electronic_substrate_shadow.png",
+          "sha256": "843e8319d269f36398caff68091ea98105168fad95ade7f48ad2f67533290fc6"
+        }
+      ]
+    }
+  ]
+}

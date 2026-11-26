@@ -1,0 +1,162 @@
+{
+  "schema": "iom.crafting-map-native-style-build-receipt.v1",
+  "source_sha": "e6c3026b3a11e4194b4597866099fcee850d836a",
+  "source_tree_sha": "757b02975bb13172d7ea0b70483627bb223c1b0e",
+  "assembly_version": "1.1.11.0",
+  "status": "baseline_native_build_verified_visual_review_complete_followup_changes_required",
+  "source_change": "Crafting Map appearance: active native language TMP font, framed dark panels and header, uppercase tabs, native green/yellow selections, outlined controls and a separate clipped graph viewport. The finished-ration correction from 1.1.10 is retained.",
+  "native_compile": "passed",
+  "compiler_warnings": 0,
+  "compiler_errors": 0,
+  "native_compile_elapsed": "00:00:09.64",
+  "package": {
+    "candidate_name": "ImperiumOfMan-e6c3026b3a11-native-candidate.zip",
+    "verified": true,
+    "bytes": 11794584,
+    "sha256": "c74dd703bf4823912c1be33c32d5f25a4a42bbacf7078b171287d6429df40a86",
+    "git_blob_sha": "75558fc58aa36c696c03c0ac7f2d040cddc15127",
+    "publication_status": "superseded_unpublished_baseline_candidate",
+    "zip_crc_verified": true,
+    "member_count": 4,
+    "exact_four_members": true,
+    "all_member_hashes_match_build_receipt": true,
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 13999104,
+        "sha256": "98d4e30427926369a83aa018c1e68b53df52cce9820d5b9b9e5f332b7d177a14"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    },
+    "mod_identity": "Cvar_ImperiumOfMan",
+    "assemblies": [
+      "ImperiumOfMan.dll"
+    ],
+    "assembly_name": "ImperiumOfMan",
+    "assembly_version": "1.1.11.0"
+  },
+  "native_build": {
+    "run_id": 45878912836,
+    "run_attempt": 1,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45878912836",
+    "run_conclusion": "success",
+    "controller_sha": "10ff078151572e986448c97e4ede4ac27921d723",
+    "request": {
+      "mode": "native-build",
+      "request_id": "crafting-map-native-ui-1.1.11-001",
+      "schema": "iom.native-validation.v1",
+      "source_sha": "e6c3026b3a11e4194b4597866099fcee850d836a"
+    },
+    "result": "NATIVE_COMPILE_PASSED_GAMEPLAY_NOT_RUN",
+    "delivery_commit": "62eb54be2f89277f97251d7e951a01bfd64576ed",
+    "delivery_prefix": "runner-results/quasimorph-native/45878912836-1"
+  },
+  "transport_verification": {
+    "schema": "iom.native-candidate-base64.v1",
+    "encoding": "base64",
+    "chunks_verified": 30,
+    "candidate_bytes": 11794584,
+    "candidate_sha256": "c74dd703bf4823912c1be33c32d5f25a4a42bbacf7078b171287d6429df40a86",
+    "candidate_git_blob_sha": "75558fc58aa36c696c03c0ac7f2d040cddc15127"
+  },
+  "compiled_metadata": {
+    "assembly_name": "ImperiumOfMan",
+    "assembly_version": "1.1.11.0",
+    "compiled_tmpro_reference": true,
+    "compiled_tmpro_types": [
+      "FontStyles",
+      "TMP_FontAsset",
+      "TMP_InputField",
+      "TMP_Text",
+      "TextAlignmentOptions",
+      "TextMeshProUGUI",
+      "TextOverflowModes"
+    ],
+    "assembly_loaded_or_executed_during_local_verification": false
+  },
+  "native_boot": "not_run_in_native_build",
+  "gameplay_validation": "not_run_in_native_build",
+  "live_game_or_save_modified_by_native_build": false,
+  "headed_validation_followup": {
+    "session": "008",
+    "run_id": 45880943023,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45880943023",
+    "status_at_receipt_preparation": "operator_stopped",
+    "operator": "root",
+    "acceptance": "baseline_loaded_and_reviewed_followup_changes_required",
+    "scope": "Native boot and copied campaign load passed. Native font/frame comparison and the expanded map were inspected. Small symbol buttons were blank due to bounded TMP labels; a focused correction was required. Subsequent unrecorded live navigation is observation only, not controlled input-test proof. User feedback expanded the task to separated processing branches, line routing, icons, player-facing text, dynamic dependencies, intermediates and Ore Cargo availability.",
+    "delivery_commit": "3db3c0203171b9c7ec611343c55587df0bca0886",
+    "final_action_sequence": 19,
+    "original_package_restored": true,
+    "existing_campaign_files_unchanged": true,
+    "protected_campaign_files": 11,
+    "fixture_cleanup_complete": true
+  },
+  "native_api_inspection": {
+    "status": "partial",
+    "purpose": "Determine current mod loading and safe future boot isolation; this is not gameplay acceptance.",
+    "incomplete_types": {
+      "MGSC.BaseMagnumWindow": "Tool exited 70; see MGSC.BaseMagnumWindow.txt",
+      "MGSC.ItemTooltipHelper": "Tool exited 70; see MGSC.ItemTooltipHelper.txt",
+      "MGSC.UiCanvas": "Tool exited 70; see MGSC.UiCanvas.txt"
+    }
+  },
+  "installed_native_references": {
+    "game_executable_sha256": "85a6ceaaef775d537bd4eab4e62d9b9c3c4f88c6a48c32c5093b7bfa0f0e2f8e",
+    "managed_assemblies_sha256": {
+      "0Harmony.dll": "498ede1d20a87afaa6c7b1ed5b3beb505b01dc418b952c1be5c322204404b033",
+      "Assembly-CSharp.dll": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+      "SimpleJSON.dll": "2521e3c93c6992ee48981059a8e473152631ae7467002e60e8b9bf6f3b92ff82",
+      "Unity.RenderPipelines.Universal.Runtime.dll": "eacb4ef9bf829643ff08d29b5fcd4c03b9551b1892cb84ba1f8dc2d116197a28",
+      "UnityEngine.AssetBundleModule.dll": "888102f4fac12e8695d185d6770f637d520167caf2aa620d17c5ad1527eb08c3",
+      "UnityEngine.AudioModule.dll": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88",
+      "UnityEngine.CoreModule.dll": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e",
+      "UnityEngine.IMGUIModule.dll": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78",
+      "UnityEngine.ImageConversionModule.dll": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b",
+      "UnityEngine.InputLegacyModule.dll": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375",
+      "UnityEngine.Physics2DModule.dll": "6489c192c7fff6e4ed2d6bffdb26cb64133143bb117cacda3cb4bd730162294a",
+      "UnityEngine.TextRenderingModule.dll": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d",
+      "UnityEngine.TilemapModule.dll": "71c4505976bd5e8f5e74206fe69ce4baae96a9eb3e46a467d2a4bd5ac598f69b",
+      "UnityEngine.UI.dll": "5c7fb38aaa094f9709f29340062d4ce0603f110e2e91a30887c3212dcec5231f",
+      "UnityEngine.UIModule.dll": "f3e21499db60bd6a7569f2209d304828eb6778e1143b72a71ad72b4a61848097",
+      "UnityEngine.dll": "9568a6c178e9c322a6b155213be04661c920fcf46418e8e38b4af9646362d5c6"
+    }
+  },
+  "evidence": [
+    {
+      "commit": "62eb54be2f89277f97251d7e951a01bfd64576ed",
+      "path": "runner-results/quasimorph-native/45878912836-1/build-receipt.json",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/62eb54be2f89277f97251d7e951a01bfd64576ed/runner-results/quasimorph-native/45878912836-1/build-receipt.json",
+      "git_blob_sha": "b0a413f36e91b0d493028cc4446bdf606e9d667c",
+      "bytes": 6296,
+      "sha256": "3d5effa2a78afa583d41fde0f33161fe8e6305ccd2cb4e7078c701878ec939a7"
+    },
+    {
+      "commit": "62eb54be2f89277f97251d7e951a01bfd64576ed",
+      "path": "runner-results/quasimorph-native/45878912836-1/native-build.log",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/62eb54be2f89277f97251d7e951a01bfd64576ed/runner-results/quasimorph-native/45878912836-1/native-build.log",
+      "git_blob_sha": "4c9607d2039fe1254f46937269a1219b0eae5e45",
+      "bytes": 720,
+      "sha256": "06344e5f41545f9165d5d84500a235892ae17c7065047b2c5bc8ebdcb6b7b5ca"
+    },
+    {
+      "commit": "62eb54be2f89277f97251d7e951a01bfd64576ed",
+      "path": "runner-results/quasimorph-native/45878912836-1/candidate-base64/manifest.json",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/62eb54be2f89277f97251d7e951a01bfd64576ed/runner-results/quasimorph-native/45878912836-1/candidate-base64/manifest.json",
+      "git_blob_sha": "0181f89c2095d80dddde74c6e5d909d033cd6c8b",
+      "bytes": 5425,
+      "sha256": "1549c4f1dd93024a3408aa290aa46af25b462b7b83639c19b1c049db7f0590a8"
+    }
+  ],
+  "verification_scope": "Exact source e6c3026 compiled against installed native references with zero warnings/errors. All 30 transport chunks, ZIP size/hash/CRC, the four runtime members and their hashes, mod identity, assembly version and compiled TMP references/types were verified. These checks do not establish runtime appearance or gameplay acceptance; headed session 008 is recorded separately. Native-build execution did not launch the game or modify live game files or saves."
+}

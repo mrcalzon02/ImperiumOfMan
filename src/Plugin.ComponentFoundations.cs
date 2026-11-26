@@ -25,7 +25,7 @@ namespace ImperiumOfMan
             SharedRecipe("metal_tread", 2, 2, new ItemQuantity(Metal, 1));
             SharedRecipe("weapon_parts", 4, 2, new(Metal, 1), new("rod_parts", 1));
             SharedRecipe("armor_plates", 3, 2, new ItemQuantity(Sheet, 1));
-            SharedRecipe("ceramite_plates", 5, 2, new(Sheet, 1), new(Silicate, 1), new(ChemicalExtract, 1));
+            SharedRecipe("ceramite_plates", 4, 2, new(Sheet, 1), new(CeramicFeedstock, 1));
             SharedRecipe("hydraulic_pump", 6, 2, new("coarse_parts", 1), new("rod_parts", 1), new("rubber", 1));
         }
 
@@ -33,7 +33,7 @@ namespace ImperiumOfMan
         {
             SharedRecipe("lens", 4, 2, new(GlassStock, 1), new(PolymerStock, 1));
             SharedRecipe("capacitor_parts", 4, 2, new(Metal, 1), new(PolymerStock, 1), new("acid", 1));
-            SharedRecipe("circuit_board", 4, 2, new(PolymerStock, 1), new("wire", 1), new("acid", 1));
+            SharedRecipe("circuit_board", 3, 2, new(ElectronicSubstrate, 1), new("wire", 1));
             SharedRecipe("microelectronics_parts", 5, 2, new(Silicate, 1), new("wire", 1), new(ChemicalExtract, 1));
             SharedRecipe("transformer", 4, 2, new("wire", 1), new("capacitor_parts", 1));
             SharedRecipe("communication_relay", 6, 2, new("circuit_board", 1), new("microelectronics_parts", 1), new("wire", 1));
