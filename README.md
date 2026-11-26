@@ -57,6 +57,8 @@ Six production sites start under minor human factions and can change hands throu
 
 See the [Tech 1–11 supply map](PRODUCTION_CHAIN_DESIGN.md#utility-food-and-standard-supplies-by-tech-level) for food, ammunition, tools, manufacturing materials, and where to get them.
 
+The Magnum can produce **two metal smelting feedstock (ore)** or **two Water Bottles** in three base hours without consuming ingredients. These starting recipes are available in new games and added when an existing save loads. Ore can become refined metal, conductive scrap for Cable, or silicate feedstock. Two silicate make two basic Glass in two base hours; three silicate make two Industrial Glass in four base hours. The conductive-scrap recipe remains part of the Workshop Fundamentals schematic pool. [Material recipes and yields](PRODUCTION_CHAIN_DESIGN.md#magnum-material-foundations)
+
 Redeem Imperial Requisitions at the Golden Throne for trade credit. Sororitas reliquary recovery pays two Purity Seals for advanced fabrication. Phobos, Havoc, Luna, Foundry Primaris, the Golden Throne and Titan stock different Bolt Clips. Avicenna's Clinic stocks the Tissue Graft at DaydreamChems Tech 6. [Specialist suppliers and recipe unlocks](PRODUCTION_CHAIN_DESIGN.md#specialist-supply-and-fabrication)
 
 Support patterns cover conventional ammunition, mines, grenades, repair gear, field devices, and native deployable machines. Imperial workshops produce ballistic, fire, and energy turrets, industrial, recreational, and security robots, and security drones as their tech advances. [Support suppliers and factory unlocks](PRODUCTION_CHAIN_DESIGN.md#support-munitions-and-allied-machines)

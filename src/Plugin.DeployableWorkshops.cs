@@ -25,7 +25,8 @@ namespace ImperiumOfMan
             AddFactionWorkshop(CoreWard, SampoQuern, 2, "iom_sampo_automata_frames", 84,
                 [new(Plate, 1), new(Fittings, 1), new(PolymerStock, 1)], [new(AutomataChassis, 12)]);
             AddFactionWorkshop("SBN", "CathodeRampart", 2, "iom_cathode_automata_controllers", 84,
-                [new(AiModule, 1), new("electrical_parts_container", 1)], [new(LogicCore, 12)]);
+                [new("circuit_board", 2), new("microelectronics_parts", 2), new("capacitor_parts", 1), new(Cell, 1)],
+                [new(LogicCore, 12)]);
             AddFactionWorkshop(CoreWard, SampoQuern, 2, "iom_sampo_robot_parts", 180,
                 [new(AutomataChassis, 1), new("engineering_parts_container", 1)], [new("robot_parts_container", 6)]);
             AddFactionWorkshop(PlanetBridge, AllianceArcology, 3, "iom_arcology_robot_parts", 180,

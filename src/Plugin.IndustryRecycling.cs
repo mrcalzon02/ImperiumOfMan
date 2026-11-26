@@ -11,6 +11,9 @@ namespace ImperiumOfMan
 
         private static void RegisterShredding()
         {
+            // Recovered scrap remains useful without making it the mandatory source of raw materials.
+            AddShredProfile([new(Ore, 1)], MetalScrap);
+            AddShredProfile([new(Silicate, 1)], Cullet);
             AddShredProfile([new(Fiber, 1)], _lightBoots.Id, _lightLeggings.Id, _lightHelmet.Id,
                 _cadiaBoots.Id, _cadiaLeggings.Id, _cadiaHelmet.Id, WinterCap, WinterTrousers, WinterBoots);
             AddShredProfile([new(Fiber, 1), new(MetalScrap, 1)], _lightChestplate.Id, _cadiaChestplate.Id, ArbitesHelmet,

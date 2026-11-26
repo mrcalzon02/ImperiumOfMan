@@ -29,7 +29,7 @@ Use the room's function to telegraph which salvage is likely. An armor press can
 | Las Clips | Silicate rubble from a mining site and chemical feedstock from station salvage or trade | Silicate goes to industrial glass. Feedstock goes to a cell electrolyte. | A cell bench makes a sealed cell assembly from both inputs. | A Guard supply line or the Magnum packs a batch of Las Clips. |
 | Arbites carapace | Alloy-bearing ore and textile fiber from a vat or station supplier | Smelt alloy plate stock and process the fiber into industrial cloth. | An armor press makes overlapping plate inserts. A textile bench makes padded liners. | Final assembly combines inserts, liners and fasteners into a helmet, cuirass, greaves or boots. |
 | Corpse Starch | Raw meat and bottled water | A closed vat produces raw nutrient biomass. | A food line presses a ration base and prepares wrappers from packaging stock. | A packaging line yields sealed rations. Damaged or abandoned facilities can supply a contaminated salvage variant. |
-| Electronics and sensors | Conductive scrap, trace mineral concentrate and recovered circuit stock | Produce conductive stock and cleaned substrates. | A component line builds circuit assemblies. | Combine assemblies with casing and fittings for a tool, sensor or upgrade. |
+| Electronics and sensors | Ore, trace mineral concentrate and recovered circuit stock | Separate conductive material from ore and draw Cable. Recovered conductors can skip the separation order. | A component line builds circuit assemblies. | Combine assemblies with casing and fittings for a tool, sensor or upgrade. |
 
 The crew can buy a finished stack, assemble components found on a raid, or commit to the full raw-material chain. Give the low-tier Guard a reliable market and loot supply while making self-sufficiency more demanding. In the metal route, finding a usable bracket or plate insert skips two or three orders and gives the crew a reason to search a repair shop instead of hauling more ore.
 
@@ -75,7 +75,7 @@ Recipe times, output quantities, chip pools, and unlock requirements remain the 
 
 | Source | Tech | Supplies, components and acquisition |
 | --- | --- | --- |
-| **Imperial and shared workshops** | 1 | Ore and sorted scrap feed refined metal, rolled plate, fittings and pressed or reinforced inserts. Reclaimed fiber becomes textile, flak laminate and liners. Polymer scrap becomes moldable stock. Glass cullet and silicate become industrial glass. Conductive scrap yields wire. Shared refining recipes are available aboard the Magnum. Dedicated stations stock or produce these materials from the start. |
+| **Imperial and shared workshops** | 1 | The Magnum produces ore and bottled water using time alone. Ore feeds refined metal, conductive scrap, or silicate; silicate becomes basic or industrial glass at different yields, and conductors become Cable. Sorted metal scrap and cullet provide optional recycling inputs. Reclaimed fiber becomes textile, flak laminate and liners. Polymer scrap becomes moldable stock. Shared refining recipes are available aboard the Magnum. Dedicated stations stock or produce these materials from the start. |
 | **Luna and Neith** | 1 | Luna stocks biomass, vat ration base and wrappers. Havoc sends bulk water to Neith, which grows biomass for Luna's ration line and also stocks bottled water. Dirty Corpse Starch can appear in Luna raid salvage. The Magnum ration line makes clean Corpse Starch. |
 | **Phobos** | 1 | Stocks silicate, cell stock, sealed cell assemblies and empty Las Clip housings. The schematic comes from standard Imperial chip rolls. |
 | **AnCom · Akatsuki** | 1 | The cartridge schematic covers medium cartridges, sorted casings and payload modules. Akatsuki stocks the components. |
@@ -85,6 +85,25 @@ Recipe times, output quantities, chip pools, and unlock requirements remain the 
 | **RealWare · Clotho** | 1 | The protective armor pattern covers the four-piece RealWare set. Clotho also supplies metal stock, rolled plate, pressed inserts and liners. |
 | **CoreWard · Rachmaninoff and PlanetBridge · Mammoth** | 1 | Rachmaninoff supplies ore and silicate. Mammoth supplies sorted metal, fiber, polymer, glass and conductive scrap. |
 | **Terra and Mars freight network** | Campaign start | The six contestable facilities produce bulk water, ore cargo, biomass tanks, ration cargo, tools, and engineering and electrical parts. These are station inputs and freight goods. |
+
+### Magnum material foundations
+
+Ore and bottled water are independent starting materials. Their orders consume production time without requiring any item, including a bottle, scrap, Cable, or Glass. All shared recipes below are granted when a new Magnum is created and when an existing save loads. Conductive scrap keeps its existing Workshop Fundamentals schematic unlock.
+
+| Output per order | Ingredients consumed | Base hours | Availability |
+| --- | --- | --- | --- |
+| 2 metal smelting feedstock (ore) | None | 3 | Shared starter recipe |
+| 2 Water Bottles | None | 3 | Shared starter recipe |
+| 2 refined metal stock | 3 ore | 6 | Shared starter recipe |
+| 2 conductive scrap | 3 ore | 2 | Workshop Fundamentals schematic pool |
+| 1 Cable | 3 conductive scrap | 3 | Shared starter recipe |
+| 2 silicate feedstock | 3 ore | 2 | Shared starter recipe |
+| 2 basic Glass | 2 silicate feedstock | 2 | Shared starter recipe |
+| 2 Industrial Glass | 3 silicate feedstock | 4 | Shared starter recipe |
+
+Glass and Industrial Glass are alternative products of silicate. The basic route has a one-to-one yield; industrial refining yields two units from three silicate and takes twice as long. Neither route needs pre-existing glass or cullet. Water feeds the existing biomass, tobacco, medical, and other water-consuming recipes; those recipes still require their other listed ingredients.
+
+Recycling one sorted metal scrap recovers one ore, and recycling one cullet recovers one silicate. This keeps stored salvage useful without requiring a backwards manufacturing step. The optional Glass-to-cullet sorting order consumes three Glass for two cullet, so returning through silicate and basic Glass loses one Glass. Industrial Glass recycling also loses material on a complete return to Industrial Glass.
 
 ### Specialist supply and fabrication
 
@@ -127,7 +146,7 @@ Havoc builds ballistic turrets and industrial robots at Tech 2. Luna builds fire
 | Site | Imperial tech | Inputs per order | Outputs | Base hours |
 | --- | --- | --- | --- | --- |
 | Phobos glassworks | 1 | 3 silicate feedstock | 2 industrial glass | 48 |
-| Phobos cell stock bench | 1 | 2 acid, 3 wire | 3 cell stock | 48 |
+| Phobos cell stock bench | 1 | 2 acid, 3 Cable | 3 cell stock | 48 |
 | Phobos sealed cell bench | 1 | 2 industrial glass, 2 cell stock | 6 sealed cell assemblies | 54 |
 | Phobos electrical works | 2 | 2 ore cargo, 1 tool container | 3 electrical parts containers | 144 |
 | Havoc chassis works | 2 | 6 rolled plates, 3 armor fittings, 2 moldable polymer stock | 4 Automata Chassis | 64 |
@@ -179,7 +198,7 @@ Imperial factories also have new upstream suppliers for three established suppor
 
 ### Base-game turrets, drones, and droids
 
-CoreWard and SBN share two component lines with the deployable factories. RealWare's Clotho refines Lumina ore and presses inserts. Arcadis Terminal stamps fittings from the refined metal, and Mammoth reclaims polymer from scrap plastic. Sampo Quern turns the inserts, fittings, and polymer into Automata Chassis. On the electronics side, precious metals from Origin can feed Polaris's electrical freight and Cathode Rampart's AI module line. Cathode Rampart combines AI modules and electrical crates into Automata Logic Cores. The finished chassis and controllers ship to the assembly stations below through normal trade.
+CoreWard and SBN share two component lines with the deployable factories. RealWare's Clotho refines Lumina ore and presses inserts. Arcadis Terminal stamps fittings from the refined metal, and Mammoth reclaims polymer from scrap plastic. Sampo Quern turns the inserts, fittings, and polymer into Automata Chassis. On the electronics side, precious metals from Origin can feed Polaris's electrical freight. Cathode Rampart assembles twelve Automata Logic Cores from two circuit boards, two microelectronics parts, one capacitor, and one sealed cell in 84 base hours. AI modules are downstream products of controllers, so manufacturing a controller does not consume an AI module. The finished chassis and controllers ship to the assembly stations below through normal trade.
 
 | Manufacturer and factory | Tech | Deployable | Receiving station |
 |---|---:|---|---|

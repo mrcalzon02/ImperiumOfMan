@@ -58,13 +58,13 @@ namespace ImperiumOfMan
 
         private static void RegisterIndustry()
         {
-            AddMaterial(Ore, "rusty_plates", "Metal smelting feedstock", "Unrefined ore or sorted scrap prepared for a smelter.", 4);
-            AddMaterial(MetalScrap, "rusty_plates", "Sorted metal scrap", "Reclaimed alloy and ferrous feedstock for a smelter.", 2);
+            AddMaterial(Ore, "rusty_plates", "Metal smelting feedstock", "Raw ore for metal, conductor, and silicate production. The Magnum can collect it using production time alone.", 4);
+            AddMaterial(MetalScrap, "rusty_plates", "Sorted metal scrap", "Reclaimed alloy and ferrous scrap. Recycle it aboard the Magnum to recover smelting feedstock.", 2);
             AddMaterial(Fiber, "rags", "Reclaimed fiber", "Shredded textiles for reprocessing.", 2);
             AddMaterial(Polymer, "plastic", "Polymer scrap", "Shredded housings and armor polymer.", 2);
-            AddMaterial(Cullet, "glass", "Glass cullet", "Crushed glass for refining.", 2);
-            AddMaterial(Conductors, "wire", "Conductive scrap", "Recovered conductors for conductor stock.", 3);
-            AddMaterial(Silicate, "glass", "Silicate feedstock", "Raw silicate or crushed glass prepared for refining.", 3);
+            AddMaterial(Cullet, "glass", "Glass cullet", "Crushed glass. Recycle it aboard the Magnum to recover silicate feedstock.", 2);
+            AddMaterial(Conductors, "wire", "Conductive scrap", "Conductive material separated from ore or recovered from equipment, ready for cable production.", 3);
+            AddMaterial(Silicate, "glass", "Silicate feedstock", "Mineral feedstock separated from ore for basic or industrial glass production.", 3);
             AddMaterial(Metal, "rusty_plates", "Refined metal stock", "Smelted stock for sheet and hardware.", 9);
             AddMaterial(Textile, "rags", "Processed textile", "Refined fiber stock ready for cutting and forming.", 7);
             AddMaterial(Sheet, "rusty_plates", "Rolled armor plate", "Metal sheet ready for pressing into inserts.", 14);
@@ -97,14 +97,17 @@ namespace ImperiumOfMan
             AddMaterial(RationBase, "ration_pack_1", "Vat ration base", "Processed biomass ready for ration packing.", 5);
             AddMaterial(Wrapper, "paper_towel", "Ration wrapper", "An empty wrapper for one field ration.", 2);
 
+            // Extraction and water recovery start the material chains without consuming finished goods.
+            SharedRecipe(Ore, 3, 2);
+            SharedRecipe("water_bottle_1", 3, 2);
             SharedRecipe(Metal, 6, 2, new ItemQuantity(Ore, 3));
-            SharedRecipe(Ore, 3, 2, new ItemQuantity(MetalScrap, 3));
             SharedRecipe(Textile, 4, 2, new ItemQuantity(Fiber, 3));
             SharedRecipe(Fiber, 2, 2, new ItemQuantity("rags", 3));
             SharedRecipe(PolymerStock, 4, 2, new ItemQuantity(Polymer, 3));
             SharedRecipe(Polymer, 2, 2, new ItemQuantity("plastic", 3));
+            SharedRecipe(Silicate, 2, 2, new ItemQuantity(Ore, 3));
+            SharedRecipe("glass", 2, 2, new ItemQuantity(Silicate, 2));
             SharedRecipe(GlassStock, 4, 2, new ItemQuantity(Silicate, 3));
-            SharedRecipe(Silicate, 2, 2, new ItemQuantity(Cullet, 3));
             SharedRecipe("wire", 3, 1, new ItemQuantity(Conductors, 3));
             SharedRecipe(Sheet, 3, 2, new ItemQuantity(Metal, 2));
             SharedRecipe(Fittings, 3, 2, new(Metal, 1), new("spring", 1));
@@ -114,8 +117,8 @@ namespace ImperiumOfMan
             SharedRecipe(HeavyPlate, 5, 1, new(Plate, 2), new(Sheet, 1));
             IndustryRecipe(MetalScrap, 3, 2, new ItemQuantity("rusty_plates", 3));
             IndustryRecipe(Cullet, 2, 2, new ItemQuantity("glass", 3));
-            IndustryRecipe(Conductors, 2, 2, new ItemQuantity("wire", 3));
-            AddCatalog("iom_workshop_fundamentals_chip", "Workshop Fundamentals Schematic", "Patterns for sorting metal scrap, glass cullet, and conductive scrap.",
+            IndustryRecipe(Conductors, 2, 2, new ItemQuantity(Ore, 3));
+            AddCatalog("iom_workshop_fundamentals_chip", "Workshop Fundamentals Schematic", "Patterns for sorting metal and glass scrap, and separating conductors from ore.",
                 ItemCategory, 1, 95, MetalScrap, Cullet, Conductors);
 
             IndustryRecipe(CellStock, 3, 3, new("acid", 2), new("wire", 3));
