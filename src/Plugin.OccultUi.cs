@@ -23,12 +23,13 @@ namespace ImperiumOfMan
             ["body_parts"] = "Body parts",
             ["soulforge"] = "Soulforge",
             ["augmentation"] = "Augmentation",
-            ["recipe_knowledge"] = "Recipe knowledge",
+            ["recipe_knowledge"] = "Recipes",
             ["acquired_in_game"] = "Acquired in game",
             ["requires_research"] = "Requires Occult Research",
             ["known_pattern"] = "Recipe known; research capability required.",
             ["agga"] = "Agga",
-            ["gannix_shartamakhum"] = "Gannix / Shartamakhum",
+            ["gannix"] = "Gannix",
+            ["shartamakhum"] = "Shartamakhum",
             ["duggur_ron"] = "Duggur / Ron",
             ["scrivnus"] = "Scrivnus",
             ["ur_cattaram"] = "Ur / Cattaram",
@@ -196,7 +197,8 @@ namespace ImperiumOfMan
                     break;
                 case OccultRankThree:
                     yield return (OccultUiText("materials"), OccultUiText("agga"));
-                    yield return (OccultUiText("materials"), OccultUiText("gannix_shartamakhum"));
+                    yield return (OccultUiText("materials"), OccultUiText("gannix"));
+                    yield return (OccultUiText("materials"), OccultUiText("shartamakhum"));
                     break;
                 case OccultRankFour:
                     yield return (OccultUiText("materials"), OccultUiText("duggur_ron"));
