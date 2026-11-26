@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using MGSC;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -29,6 +30,7 @@ namespace ImperiumOfMan
             var canvas = root.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 29000;
+            canvas.pixelPerfect = true;
             var scaler = root.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1280f, 720f);
@@ -69,15 +71,18 @@ namespace ImperiumOfMan
             private const int BranchPage = 8;
             private const int SearchPage = 10;
             private const int DetailPage = 14;
-            private static readonly Color PanelColor = new Color32(28, 43, 36, 252);
-            private static readonly Color RecessColor = new Color32(16, 29, 23, 255);
-            private static readonly Color ButtonColor = new Color32(49, 68, 55, 255);
-            private static readonly Color TextColor = new Color32(197, 214, 189, 255);
-            private static readonly Color DimColor = new Color32(139, 163, 137, 255);
-            private static readonly Color AccentColor = new Color32(183, 210, 158, 255);
+            // Match the native Production window: dark glass, green rules and yellow focus marks.
+            private static readonly Color PanelColor = new Color32(10, 14, 12, 248);
+            private static readonly Color RecessColor = new Color32(4, 10, 8, 244);
+            private static readonly Color ButtonColor = new Color32(8, 19, 14, 255);
+            private static readonly Color SelectedColor = new Color32(36, 75, 64, 255);
+            private static readonly Color BorderColor = new Color32(58, 121, 102, 255);
+            private static readonly Color TextColor = new Color32(129, 181, 122, 255);
+            private static readonly Color DimColor = new Color32(112, 146, 123, 255);
+            private static readonly Color AccentColor = new Color32(255, 253, 184, 255);
             private Component _owner;
             private GameObject _previousSelection;
-            private Font _font;
+            private TMP_FontAsset _font;
             private RectTransform _panel;
             private Vector2 _openPanelPosition;
             private GameObject _collapsedTab;
@@ -95,30 +100,30 @@ namespace ImperiumOfMan
             private string _selectedKey;
             private string _rootItem;
             private string _venue = "All";
-            private readonly Dictionary<string, Image> _venueButtons = new Dictionary<string, Image>();
+            private readonly Dictionary<string, Button> _venueButtons = new Dictionary<string, Button>();
             private CraftingMapGraphic _view;
-            private Text _mapStatus;
-            private Text _catalogStatus;
-            private Text _zoomLabel;
-            private InputField _search;
+            private TextMeshProUGUI _mapStatus;
+            private TextMeshProUGUI _catalogStatus;
+            private TextMeshProUGUI _zoomLabel;
+            private TMP_InputField _search;
             private RectTransform _searchPanel;
             private RectTransform _searchRows;
-            private Text _searchCount;
+            private TextMeshProUGUI _searchCount;
             private int _searchPage;
             private List<CraftingItem> _matches = new List<CraftingItem>();
-            private Text _detailTitle;
-            private Text _detailMeta;
-            private Text _detailNote;
+            private TextMeshProUGUI _detailTitle;
+            private TextMeshProUGUI _detailMeta;
+            private TextMeshProUGUI _detailNote;
             private RectTransform _inputRows;
             private RectTransform _outputRows;
-            private Text _inputTitle;
-            private Text _outputTitle;
+            private TextMeshProUGUI _inputTitle;
+            private TextMeshProUGUI _outputTitle;
             private int _inputPage;
             private int _outputPage;
             private List<DetailRow> _inputDetails = new List<DetailRow>();
             private List<DetailRow> _outputDetails = new List<DetailRow>();
-            private Text _expandInputsLabel;
-            private Text _expandUsesLabel;
+            private TextMeshProUGUI _expandInputsLabel;
+            private TextMeshProUGUI _expandUsesLabel;
 
             public bool BlocksNativeInput => _expanded || _slide > 0.001f;
             public bool IsOwner(Component owner) => _owner == owner;
@@ -127,7 +132,7 @@ namespace ImperiumOfMan
             public void Initialize(Component owner)
             {
                 _owner = owner;
-                _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                _font = Localization.GetActualFont();
                 // Normally supplied by Quasimorph. Own a fallback only if none exists.
                 if (EventSystem.current == null)
                 {
@@ -138,8 +143,9 @@ namespace ImperiumOfMan
                 _modalBlocker = blocker.gameObject.AddComponent<Image>();
                 _modalBlocker.color = new Color(0f, 0f, 0f, 0.24f);
                 _modalBlocker.gameObject.SetActive(false);
-                _panel = Stretch(transform, "Crafting map panel", 0, 24, 52, 24);
+                _panel = Stretch(transform, "Crafting map panel", 14, 24, 52, 24);
                 Paint(_panel, PanelColor);
+                Frame(_panel, BorderColor, true);
                 _openPanelPosition = _panel.anchoredPosition;
                 BuildHeader();
                 BuildCanvas();
@@ -162,34 +168,48 @@ namespace ImperiumOfMan
                 Button(rect, name + " button", action);
                 var captionRect = Rect(rect, "Crafting map label", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
                 captionRect.sizeDelta = new Vector2(148f, 24f);
-                var caption = Text(captionRect, "Crafting map", 16);
-                caption.alignment = TextAnchor.MiddleCenter;
+                var caption = Text(captionRect, "CRAFTING MAP", 16);
+                caption.alignment = TextAlignmentOptions.Midline;
                 caption.rectTransform.localEulerAngles = new Vector3(0f, 0f, 90f);
-                var arrow = Text(At(rect, "Direction", 5f, 7f, 28f, 30f), opening ? "▶" : "◀", 19);
-                arrow.alignment = TextAnchor.MiddleCenter;
+                var arrow = Text(At(rect, "Direction", 5f, 7f, 28f, 30f), opening ? ">" : "<", 19);
+                arrow.alignment = TextAlignmentOptions.Midline;
                 return rect;
             }
 
             private void BuildHeader()
             {
-                Text(At(_panel, "Title", 16f, 9f, 230f, 30f), "Crafting map", 22, true);
+                var heading = Span(_panel, "Production-style heading", 0, 1, 0, 38);
+                Paint(heading, new Color32(15, 16, 16, 255));
+                Frame(heading, TextColor, true);
+                Text(At(heading, "Title", 12f, 3f, 240f, 30f), "CRAFTING MAP", 20);
                 _catalogStatus = Text(Span(_panel, "Catalogue status", 0.23f, 0.66f, 12f, 22f),
-                    "Open the map to read the loaded recipes", 11);
-                var refresh = AtRight(_panel, "Refresh", 92f, 10f, 88f, 28f);
-                TextButton(refresh, "Refresh", () => RefreshIndex(true));
-                TextButton(AtRight(_panel, "Close", 12f, 10f, 70f, 28f), "Collapse", Collapse);
+                    "Open the map to read the loaded recipes", 12);
+                var refresh = AtRight(_panel, "Refresh", 92f, 5f, 88f, 28f);
+                TextButton(refresh, "REFRESH", () => RefreshIndex(true));
+                TextButton(AtRight(_panel, "Close", 8f, 5f, 76f, 28f), "CLOSE", Collapse);
 
                 var searchRect = At(_panel, "Find item", 14f, 46f, 286f, 32f);
                 Paint(searchRect, RecessColor);
-                _search = searchRect.gameObject.AddComponent<InputField>();
-                var inputText = Text(Stretch(searchRect, "Search text", 9, 3, 9, 3), "", 14);
-                inputText.alignment = TextAnchor.MiddleLeft;
-                var placeholder = Text(Stretch(searchRect, "Search hint", 9, 3, 9, 3), "Find any item…", 14);
+                Frame(searchRect, BorderColor);
+                _search = searchRect.gameObject.AddComponent<TMP_InputField>();
+                var viewport = Stretch(searchRect, "Search viewport", 9, 3, 9, 3);
+                viewport.gameObject.AddComponent<RectMask2D>();
+                var inputText = Text(Stretch(viewport, "Search text", 0, 0, 0, 0), "", 14);
+                inputText.alignment = TextAlignmentOptions.MidlineLeft;
+                inputText.enableWordWrapping = false;
+                inputText.overflowMode = TextOverflowModes.Overflow;
+                var placeholder = Text(Stretch(viewport, "Search hint", 0, 0, 0, 0), "FIND ITEM  [CTRL+F]", 14);
                 placeholder.color = DimColor;
+                _search.textViewport = viewport;
                 _search.textComponent = inputText;
                 _search.placeholder = placeholder;
                 _search.targetGraphic = searchRect.GetComponent<Image>();
-                _search.selectionColor = new Color(0.45f, 0.58f, 0.42f, 0.65f);
+                _search.lineType = TMP_InputField.LineType.SingleLine;
+                _search.richText = false;
+                _search.customCaretColor = true;
+                _search.caretColor = AccentColor;
+                _search.caretWidth = 2;
+                _search.selectionColor = new Color32(58, 121, 102, 170);
                 _search.onValueChanged.AddListener(_ => { _searchPage = 0; FindItems(); });
                 var events = searchRect.gameObject.AddComponent<EventTrigger>();
                 var select = new EventTrigger.Entry { eventID = EventTriggerType.Select };
@@ -197,13 +217,13 @@ namespace ImperiumOfMan
                 events.triggers.Add(select);
 
                 string[] venues = { "All", "Magnum", "Workbench", "Station", "Recycling" };
-                string[] captions = { "All", "Magnum", "Workbench", "Stations", "Recovery" };
+                string[] captions = { "ALL", "MAGNUM", "WORKBENCH", "STATIONS", "RECOVERY" };
                 for (int i = 0; i < venues.Length; i++)
                 {
                     string venue = venues[i];
                     var rect = At(_panel, venue + " source", 310f + 85f * i, 46f, 80f, 32f);
                     TextButton(rect, captions[i], () => SetVenue(venue), 12);
-                    _venueButtons.Add(venue, rect.GetComponent<Image>());
+                    _venueButtons.Add(venue, rect.GetComponent<Button>());
                 }
                 MarkVenue();
             }
@@ -212,26 +232,32 @@ namespace ImperiumOfMan
             {
                 var frame = Stretch(_panel, "Graph frame", 14, 204, 14, 88);
                 Paint(frame, RecessColor);
+                Frame(frame, BorderColor, true);
                 frame.gameObject.AddComponent<RectMask2D>();
-                var graphicRect = Stretch(frame, "Connected crafting graph", 0, 0, 0, 0);
+                var graphViewport = Stretch(frame, "Graph viewport", 2, 36, 2, 29);
+                graphViewport.gameObject.AddComponent<RectMask2D>();
+                var graphicRect = Stretch(graphViewport, "Connected crafting graph", 0, 0, 0, 0);
                 _view = graphicRect.gameObject.AddComponent<CraftingMapGraphic>();
                 _view.Initialize(this);
                 var controls = Rect(frame, "Map controls", new Vector2(0f, 0f), new Vector2(1f, 0f));
                 controls.pivot = new Vector2(0.5f, 0f);
                 controls.sizeDelta = new Vector2(0f, 34f);
-                Paint(controls, new Color32(30, 46, 36, 246));
-                TextButton(At(controls, "Zoom out", 6, 4, 28, 26), "−", () => _view.ZoomAtCenter(1f / 1.2f), 18);
+                Paint(controls, new Color32(10, 18, 14, 255));
+                Frame(controls, BorderColor);
+                TextButton(At(controls, "Zoom out", 6, 4, 28, 26), "-", () => _view.ZoomAtCenter(1f / 1.2f), 18);
                 _zoomLabel = Text(At(controls, "Zoom amount", 38, 4, 48, 26), "100%", 12);
-                _zoomLabel.alignment = TextAnchor.MiddleCenter;
+                _zoomLabel.alignment = TextAlignmentOptions.Midline;
                 TextButton(At(controls, "Zoom in", 90, 4, 28, 26), "+", () => _view.ZoomAtCenter(1.2f), 18);
-                TextButton(At(controls, "Fit map", 126, 4, 44, 26), "Fit", () => _view.Fit(), 12);
-                TextButton(At(controls, "Focus node", 178, 4, 60, 26), "Focus", FocusSelection, 12);
+                TextButton(At(controls, "Fit map", 126, 4, 44, 26), "FIT", () => _view.Fit(), 12);
+                TextButton(At(controls, "Focus node", 178, 4, 60, 26), "FOCUS", FocusSelection, 12);
                 _expandInputsLabel = TextButton(At(controls, "Expand inputs", 248, 4, 142, 26),
-                    "Expand inputs", () => ExpandSelection(true), 12);
+                    "EXPAND INPUTS", () => ExpandSelection(true), 12);
                 _expandUsesLabel = TextButton(At(controls, "Expand uses", 398, 4, 142, 26),
-                    "Expand uses", () => ExpandSelection(false), 12);
-                _mapStatus = Text(Span(frame, "Map status", 0f, 1f, 5, 22, 10, 10),
-                    "Drag to pan • wheel to zoom • click to highlight", 11);
+                    "EXPAND USES", () => ExpandSelection(false), 12);
+                var status = Span(frame, "Graph information strip", 0, 1, 1, 27, 1, 1);
+                Paint(status, new Color32(10, 18, 14, 255));
+                _mapStatus = Text(Stretch(status, "Map status", 9, 2, 9, 2),
+                    "Drag to pan • wheel to zoom • click to highlight", 12);
                 _mapStatus.color = DimColor;
             }
 
@@ -241,14 +267,19 @@ namespace ImperiumOfMan
                 details.pivot = new Vector2(0.5f, 0f);
                 details.offsetMin = new Vector2(14, 12);
                 details.offsetMax = new Vector2(-14, 192);
-                Paint(details, new Color32(36, 52, 41, 255));
-                _detailTitle = Text(Span(details, "Selected name", 0, 0.68f, 7, 27, 12, 4), "Select an item or recipe", 18, true);
+                Paint(details, PanelColor);
+                Frame(details, BorderColor, true);
+                var heading = Span(details, "Selected node heading", 0, 1, 0, 35);
+                Paint(heading, new Color32(15, 16, 16, 255));
+                Frame(heading, TextColor);
+                _detailTitle = Text(Span(details, "Selected name", 0, 0.68f, 4, 27, 12, 4), "SELECT AN ITEM OR RECIPE", 18);
+                _detailTitle.color = AccentColor;
                 _detailMeta = Text(Span(details, "Time and venue", 0.68f, 1f, 7, 27, 4, 12), "", 13);
-                _detailMeta.alignment = TextAnchor.MiddleRight;
+                _detailMeta.alignment = TextAlignmentOptions.MidlineRight;
                 var inputs = Span(details, "Input column", 0f, 0.5f, 39, 101, 12, 8);
                 var outputs = Span(details, "Output column", 0.5f, 1f, 39, 101, 8, 12);
-                _inputTitle = Text(Span(inputs, "Input heading", 0, 1, 0, 22, 0, 68), "Inputs", 12, true);
-                _outputTitle = Text(Span(outputs, "Output heading", 0, 1, 0, 22, 0, 68), "Outputs", 12, true);
+                _inputTitle = Text(Span(inputs, "Input heading", 0, 1, 0, 22, 0, 68), "INPUTS", 12);
+                _outputTitle = Text(Span(outputs, "Output heading", 0, 1, 0, 22, 0, 68), "OUTPUTS", 12);
                 TextButton(AtRight(inputs, "Previous inputs", 34, 0, 28, 22), "‹", () => { _inputPage = Math.Max(0, _inputPage - 1); DrawDetailRows(); }, 16);
                 TextButton(AtRight(inputs, "Next inputs", 0, 0, 28, 22), "›", () => { _inputPage = Math.Min(Math.Max(0, (_inputDetails.Count - 1) / DetailPage), _inputPage + 1); DrawDetailRows(); }, 16);
                 TextButton(AtRight(outputs, "Previous outputs", 34, 0, 28, 22), "‹", () => { _outputPage = Math.Max(0, _outputPage - 1); DrawDetailRows(); }, 16);
@@ -264,6 +295,7 @@ namespace ImperiumOfMan
             {
                 _searchPanel = At(_panel, "All item search results", 14, 82, 380, 350);
                 Paint(_searchPanel, PanelColor);
+                Frame(_searchPanel, TextColor, true);
                 _searchCount = Text(At(_searchPanel, "Results count", 8, 5, 250, 24), "", 12);
                 TextButton(AtRight(_searchPanel, "Previous results", 70, 5, 28, 24), "‹", () => { _searchPage = Math.Max(0, _searchPage - 1); DrawSearchResults(); }, 16);
                 TextButton(AtRight(_searchPanel, "Next results", 36, 5, 28, 24), "›", () => { _searchPage = Math.Min(Math.Max(0, (_matches.Count - 1) / SearchPage), _searchPage + 1); DrawSearchResults(); }, 16);
@@ -408,7 +440,14 @@ namespace ImperiumOfMan
             private void MarkVenue()
             {
                 foreach (var button in _venueButtons)
-                    button.Value.color = button.Key == _venue ? new Color32(79, 101, 68, 255) : ButtonColor;
+                {
+                    bool selected = button.Key == _venue;
+                    SetButtonColors(button.Value, selected);
+                    var label = button.Value.GetComponentInChildren<TextMeshProUGUI>();
+                    if (label != null)
+                        label.color = selected ? AccentColor : TextColor;
+                    button.Value.GetComponentInChildren<CraftingMapFrame>()?.SetStyle(selected ? TextColor : BorderColor, selected);
+                }
             }
 
             private bool InVenue(CraftingRecipe recipe) => _venue == "All" || recipe.Venue == _venue;
@@ -599,8 +638,8 @@ namespace ImperiumOfMan
             {
                 Highlight();
                 DrawDetails();
-                _expandInputsLabel.text = "Expand inputs · " + RemainingBranches(true);
-                _expandUsesLabel.text = "Expand uses · " + RemainingBranches(false);
+                _expandInputsLabel.text = "EXPAND INPUTS · " + RemainingBranches(true);
+                _expandUsesLabel.text = "EXPAND USES · " + RemainingBranches(false);
                 _mapStatus.text = _nodes.Count + " map nodes · drag to pan · wheel to zoom · click to highlight · double-click to focus";
                 _view.RefreshVisuals();
                 if (fit)
@@ -698,12 +737,12 @@ namespace ImperiumOfMan
                 DrawDetailColumn(_outputRows, _outputTitle, _outputDetails, ref _outputPage, item ? "Used by" : "Outputs of this order");
             }
 
-            private void DrawDetailColumn(RectTransform content, Text title, List<DetailRow> rows, ref int page, string heading)
+            private void DrawDetailColumn(RectTransform content, TextMeshProUGUI title, List<DetailRow> rows, ref int page, string heading)
             {
                 Clear(content);
                 page = Math.Min(page, Math.Max(0, (rows.Count - 1) / DetailPage));
                 int start = page * DetailPage;
-                title.text = heading + " · " + (rows.Count == 0 ? "0" : (start + 1) + "–" + Math.Min(start + DetailPage, rows.Count) + "/" + rows.Count);
+                title.text = heading.ToUpperInvariant() + " · " + (rows.Count == 0 ? "0" : (start + 1) + "–" + Math.Min(start + DetailPage, rows.Count) + "/" + rows.Count);
                 int shown = 0;
                 for (int i = start; i < Math.Min(start + DetailPage, rows.Count); i++, shown++)
                 {
@@ -750,9 +789,9 @@ namespace ImperiumOfMan
                 private Vector2 _lastDrag;
                 private bool _dragged;
                 private readonly List<NodeLabel> _labels = new List<NodeLabel>();
-                private readonly List<Text> _counts = new List<Text>();
-                private static readonly Color LineColor = new Color32(95, 126, 95, 210);
-                private static readonly Color LitLineColor = new Color32(199, 221, 156, 255);
+                private readonly List<TextMeshProUGUI> _counts = new List<TextMeshProUGUI>();
+                private static readonly Color LineColor = new Color32(45, 94, 76, 210);
+                private static readonly Color LitLineColor = new Color32(165, 190, 122, 255);
 
                 public void Initialize(CraftingMapWindow window)
                 {
@@ -838,12 +877,12 @@ namespace ImperiumOfMan
                             label.Name.rectTransform.offsetMin = new Vector2(7f + iconWidth, area.height * 0.27f);
                             label.Name.rectTransform.offsetMax = new Vector2(-6f, -3f);
                             label.Name.text = item ? _window.Name(node.ItemId) : node.Recipe.Name;
-                            label.Name.fontSize = Mathf.Clamp(Mathf.RoundToInt(13f * _zoom), 10, 22);
-                            label.Name.color = _window._selectedKey == node.Key ? Color.white : TextColor;
+                            label.Name.fontSize = Mathf.Clamp(Mathf.RoundToInt(14f * _zoom), 10, 24);
+                            label.Name.color = _window._selectedKey == node.Key ? AccentColor : TextColor;
                             label.Meta.rectTransform.offsetMin = new Vector2(7f + iconWidth, 2f);
                             label.Meta.rectTransform.offsetMax = new Vector2(-6f, -area.height * 0.68f);
                             label.Meta.fontSize = Mathf.Clamp(Mathf.RoundToInt(10f * _zoom), 9, 16);
-                            label.Meta.text = item ? "ITEM" : node.Recipe.Venue + (node.Recipe.Hours.HasValue ? " · " + node.Recipe.Hours.Value.ToString("0.##") + " h" : "");
+                            label.Meta.text = item ? "ITEM" : node.Recipe.Venue.ToUpperInvariant() + (node.Recipe.Hours.HasValue ? " · " + node.Recipe.Hours.Value.ToString("0.##") + " h" : "");
                         }
                         foreach (var edge in _window._edges)
                         {
@@ -909,11 +948,19 @@ namespace ImperiumOfMan
                             continue;
                         bool selected = _window._selectedKey == node.Key;
                         bool related = _window._highlightNodes.Contains(node.Key);
-                        Color border = selected ? new Color32(219, 234, 173, 255) : related ? AccentColor : new Color32(86, 114, 83, 255);
+                        Color border = selected ? TextColor : related ? new Color32(98, 148, 109, 255) : BorderColor;
                         Quad(helper, area, border);
-                        float inset = selected ? 3f : 1.3f;
+                        float inset = selected ? 1.5f : 1f;
                         Quad(helper, new UnityEngine.Rect(area.x + inset, area.y + inset, area.width - inset * 2, area.height - inset * 2),
-                            node.Recipe == null ? new Color32(41, 61, 45, 255) : new Color32(64, 76, 52, 255));
+                            selected ? SelectedColor : node.Recipe == null ? new Color32(8, 19, 13, 255) : new Color32(13, 29, 23, 255));
+                        if (selected)
+                        {
+                            float tick = Mathf.Min(4f, area.height / 4f);
+                            Quad(helper, new UnityEngine.Rect(area.xMin, area.yMin, tick, tick), AccentColor);
+                            Quad(helper, new UnityEngine.Rect(area.xMin, area.yMax - tick, tick, tick), AccentColor);
+                            Quad(helper, new UnityEngine.Rect(area.xMax - tick, area.yMin, tick, tick), AccentColor);
+                            Quad(helper, new UnityEngine.Rect(area.xMax - tick, area.yMax - tick, tick, tick), AccentColor);
+                        }
                     }
                 }
 
@@ -972,8 +1019,8 @@ namespace ImperiumOfMan
                     var icon = iconRect.gameObject.AddComponent<Image>();
                     icon.preserveAspect = true;
                     icon.raycastTarget = false;
-                    var name = _window.Text(Stretch(root, "Name", 6, 22, 6, 3), "", 13, true);
-                    name.alignment = TextAnchor.MiddleLeft;
+                    var name = _window.Text(Stretch(root, "Name", 6, 22, 6, 3), "", 14);
+                    name.alignment = TextAlignmentOptions.MidlineLeft;
                     var meta = _window.Text(Stretch(root, "Kind", 6, 2, 6, 48), "", 10);
                     meta.color = DimColor;
                     var label = new NodeLabel { Root = root, Icon = icon, Name = name, Meta = meta };
@@ -981,12 +1028,12 @@ namespace ImperiumOfMan
                     return label;
                 }
 
-                private Text GetCount(int index)
+                private TextMeshProUGUI GetCount(int index)
                 {
                     if (index < _counts.Count)
                         return _counts[index];
-                    var label = _window.Text(Rect(transform, "Per-order quantity", Vector2.zero, Vector2.zero), "", 11, true);
-                    label.alignment = TextAnchor.MiddleCenter;
+                    var label = _window.Text(Rect(transform, "Per-order quantity", Vector2.zero, Vector2.zero), "", 11);
+                    label.alignment = TextAlignmentOptions.Midline;
                     _counts.Add(label);
                     return label;
                 }
@@ -1041,8 +1088,8 @@ namespace ImperiumOfMan
                 {
                     public RectTransform Root;
                     public Image Icon;
-                    public Text Name;
-                    public Text Meta;
+                    public TextMeshProUGUI Name;
+                    public TextMeshProUGUI Meta;
                 }
             }
 
@@ -1097,33 +1144,85 @@ namespace ImperiumOfMan
                 return image;
             }
 
-            private Text Text(RectTransform rect, string caption, int size, bool bold = false)
+            private static CraftingMapFrame Frame(RectTransform rect, Color border, bool corners = false)
             {
-                var text = rect.gameObject.AddComponent<Text>();
-                text.font = _font;
-                text.text = caption;
+                var graphic = Stretch(rect, "Native-style frame", 0, 0, 0, 0).gameObject.AddComponent<CraftingMapFrame>();
+                graphic.raycastTarget = false;
+                graphic.SetStyle(border, corners);
+                return graphic;
+            }
+
+            // Simple geometry keeps borders crisp at the canvas scale without borrowing
+            // a native button's listeners, navigation registration or mutable materials.
+            private sealed class CraftingMapFrame : MaskableGraphic
+            {
+                private bool _corners;
+
+                public void SetStyle(Color border, bool corners)
+                {
+                    color = border;
+                    _corners = corners;
+                    SetVerticesDirty();
+                }
+
+                protected override void OnPopulateMesh(VertexHelper helper)
+                {
+                    helper.Clear();
+                    var area = rectTransform.rect;
+                    if (area.width <= 0 || area.height <= 0)
+                        return;
+                    Fill(helper, new UnityEngine.Rect(area.xMin, area.yMin, area.width, 1f), color);
+                    Fill(helper, new UnityEngine.Rect(area.xMin, area.yMax - 1f, area.width, 1f), color);
+                    Fill(helper, new UnityEngine.Rect(area.xMin, area.yMin, 1f, area.height), color);
+                    Fill(helper, new UnityEngine.Rect(area.xMax - 1f, area.yMin, 1f, area.height), color);
+                    if (!_corners)
+                        return;
+                    const float tick = 3f;
+                    Fill(helper, new UnityEngine.Rect(area.xMin, area.yMin, tick, tick), AccentColor);
+                    Fill(helper, new UnityEngine.Rect(area.xMin, area.yMax - tick, tick, tick), AccentColor);
+                    Fill(helper, new UnityEngine.Rect(area.xMax - tick, area.yMin, tick, tick), AccentColor);
+                    Fill(helper, new UnityEngine.Rect(area.xMax - tick, area.yMax - tick, tick, tick), AccentColor);
+                }
+
+                private static void Fill(VertexHelper helper, UnityEngine.Rect area, Color tint)
+                {
+                    int start = helper.currentVertCount;
+                    helper.AddVert(new Vector3(area.xMin, area.yMin), tint, Vector2.zero);
+                    helper.AddVert(new Vector3(area.xMin, area.yMax), tint, Vector2.zero);
+                    helper.AddVert(new Vector3(area.xMax, area.yMax), tint, Vector2.zero);
+                    helper.AddVert(new Vector3(area.xMax, area.yMin), tint, Vector2.zero);
+                    helper.AddTriangle(start, start + 1, start + 2);
+                    helper.AddTriangle(start, start + 2, start + 3);
+                }
+            }
+
+            private TextMeshProUGUI Text(RectTransform rect, string caption, int size)
+            {
+                var text = rect.gameObject.AddComponent<TextMeshProUGUI>();
+                // Resolve even initially empty labels: ActualizeFontAndSize skips empty text.
+                if (_font != null)
+                    text.font = _font;
+                text.text = caption ?? string.Empty;
+                // Resolve the active native language font without cloning or altering its assets.
+                Localization.ActualizeFontAndSize(text, TextContext.IgnoreSize);
                 text.fontSize = size;
-                text.fontStyle = bold ? FontStyle.Bold : FontStyle.Normal;
+                text.fontStyle = FontStyles.Normal;
                 text.color = TextColor;
-                text.alignment = TextAnchor.MiddleLeft;
-                text.horizontalOverflow = HorizontalWrapMode.Wrap;
-                text.verticalOverflow = VerticalWrapMode.Truncate;
-                text.supportRichText = false;
+                text.alignment = TextAlignmentOptions.MidlineLeft;
+                text.enableWordWrapping = true;
+                text.overflowMode = TextOverflowModes.Truncate;
+                text.richText = false;
                 text.raycastTarget = false;
                 return text;
             }
 
             private Button Button(RectTransform rect, string name, Action action)
             {
-                var image = rect.GetComponent<Image>() ?? Paint(rect, ButtonColor);
+                var image = rect.GetComponent<Image>() ?? Paint(rect, Color.white);
+                Frame(rect, BorderColor);
                 var button = rect.gameObject.AddComponent<Button>();
                 button.targetGraphic = image;
-                var colors = button.colors;
-                colors.normalColor = Color.white;
-                colors.highlightedColor = new Color(1.22f, 1.22f, 1.16f, 1);
-                colors.pressedColor = new Color(0.7f, 0.85f, 0.7f, 1);
-                colors.selectedColor = new Color(1.12f, 1.17f, 1.08f, 1);
-                button.colors = colors;
+                SetButtonColors(button, false);
                 button.navigation = new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.None };
                 if (action != null)
                     button.onClick.AddListener(() => action());
@@ -1132,11 +1231,24 @@ namespace ImperiumOfMan
                 return button;
             }
 
-            private Text TextButton(RectTransform rect, string caption, Action action, int size = 13)
+            private static void SetButtonColors(Button button, bool selected)
+            {
+                var colors = button.colors;
+                colors.normalColor = selected ? SelectedColor : ButtonColor;
+                colors.highlightedColor = new Color32(31, 64, 47, 255);
+                colors.pressedColor = new Color32(55, 87, 58, 255);
+                colors.selectedColor = colors.normalColor;
+                colors.disabledColor = new Color32(8, 13, 10, 255);
+                colors.colorMultiplier = 1f;
+                colors.fadeDuration = 0.06f;
+                button.colors = colors;
+            }
+
+            private TextMeshProUGUI TextButton(RectTransform rect, string caption, Action action, int size = 13)
             {
                 Button(rect, caption, action);
                 var text = Text(Stretch(rect, "Label", 4, 1, 4, 1), caption, size);
-                text.alignment = TextAnchor.MiddleCenter;
+                text.alignment = TextAlignmentOptions.Midline;
                 return text;
             }
 
@@ -1155,7 +1267,8 @@ namespace ImperiumOfMan
 
             private static RectTransform Scroll(RectTransform root)
             {
-                Paint(root, new Color32(24, 39, 29, 255));
+                Paint(root, RecessColor);
+                Frame(root, new Color32(27, 60, 45, 255));
                 var scroll = root.gameObject.AddComponent<ScrollRect>();
                 // Reserve the gutter even when the bar hides, so labels never
                 // reflow or sit beneath the 10-unit track and its margins.
@@ -1168,10 +1281,10 @@ namespace ImperiumOfMan
                 var track = Rect(root, "Vertical scrollbar", new Vector2(1, 0), Vector2.one);
                 track.offsetMin = new Vector2(-12, 2);
                 track.offsetMax = new Vector2(-2, -2);
-                Paint(track, ButtonColor);
+                Paint(track, BorderColor);
                 var slidingArea = Stretch(track, "Sliding area", 1, 1, 1, 1);
                 var handle = Stretch(slidingArea, "Handle", 0, 0, 0, 0);
-                var handleImage = Paint(handle, DimColor);
+                var handleImage = Paint(handle, TextColor);
                 var scrollbar = track.gameObject.AddComponent<Scrollbar>();
                 scrollbar.direction = Scrollbar.Direction.BottomToTop;
                 scrollbar.handleRect = handle;

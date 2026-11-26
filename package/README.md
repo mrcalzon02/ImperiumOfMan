@@ -1,20 +1,22 @@
 # Runtime package
 
-## Current source — 1.1.10 ration recovery correction
+## Current verified package — 1.1.10 ration recovery correction
 
-Source [5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad](https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad), assembly **1.1.10.0**, removes the unintended eight-ration-to-one-biomass conversion and its batch machinery/UI. Both Corpse Starch and Dirty Corpse Starch have independent empty disassembly lists, preserving their native donor item. Forward manufacturing, actual spoiled-organic recovery, clone harvesting, equipment salvage and protected-item handling remain. [Native build 45870535209](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45870535209) completed successfully. Its [immutable receipt](https://github.com/mrcalzon02/Dens-Mortis/blob/ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc/runner-results/quasimorph-native/45870535209-1/build-receipt.json) confirms compilation passed for this exact source. Game boot and gameplay were not run, and full 1.1.10 package verification is not recorded here. The last verified public ZIP remains 1.1.9. [1.1.10 change notes](../docs/crafting/CHANGE_NOTES_1.1.10.txt).
+**[Download ImperiumOfMan-1.1.10-CraftingMap.zip](https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/186e2b76464b91888101657caec5e5cd531c80bb/package/ImperiumOfMan-1.1.10-CraftingMap.zip)** · [GitHub file](https://github.com/mrcalzon02/ImperiumOfMan/blob/186e2b76464b91888101657caec5e5cd531c80bb/package/ImperiumOfMan-1.1.10-CraftingMap.zip) · [Screenshot gallery and direct image links](../docs/crafting/DELIVERABLES.md)
 
-## Last verified package — 1.1.9 Crafting Map and occult capabilities
+Compiled source: [5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad](https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad). Assembly **1.1.10.0**. Publication commit: `186e2b76464b91888101657caec5e5cd531c80bb`.
 
-**Version notice:** the ZIP below is the verified `347de7d` build. It **still includes the old ration recovery route and does not contain the 1.1.10 correction**. The 1.1.9 features and acceptance records below describe that historical binary.
+This package removes the unintended eight-ration-to-one-biomass conversion and its batch machinery/UI. Both Corpse Starch and Dirty Corpse Starch have independent empty disassembly lists, preserving their native donor item. Forward manufacturing, eligible spoiled-organic recovery, clone harvesting, equipment salvage and protected-item handling remain. [1.1.10 change notes](../docs/crafting/CHANGE_NOTES_1.1.10.txt).
 
-Last verified package: **[ImperiumOfMan-1.1.9-CraftingMap.zip](ImperiumOfMan-1.1.9-CraftingMap.zip)**. Source `347de7db77f9121ad26e1c12c534b97760ee92f2`, assembly **1.1.9.0**. Native build [45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203) and package verification passed with zero warnings/errors. Session 005 verified the map controls and queue completion. Corrected-directory session 006 passed Space/save and a bounded 46-hour-20-minute game-time check without the earlier preset exception. Session 007 used the unchanged package and confirmed an exact +4 change in the named Metal smelting feedstock stack, plus Focus, double-click, station cooutputs and a searchable item without a producer. The 1.1.9 six-node visuals and both corrected tooltip hovers passed. Research purchases, chip learning, recycling and other transaction checks retain the limits below. [Concise 1.1.9 crafting notes](../docs/crafting/CHANGE_NOTES_1.1.9_CRAFTING_MAP.txt) · [Cumulative 1.1.9 change notes](../docs/crafting/CHANGE_NOTES_1.1.9.txt).
+[Native build 45870535209](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45870535209) passed with zero warnings and errors. The [published verification receipt](https://github.com/mrcalzon02/ImperiumOfMan/blob/186e2b76464b91888101657caec5e5cd531c80bb/diagnostics/FinishedRationBuildReceipt.json) records complete transport, ZIP CRC, four-member, member-hash, manifest, assembly-version and embedded-artwork checks. Static inspection of the compiled DLL verified removal of the ration reverse route and its bulk hooks, preservation of the forward recipe, and independent empty ration disassembly lists.
 
-The cumulative comparison starts at the published [v1.1.0 release](https://github.com/mrcalzon02/ImperiumOfMan/releases/tag/v1.1.0), source `b08c27e38bbc73712e073ec9141a6e8769984d9a`. The campaign and endgame content already present there is retained background. The changes below are included in this compiled test package; their gameplay acceptance is recorded separately. This review has not published the candidate as a Steam update.
+ZIP: **11,794,130 bytes**. SHA-256: `8af3889a259a8a988d7e2a154d4a87af653b59b3a05de5c9616a32e529e00cf1`.
 
-## Install the verified 1.1.9 package for testing
+**Gameplay scope:** game boot and gameplay were not run for 1.1.10. The gallery and earlier runtime observations are from source `347de7d`, assembly 1.1.9.0; they retain that attribution.
 
-Use the complete verified candidate ZIP linked above.
+## Install the verified 1.1.10 package for testing
+
+Use the complete 1.1.10 ZIP linked above. It includes the finished-ration correction.
 
 Close Quasimorph. On the tested installation, open this Workshop folder:
 
@@ -32,6 +34,14 @@ Extract the ZIP, open its `ImperiumOfMan` folder, and copy these **four files di
 - `thumbnail.png`
 
 Do not add a nested `ImperiumOfMan` directory inside the Workshop folder. The separate loose `package/ImperiumOfMan/` folder in this repository is the older baseline; use the complete ZIP.
+
+## Historical 1.1.9 package and gameplay evidence
+
+**Historical version:** this older `347de7d` ZIP contains the former ration recovery route. Use the 1.1.10 download above for the correction. The 1.1.9 features and gameplay records below retain their original source attribution.
+
+Historical package: **[ImperiumOfMan-1.1.9-CraftingMap.zip](ImperiumOfMan-1.1.9-CraftingMap.zip)**. Source `347de7db77f9121ad26e1c12c534b97760ee92f2`, assembly **1.1.9.0**. Native build [45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203) and package verification passed with zero warnings/errors. Session 005 verified the map controls and queue completion. Corrected-directory session 006 passed Space/save and a bounded 46-hour-20-minute game-time check without the earlier preset exception. Session 007 used the unchanged package and confirmed an exact +4 change in the named Metal smelting feedstock stack, plus Focus, double-click, station cooutputs and a searchable item without a producer. The 1.1.9 six-node visuals and both corrected tooltip hovers passed. Research purchases, chip learning, recycling and other transaction checks retain the limits below. [Concise 1.1.9 crafting notes](../docs/crafting/CHANGE_NOTES_1.1.9_CRAFTING_MAP.txt) · [Cumulative 1.1.9 change notes](../docs/crafting/CHANGE_NOTES_1.1.9.txt).
+
+The cumulative comparison starts at the published [v1.1.0 release](https://github.com/mrcalzon02/ImperiumOfMan/releases/tag/v1.1.0), source `b08c27e38bbc73712e073ec9141a6e8769984d9a`. The campaign and endgame content already present there is retained background. The changes below are included in this compiled test package; their gameplay acceptance is recorded separately. This review has not published the candidate as a Steam update.
 
 ## Changes included in the verified 1.1.9 package
 
@@ -69,7 +79,7 @@ The spoiled-organic rule now checks the destination itself for spoilage and orga
 
 The candidate also includes the top raid call-in drawer, native upgrade effect rows and item descriptions, and separate Comms Node turret replacement chains for non-story missions. Random-site, entrance, and extraction locations independently progress from Ballistic through Flamer, Beamer, Arc, and Lance; each deploys its highest purchased type. Ship marker, node-size, lock-tint, and fitted-mount connection corrections are retained. [Occult production](../diagnostics/OccultOrganicProduction.md) · [Capabilities](../diagnostics/OccultResearchExpansion.md) · [Call-in drawer](../diagnostics/ShipSupportDrawer.md) · [Comms turrets](../diagnostics/CommsTurretProgression.md)
 
-## Current 347 observations and remaining limits
+## Historical 1.1.9 observations and remaining limits
 
 ### Session 007: completed production and map continuation
 
