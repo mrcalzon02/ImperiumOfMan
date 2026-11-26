@@ -1,0 +1,213 @@
+{
+  "schema": "iom.crafting-map-build-receipt.v1",
+  "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99",
+  "source_tree_sha": "01fc2ceefdbc865442b932d59f0502f87e227b5e",
+  "assembly_version": "1.1.11.0",
+  "status": "native_build_verified_test_package_published_runtime_acceptance_pending",
+  "source_change": "Expanded Crafting Map candidate: separate processing families, routed dependency branches, native TMP styling and icons, player-facing names and recipe descriptions, bounded ingredient trees from registered base-game and installed-mod data, two manufacturing intermediates, and replenishing Ore Cargo supply. The earlier native-style baseline is retained as historical evidence.",
+  "native_compile": "passed",
+  "compiler_warnings": 0,
+  "compiler_errors": 0,
+  "native_compile_elapsed": "00:00:09.68",
+  "package": {
+    "repository_path": "package/ImperiumOfMan-1.1.11-CraftingMap.zip",
+    "candidate_name": "ImperiumOfMan-b89e15990b42-native-candidate.zip",
+    "verified": true,
+    "bytes": 11819417,
+    "sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
+    "git_blob_sha": "fced694e499dc8944dc59193fe79e93820c19a05",
+    "publication_status": "published_in_same_commit_as_this_receipt",
+    "zip_crc_verified": true,
+    "member_root": "ImperiumOfMan/",
+    "member_count": 4,
+    "exact_four_members": true,
+    "all_member_lengths_and_hashes_match_build_receipt": true,
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 14050304,
+        "sha256": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    },
+    "mod_identity": "Cvar_ImperiumOfMan",
+    "assemblies": [
+      "ImperiumOfMan.dll"
+    ],
+    "assembly_name": "ImperiumOfMan",
+    "assembly_version": "1.1.11.0"
+  },
+  "native_build": {
+    "run_id": 45886658790,
+    "job_id": 140138927051,
+    "run_attempt": 1,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45886658790",
+    "run_conclusion": "success",
+    "controller_sha": "5c32623418d63b98871438ad7d4c0c810e91a6bd",
+    "request": {
+      "mode": "native-build",
+      "request_id": "crafting-map-branches-1.1.11-002",
+      "schema": "iom.native-validation.v1",
+      "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99"
+    },
+    "request_commit_changed_only": "runner-requests/quasimorph-native-validation.json",
+    "request_git_blob_sha": "05261b736e0bff3ddb51f0ed953091446df1b870",
+    "result": "NATIVE_COMPILE_PASSED_GAMEPLAY_NOT_RUN",
+    "delivery_commit": "119cfe8c7c47a4d01d0263c203451fb64778a208",
+    "delivery_prefix": "runner-results/quasimorph-native/45886658790-1",
+    "optional_actions_artifact": "Storage quota prevented optional Actions artifact upload; required private Git delivery succeeded."
+  },
+  "transport_verification": {
+    "schema": "iom.native-candidate-base64.v1",
+    "encoding": "base64",
+    "chunks_verified": 31,
+    "all_chunk_lengths_and_sha256_verified": true,
+    "all_chunk_git_blob_sha_verified": true,
+    "strict_base64_decode": true,
+    "candidate_bytes": 11819417,
+    "candidate_sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
+    "candidate_git_blob_sha": "fced694e499dc8944dc59193fe79e93820c19a05"
+  },
+  "compiled_metadata": {
+    "assembly_name": "ImperiumOfMan",
+    "assembly_version": "1.1.11.0",
+    "compiled_tmpro_reference": true,
+    "compiled_tmpro_types": [
+      "FontStyles",
+      "TMP_FontAsset",
+      "TMP_InputField",
+      "TMP_Text",
+      "TextAlignmentOptions",
+      "TextMeshProUGUI",
+      "TextOverflowModes"
+    ],
+    "compiled_branching_dependency_methods": {
+      "CraftingDependencyResolver`1": [
+        "RegisterItem",
+        "AddRecipe",
+        "TraceIngredients"
+      ],
+      "CraftingGraphLayout": [
+        "Arrange"
+      ],
+      "CraftingMapWindow": [
+        "TraceSelectedIngredients",
+        "ArrangeGraph"
+      ]
+    },
+    "listed_methods_have_compiled_bodies": true,
+    "assembly_loaded_or_executed_during_local_verification": false
+  },
+  "primary_blob_upload": {
+    "repository": "mrcalzon02/ImperiumOfMan",
+    "git_blob_sha": "fced694e499dc8944dc59193fe79e93820c19a05",
+    "upload_encoding": "base64",
+    "returned_sha_matches_locally_verified_zip": true,
+    "created_as_unreferenced_blob": true,
+    "branch_or_ref_modified_by_upload": false,
+    "publication_pending": true
+  },
+  "native_boot": "not_run_in_native_build",
+  "gameplay_validation": "not_run_in_native_build",
+  "live_game_or_save_modified_by_native_build": false,
+  "headed_validation_followup": {
+    "session": "009",
+    "run_id": 45887627504,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45887627504",
+    "controller_sha": "5e8a70f7d2186cb2720842c74ee9af0e3cad04af",
+    "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99",
+    "candidate_sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
+    "acceptance": "pending",
+    "operator": "root",
+    "runtime_evidence": "Pending the session owner's observations and cleanup receipt. Package publication and runtime acceptance are tracked separately.",
+    "status": "planned_runtime_acceptance_pending"
+  },
+  "native_api_inspection": {
+    "status": "partial",
+    "purpose": "Determine current mod loading and safe future boot isolation; this is not gameplay acceptance.",
+    "station_types_read": [
+      "MGSC.StationSystem",
+      "MGSC.Station",
+      "MGSC.StationBarterRecord",
+      "MGSC.BarterReceipt"
+    ],
+    "incomplete_types": {
+      "MGSC.BaseMagnumWindow": "Tool exited 70; see MGSC.BaseMagnumWindow.txt",
+      "MGSC.ItemTooltipHelper": "Tool exited 70; see MGSC.ItemTooltipHelper.txt",
+      "MGSC.UiCanvas": "Tool exited 70; see MGSC.UiCanvas.txt"
+    },
+    "limitations": "The four station types were captured from the installed native assembly. Static API inspection establishes available implementation details, not a completed Ore Cargo trade or any other runtime transaction. The three unavailable type captures are separate from the successful native compile."
+  },
+  "installed_native_references": {
+    "game_executable_sha256": "85a6ceaaef775d537bd4eab4e62d9b9c3c4f88c6a48c32c5093b7bfa0f0e2f8e",
+    "managed_assemblies_sha256": {
+      "0Harmony.dll": "498ede1d20a87afaa6c7b1ed5b3beb505b01dc418b952c1be5c322204404b033",
+      "Assembly-CSharp.dll": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+      "SimpleJSON.dll": "2521e3c93c6992ee48981059a8e473152631ae7467002e60e8b9bf6f3b92ff82",
+      "Unity.RenderPipelines.Universal.Runtime.dll": "eacb4ef9bf829643ff08d29b5fcd4c03b9551b1892cb84ba1f8dc2d116197a28",
+      "UnityEngine.AssetBundleModule.dll": "888102f4fac12e8695d185d6770f637d520167caf2aa620d17c5ad1527eb08c3",
+      "UnityEngine.AudioModule.dll": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88",
+      "UnityEngine.CoreModule.dll": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e",
+      "UnityEngine.IMGUIModule.dll": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78",
+      "UnityEngine.ImageConversionModule.dll": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b",
+      "UnityEngine.InputLegacyModule.dll": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375",
+      "UnityEngine.Physics2DModule.dll": "6489c192c7fff6e4ed2d6bffdb26cb64133143bb117cacda3cb4bd730162294a",
+      "UnityEngine.TextRenderingModule.dll": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d",
+      "UnityEngine.TilemapModule.dll": "71c4505976bd5e8f5e74206fe69ce4baae96a9eb3e46a467d2a4bd5ac598f69b",
+      "UnityEngine.UI.dll": "5c7fb38aaa094f9709f29340062d4ce0603f110e2e91a30887c3212dcec5231f",
+      "UnityEngine.UIModule.dll": "f3e21499db60bd6a7569f2209d304828eb6778e1143b72a71ad72b4a61848097",
+      "UnityEngine.dll": "9568a6c178e9c322a6b155213be04661c920fcf46418e8e38b4af9646362d5c6"
+    }
+  },
+  "evidence": [
+    {
+      "commit": "119cfe8c7c47a4d01d0263c203451fb64778a208",
+      "path": "runner-results/quasimorph-native/45886658790-1/build-receipt.json",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/119cfe8c7c47a4d01d0263c203451fb64778a208/runner-results/quasimorph-native/45886658790-1/build-receipt.json",
+      "git_blob_sha": "e559d0a26355a4a565e4d769f45f580b4b903255",
+      "bytes": 6443,
+      "sha256": "44c4e822f8a7802aab212377f94a9627756f997f23928b5169922dc8aef792ee"
+    },
+    {
+      "commit": "119cfe8c7c47a4d01d0263c203451fb64778a208",
+      "path": "runner-results/quasimorph-native/45886658790-1/native-build.log",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/119cfe8c7c47a4d01d0263c203451fb64778a208/runner-results/quasimorph-native/45886658790-1/native-build.log",
+      "git_blob_sha": "812ed2ac0193c032bf5443d0927cd1a1f446baea",
+      "bytes": 720,
+      "sha256": "e1a24f802f61ed95eb1c03131392f90843a32167df98aa582b40875b5dd937cd"
+    },
+    {
+      "commit": "119cfe8c7c47a4d01d0263c203451fb64778a208",
+      "path": "runner-results/quasimorph-native/45886658790-1/candidate-base64/manifest.json",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/119cfe8c7c47a4d01d0263c203451fb64778a208/runner-results/quasimorph-native/45886658790-1/candidate-base64/manifest.json",
+      "git_blob_sha": "18c26f75b56202a02bb8865de07ee68af1550c53",
+      "bytes": 5591,
+      "sha256": "179efed4feeb85fa7dbcbf38c66c9e69d5d86f0e0695d26678cc8a8ba1a14c7a"
+    },
+    {
+      "commit": "119cfe8c7c47a4d01d0263c203451fb64778a208",
+      "path": "runner-results/quasimorph-native/45886658790-1/native-api-receipt.json",
+      "url": "https://github.com/mrcalzon02/Dens-Mortis/blob/119cfe8c7c47a4d01d0263c203451fb64778a208/runner-results/quasimorph-native/45886658790-1/native-api-receipt.json",
+      "git_blob_sha": "c43de17e6fb211839139644f54726665844c04c2",
+      "bytes": 2317,
+      "sha256": "1030a68e874a5eb17952fcb91a2d59d5b3a71f376658d5b61b97c7dfce15e4ff"
+    }
+  ],
+  "historical_baseline": {
+    "receipt": "diagnostics/CraftingMapNativeStyleBaselineReceipt.json",
+    "source_sha": "e6c3026b3a11e4194b4597866099fcee850d836a",
+    "native_build_run_id": 45878912836,
+    "relationship": "Earlier native-style baseline; its package is not this expanded b89 candidate."
+  },
+  "verification_scope": "Exact source b89e15990b42d8bc4911237d5d1502fe0c283d99 compiled against installed native references with zero warnings and errors. All 31 transport chunks, the reconstructed ZIP size, SHA256, Git blob SHA and CRC, all four runtime members and their hashes, mod identity, assembly version, compiled TMP types, and new graph/dependency method bodies were verified. The verified ZIP was uploaded only as an unreferenced primary-repository blob. Runtime acceptance and publication at the target package path remain pending; no runtime success is inferred from compilation or metadata checks."
+}
