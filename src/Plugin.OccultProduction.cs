@@ -150,13 +150,13 @@ namespace ImperiumOfMan
                 RefreshOccultKnowledge(game.Get<MagnumCargo>(), game.Get<MagnumProgression>());
         }
 
-        [HarmonyPatch(typeof(MagnumProductionWindow), nameof(MagnumProductionWindow.Show), [])]
+        [HarmonyPatch(typeof(MagnumProductionWindow), "OnEnable")]
         private static class RefreshOccultProduction
         {
             private static void Prefix() => RefreshCurrentOccultKnowledge();
         }
 
-        [HarmonyPatch(typeof(MagnumSelectItemToProduceWindow), nameof(MagnumSelectItemToProduceWindow.Show), [typeof(int)])]
+        [HarmonyPatch(typeof(MagnumSelectItemToProduceWindow), nameof(MagnumSelectItemToProduceWindow.Configure), [typeof(int)])]
         private static class RefreshOccultPicker
         {
             private static void Prefix() => RefreshCurrentOccultKnowledge();
