@@ -14,11 +14,11 @@ The audit job reports a partial result because a sixth requested type, `MGSC.Ite
 
 ## Compatibility change
 
-`Plugin.OccultProjectCompatibility.cs` replaces the single record-list getter inside native `InjectItemRecord`. For supported equipment with an exact `PactComponentRecord` supplement, it supplies a filtered list to the native equipment-cloning loop. It never removes records from the source composite.
+`Plugin.OccultProjectCompatibility.cs` replaces the single record-list getter inside native `InjectItemRecord`. For this mod's newly registered occult recipes with supported equipment and an exact `PactComponentRecord` supplement, it supplies a filtered list to the native equipment-cloning loop. It never removes records from the source composite.
 
-Native weapon, armor, helmet, leggings and boots cloning, localization, custom-record replacement, and `ApplyModifications` remain in the original method. After that method succeeds, the postfix appends an independent pact record under the same `_custom` item ID. Native equipment remains the first record and therefore retains its descriptor and applied upgrades. The pact's essence, power, stability, stack size and inherited values are retained; its categories and disassembly quantities are copied independently.
+Native weapon, armor, helmet, leggings and boots cloning, localization, custom-record replacement, and `ApplyModifications` remain in the original method. After that method succeeds, the postfix checks Harmony's `__runOriginal` flag and recipe ownership before it appends an independent pact record under the same `_custom` item ID. Native equipment remains the first record and therefore retains its descriptor and applied upgrades. The pact's essence, power, stability, stack size and inherited values are retained; its categories and disassembly quantities are copied independently.
 
-Ordinary items retain their original record-list object. Unsupported supplemental types still reach the native exception path. A pact record supplied by another compatible patch is preserved. The transpiler requires exactly one matching getter in the native method, so an incompatible future method shape is reported explicitly.
+Ordinary items and recipes not added by this occult module retain their original record-list object. A native method skipped by another prefix causes no postfix mutation. Successful pact attachment writes a bounded source/custom-ID diagnostic for headed verification. Unsupported supplemental types still reach the native exception path. A pact record supplied by another compatible patch is preserved. The transpiler requires exactly one matching getter in the native method, so an incompatible future method shape is reported explicitly.
 
 All 53 occult formulas and the existing physical chip pools remain present. This fix changes no research purchase, recipe knowledge, or saved project collection.
 

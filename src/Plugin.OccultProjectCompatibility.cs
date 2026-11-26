@@ -51,6 +51,7 @@ namespace ImperiumOfMan
             private static List<BasePickupItemRecord> GetNativeProjectRecords(CompositeItemRecord source)
             {
                 List<BasePickupItemRecord> records = source.Records;
+                if (!AddedOccultRecipes.Contains(source.Id)) return records;
                 // Preserve list identity and native behavior for every ordinary item.
                 // Unknown supplemental types still reach the native exception path.
                 return IsPactEquipment(records)
@@ -58,8 +59,10 @@ namespace ImperiumOfMan
                     : records;
             }
 
-            private static void Postfix(MagnumProject project)
+            private static void Postfix(MagnumProject project, bool __runOriginal)
             {
+                // A skipped original has not built a new native custom record.
+                if (!__runOriginal || project == null || !AddedOccultRecipes.Contains(project.DevelopId)) return;
                 if (Data.Items.GetRecord(project.DevelopId) is not CompositeItemRecord source ||
                     !IsPactEquipment(source.Records)) return;
 
@@ -83,6 +86,8 @@ namespace ImperiumOfMan
                     // scalar/string properties and other inherited data are preserved.
                     Data.Items.AddRecord(customId, clone);
                 }
+                UnityEngine.Debug.Log("[Cvar_ImperiumOfMan] Preserved project pact components: " +
+                    project.DevelopId + " -> " + customId + " (" + source.Records.Count(IsPactComponent) + ").");
             }
         }
     }
