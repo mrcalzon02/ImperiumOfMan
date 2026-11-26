@@ -42,6 +42,7 @@ namespace ImperiumOfMan
         {
             foreach (var entry in OccultTooltipText)
                 TranslationPatch.AddShipSupportText(OccultTooltipPrefix + entry.Key, entry.Value);
+            RegisterOrganicRecyclingUiText();
         }
 
         private static string OccultUiText(string key)

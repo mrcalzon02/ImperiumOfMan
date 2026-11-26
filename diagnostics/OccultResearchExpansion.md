@@ -19,6 +19,21 @@ The six nodes form an adjacent two-row sequence: `(0,0) -> (1,0) -> (2,0) -> (2,
 
 These samples are consumed by the native upgrade purchase transaction. Their purpose is to require acquired occult material before repeatable manufacture. They are not fabrication inputs charged on every subsequent order. `quasisamples` is a real native ScienceBarter record in the immutable [exported game configuration](https://github.com/Raigir/Quasimorph-Mod-Tool/blob/e6e557f1f679da0b2462ba2862296e08bd70cd28/ref/base/trash.txt); the installed game's complete item/configuration snapshot still requires runtime verification.
 
+## Existing saves
+
+The prior layout used four facility purchases followed by five research ranks. Its research IDs were reused by the six-capability layout, so saves containing any obsolete facility ID receive a one-time capability migration during `MagnumProgression.OnAfterLoad`.
+
+| Highest old purchase | Preserved capability |
+| --- | --- |
+| Clone Vat or Containment Cradle | I Culture |
+| Essence Still or Gavvakh Retort | II Distillation |
+| I Manifestation | III Manifestation |
+| II Binding | IV Binding |
+| III Infusion | V Infusion |
+| IV Soulforge or V Ascension | VI Soulforge |
+
+Migration snapshots the old purchases before adding the mapped capability and its prerequisites with native `AddPerk(..., silent: true)`. It then removes only the four obsolete facility IDs. Other purchases and every learned recipe remain unchanged. Removing the old markers makes later loads a no-op; saves without those markers are never reinterpreted. The migration does not add facility records or extra visible nodes. Native save/load validation remains pending.
+
 ## In-game knowledge
 
 `Plugin.OccultKnowledge.cs` declares **21 physical pattern-chip pools** covering all **53 candidate new formulas**. Each physical chip teaches **one** pattern selected by the native datadisk mechanism; the largest declared pool has five candidates. Research purchases, loading a save, and opening Production grant none of these patterns.

@@ -1,0 +1,71 @@
+IMPERIUM REFORGED 1.1.9 — OCCULT CAPABILITIES AND ORGANIC RECYCLING
+
+Research and recipe knowledge
+
+Occult Research has six purchases: Culture, Distillation, Manifestation,
+Binding, Infusion and Soulforge. They grant fabrication capability. They do
+not teach recipes, refresh recipe knowledge on load, or grant a recipe when
+Production is opened. Each level after the first requires the previous level.
+
+Physical pattern chips provide recipe knowledge through existing faction
+stock and contract-reward routes. Each chip teaches one selected recipe from
+its small pool. The source declares 21 pools and 53 candidate new formulas;
+existing native formulas and missing native records are skipped before the
+runtime chip pools are created. An order needs both its learned recipe and
+its purchased research capability.
+
+Production
+
+The starter chain uses final quantities, without the ordinary helper's
+input reduction or batch multiplier:
+
+  Clone gestation:      no cargo       -> 2 Raw Clones          / 8 hours
+  Torment containment:  2 Raw Clones   -> 4 Torment Imprints     / 4 hours
+  Suffering separation:4 Imprints     -> 4 Suffering Essence    / 4 hours
+  Gavvakh condensation:4 Essence      -> 2 native Gavvakh       / 4 hours
+
+Culture enables the first two processes; Distillation enables the last two.
+The native Gavvakh formula takes precedence if one already exists. Production
+speed/difficulty modifiers and normal production-line scheduling still apply.
+
+Selected clone recycling instead spends one Raw Clone for four flesh, two
+skin and one rib, when those installed native records exist. It does not
+spawn an actor or award combat rewards. A clone spent this way cannot also
+enter torment production.
+
+Native spoiled organics are detected from their actual expiry mappings, with
+a bounded rotten-flesh fallback. Their selected ship-recycling route returns
+two Raw Vat Biomass per item. Fresh-food and native antibiotic routes remain
+available. Ordinary food, dressings, medicines and mechanical stock retain
+normal crafting access.
+
+Presentation
+
+Six generated research images have matched green normal and crimson locked
+versions. The game controls available/purchased opacity and its yellow markers.
+The clone, imprint, essence and physical pattern chip each have inventory,
+floor and shadow sprites: 24 runtime PNGs in total. Source artwork and the
+repeatable export script are included in the repository.
+
+The Occult Research ship pip is positioned between the native Engineering
+and Research anchors. Research tooltips explain capabilities and acquired
+recipe knowledge. A learned recipe whose capability is missing is dimmed in
+Production and explains the required research instead of starting an order.
+
+The Crafting Map reports knowledge, capability and materials separately. The
+offline source map now includes the occult candidates with exact quantities
+and physical chip sources. The six-capability reference replaces the original
+four-facility proposal wherever that old design differs from current source.
+
+Preserved acquisition rules
+
+Fury Sigil remains purchase-only. Shadowblade remains a finale reward.
+Purity Seal reward behavior is retained. Existing native formulas and the
+player's already learned recipes are preserved.
+
+Verification
+
+See diagnostics/OccultResearchExpansion.md and
+diagnostics/OccultOrganicProduction.md for current build and gameplay evidence.
+Source counts, diagrams and sprite previews do not establish native runtime
+acceptance. This file is included with the tested candidate when available.
