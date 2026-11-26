@@ -106,20 +106,7 @@ namespace ImperiumOfMan
         [Hook(ModHookType.DungeonStarted)]
         public static void AddShipSupportHud(IModContext context)
         {
-            var state = context.State;
-            if (!IsSupportRaid(state))
-            {
-                return;
-            }
-            var progression = state.Get<MagnumProgression>();
-            if (!progression.IsPerkPurchased(SupplyDrop) && AvailableMounts(progression).Length == 0)
-            {
-                return;
-            }
-            var hud = UI.Get<DungeonHudScreen>();
-            var panel = CreateSupportRect(hud.transform, "ImperialShipSupport", new Vector2(0.5f, 1f),
-                new Vector2(540f, 32f), new Vector2(0f, -34f));
-            panel.gameObject.AddComponent<ShipSupportHud>().Initialize(state);
+            CreateShipSupportDrawer(context.State);
         }
 
         private static RectTransform CreateSupportRect(Transform parent, string name, Vector2 anchor,
@@ -131,77 +118,6 @@ namespace ImperiumOfMan
             rect.sizeDelta = size;
             rect.anchoredPosition = offset;
             return rect;
-        }
-
-        private sealed class ShipSupportHud : MonoBehaviour
-        {
-            private State _state;
-            private ShipSupportButton _fire;
-            private ShipSupportButton _supply;
-            private ShipSupportButton _troops;
-            private int _lastFire = int.MinValue;
-            private int _lastPods = int.MinValue;
-            private bool _wasTargetable;
-            private bool _wasFireReady;
-
-            public void Initialize(State state)
-            {
-                _state = state;
-                var progression = state.Get<MagnumProgression>();
-                var triggers = state.Get<StoryTriggers>();
-                int mount = SupportSelection(triggers, SelectedMount, AvailableMounts(progression));
-                int squad = SupportSelection(triggers, SelectedSquad, AvailableSquads(progression, state.Get<Factions>()), newest: true);
-                if (mount >= 0)
-                {
-                    var weapon = ShipMounts[mount];
-                    _fire = AddButton("Ship Fire", weapon.Art, "Fire · " + weapon.Name,
-                        () => StartSupportTargeting(state, SupportAction.Fire, mount));
-                }
-                if (progression.IsPerkPurchased(SupplyDrop))
-                {
-                    _supply = AddButton("Supplies", "SupplyPod", "Supply Pod",
-                        () => StartSupportTargeting(state, SupportAction.Supply, 0));
-                }
-                if (squad >= 0)
-                {
-                    _troops = AddButton("Troops", "MercenaryPod", "Drop · " + DropSquads[squad].Name,
-                        () => StartSupportTargeting(state, SupportAction.Troops, squad));
-                }
-                Update();
-            }
-
-            private ShipSupportButton AddButton(string name, string art, string caption, Action action)
-            {
-                int count = transform.childCount;
-                var rect = CreateSupportRect(transform, name, new Vector2(0f, 0.5f),
-                    new Vector2(176f, 30f), new Vector2(88f + count * 180f, 0f));
-                var button = rect.gameObject.AddComponent<ShipSupportButton>();
-                button.Configure(SupportIcon(art), caption, true, action);
-                return button;
-            }
-
-            private void Update()
-            {
-                if (_state == null)
-                {
-                    return;
-                }
-                int fire = SupportCharges(_state, SupportAction.Fire);
-                int pods = SupportCharges(_state, SupportAction.Supply);
-                bool targetable = !UI.IsAnyShowing(typeof(DungeonHudScreen)) && CanTargetSupport(_state);
-                bool fireReady = targetable && !HasPendingBarrage(_state);
-                if (_lastFire == fire && _lastPods == pods && _wasTargetable == targetable && _wasFireReady == fireReady)
-                {
-                    return;
-                }
-                _lastFire = fire;
-                _lastPods = pods;
-                _wasTargetable = targetable;
-                _wasFireReady = fireReady;
-                _fire?.SetCharges(fire, fireReady);
-                _supply?.SetCharges(pods, targetable);
-                _troops?.SetCharges(pods, targetable);
-            }
         }
 
         private sealed class ShipSupportButton : CommonButton
