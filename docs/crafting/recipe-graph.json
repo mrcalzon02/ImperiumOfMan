@@ -1,8 +1,8 @@
 {
   "schema": "iom.crafting.source-map.v1",
-  "version": "1.1.9 source",
-  "source_commit": "347de7db77f9121ad26e1c12c534b97760ee92f2",
-  "source_ref": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+  "version": "1.1.10 source",
+  "source_commit": "5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad",
+  "source_ref": "5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad",
   "source_kind": "bounded-source-parser",
   "native_records_loaded": false,
   "names": {
@@ -6984,7 +6984,7 @@
         "regular_food_container"
       ],
       "source": "src/Plugin.GuardSupplies.cs",
-      "line": 65,
+      "line": 68,
       "method": "AddStationReceipt",
       "conditional": false,
       "recipe": "iom_luna_provisions"
@@ -7000,7 +7000,7 @@
         "acid"
       ],
       "source": "src/Plugin.GuardSupplies.cs",
-      "line": 67,
+      "line": 70,
       "method": "AddStationReceipt",
       "conditional": false,
       "recipe": "iom_phobos_munitions"
@@ -9005,7 +9005,7 @@
         "iom_ration_wrapper"
       ],
       "source": "src/Plugin.Industry.cs",
-      "line": 198,
+      "line": 199,
       "method": "IndustryRecipe",
       "conditional": false,
       "recipe": null,
@@ -19447,7 +19447,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.Industry.cs",
-      "line": 251,
+      "line": 252,
       "reason": "unresolved output",
       "arguments": [
         "output",
@@ -19459,7 +19459,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.Industry.cs",
-      "line": 290,
+      "line": 291,
       "reason": "unresolved piece",
       "arguments": [
         "piece",
@@ -20032,7 +20032,7 @@
     "src/Plugin.ComponentFoundations.cs": "a9f5e4e126034873ba07ce00bf9dc63612a7af3432a50af6fad8c610bab2b85d",
     "src/Plugin.Core.cs": "6caa9e9b5af7581fb14d4753f1333b1c3ceea1a918568d0551118e4965eaa124",
     "src/Plugin.CraftingCoverage.cs": "46a160f0bd2ee729ea0404df911d981425b87a5cfe7ff99c4816faf8854d85ab",
-    "src/Plugin.CraftingIndex.cs": "865c811aab4a3ebfebfac480d4102463aff5d40801383fb60dc22e41d4834f85",
+    "src/Plugin.CraftingIndex.cs": "2a678992ffb281405cc5148674987b81b72be88dcd479ee4a546914ce018a753",
     "src/Plugin.CraftingTreeEntry.cs": "f3d86f15c82ee8df2c1676ed72ef74c8097f3bffd9370bda0c809dd527864e5d",
     "src/Plugin.CraftingTreeUi.cs": "e5257613d3ec5e89ae1bbd95c166d27e4f3526ca033f6e084175fea6b1700da2",
     "src/Plugin.Cybernetics.cs": "660ce9ed84cc83512c190519c7498aaaa90cee21977d0588efef886ae99db10c",
@@ -20047,7 +20047,7 @@
     "src/Plugin.FringeOutposts.cs": "73d9dd62feba2525fe7917a2561ab1df3145d61089a1848fb305568d45a1b399",
     "src/Plugin.GoldenPaladins.cs": "fc8c71296d52ac1e63fdbaa7f8e97664be1eaf53ac6742b379a2d9ad2cca610a",
     "src/Plugin.GreyKnights.cs": "495396a4a4b21cd3bd52d0830ecf7d1ce9fba6c18fd5ff1bd4c1de5d8f929fcc",
-    "src/Plugin.GuardSupplies.cs": "8d08d490fa937936563f3a28278eae136fb74655d0275e158a4461c4e175f253",
+    "src/Plugin.GuardSupplies.cs": "c43ce97b82a7b0b6fcf61e3904432d4b49854da2844cf9dec3f02c32888b1afa",
     "src/Plugin.ImperialCapitals.cs": "f2524bc83509a45c2a1ee4840fd7d08f8f7be448c73fe317e4962a4f259885c5",
     "src/Plugin.ImperialElevatorDoors.cs": "830d9a75141931cc4c8897017f61ef5770a96acd06f830c998c51a9c124c53e9",
     "src/Plugin.ImperialMachinery.cs": "744cb92b115b9eec98c2636af10e70a2319df20ee6274089702873207bf40308",
@@ -20061,8 +20061,8 @@
     "src/Plugin.ImperialSpines.cs": "6f1f195bb7a3568c2157be79c208e031149f7614c0609564d88833125c1a6d88",
     "src/Plugin.ImperialSupplyClosetDressing.cs": "eed3b36a37328e038e92e1e0c092d2b5eb1599bc176149f3201776073f28f032",
     "src/Plugin.ImperialSupplyClosetPlan.cs": "0e4fb0b23e126c04eb68a96814b3f10014d1c0372b7ff5bed215390f2cd25cf4",
-    "src/Plugin.Industry.cs": "2964976e2a925792fbc5efea3770bae82dbe2662f93b2b4c701e78cffef1c181",
-    "src/Plugin.IndustryRecycling.cs": "bbe4ae4087141559cccb66254ba3caa5bf0962311c3c3abb0c21b7f63dc54421",
+    "src/Plugin.Industry.cs": "b5980f011e8cac9530e90c878d55c4aeeaf49e49104d42f8e3822f613833aa0d",
+    "src/Plugin.IndustryRecycling.cs": "f77a62a7356ac13ede0c0bae2e1fc1defaf788e5b6b0bc93d9eb79e7c77a2705",
     "src/Plugin.IndustrySupply.cs": "03bcc8888af195e1d2ea52906705ce933ce81d30dd599fc171bef736419f5429",
     "src/Plugin.InnerIndustrySites.cs": "da5f3af822075af1927403b0afa4d0e006a9e998be8dbb39bf0ee1066a6f21b6",
     "src/Plugin.InteriorDamage.cs": "5d3b6f8fe8c493353a4b836477764ac3aed57d0b73ee4868abcf29ab8662380f",
@@ -20080,9 +20080,8 @@
     "src/Plugin.OccultProjectCompatibility.cs": "16c23f393a29b239f2ee480b6ef945e520b896def50fee2b95178c1f59aef4a7",
     "src/Plugin.OccultRecipes.cs": "8948f69860e0a834711835b7c39ef358a518447c2e19094b26be03a98f7a5898",
     "src/Plugin.OccultResearch.cs": "6610e27a97a01f9be530c04015b0c9b8387d64fd6f0a632e344cccab7824ceeb",
-    "src/Plugin.OccultUi.cs": "10c4bb2b7949956758d8647b6129161533f2efd51fb9dd6fdf2fb3316bf5e4da",
+    "src/Plugin.OccultUi.cs": "5b6523a6c0a3895440559c42a6b4c1ab458f20f9c02cc5f757aec338618639ad",
     "src/Plugin.OrdoXenos.cs": "b91e37d3f16ed8e4e34a33e024ba1eb6dad3e90d3a75c56457f0f9a1399d44cc",
-    "src/Plugin.OrganicRecyclingUi.cs": "1632d2019a6d01385d49cd8f01c11914534c21dc226823bcbd5a284f2a18eea0",
     "src/Plugin.OrphanTutorial.cs": "a31b4ae0623aba998c93bd8ea01388cab5c4e85f5e63db7ef02f3d96d739186d",
     "src/Plugin.PharmaceuticalWorkshops.cs": "c6d17fa5da5b5fa87cf8b8f207d2b402ba80fcc415437e6a3236583feb99023b",
     "src/Plugin.Provisioning.cs": "5800cab11d991b06f18187985e28361b50f8b3c99092dfbfd2e7e47ab5e9a6de",

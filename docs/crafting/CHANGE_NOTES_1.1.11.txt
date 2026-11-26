@@ -1,0 +1,28 @@
+PREPARED CHANGE NOTES — 1.1.11 CRAFTING MAP APPEARANCE
+
+[h1]Crafting map appearance[/h1]
+[list]
+[*]Updated the map to follow the native Production menu's appearance, using the game's active language font for labels, search, and recipe details.
+[*]Added dark framed headers and recessed graph/detail panels, with uppercase tabs and section labels.
+[*]Changed selection styling to the native green and pale-yellow palette. Selected items, recipe connections, tabs, and detail headings remain easy to distinguish.
+[*]Replaced broad filled controls with thin outlined buttons and rows, including the search results and scrolling detail lists.
+[*]Placed the graph in its own clipped viewport, keeping panned or zoomed nodes clear of the information strip and bottom controls.
+[*]Retained search, venue filters, zoom, pan, click selection, Focus, Fit, branch expansion, and recipe details. The tab remains attached to Production and its picker, with the existing close behaviour and input ownership.
+[/list]
+
+[h1]Finished-ration correction included[/h1]
+[list]
+[*]Includes the 1.1.10 correction removing the eight-Dirty-Corpse-Starch-to-one-biomass reverse conversion and its dedicated batch controls.
+[*]Corpse Starch and Dirty Corpse Starch remain finished food with no disassembly return. Forward manufacturing, eligible spoiled-organic recovery, clone harvesting, and equipment salvage are retained.
+[/list]
+
+SOURCE AND VALIDATION STATUS
+Source: e6c3026b3a11e4194b4597866099fcee850d836a
+Assembly version: 1.1.11.0
+
+Map text now uses TextMeshPro with the native localization font lookup. The source retains the existing recipe graph, production-window lifetime, and native-input boundary. These are source changes awaiting native confirmation.
+
+Native compilation, package verification, and a headed in-game comparison of this appearance are pending. No 1.1.11 build, visual, or gameplay pass is claimed here. The last verified published package is 1.1.10; it does not contain this appearance update. Existing 1.1.9 game captures retain their historical attribution.
+
+SOURCE
+https://github.com/mrcalzon02/ImperiumOfMan/commit/e6c3026b3a11e4194b4597866099fcee850d836a

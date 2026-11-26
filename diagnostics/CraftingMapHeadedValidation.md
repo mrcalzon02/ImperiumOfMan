@@ -1,6 +1,6 @@
 # Crafting map — installed-game execution record
 
-Source-version note: `main` advanced to [1.1.10 source `5fae43b`](https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad), which removes finished Corpse Starch recovery and its batch UI. The session-007 evidence below applies to the unchanged **1.1.9 / `347de7d`** archive and does not validate that later source. See [1.1.10 change notes](../docs/crafting/CHANGE_NOTES_1.1.10.txt) for the correction.
+Source-version note: `main` advanced to [1.1.10 source `5fae43b`](https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad), which removes finished Corpse Starch recovery and its batch UI. The session-007 evidence below applies to the unchanged **1.1.9 / `347de7d`** archive and does not validate that later source. The corrected 1.1.10 [native build and package verification](FinishedRationBuildReceipt.json) passed with zero compiler warnings/errors; no game was launched for that exact binary. See [1.1.10 change notes](../docs/crafting/CHANGE_NOTES_1.1.10.txt) and [correction scope](FinishedRationOutputCorrection.md).
 
 ## Current continuation result — session 007
 

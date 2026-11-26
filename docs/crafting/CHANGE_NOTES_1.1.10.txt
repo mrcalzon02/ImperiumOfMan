@@ -2,6 +2,7 @@ PREPARED CHANGE NOTES — 1.1.10 RATION RECOVERY CORRECTION
 
 [h1]Keep finished Imperial rations out of recycling[/h1]
 [list]
+[*]Dirty Corpse Starch remains a production output: one Raw Vat Biomass and one Ration Wrapper produce six rations in two base ship-hours.
 [*]Removed the unintended recipe that turned eight Dirty Corpse Starch rations back into one Raw Vat Biomass.
 [*]Corpse Starch and Dirty Corpse Starch remain finished food. Neither ration has a disassembly return.
 [*]Removed the dedicated ration batch processing and recycling preview controls that supported that reverse conversion.
@@ -13,7 +14,11 @@ IMPLEMENTATION AND VERSION SCOPE
 Source: 5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad
 Assembly version: 1.1.10.0
 
-Each custom ration receives a new empty Disassembly list. Clearing its recovery definition therefore leaves the native ration_pack_3 donor unchanged. The obsolete bulk-input bookkeeping, batch-only guards, remainder handling and dedicated OrganicRecyclingUi implementation were removed. Ordinary recycling and its protected-item handling remain.
+Later current source e6c3026b3a11e4194b4597866099fcee850d836a is version 1.1.11 and adds the Crafting Map appearance pass. Native compilation and runtime checks for that source are pending. The verified 1.1.10 ZIP described here does not contain the appearance changes.
+
+Each custom ration receives a new empty Disassembly list. Clearing its recovery definition therefore leaves the native ration_pack_3 donor unchanged. The obsolete bulk-input bookkeeping, batch-only guards, remainder handling and dedicated OrganicRecyclingUi implementation were removed. Ordinary recycling and its protected-item handling remain. The six research capabilities, independently learned physical patterns, literal occult recipes and artwork are retained.
+
+The offline recipe map and source/art review ZIP are pinned to this corrected 1.1.10 source, 5fae43b. The archive includes source, artwork, build facts and separately attributed historical game evidence; it contains no runtime binaries or later 1.1.11 appearance changes.
 
 The verified corrected runtime ZIP is package/ImperiumOfMan-1.1.10-CraftingMap.zip, published at commit 186e2b76464b91888101657caec5e5cd531c80bb.
 Direct download: https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/186e2b76464b91888101657caec5e5cd531c80bb/package/ImperiumOfMan-1.1.10-CraftingMap.zip
@@ -35,8 +40,11 @@ Verified ZIP size: 11,794,130 bytes.
 Verified SHA-256: 8af3889a259a8a988d7e2a154d4a87af653b59b3a05de5c9616a32e529e00cf1.
 Published verification receipt: https://github.com/mrcalzon02/ImperiumOfMan/blob/186e2b76464b91888101657caec5e5cd531c80bb/diagnostics/FinishedRationBuildReceipt.json
 
+Historical session 007 on unchanged 1.1.9/source 347 verified the named Metal smelting feedstock stack increased from 2/30 to 6/30 after one four-output batch. Focus, double-click, station cooutputs and no-producer search also passed that session. Its record remains diagnostics/CraftingMapAcceptance-347de7d-007.json.
+
 Game boot and gameplay remain unrun for 1.1.10. The earlier screenshots and transaction results retain their 1.1.9 source attribution. These notes do not announce Steam publication.
-Download and screenshot gallery: docs/crafting/DELIVERABLES.md
+Download, screenshot gallery and direct full-size image links: docs/crafting/DELIVERABLES.md
+Correction details: diagnostics/FinishedRationOutputCorrection.md
 
 SOURCE
 https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad

@@ -1,5 +1,7 @@
 # Native equipment projects with pact components
 
+**Current version:** 1.1.10 retains this compatibility change while correcting finished-ration recycling. [Current build status](FinishedRationBuildReceipt.json). The native results below remain tied to their named 1.1.9/earlier sources.
+
 ## Observed load failure
 
 Source `585715f554181ed56220c5ba2ed9055b46b44b38` registered all 53 occult formulas, but loading a disposable campaign copy in [headed run 45815345319](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45815345319) failed during `MagnumProjects.OnAfterLoad`. Native `MagnumDevelopmentSystem.InjectItemRecord` rejected the supplemental `PactComponentRecord` attached to `ron_mask_1` and returned `FailedReadSaveData` before entering Space or Dungeon.
@@ -24,7 +26,7 @@ All 53 occult formulas and the existing physical chip pools remain present. This
 
 ## Verification status
 
-Current source `347de7db77f9121ad26e1c12c534b97760ee92f2` passed native build [45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203) with zero warnings and zero errors. Exact-source [session 005](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741) again preserved the Ron Mask pact component and loaded the disposable campaign. The [current receipt](OccultBuildReceipt.json) records this bounded pass. The subsequent simulation issue involved an empty global preset catalogue; the relative loader path and silent fallback have been verified. Corrected-directory session 006 completed Space/save and 46 hours 20 minutes of game time with no missing-preset diagnostics or managed-exception headings in the complete log, then restored the original package and saves. Specific equipment modification and occult transactions remain separate checks.
+Historical source `347de7db77f9121ad26e1c12c534b97760ee92f2` passed native build [45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203) with zero warnings and zero errors. Exact-source [session 005](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741) again preserved the Ron Mask pact component and loaded the disposable campaign. The [source-347 receipt](OccultBuildReceipt.json) records this bounded pass. The subsequent simulation issue involved an empty global preset catalogue; the relative loader path and silent fallback have been verified. Corrected-directory session 006 completed Space/save and 46 hours 20 minutes of game time with no missing-preset diagnostics or managed-exception headings in the complete log, then restored the original package and saves. Specific equipment modification and occult transactions remain separate checks.
 
 ### Historical bdb confirmation
 

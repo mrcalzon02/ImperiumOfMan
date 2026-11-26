@@ -10,7 +10,7 @@
 <title>Chemistry</title>
 <polygon fill="#101714" stroke="transparent" points="-36,36 -36,-737 1461,-737 1461,36 -36,36"/>
 <text text-anchor="middle" x="712.5" y="-678.6" font-family="DejaVu Sans" font-size="23.00" fill="#e8eee6">RAW MATERIALS TO SHARED CHEMISTRY</text>
-<text text-anchor="middle" x="712.5" y="-653.6" font-family="DejaVu Sans" font-size="23.00" fill="#e8eee6">1.1.9 source · every incoming ingredient is required</text>
+<text text-anchor="middle" x="712.5" y="-653.6" font-family="DejaVu Sans" font-size="23.00" fill="#e8eee6">1.1.10 source · every incoming ingredient is required</text>
 <text text-anchor="middle" x="712.5" y="-628.6" font-family="DejaVu Sans" font-size="23.00" fill="#e8eee6">Quantities are effective units per order; time is base hours</text>
 <!-- acid -->
 <g id="node1" class="node">
