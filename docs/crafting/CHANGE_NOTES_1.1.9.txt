@@ -14,6 +14,12 @@ existing native formulas and missing native records are skipped before the
 runtime chip pools are created. An order needs both its learned recipe and
 its purchased research capability.
 
+Existing saves that contain the old facility purchases receive a one-time
+capability migration. Old Manifestation, Binding, Infusion and Soulforge
+progress maps to the corresponding new level, including its prerequisites.
+Only the four obsolete facility markers are retired. Learned recipes, other
+purchases and cargo are unchanged; saves without old markers are untouched.
+
 Production
 
 The starter chain uses final quantities, without the ordinary helper's
@@ -38,6 +44,14 @@ a bounded rotten-flesh fallback. Their selected ship-recycling route returns
 two Raw Vat Biomass per item. Fresh-food and native antibiotic routes remain
 available. Ordinary food, dressings, medicines and mechanical stock retain
 normal crafting access.
+
+Dirty Corpse Starch can now be recycled in batches of eight for one Raw Vat
+Biomass. Selected stacks count together. Incomplete batches are retained,
+and the original leftover objects keep their decay and item state without
+merging. Locked and quest custom-profile inputs are protected from both the
+custom pass and the native recycler. Ordinary native-only behavior is retained.
+The existing recycle button shows the exact return and remainder; a partial
+ration-only selection stays visible but disabled, with an explanation.
 
 Presentation
 

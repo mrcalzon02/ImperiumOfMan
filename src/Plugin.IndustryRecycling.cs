@@ -23,6 +23,27 @@ namespace ImperiumOfMan
             cargo?.RecyclingStorage?.Items.Where(item => item.Id == id && IsEligibleShredInput(item))
                 .Sum(item => (int)item.StackCount) ?? 0;
 
+        private static bool HasRecyclableSelection(MagnumCargo cargo)
+        {
+            if (cargo?.RecyclingStorage == null) return false;
+            foreach (BasePickupItem item in cargo.RecyclingStorage.Items)
+            {
+                int inputBatch = GetShredInputBatch(item.Id);
+                if (ShredProfiles.ContainsKey(item.Id))
+                {
+                    if (IsEligibleShredInput(item) &&
+                        (inputBatch == 1 || CountSelectedShredInput(cargo, item.Id) >= inputBatch))
+                        return true;
+                }
+                else if (Data.Items.GetSimpleRecord<ItemRecord>(item.Id)?.CanDisassembly == true)
+                {
+                    // Keep the current native button criterion for native-only items.
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static void RegisterShredding()
         {
             Registrations.Add(() =>
@@ -53,6 +74,9 @@ namespace ImperiumOfMan
             AddShredProfile([new(Polymer, 1)], Housing);
             AddShredProfile([new(MetalScrap, 2), new(Polymer, 1)], AutomataChassis);
             AddShredProfile([new(Conductors, 2), new(Polymer, 1)], LogicCore);
+            // Six manufactured rations cannot recover their whole biomass input.
+            // The ship recycler combines selected stacks and retains smaller remainders.
+            AddShredProfile([new(Biomass, 1)], 8, DirtyStarch);
         }
 
         [HarmonyPatch(typeof(ItemInteractionSystem), nameof(ItemInteractionSystem.Disassemble))]
@@ -92,6 +116,20 @@ namespace ImperiumOfMan
                         record.Disassembly = [outputs[0]];
                     }
                 });
+            }
+        }
+
+        [HarmonyPatch(typeof(MagnumCargoSystem), nameof(MagnumCargoSystem.StartRecycle))]
+        private static class RequireCompleteBulkShredBatch
+        {
+            private static bool Prefix(MagnumCargo magnumCargo)
+            {
+                if (!_industryReady || magnumCargo == null || magnumCargo.RecyclingInProgress ||
+                    !magnumCargo.RecyclingStorage.Items.Any(item => GetShredInputBatch(item.Id) > 1))
+                    return true;
+                // A partial bulk-only selection has no output. Mixed selections may
+                // still recycle their ordinary items while retaining these rations.
+                return HasRecyclableSelection(magnumCargo);
             }
         }
 
@@ -143,12 +181,19 @@ namespace ImperiumOfMan
                 }
                 foreach (BasePickupItem item in selected)
                 {
-                    if (GetShredInputBatch(item.Id) > 1 ||
-                        !ShredProfiles.TryGetValue(item.Id, out var outputs) || !IsEligibleShredInput(item))
+                    if (GetShredInputBatch(item.Id) > 1 || !ShredProfiles.TryGetValue(item.Id, out var outputs))
                     {
                         continue;
                     }
                     __state ??= new List<BasePickupItem>();
+                    if (!IsEligibleShredInput(item))
+                    {
+                        // Native disassembly does not check Locked. Keep protected
+                        // custom-profile items out of that pass, including their ammo.
+                        magnumCargo.RecyclingStorage.Remove(item);
+                        __state.Add(item);
+                        continue;
+                    }
                     foreach (ItemQuantity output in outputs)
                     {
                         ItemInteractionSystem.CreateItem(__state, output.ItemId, output.Count * item.StackCount);
@@ -175,7 +220,10 @@ namespace ImperiumOfMan
                 }
                 foreach (BasePickupItem output in __state)
                 {
-                    MagnumCargoSystem.AddCargo(magnumCargo, spaceTime, output, magnumCargo.RecyclingStorage);
+                    // Native AddCargo's split-item path skips merging. Preserve the
+                    // original remainder/protected item's expiry, capacity and lock state.
+                    MagnumCargoSystem.AddCargo(magnumCargo, spaceTime, output, magnumCargo.RecyclingStorage,
+                        splittedItem: GetShredInputBatch(output.Id) > 1 || !IsEligibleShredInput(output));
                 }
             }
         }

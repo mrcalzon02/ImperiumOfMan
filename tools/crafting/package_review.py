@@ -3,6 +3,7 @@
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import zipfile
 
 root = Path(__file__).resolve().parents[2]
@@ -16,8 +17,11 @@ files += list((root / 'diagnostics').glob('*.md'))
 files += list((root / 'diagnostics').glob('*.json'))
 files = sorted(set(files))
 graph = json.loads((root / 'docs' / 'crafting' / 'recipe-graph.json').read_text())
+source_head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+changed_paths = subprocess.check_output(['git', 'status', '--porcelain'], cwd=root, text=True).splitlines()
 manifest = {'kind': 'crafting-design-review', 'runtime_package': False,
-            'source_commit': graph['source_commit'], 'members': []}
+            'source_commit': source_head, 'graph_source_commit': graph['source_commit'],
+            'working_tree_changes_at_packaging': changed_paths, 'members': []}
 start = '''IMPERIUM REFORGED — CRAFTING DESIGN REVIEW
 
 Open docs/crafting/recipe-map.html in your browser to explore the source recipe map.
@@ -37,6 +41,8 @@ The current source includes the live Crafting Map and six occult capabilities.
 Physical pattern chips teach recipes; research provides the capability to use them.
 Source candidates and asset previews do not establish installed-game acceptance.
 Check the current diagnostics for native build, launch and gameplay evidence.
+REVIEW_MANIFEST.json distinguishes the packaged source revision from the pinned
+graph revision and records a checksum for every included file.
 '''
 with zipfile.ZipFile(destination, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     archive.writestr('START_HERE.txt', start)
