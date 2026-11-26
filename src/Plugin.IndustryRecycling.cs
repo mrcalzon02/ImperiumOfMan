@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using HarmonyLib;
 using MGSC;
@@ -7,10 +8,18 @@ namespace ImperiumOfMan
 {
     public static partial class Plugin
     {
+        private const string OreCargo = "ore_cargo";
         private static readonly Dictionary<string, ItemQuantity[]> ShredProfiles = new();
 
         private static void RegisterShredding()
         {
+            Registrations.Add(() =>
+            {
+                var cargo = Data.Items.GetSimpleRecord<TrashRecord>(OreCargo)
+                    ?? throw new InvalidDataException("Missing native Ore Cargo record");
+                cargo.Disassembly = [new(Ore, 12), new(Silicate, 6), new(Conductors, 6)];
+            });
+
             // Recovered scrap remains useful without making it the mandatory source of raw materials.
             AddShredProfile([new(Ore, 1)], MetalScrap);
             AddShredProfile([new(Silicate, 1)], Cullet);
@@ -31,6 +40,21 @@ namespace ImperiumOfMan
             AddShredProfile([new(Polymer, 1)], Housing);
             AddShredProfile([new(MetalScrap, 2), new(Polymer, 1)], AutomataChassis);
             AddShredProfile([new(Conductors, 2), new(Polymer, 1)], LogicCore);
+        }
+
+        [HarmonyPatch(typeof(ItemInteractionSystem), nameof(ItemInteractionSystem.Disassemble))]
+        private static class UnpackOreCargo
+        {
+            private static void Prefix(BasePickupItem item, ref bool guaranteed)
+            {
+                if (_industryReady && item?.Id == OreCargo && item.StackCount > 0 &&
+                    !item.Locked && !ItemInteractionSystem.IsQuestItem(item))
+                {
+                    // A sealed cargo delivers its contents; native code consumes the selected
+                    // crates and handles stack limits, inventory placement, and overflow.
+                    guaranteed = true;
+                }
+            }
         }
 
         private static void AddShredProfile(ItemQuantity[] outputs, params string[] items)

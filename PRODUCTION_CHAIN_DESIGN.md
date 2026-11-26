@@ -105,6 +105,8 @@ Glass and Industrial Glass are alternative products of silicate. The basic route
 
 Recycling one sorted metal scrap recovers one ore, and recycling one cullet recovers one silicate. This keeps stored salvage useful without requiring a backwards manufacturing step. The optional Glass-to-cullet sorting order consumes three Glass for two cullet, so returning through silicate and basic Glass loses one Glass. Industrial Glass recycling also loses material on a complete return to Industrial Glass.
 
+Ore Cargo (`ore_cargo`) is a bulk source of the same raw materials. Its native container opening/disassembly action consumes each selected crate and yields twelve ore, six silicate feedstock, and six conductive scrap. All three outputs are guaranteed; the game splits stacks and handles inventory overflow through its usual item-placement path. The crate's native trade category, weight, stack capacity, and station-industry uses are retained. Existing unopened crates use the updated contents without adding items during save loading. No raw-material-to-Ore-Cargo repacking recipe is added.
+
 ### Specialist supply and fabrication
 
 All eight Bolt Clips use the Heavy ammo family. Ordinary Heavy rounds still fit the bolt weapons. The suppliers below restock small lots at their own tech levels. The Golden Throne stocks the armory patterns as the Imperium advances, and each requisition draws one recipe from its pool, including the possibilities listed in its row.

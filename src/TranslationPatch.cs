@@ -17,6 +17,7 @@ namespace ImperiumOfMan
             [CampaignStandingRequired] = "This campaign requires at least +{0} reputation with {1}.",
             [CampaignLiftLocked] = "Find the {0} on this deck to unlock the lift.",
             [ArrivalShuttleCaption] = "Arrival Shuttle",
+            ["item.ore_cargo.shortdesc"] = "Bulk mineral cargo. Open each crate for 12 metal smelting feedstock, 6 silicate feedstock, and 6 conductive scrap.",
             ["item.iom_lasgun.name"] = "Lasgun",
             ["item.iom_lasgun.shortdesc"] = "A Guard service rifle with single shots and two-shot bursts. Takes Las Clips and compatible power cells.",
             ["item.iom_melta.name"] = "Melta Rifle",
