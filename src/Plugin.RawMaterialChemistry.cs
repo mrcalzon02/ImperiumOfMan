@@ -49,6 +49,9 @@ namespace ImperiumOfMan
             SharedRecipe("powder", 3, 2, new(ChemicalExtract, 1), new(ReactiveMinerals, 1), new(CarbonFeedstock, 1));
             SharedRecipe("explosives", 4, 2, new(ChemicalExtract, 1), new(ReactiveMinerals, 1), new("acid", 1));
             SharedRecipe("tin", 3, 2, new ItemQuantity(Metal, 2));
+
+            RegisterSpoiledOrganicRecycling();
+            RegisterOccultProduction();
         }
     }
 }
