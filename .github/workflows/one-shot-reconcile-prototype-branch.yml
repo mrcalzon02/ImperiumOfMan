@@ -1,0 +1,98 @@
+name: Reconcile prototype branch once
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/one-shot-reconcile-prototype-branch.yml]
+permissions:
+  contents: write
+concurrency:
+  group: reconcile-prototype-branch-once
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    if: >-
+      github.repository == 'mrcalzon02/ImperiumOfMan' &&
+      github.event.head_commit.message == 'chore: remove preserved prototype branch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify ancestry and delete only the preserved branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64
+          import json
+          import os
+          import subprocess
+          import tempfile
+          import urllib.parse
+          import urllib.request
+
+          repo = "mrcalzon02/ImperiumOfMan"
+          branch = "codex/recover-quasimorph-prototype"
+          expected = "0514cabc507335567d03e1d55cf7cb5870f44c01"
+          reconciled = "4bfd90d8c214078cae91a87d92609e8ab666e6cb"
+          assert os.environ["GITHUB_REPOSITORY"] == repo
+          token = os.environ["GH_TOKEN"]
+          api = "https://api.github.com/repos/" + repo
+          headers = {
+              "Authorization": "Bearer " + token,
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "owner-authorized-branch-reconciliation",
+          }
+
+          def read(path):
+              request = urllib.request.Request(api + path, headers=headers)
+              with urllib.request.urlopen(request, timeout=30) as reply:
+                  return json.load(reply)
+
+          def ensure_ancestor(sha):
+              compared = read("/compare/" + sha + "...main?per_page=1")
+              assert compared["status"] in ("ahead", "identical"), compared["status"]
+              assert compared["behind_by"] == 0
+              assert compared["merge_base_commit"]["sha"] == sha
+
+          ensure_ancestor(expected)
+          ensure_ancestor(reconciled)
+          branch_path = "/git/ref/heads/" + urllib.parse.quote(branch, safe="/")
+          current = read(branch_path)["object"]["sha"]
+          assert current == expected, "Branch advanced; refusing deletion"
+
+          # The lease rejects a branch that changes after the ancestry checks.
+          git_env = os.environ.copy()
+          git_env["GIT_TERMINAL_PROMPT"] = "0"
+          git_env["GIT_CONFIG_COUNT"] = "1"
+          git_env["GIT_CONFIG_KEY_0"] = "http.https://github.com/.extraheader"
+          credential = base64.b64encode(("x-access-token:" + token).encode()).decode()
+          git_env["GIT_CONFIG_VALUE_0"] = "AUTHORIZATION: basic " + credential
+          with tempfile.TemporaryDirectory(prefix="imperium-branch-reconciliation-") as directory:
+              subprocess.run(["git", "init", "-q", "-b", "main", directory], check=True)
+              subprocess.run(
+                  ["git", "-C", directory, "push",
+                   "--force-with-lease=refs/heads/" + branch + ":" + expected,
+                   "https://github.com/" + repo + ".git",
+                   ":refs/heads/" + branch],
+                  env=git_env, check=True,
+              )
+
+          branches = read("/branches?per_page=100")
+          names = sorted(entry["name"] for entry in branches)
+          assert names == ["main"], names
+          ensure_ancestor(expected)
+          result = {
+              "repository": repo,
+              "remaining_branches": names,
+              "main": branches[0]["commit"]["sha"],
+              "deleted_branch": branch,
+              "preserved_prototype_commit": expected,
+              "reconciliation_commit": reconciled,
+          }
+          print("BRANCH_RECONCILIATION " + json.dumps(result, sort_keys=True))
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write("## Branch reconciliation complete\n\n")
+              summary.write("Only main remains. The prototype commit is preserved in main history.\n\n")
+              summary.write("\u0060\u0060\u0060json\n" + json.dumps(result, indent=2) + "\n\u0060\u0060\u0060\n")
+          PY
