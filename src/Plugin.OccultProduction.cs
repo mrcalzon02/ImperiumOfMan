@@ -28,7 +28,8 @@ namespace ImperiumOfMan
             {
                 var item = Data.Items.GetSimpleRecord<ItemRecord>(id);
                 var source = Data.Items.GetSimpleRecord<ConsumableRecord>(id);
-                var expiry = Data.Items.GetSimpleRecord<ItemExpireRecord>(id);
+                // Expiry metadata lives in its own native configuration table.
+                var expiry = Data.ItemExpire.GetRecord(id);
                 bool flesh = fleshMarkers.Any(marker => id.IndexOf(marker, StringComparison.OrdinalIgnoreCase) >= 0);
                 bool organicSource = item != null && item.ItemClass != ItemClass.QuestItem &&
                     ((source != null && source.StarvationValue > 0 &&

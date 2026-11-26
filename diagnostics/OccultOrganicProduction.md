@@ -33,4 +33,6 @@ These hooks were checked against the current installed `MagnumCargoSystem` and `
 
 ## Runtime checks still required
 
+Native compile run `45804161967` identified an incorrect generic lookup for expiry metadata. The source now uses the installed game's own `Data.ItemExpire.GetRecord(id)` accessor, verified in the current `ItemFactory` export. Its `ConvertedItemId` still drives the recycling target; item records and expiry records remain separate.
+
 Inspect the actual accepted spoilage IDs and skipped formulas in the installed game. Verify each physical chip learns only one recipe, research teaches none, and both knowledge and capability are enforced when starting an order. Check no-input orders, normal queue limits, exact ingredient consumption, native cancellation refunds, decay, save/load, sprite fit, and exclusive clone harvest. Current source counts and static checks do not prove boot or gameplay success.
