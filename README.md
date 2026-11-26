@@ -40,6 +40,8 @@ The Inner Writ and The Starless March each have 20 quests. Four raids give the c
 
 The **Comms Node** has its own upgrade tree for Security Intrusion, Entrance Override, and Extraction Override. Its ship marker sits by the antenna, aft of the former Ship Weapons position. **Ship Weapons** sits beneath the painted MAGNUM name. **Drop Support** sits over the cargo section, directly above the central Engineering marker. Main systems use large nodes; incremental upgrades use small connecting nodes.
 
+**Security Intrusion: non-story missions only.** Random-site, entrance and extraction turrets each have their own optional Ballistic → Flamer → Beamer → Arc → Lance progression. A location deploys one turret of its highest purchased type; upgrading one location does not change the other two. [Turret replacements, costs and save behavior](diagnostics/CommsTurretProgression.md)
+
 Open **Ship Weapons** or **Drop Support** in the Magnum's ship view. Fit a gun, missile, or laser mount and select the active mount at the bottom of its upgrade tree. Fire for Effect starts on the following turn, with an extra turn of warning for missiles. The aiming view marks affected tiles. Fire can hit the player and friendly units.
 
 Fit the **Supply Pod** for ammunition and dressings or upgrade to the **Mercenary Pod** to call in two clone Guardsmen with standard Lasguns and PDF flak. Purchase troop upgrades as the Imperium reaches each tech tier. Select an unlocked squad on the Drop Support tree. Tech 10 unlocks a Grey Knights Paladin and Armsman. Supplies and troops share a drop reserve. Ship fire uses its own reserve.

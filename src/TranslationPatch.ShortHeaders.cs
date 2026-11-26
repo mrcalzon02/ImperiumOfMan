@@ -137,7 +137,7 @@ namespace ImperiumOfMan
         {
             ["ui.magnum.module.iom_ship_weapons.shortdesc"] = "Orbital fire support",
             ["ui.magnum.module.iom_drop_support.shortdesc"] = "Supply and troop drops",
-            ["ui.magnum.module.iom_comms_node.shortdesc"] = "Site security control",
+            ["ui.magnum.module.iom_comms_node.shortdesc"] = "Non-story missions only",
             ["ui.magnum.module.iom_occult_production.shortdesc"] = "Occult fabrication"
         };
 
@@ -150,7 +150,8 @@ namespace ImperiumOfMan
         }
 
         private static string UpgradeSubtitle(string id) => UpgradeSubtitles.TryGetValue(id, out string subtitle)
-            ? subtitle : TryTroopRosterTier(id, out _) ? "Troop roster" : "Ship upgrade";
+            ? subtitle : Plugin.IsCommsTurretReplacement(id) ? "Turret replacement"
+                : TryTroopRosterTier(id, out _) ? "Troop roster" : "Ship upgrade";
 
         private static void ApplyItemHeaders(Dictionary<string, string> target, bool russian)
         {

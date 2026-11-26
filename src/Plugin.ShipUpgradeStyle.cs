@@ -29,7 +29,7 @@ namespace ImperiumOfMan
                 }
 
                 bool major = perkRecord.ModuleId == OccultModule ||
-                    perkRecord.Id is SupplyDrop or TroopDrop or SecurityIntrusion ||
+                    perkRecord.Id is SupplyDrop or TroopDrop or SecurityIntrusion or EntranceOverride or ExtractionOverride ||
                     perkRecord.ModuleId == WeaponsModule &&
                     perkRecord.Id is not (BarrageDuration or BarrageRounds or BarrageCalls);
                 var geometry = __instance.GetComponent<ShipUpgradeNodeGeometry>() ??

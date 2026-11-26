@@ -9,12 +9,15 @@ namespace ImperiumOfMan
     public static partial class Plugin
     {
         private static bool HasCustomShipUpgradeTooltip(string id) =>
-            id is SecurityIntrusion or EntranceOverride or ExtractionOverride or
-                BarrageDuration or BarrageRounds or BarrageCalls or
+            TryGetCommsUpgrade(id, out _, out _) ||
+            id is BarrageDuration or BarrageRounds or BarrageCalls or
                 SupplyDrop or TroopDrop or PodCapacity or PodCalls or
                 CloneVat or ContainmentCradle or EssenceStill or GavvakhRetort ||
             ShipMounts.Any(mount => mount.Id == id) || TooltipTroopTier(id) > 0 || OccultRanks.Contains(id) ||
             TranslationPatch.HasUpgradeTooltipDescription(id);
+
+        internal static bool IsCommsTurretReplacement(string id) => !string.IsNullOrEmpty(id) &&
+            TryGetCommsUpgrade(id, out _, out int tier) && tier > 0;
 
         private static int TooltipTroopTier(string id)
         {
@@ -55,16 +58,31 @@ namespace ImperiumOfMan
             int firingTurns = 1 + Bonus(BarrageDuration);
             int troopCount = 2 + Bonus(PodCapacity);
 
-            if (id is SecurityIntrusion or EntranceOverride or ExtractionOverride)
+            if (TryGetCommsUpgrade(id, out var location, out int commsTier))
             {
-                yield return UpgradeRow("turrets", "+1");
-                yield return UpgradeRow("turret_type", TranslationPatch.UpgradeText("ballistic"));
-                yield return UpgradeRow("position", TranslationPatch.UpgradeText(id == SecurityIntrusion
-                    ? "random" : id == EntranceOverride ? "entrance" : "extraction"));
+                bool major = commsTier == 0;
+                int shownTier = major && progression != null
+                    ? EffectiveCommsTurretTier(progression, location) : commsTier;
+                var turret = CommsTurretTypes[shownTier];
+                yield return UpgradeRow("turrets", major ? "+1" : "+0");
+                yield return UpgradeRow("turrets_at_location", "1");
+                yield return UpgradeRow("turret_type", UpgradeItemName(turret.PackageId, turret.Name));
+                yield return UpgradeRow("position", TranslationPatch.UpgradeText(location.PositionKey));
+                if (!major)
+                {
+                    var previous = CommsTurretTypes[commsTier - 1];
+                    yield return UpgradeRow("replaces", UpgradeItemName(previous.PackageId, previous.Name));
+                    string previousTitle = commsTier == 1
+                        ? location.RootId == SecurityIntrusion ? "Security Intrusion"
+                            : location.RootId == EntranceOverride ? "Entrance Override" : "Extraction Override"
+                        : location.Label + " " + previous.Name;
+                    yield return UpgradeRow("requires", UpgradeName(location.PerkId(commsTier - 1), previousTitle));
+                }
+                yield return new ShipUpgradeTooltipRow(TranslationPatch.UpgradeText("non_story_missions_only"), null);
                 yield return UpgradeRow("deployment", TranslationPatch.UpgradeText("arrival"));
                 yield return UpgradeRow("frequency", TranslationPatch.UpgradeText("once_per_raid"));
                 yield return UpgradeRow("placement", TranslationPatch.UpgradeText("clear_tile"));
-                if (id != SecurityIntrusion)
+                if (major && id != SecurityIntrusion)
                 {
                     yield return UpgradeRow("requires", id == EntranceOverride
                         ? UpgradeName(SecurityIntrusion, "Security Intrusion")

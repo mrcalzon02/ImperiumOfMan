@@ -10,7 +10,10 @@ namespace ImperiumOfMan
         internal static readonly Dictionary<string, string> UpgradeTooltipTextEnglish = new()
         {
             ["iom.tooltip.turrets"] = "Allied turrets",
+            ["iom.tooltip.turrets_at_location"] = "Turrets at location",
             ["iom.tooltip.turret_type"] = "Turret type",
+            ["iom.tooltip.replaces"] = "Replaces",
+            ["iom.tooltip.non_story_missions_only"] = "Non-story missions only",
             ["iom.tooltip.ballistic"] = "Ballistic",
             ["iom.tooltip.position"] = "Position",
             ["iom.tooltip.random"] = "Random site tile",

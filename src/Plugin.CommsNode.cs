@@ -16,22 +16,38 @@ namespace ImperiumOfMan
 
         private static void RegisterCommsNodeUpgrades()
         {
-            AddModuleText(CommsModule, "Comms Node", "Upgrade security intrusion and site-defense overrides.");
-            var intrusion = RegisterCommsUpgrade(SecurityIntrusion, null, 1, "CommsSecurityIntrusion",
-                "Security Intrusion", "Hijack one site turret at a random location on arrival.",
+            AddModuleText(CommsModule, "Comms Node", "Non-story missions only. Upgrade one allied turret at each unlocked location.");
+            var intrusion = RegisterCommsUpgrade(SecurityIntrusion, null, new CellPosition(0, 1), "CommsSecurityIntrusion",
+                "Security Intrusion", "Deploy one allied turret at a random site location. Non-story missions only.",
                 ["communication_relay", "communication_relay", "communication_relay",
                     "ai_module", "ai_module", "ai_module", "darknet_unit", "darknet_unit",
                     "prototype_schematics", "electrical_parts_container", "electrical_parts_container"]);
-            var entrance = RegisterCommsUpgrade(EntranceOverride, intrusion, 2, "CommsEntranceOverride",
-                "Entrance Override", "Also hijack a turret beside the mission entrance.",
+            var entrance = RegisterCommsUpgrade(EntranceOverride, intrusion, new CellPosition(0, 2), "CommsEntranceOverride",
+                "Entrance Override", "Deploy one more allied turret near the entrance. Non-story missions only.",
                 ["communication_relay", "ai_module", "darknet_unit", "electrical_parts_container"]);
-            RegisterCommsUpgrade(ExtractionOverride, entrance, 3, "CommsExtractionOverride",
-                "Extraction Override", "Also hijack a turret beside the extraction point.",
+            var extraction = RegisterCommsUpgrade(ExtractionOverride, entrance, new CellPosition(0, 3), "CommsExtractionOverride",
+                "Extraction Override", "Deploy one more allied turret near extraction. Non-story missions only.",
                 ["communication_relay", "ai_module", "electrical_parts_container"]);
+
+            MagnumPerkRecord[] roots = [intrusion, entrance, extraction];
+            for (int row = 0; row < CommsLocations.Length; row++)
+            {
+                var location = CommsLocations[row];
+                var previous = roots[row];
+                for (int tier = 1; tier < CommsTurretTypes.Length; tier++)
+                {
+                    var type = CommsTurretTypes[tier];
+                    previous = RegisterCommsUpgrade(location.PerkId(tier), previous,
+                        new CellPosition(tier, location.Row), location.Art, location.Label + " " + type.Name,
+                        "Replace this location's turret with a " + type.Name +
+                        ". Only the highest purchased type at this location deploys. Non-story missions only.",
+                        [.. type.UpgradePrice], location.RootId);
+                }
+            }
         }
 
-        private static MagnumPerkRecord RegisterCommsUpgrade(string id, MagnumPerkRecord parent, int column,
-            string art, string name, string description, List<string> price)
+        private static MagnumPerkRecord RegisterCommsUpgrade(string id, MagnumPerkRecord parent, CellPosition position,
+            string art, string name, string description, List<string> price, string department = "")
         {
             var descriptor = ScriptableObject.CreateInstance<MagnumPerkDescriptor>();
             descriptor.name = id;
@@ -43,8 +59,8 @@ namespace ImperiumOfMan
                 Id = id,
                 Enabled = true,
                 ModuleId = CommsModule,
-                DepartmentId = parent == null ? string.Empty : SecurityIntrusion,
-                PositionInGraph = new CellPosition(column, 1),
+                DepartmentId = department,
+                PositionInGraph = position,
                 Parents = parent == null ? [] : [parent.Id],
                 Modifiers = [],
                 UpgradePrice = price,
@@ -61,10 +77,10 @@ namespace ImperiumOfMan
         {
             private static void Postfix(State ____state)
             {
+                if (!IsCommsMission(____state)) return;
                 var raid = ____state.Get<RaidMetadata>();
                 var progression = ____state.Get<MagnumProgression>();
-                if (raid.RaidType is not (RaidType.ProcMission or RaidType.StoryMission) ||
-                    progression?.IsPerkPurchased(SecurityIntrusion) != true ||
+                if (progression?.IsPerkPurchased(SecurityIntrusion) != true ||
                     raid.CustomCounters.ContainsKey(CommsTurretsDeployed))
                 {
                     return;
@@ -83,6 +99,7 @@ namespace ImperiumOfMan
                 var grid = ____state.Get<MapGrid>();
                 var map = ____state.Get<MapMetadata>();
                 var obstacles = ____state.Get<MapObstacles>();
+                var entities = ____state.Get<MapEntities>();
                 var creatures = ____state.Get<Creatures>();
                 CellPosition entrance = creatures.Player.CreatureData.Position;
                 CellPosition extraction = FindCommsExtraction(map, obstacles, entrance);
@@ -98,7 +115,8 @@ namespace ImperiumOfMan
                     var cell = grid.GetCell(x, y);
                     if (cell.Type == MapCellType.Floor && cell.ReachableCellFlag &&
                         cell.specialFlag == MapCellSpecialFlag.None && cell.IsPassable(ObstacleType.Unexplored) &&
-                        !reserved.Contains(cell.Position) && creatures.GetCreature(x, y) == null &&
+                        !reserved.Contains(cell.Position) &&
+                        ItemInteractionSystem.CanPlaceObject(grid, creatures, entities, cell.Position) &&
                         obstacles.Get(x, y) == null)
                     {
                         available.Add(cell.Position);
@@ -108,11 +126,11 @@ namespace ImperiumOfMan
                 int count = 0;
                 if (progression.IsPerkPurchased(EntranceOverride))
                 {
-                    PlaceBeside(entrance);
-                    if (progression.IsPerkPurchased(ExtractionOverride))
-                    {
-                        PlaceBeside(extraction);
-                    }
+                    PlaceBeside(entrance, CommsLocations[1]);
+                }
+                if (progression.IsPerkPurchased(ExtractionOverride))
+                {
+                    PlaceBeside(extraction, CommsLocations[2]);
                 }
 
                 var field = available.Where(pos => CellPosition.Distance(pos, entrance) > 5 &&
@@ -123,12 +141,12 @@ namespace ImperiumOfMan
                 }
                 if (field.Count > 0)
                 {
-                    Place(field[Random.Range(0, field.Count)]);
+                    Place(field[Random.Range(0, field.Count)], CommsLocations[0]);
                 }
 
                 raid.CustomCounters[CommsTurretsDeployed] = count;
 
-                void PlaceBeside(CellPosition anchor)
+                void PlaceBeside(CellPosition anchor, CommsLocation location)
                 {
                     var room = new List<MapCell>();
                     MapSystem.GetRoomWalkableCells(grid, obstacles, anchor, room);
@@ -140,15 +158,21 @@ namespace ImperiumOfMan
                         .FirstOrDefault();
                     if (position.HasValue)
                     {
-                        Place(position.Value);
+                        Place(position.Value, location);
                     }
                 }
 
-                void Place(CellPosition position)
+                void Place(CellPosition position, CommsLocation location)
                 {
+                    var type = CommsTurretTypes[EffectiveCommsTurretTier(progression, location)];
+                    if (!TryResolveCommsTurretRole(type, out string mobClass))
+                    {
+                        Debug.LogWarning("[Cvar_ImperiumOfMan] Comms turret skipped; missing target for " + type.PackageId);
+                        return;
+                    }
                     var turret = CreatureSystem.SpawnMonsterFromMobClass(____state.Get<Mercenaries>(),
                         ____state.Get<PerkFactory>(), ____state.Get<Difficulty>(), creatures, raid,
-                        ____state.Get<TurnController>(), "turret_ballistic", position,
+                        ____state.Get<TurnController>(), mobClass, position,
                         creatureAlliance: CreatureAlliance.PlayerAlliance);
                     turret.CreatureData.IsSummonedCreature = true;
                     available.Remove(position);
