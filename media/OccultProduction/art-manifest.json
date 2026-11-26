@@ -2,6 +2,19 @@
   "schema": "iom.occult-art.v1",
   "generator": "built-in image_gen",
   "reference": "User supplied native Navigation Technology Tree screenshot",
+  "reference_image": {
+    "path": "media/OccultProduction/Reference/navigation-technology-tree.png",
+    "origin": "user-provided",
+    "purpose": "Native Navigation Technology Tree visual style reference",
+    "bytes": 862345,
+    "sha256": "e306ed41c06b1bd2e8762127150c99e6f7be19a5af29c39c35be4d15e8b1be96",
+    "width": 1507,
+    "height": 825,
+    "unmodified_bytes": true,
+    "generated": false,
+    "gameplay_validation_evidence": false,
+    "embedded_in_runtime": false
+  },
   "research": [
     {
       "filename": "OccultResearch1",
@@ -169,7 +182,7 @@
       "blocked": "Explicit Locked PNG, native alpha 1.0.",
       "available_unpurchased": "Normal PNG, native alpha 0.5.",
       "purchased": "Normal PNG, native alpha 1.0.",
-      "affordable_hover": "Native yellow markers/selection; no additional generated state bitmap."
+      "hover_selection": "Native yellow markers/selection, including blocked-node hover; no additional generated state bitmap."
     }
   }
 }

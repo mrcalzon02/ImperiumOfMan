@@ -2,7 +2,9 @@
 
 ## Status and intended result
 
-**The first in-game browser is implemented in the 1.1.5 source.** Open Production or its recipe picker to reveal the left-edge **Crafting map** tab. The pop-out uses loaded item and recipe registries, a zoomable/pannable graph, click-to-highlight selection, and a lower details panel in muted sage green. The earlier standalone HTML remains a historical source reference. Quantity planning, queue execution, full runtime exports, and the occult production upgrade remain later expansion work. Native build and gameplay status are recorded in [the crafting-map audit](diagnostics/CraftingMapAudit.md).
+> **Current implementation supersedes the historical occult design below.** Source `347de7db77f9121ad26e1c12c534b97760ee92f2` implements exactly six occult capability purchases, independent physical recipe patterns, the four-step production chain and its artwork. Research teaches no recipes, including the foundational formulas. The earlier four-facility and single-icon concepts are historical. Use [Occult capabilities](diagnostics/OccultResearchExpansion.md), [Organic production](diagnostics/OccultOrganicProduction.md), and the [current capability diagram](docs/crafting/occult-capabilities.svg) for implemented behavior and verification.
+
+**The first in-game browser was introduced in 1.1.5 and is included in the current 1.1.9 source.** Open Production or its recipe picker to reveal the left-edge **Crafting map** tab. The pop-out uses loaded item and recipe registries, a zoomable/pannable graph, click-to-highlight selection, and a lower details panel in muted sage green. The standalone HTML is now a source reference pinned to `347de7d`. Quantity planning, queue execution and full runtime exports remain later expansion work. The current 347 candidate passed native compilation and session-005 campaign loading, map refinements and native queue completion. Exact cargo delivery was not measured against a starting aggregate. Session 005 encountered an empty global preset catalogue; the relative loader-path mechanism is verified. Corrected-directory session 006 completed Space/save and 46 hours 20 minutes of game time with no missing-preset diagnostics or managed-exception headings in its full log. The current 347 six-node tree and both corrected tooltip hovers passed visual review; the historical `bdb1759` screenshot retains its original source.
 
 The intended result is one searchable index in which the player can select any item, see every known way to acquire or manufacture it, follow its ingredients back to their sources, and see what else consumes it. Items without crafting recipes remain in the index with an explanation. The index must describe the actual loaded game and mods when running in-game.
 
@@ -17,13 +19,13 @@ The phrase **crafting tree** describes the presentation. The underlying model is
 | Material coverage log | **1.1.4 source** | Reads registered Magnum and workbench recipes once; reports structural reachability without evaluating quantities, player unlocks, time, station access, or inventory. |
 | [Source recipe browser](docs/crafting/recipe-map.html) and [source graph data](docs/crafting/recipe-graph.json) | **Source snapshot** | Relationships extracted from this repository. They are not a capture of the active game or other installed mods. |
 | [Raw-material overview SVG](docs/crafting/raw-material-overview.svg) / [PNG](docs/crafting/raw-material-overview.png) | **Source snapshot** | A readable overview of the ordinary manufacturing foundations. |
-| [Occult proposal SVG](docs/crafting/occult-proposal.svg) / [PNG](docs/crafting/occult-proposal.png) | **Proposal** | Future occult design; these routes must not appear as existing game recipes. |
+| [Occult proposal SVG](docs/crafting/occult-proposal.svg) / [PNG](docs/crafting/occult-proposal.png) | **Historical proposal** | Preserved worldbuilding and equipment ideas; the six-capability implementation supersedes its old facility structure. |
 | Loaded item and recipe snapshot | **1.1.5 source** | All registered item IDs; Magnum, workbench, station, and recovery routes; current recipe knowledge/cargo and station listings. Unknown native workbench values remain explicit. |
 | In-game search and graph pop-out | **1.1.5 source** | Left-edge Production tab, muted sage interface, zoom/pan, click highlighting, and lower details. |
 | Complete runtime JSON export, acquisition context, and cost preview | **Later expansion** | Extend the first read-only implementation; quantity planning and queue execution remain separate phases. |
-| Occult production upgrade, icon, and zero-ingredient foundation | **Proposed** | See [Occult production interface](#9-occult-production-interface) and the [full occult specification](OCCULT_PRODUCTION_DESIGN.md). |
+| Six occult capabilities, physical patterns, artwork and zero-ingredient foundation | **1.1.9 source** | Implemented in [Occult capabilities](diagnostics/OccultResearchExpansion.md) and [Organic production](diagnostics/OccultOrganicProduction.md); current tree and corrected-tooltip visuals are verified; purchase and production transactions remain separate checks. |
 
-The current source audit reports 365 explicit Magnum outputs, of which 306 are structurally reachable from its declared raw roots plus preserved native Sorbent. The remaining 59 have contextual acquisition gates; the audit reports no unexplained ordinary leaf ingredients or manufacturing cycles in that source graph. These are **source-audit counts**, not a count of every item or recipe in the native game. The generated graph and [chemistry audit](diagnostics/RawMaterialChemistryAudit.md) are the detailed snapshot records.
+The earlier 1.1.4 foundation audit reported 365 explicit Magnum outputs, of which 306 were structurally reachable from its declared raw roots plus preserved native Sorbent. Its remaining 59 had contextual acquisition gates; that audit reported no unexplained ordinary leaf ingredients or manufacturing cycles in its source graph. These are historical **source-audit counts**, not current installed-game totals. The [current source-reference README](docs/crafting/README.md) gives the refreshed graph counts; the [chemistry audit](diagnostics/RawMaterialChemistryAudit.md) preserves the earlier snapshot.
 
 ## 1. Coverage and boundaries
 
@@ -133,7 +135,7 @@ Provide three primary browsing modes, plus an explicit unknown state. Every mode
 
 **Buildable from current stock through intermediate crafts** is a planner result, not a synonym for immediately craftable. A player may have ore for a weapon but still lack several processed parts and the required schematic. The UI should show that distinction in the item's detail panel.
 
-Raw roots also have different meanings. Current ore and water production are timed extraction orders; flesh is gathered biological input. A future zero-ingredient clone order is a proposed capability-gated source. A quest reward is an external source, not a raw root that satisfies every ordinary manufacturing chain.
+Raw roots also have different meanings. Current ore and water production are timed extraction orders; flesh is gathered biological input. The implemented zero-ingredient clone order requires Culture capability, its separately learned pattern and production time. A quest reward is an external source, not a raw root that satisfies every ordinary manufacturing chain.
 
 ## 6. Browser and interaction flow
 
@@ -232,15 +234,17 @@ An eventual Excel workbook should have linked tables for **Items**, **Operations
 
 ## 9. Occult production interface
 
+This section retains the broader design context. The implemented foundation, capability, placement and artwork details below supersede the earlier facility proposal; unimplemented family equipment concepts remain proposals.
+
 The expansion should give demon, Chaos, and otherworldly equipment meaningful esoteric supply chains. It should connect ordinary support materials with occult feedstock while keeping faction identity and exceptional acquisition rules visible. The detailed material and recipe proposal belongs in the [Occult chain specification](#occult-chain-specification).
 
 ### Foundational source and gate
 
 The requested foundation is a **zero-ingredient, time-consuming production source**, with a fictional raw-clone/torment/suffering chain leading into the native Gavvakh inventory item. Zero ingredient cost must be represented literally where that recipe is authored; do not quietly add biomass, cargo, or an advanced component that makes the proposed foundation depend on its own downstream chain.
 
-That source still has an operation time, batch yield, capability requirement, and production capacity. Initial design default: the source becomes available through an **Occult Production** ship upgrade. It is not a globally shared ordinary material recipe on an unmodified starting ship. Exact names, tiers, costs, and batch yields belong in the occult specification and should remain marked proposed until authored and tested.
+That source has an operation time, batch yield, capability requirement and production capacity. In 1.1.9, Culture provides capability for clone gestation and torment containment; Distillation provides capability for suffering separation and Gavvakh condensation. Each of the four formulas also needs its own learned physical pattern. There are six total research purchases and no separate prerequisite facility purchases.
 
-The proposed chain represents Raw Clones, Torment Imprints, and Essence of Suffering as inventory intermediates with new, explicitly proposed IDs. They require real item records and icons before implementation. Native essence families remain typed affinity metadata. Never put an essence-family name into `ItemQuantity` merely because its display text resembles an item.
+The implemented chain represents Raw Clones, Torment Imprints and Essence of Suffering as inventory intermediates with registered item records and separate inventory/floor/shadow sprites. Native essence families remain typed affinity metadata. Never put an essence-family name into `ItemQuantity` merely because its display text resembles an item.
 
 The graph must show every explicitly authored branch, including demonic materials, equipment, consumables, ritual components, and links to ordinary supporting parts. A complete explanation also includes deliberately external or unique endpoints. It must not manufacture Fury Sigil or finale rewards through an accidental generic rule.
 
@@ -248,15 +252,15 @@ The graph must show every explicitly authored branch, including demonic material
 
 Use the repository's existing `MagnumPerkRecord`, descriptor, parent/child links, `PositionInGraph`, `UpgradePrice`, and translation patterns from [ship support](src/Plugin.ShipSupport.cs) and [Comms Node upgrades](src/Plugin.CommsNode.cs). `IsPerkPurchased` provides a proven way to read an installed capability. A capability requirement in the browser must agree with the actual production gate; a locked icon alone does not enforce access.
 
-Default UI placement is in the engineering area, subject to checking the installed module layout for overlap. The existing support modules demonstrate adding a module point and mapping its camera to an existing ship area if a separate occult module is warranted. The final choice between a branch in an existing module and a distinct module is a layout decision for the first UI prototype, not a reason to delay the data design.
+The implemented Occult Research module has its own ship pip, positioned between the native Engineering and Research anchors. Its six nodes use a compact adjacent two-row sequence. Current 347 captures confirm the marker placement, five adjacent links, green/locked icon states and native yellow hover. The two text-fit fixes committed at `8563a18` are compiled into 347 and visually verified: the Recipes row is clear, and Agga/Gannix/Shartamakhum occupy separate Materials rows. [Current evidence](docs/crafting/native-occult-ui-347de7d.json).
 
-Keep the upgrade and recipe schematics separate. Installing the facility can unlock its foundational source and enable occult operations; higher equipment recipes can retain their individual schematic and faction conditions. Custom data disks continue selecting one recipe. Existing learned recipe IDs must survive any later relocation of their production capability.
+Keep capability and recipe schematics separate. Buying research never teaches a recipe, including either foundational Culture formula. Physical pattern chips continue selecting one recipe, and production requires both learned knowledge and the matching capability. Existing learned recipe IDs survive capability migration.
 
 ### Icon and artwork interface
 
-Create one readable occult-production upgrade icon with a transparent background and a distinct silhouette: an enclosed crucible or vessel with a restrained ritual mark and a violet accent compatible with the game's green interface. Readability at the actual small module-button size takes priority over fine ornament. Test its normal and locked states against the real interface.
+The implemented artwork has six distinct 36-pixel research icons with green square borders and corresponding crimson locked variants. Native available/purchased opacity and selection markers remain active. Readability and state presentation are checked in the actual research interface.
 
-Use the existing `MagnumPerkDescriptor` icon fields and `SupportIcon` pattern. Ship support already derives a dim locked sprite from the readable source; a bespoke locked icon is optional if the layout needs clearer differentiation. If new inventory intermediates are added, supply the separate inventory, floor, and shadow resources required by `ApplyItemArtwork`, or explicitly reuse a validated existing set. A new item ID with only a descriptor donor is insufficient under the current artwork helper.
+The existing `MagnumPerkDescriptor` icon fields and `SupportIcon` loader use the explicit normal and locked assets. Raw Clone, Torment Imprint, Essence of Suffering and the physical pattern chip each have inventory, floor and shadow resources. Together with the research pairs, these make 24 embedded PNGs, verified in the current candidate DLL.
 
 The graph uses each item's real icon, with a distinct icon for an abstract essence or capability. Gavvakh's item icon must not be reused in a way that makes an essence-family node look like another stack of inventory items.
 
@@ -264,14 +268,14 @@ The graph uses each item's real icon, with a distinct icon for an abstract essen
 
 The [full occult production specification](OCCULT_PRODUCTION_DESIGN.md) defines the root chain, proposed intermediate IDs, effective quantities, times, upgrade gates, nine native otherworldly families, and the existing ten-tier Undivided equipment tree. The [proposal flowchart](docs/crafting/occult-proposal.svg) illustrates the starting cycle and the family branches.
 
-| Proposed process | Inputs consumed | Output | Base ship-hours |
+| Implemented starter process | Inputs consumed | Output | Base ship-hours |
 | --- | --- | --- | ---: |
 | Clone gestation | No item ingredients | 2 Raw Clones | 8 |
 | Torment cultivation | 2 Raw Clones | 4 Torment Imprints | 4 |
 | Suffering separation | 4 Torment Imprints | 4 Essence of Suffering | 4 |
 | Gavvakh condensation | 4 Essence of Suffering | 2 native Gavvakh | 4 |
 
-The initial serial cycle therefore makes two Gavvakh in twenty ship-hours after the required facility is installed. These are proposed final displayed quantities, not arguments to be halved/doubled again by the current helper. Clone tokens are production stock, not members of the crew or spawned enemies.
+The initial serial cycle makes two Gavvakh in twenty baseline ship-hours when Culture and Distillation are purchased and all four patterns are learned, provided the conditional Gavvakh formula was registered. These are literal final batch quantities; the ordinary helper's input reduction and output multiplier are not applied. Clone tokens are production stock, not members of the crew or spawned enemies.
 
 Family attunements are learned capabilities. They open distinct material branches, such as Gannix tissue/quasibronze, Shartamakhum glass, Duggur plate, and Ur skin/gears/fuel, while ordinary metal, textile, chemical, and electronic ingredients remain useful. The specification also covers Ron, Cattaram, Scrivnus, Flauros, and Olirna, marking the native records that still need enumeration. It does not claim a verified complete native equipment inventory for those families.
 
@@ -302,7 +306,7 @@ Phases 1 and 5 can be developed independently after the occult specification is 
 - **Saved progression:** old learned recipes and chips retain identity after a new index version; newly shared foundations display current access without rerolling old chips.
 - **Reserved endpoints:** Fury Sigil is explained as purchase-only and Shadowblade as a finale reward; neither receives a synthesized producer.
 - **Occult identity:** `quasi_medical_kit_1` and `gavvakh` occupy different node kinds; an affinity never appears as an inventory ingredient.
-- **Zero-input source:** a proposed clone source has zero ingredient edges, a nonzero time, the correct output batch, and a real capability gate once implemented.
+- **Zero-input source:** the clone source has zero ingredient edges, a nonzero time, the correct output batch, and independent capability and learned-pattern requirements.
 - **Other mods:** an additional recipe or item appears after refresh; uncertain provenance is reported without assigning it to this mod by guesswork.
 - **Failure isolation:** unsupported records or export errors produce diagnostics while ordinary play and native production continue.
 
@@ -324,7 +328,7 @@ The following decisions remain bounded implementation work, with defaults alread
 | Native effective time | Show base time until native modifiers can be reproduced exactly | Current production calculations and queue scheduling behavior. |
 | Refresh events | Refresh on opening and by explicit action; avoid per-frame registry scans | Reliable recipe/unlock/progression notifications in the installed build. |
 | Planner optimization | User-selected alternatives and deterministic preview | Real use cases before introducing an optimizer or automatic purchase assumptions. |
-| Occult module placement | Engineering area; separate module only if it improves layout | Visual check of current module tree and available anchors. |
-| Occult production resources | Use explicit Raw Clone, Torment Imprint, and Suffering Essence inventory intermediates | Register new records/artwork and confirm native essence accounting stays separate. |
+| Occult module placement | Implemented separate pip between native Engineering and Research anchors | Placement, six-node links and both corrected tooltip hovers verified on 347; purchase transactions remain separate. |
+| Occult production resources | Registered Raw Clone, Torment Imprint and Suffering Essence inventory intermediates | Headed production, sprite fit and independent capability/knowledge checks. |
 
 The main risks are inaccurate native yield assumptions, treating station capability as player access, losing recipe alternatives, hidden inventory eligibility rules, and expensive full-graph layout. Each is addressed by source adapters with explicit coverage, typed relationships, native validation, and a read-only first release. None requires changing working crafting behavior merely to make the map look complete.

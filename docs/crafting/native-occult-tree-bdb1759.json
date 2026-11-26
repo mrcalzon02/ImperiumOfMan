@@ -1,0 +1,31 @@
+{
+  "schema": "iom.native-ui-evidence.v1",
+  "source_sha": "bdb17590322a8f27090918f83e0bf613eaee04de",
+  "source_tree_sha": "a69be31dd7a9b9abf25be6f09dff8eecd935d3bb",
+  "assembly_version": "1.1.9.0",
+  "native_build_run_id": 45822897943,
+  "headed_run_id": 45824345407,
+  "evidence_commit": "310c507f6f8f63baf893c17cc59f8518830076b6",
+  "evidence_path": "runner-results/quasimorph-headed/45824345407-1/frames/0014/frame.png",
+  "frame": 14,
+  "image": {
+    "path": "native-occult-tree-bdb1759.png",
+    "bytes": 1425323,
+    "sha256": "afbf10030e63c40953b83dc4699149c5b0548ede2f0fd9326921ee7c4fdc35f2",
+    "width": 1920,
+    "height": 1080,
+    "unmodified_bytes": true
+  },
+  "observed": [
+    "Exactly six occult research nodes in two rows.",
+    "Five adjacent snake links, without extra facility nodes.",
+    "Culture uses the dim green available image and border.",
+    "The other five ranks use crimson locked images and borders."
+  ],
+  "scope": [
+    "This is a native screenshot from the bdb1759 candidate, not an illustrative reconstruction.",
+    "The Recipes label and Manifestation row-split source fix committed at 8563a18c50f63b8e6d54d51d0db8d79c8b7fa104 is absent from this build and pending corrected native build/runtime verification.",
+    "No research purchase or production/recycling transaction is demonstrated by this frame.",
+    "The separate Space faction-simulation exception remains under investigation."
+  ]
+}

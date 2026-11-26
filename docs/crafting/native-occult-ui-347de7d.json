@@ -1,0 +1,202 @@
+{
+  "schema": "iom.native-occult-ui-evidence.v2",
+  "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+  "source_tree_sha": "a71da578a091575c2c5d54669e1790a5b89d116c",
+  "candidate_sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+  "status": "Current-source six-node artwork and both tooltip corrections visually verified; both source347 test sessions closed with original package/saves restored and disposable fixtures removed.",
+  "frames": [
+    {
+      "role": "ship marker placement",
+      "path": "docs/crafting/native-occult-ship-347de7d.png",
+      "delivery_commit": "9dae14ceac3e102fe0b45052b4ef9fd692a02963",
+      "frame_number": 11,
+      "action_sequence": 12,
+      "png_sha256": "d4662e984c5dbbb395b7a265b7fa690c075df5562a6f60ec88fc4d645b15f725",
+      "bytes": 1700385,
+      "width": 1920,
+      "height": 1080,
+      "unaltered_capture": true,
+      "root_visually_inspected": true,
+      "observations": [
+        "Ship module screen and central-lower inserted marker are visible.",
+        "The companion native log identifies Occult Research midpoint: engineer / research."
+      ],
+      "scope": "Module identity comes from the accompanying log; no marker labels are displayed in this screenshot.",
+      "session_id": "crafting-map-ui-006",
+      "run_id": 45849635092,
+      "controller_sha": "1ffc3f3b8094452b2031c83b08b236d022d6c3d6"
+    },
+    {
+      "role": "six research nodes",
+      "observations": [
+        "Exactly six visible capability nodes occupy three columns and two rows.",
+        "Five orthogonal parent links form the intended snake sequence.",
+        "Culture uses the green normal frame; five later nodes use crimson locked frames."
+      ],
+      "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+      "session_id": "occult-research-ui-003",
+      "controller_sha": "0fccc7500a51986a8ce169a65a9b6246dbfba60a",
+      "run_id": 45857447221,
+      "delivery_commit": "21375adda4ede4abc29c77c29e8ec1a6a5bc1bcc",
+      "frame_number": 13,
+      "action_sequence": 14,
+      "png_sha256": "cf36111548c68681ac5127ebc5a385d847c04b211c18891904bd9d677dc9ab9d",
+      "width": 1920,
+      "height": 1080,
+      "unaltered_capture": true,
+      "root_visually_inspected": true,
+      "path": "docs/crafting/native-occult-tree-347de7d.png",
+      "bytes": 1244507
+    },
+    {
+      "role": "Culture tooltip",
+      "observations": [
+        "Recipes and Acquired in game are fully readable without overlap.",
+        "Culture, Containment, native Available status and two material costs remain visible.",
+        "Yellow hover selection and green source artwork are visible."
+      ],
+      "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+      "session_id": "occult-research-ui-003",
+      "controller_sha": "0fccc7500a51986a8ce169a65a9b6246dbfba60a",
+      "run_id": 45857447221,
+      "delivery_commit": "126c3d935ff96451bd7a83f0e932cacf7a1896f9",
+      "frame_number": 14,
+      "action_sequence": 15,
+      "png_sha256": "6cb85b0751375c9c0d29b1f15a67799afdc5e19a4369b25554b4f3ba28920dab",
+      "width": 1920,
+      "height": 1080,
+      "unaltered_capture": true,
+      "root_visually_inspected": true,
+      "path": "docs/crafting/native-occult-culture-347de7d.png",
+      "bytes": 1255368
+    },
+    {
+      "role": "Manifestation tooltip",
+      "observations": [
+        "Agga, Gannix and Shartamakhum each occupy a separate Materials row and are fully readable.",
+        "Recipes / Acquired in game remains fully readable.",
+        "Native Blocked status, three material costs and yellow hover selection remain visible."
+      ],
+      "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+      "session_id": "occult-research-ui-003",
+      "controller_sha": "0fccc7500a51986a8ce169a65a9b6246dbfba60a",
+      "run_id": 45857447221,
+      "delivery_commit": "5260b9c6a559b8479531120a739feb6ef2e12a60",
+      "frame_number": 15,
+      "action_sequence": 16,
+      "png_sha256": "7e7c89fe32f9a415dd11a5be26347cd29e206dcde0c312d1ffee21cebb03a079",
+      "width": 1920,
+      "height": 1080,
+      "unaltered_capture": true,
+      "root_visually_inspected": true,
+      "path": "docs/crafting/native-occult-manifestation-347de7d.png",
+      "bytes": 1216671
+    }
+  ],
+  "space_transition": {
+    "delivery_commit": "086eb510ae23348709f7abcf0c97e04668e9d7a2",
+    "action_sequence": 10,
+    "log_sha256": "a054ecf9d0e174f99ca8982f2ab341f5952711dad0fa2c280e262ced35b92b1a",
+    "log_bytes": 15693,
+    "complete_log": true,
+    "observations": [
+      "Space transition on disposable slot 2 completed.",
+      "Game saved.",
+      "Zero missing-preset diagnostic lines and zero managed-exception headings in this snapshot."
+    ],
+    "scope": "First transition snapshot only; later time advancement is a separate observation."
+  },
+  "not_exercised": [
+    "Research purchase transactions",
+    "Physical pattern learning",
+    "Organic recycling completion",
+    "Legacy migration transaction"
+  ],
+  "historical_evidence": "native-occult-tree-bdb1759.json remains separate and retains its original source.",
+  "space_simulation_observation": {
+    "run_id": 45849635092,
+    "session_id": "crafting-map-ui-006",
+    "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+    "controller_sha": "1ffc3f3b8094452b2031c83b08b236d022d6c3d6",
+    "frames": [
+      {
+        "frame": 14,
+        "sequence": 15,
+        "commit": "cea1d8ef0b260b3bdd09dcd8e361b7acec1e9040",
+        "png_sha256": "51794626b8e1b0b50ab3639e3e3c6ef1ce715a9520c20d80d65983629af6303a",
+        "captured_at": 1795708151.207539,
+        "observed_game_date": "26.10.2200",
+        "observed_game_clock": "00:04"
+      },
+      {
+        "frame": 26,
+        "sequence": 27,
+        "commit": "b7b156fb4f2e35f623f2015939209ba8dab0c5d3",
+        "png_sha256": "de70c08935dcf8f395df37c052856770cf9b0a031a7fd0eb221df08edb1a5390",
+        "captured_at": 1795708822.8641045,
+        "observed_game_date": "27.10.2200",
+        "observed_game_clock": "22:24"
+      }
+    ],
+    "in_game_minutes_between_observed_clocks": 2780,
+    "intermediate_speed_observation": {
+      "frame": 25,
+      "native_clock_speed": "x25"
+    },
+    "log_read_at_commit": "4976d84da61ad772986c933071b6d42271699277",
+    "log_git_blob_sha": "982353fd55a3493d3ef672c41202bd38d5b2f826",
+    "log_sha256": "ff0ab3f3f813bf26637d43fe4e69d40ff4591ced7c611b79f09af79af84d2bdd",
+    "log_bytes": 15897,
+    "log_bounded": false,
+    "mission_preset_diagnostic_count": 0,
+    "managed_exception_heading_count": 0,
+    "scope": "Read-only visual native-clock comparison and pinned full log. The operator advanced game time, including an observed x25 speed setting. The elapsed game-clock interval is not wall-time duration or an all-game guarantee. No inputs were sent by this observer."
+  },
+  "sessions": [
+    {
+      "session_id": "crafting-map-ui-006",
+      "run_id": 45849635092,
+      "controller_sha": "1ffc3f3b8094452b2031c83b08b236d022d6c3d6",
+      "launch_working_directory": "installed game directory",
+      "state": "bounded_slot_finished",
+      "cleanup": {
+        "delivery_commit": "99ca540fe800abc8c9adda725c1bf4281bb339eb",
+        "receipt_sha256": "c20b112d26f68e18d8b72d085c3d6dcd40eb6f3dc4f7834407e152abe465021b",
+        "original_package_restored": true,
+        "original_campaign_files_unchanged": true,
+        "fixture_cleanup_complete": true
+      },
+      "final_observed_module_panel": {
+        "frame": 31,
+        "sequence": 32,
+        "delivery_commit": "7916af259c105a43ee3ca7e3960be47812d3a611",
+        "png_sha256": "0ce9184c5a16946a18846179e05e71ecfe775059d9eff20a1b4e9e16eae9888d",
+        "observation": "Root clicked the visible inserted marker at915,576 on a fresh capture; the resulting native panel reads OCCULT RESEARCH, Occult fabrication, with an Upgrade button. No purchase was performed."
+      }
+    },
+    {
+      "session_id": "occult-research-ui-003",
+      "run_id": 45857447221,
+      "controller_sha": "0fccc7500a51986a8ce169a65a9b6246dbfba60a",
+      "launch_working_directory": "installed game directory",
+      "state": "operator_stopped",
+      "scope": "Two corrected research hover views; no additional simulation/production tests planned.",
+      "stop_sequence": 17,
+      "stop_commit": "bc11dabcdd1571b46febc11e886549e8901035f5",
+      "cleanup": {
+        "delivery_commit": "925925ad4a54b2b16a7286d92b7f31cc19bad74f",
+        "receipt_sha256": "be99245009747fac05d8623a4780442a0bcc9f6b183f1f2d364d83d5b230df74",
+        "original_package_restored": true,
+        "original_campaign_files_unchanged": true,
+        "fixture_cleanup_complete": true
+      }
+    }
+  ],
+  "current_tooltip_fixes": {
+    "Culture_Recipes_value_no_overlap": "visually_verified",
+    "Manifestation_three_complete_Materials_rows": "visually_verified",
+    "native_status_material_costs_and_hover": "visually_verified",
+    "no_research_purchase_performed": true
+  },
+  "verification_scope": "Observed native UI on exact source347 candidate. Two independent proof runs retain their own controller/source/frame hashes. Scope includes six nodes, links, current hover layout, costs/status presentation and ship entry; no capability purchase, chip-learning or recycling transaction was performed."
+}

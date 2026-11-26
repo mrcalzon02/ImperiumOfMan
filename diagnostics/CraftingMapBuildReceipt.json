@@ -1,0 +1,559 @@
+{
+  "schema": "iom.crafting-map-build-verification.v1",
+  "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+  "assembly_version": "1.1.9.0",
+  "native_build": {
+    "run_id": 45838490203,
+    "job_id": 139973573585,
+    "url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203",
+    "controller_sha": "b42126b92be056ecd6ea1da1cce542d55b8c16e7",
+    "request_id": "crafting-map-visual-diagnostic-001",
+    "result": "passed",
+    "native_boot": "not_run",
+    "gameplay_validation": "not_run",
+    "warnings": 0,
+    "errors": 0,
+    "compile_seconds": 15.17,
+    "game_reference_sha256": {
+      "0Harmony.dll": "498ede1d20a87afaa6c7b1ed5b3beb505b01dc418b952c1be5c322204404b033",
+      "Assembly-CSharp.dll": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+      "SimpleJSON.dll": "2521e3c93c6992ee48981059a8e473152631ae7467002e60e8b9bf6f3b92ff82",
+      "Unity.RenderPipelines.Universal.Runtime.dll": "eacb4ef9bf829643ff08d29b5fcd4c03b9551b1892cb84ba1f8dc2d116197a28",
+      "UnityEngine.AssetBundleModule.dll": "888102f4fac12e8695d185d6770f637d520167caf2aa620d17c5ad1527eb08c3",
+      "UnityEngine.AudioModule.dll": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88",
+      "UnityEngine.CoreModule.dll": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e",
+      "UnityEngine.IMGUIModule.dll": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78",
+      "UnityEngine.ImageConversionModule.dll": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b",
+      "UnityEngine.InputLegacyModule.dll": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375",
+      "UnityEngine.Physics2DModule.dll": "6489c192c7fff6e4ed2d6bffdb26cb64133143bb117cacda3cb4bd730162294a",
+      "UnityEngine.TextRenderingModule.dll": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d",
+      "UnityEngine.TilemapModule.dll": "71c4505976bd5e8f5e74206fe69ce4baae96a9eb3e46a467d2a4bd5ac598f69b",
+      "UnityEngine.UI.dll": "5c7fb38aaa094f9709f29340062d4ce0603f110e2e91a30887c3212dcec5231f",
+      "UnityEngine.UIModule.dll": "f3e21499db60bd6a7569f2209d304828eb6778e1143b72a71ad72b4a61848097",
+      "UnityEngine.dll": "9568a6c178e9c322a6b155213be04661c920fcf46418e8e38b4af9646362d5c6"
+    }
+  },
+  "private_delivery": {
+    "repository": "mrcalzon02/Dens-Mortis",
+    "commit": "41f649f324759041d881d9f2bb45e911c6d4036c",
+    "prefix": "runner-results/quasimorph-native/45838490203-1"
+  },
+  "package": {
+    "repository_path": "package/ImperiumOfMan-1.1.9-CraftingMap.zip",
+    "bytes": 11796267,
+    "sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+    "git_blob_sha": "5ef0e238445463fd370774cb4f8ae575b9026941",
+    "member_count": 4,
+    "members": {
+      "ImperiumOfMan.dll": {
+        "bytes": 14004736,
+        "sha256": "cabe3921db3ceee6e0826d21623567aacd0deddec8b9ed723cbd46d3fc8d4d22"
+      },
+      "imperiumofman.bundle": {
+        "bytes": 191680,
+        "sha256": "a8439c298d19b18b6ff2a276dc0036e1de8b528cef2ed73a33f1a4a8a4ce293e"
+      },
+      "modmanifest.json": {
+        "bytes": 192,
+        "sha256": "2cbcf6a8058db5de7678ff67d802840c608b8075e9f1797589931c6e4d9c47f2"
+      },
+      "thumbnail.png": {
+        "bytes": 522838,
+        "sha256": "01e551d612b24a9562df626881ae379cd1961086470cbb01e643b77727accd44"
+      }
+    }
+  },
+  "verification": {
+    "transport_chunks": 30,
+    "all_chunk_lengths_and_sha256": true,
+    "all_chunk_git_blob_sha": true,
+    "combined_zip_length_and_sha256": true,
+    "git_blob_sha": true,
+    "zip_crc": true,
+    "exact_four_members": true,
+    "all_member_lengths_and_sha256": true,
+    "manifest_identity": true,
+    "assembly_loaded_or_executed": false,
+    "assembly_metadata_version": "1.1.9.0",
+    "compiled_hook_targets": {
+      "DiagnoseMissingMissionPresets": [
+        "MGSC.MissionFactory,",
+        "GenerateProceduralPlan"
+      ],
+      "PreserveProjectPactComponents": [
+        "MGSC.MagnumDevelopmentSystem,",
+        "InjectItemRecord"
+      ],
+      "ShowProductionCraftingMap": [
+        "MGSC.MagnumProductionWindow,",
+        "OnEnable"
+      ],
+      "ShowRecipePickerCraftingMap": [
+        "MGSC.MagnumSelectItemToProduceWindow,",
+        "OnEnable"
+      ],
+      "CraftingMapNativeInput": [
+        "MGSC.UI,",
+        "Process"
+      ],
+      "MigrateLegacyOccultCapabilities": [
+        "MGSC.MagnumProgression,",
+        "OnAfterLoad"
+      ],
+      "ExplainOccultPickerRequirement": [
+        "MGSC.MagnumSelectItemToProduceWindow,",
+        "ReceiptPanelOnStartProduction"
+      ],
+      "RecheckOccultPickerRequirement": [
+        "MGSC.MagnumSelectItemToProduceWindow,",
+        "ContextMenuOnCmdSelected"
+      ]
+    },
+    "owner_cleanup_methods": [
+      "OnDisable",
+      "OnDestroy"
+    ],
+    "public_blob_byte_for_byte_readback": true
+  },
+  "public_blob_readback": {
+    "repository": "mrcalzon02/ImperiumOfMan",
+    "blob_sha": "5ef0e238445463fd370774cb4f8ae575b9026941",
+    "bytes": 11796267,
+    "sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+    "readback_url": "https://api.github.com/repos/mrcalzon02/ImperiumOfMan/git/blobs/5ef0e238445463fd370774cb4f8ae575b9026941",
+    "readback_method": "Unauthenticated public GitHub Git-data JSON API; decoded base64 compared byte-for-byte with locally verified ZIP",
+    "byte_for_byte_match": true,
+    "branch_modified": false
+  },
+  "headed_validation": {
+    "status": "targeted_ui_and_custom_queue_lifecycle_verified_inventory_delta_unverified",
+    "overall_gameplay_result": "session005_map_and_queue_passed_session006_bounded_corrected_context_passed_remaining_transactions_pending",
+    "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+    "run_id": 45841032741,
+    "controller_sha": "11277b5f0a23c7e3239396c381f54924101a08f6",
+    "prefix": "runner-results/quasimorph-headed/45841032741-1",
+    "candidate_sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+    "session_id": "crafting-map-ui-005",
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "acceptance_ledger_sha256": "d2a360b013fa3574cbeff8d4d82b8da61756f104c959eacb9912c338a5cfa496",
+    "acceptance_report": "diagnostics/CraftingMapHeadedValidation.md",
+    "checks": {
+      "startup_load": {
+        "result": "passed",
+        "observed": "Exact source/controller booted, registration completed with the seven intended spoiled-organic IDs, Ron Mask pact component was preserved, and protected slot 2 loaded successfully in 4.608027 seconds into Dungeon.",
+        "frames": [
+          1,
+          6
+        ]
+      },
+      "production_entry": {
+        "result": "passed",
+        "observed": "Left-edge map tab visible in native Production. The tab is also visible in the native recipe picker in frame 26.",
+        "frames": [
+          18,
+          26
+        ]
+      },
+      "map_open_index": {
+        "result": "passed",
+        "observed": "Expanded map reports 2,363 items, 3,017 loaded recipes and 19 graph nodes; both detail scrollbars are visible.",
+        "frames": [
+          19
+        ]
+      },
+      "selected_quantities": {
+        "result": "passed",
+        "observed": "Selected-item incident labels are shown in frame 19. Selecting the feedstock production process at 48% zoom in frame 24 leaves only its outgoing quantity 4 bright/numeric; the remaining graph topology stays visible and dim. Full process details show no inventory inputs and four feedstock outputs.",
+        "frames": [
+          19,
+          24
+        ]
+      },
+      "details_scroll": {
+        "result": "passed",
+        "observed": "Both overflowing detail lists show bars. Left-thumb drag reaches the fourth producing route; right-thumb drag reaches the sixth usage route. Wheel input over Used by scrolls only that detail list while graph zoom remains 90%. Both short-list scrollbars are hidden for the selected production process in frame 24.",
+        "frames": [
+          19,
+          20,
+          21,
+          22,
+          24
+        ]
+      },
+      "fit": {
+        "result": "passed",
+        "observed": "Fit centers the entire moderate 19-node graph inside the viewport at 48% zoom.",
+        "frames": [
+          23
+        ]
+      },
+      "escape_and_picker": {
+        "result": "passed",
+        "observed": "Frame 25 shows native Production after Escape closed only the map; frame 26 shows the native picker with the map tab still visible.",
+        "frames": [
+          25,
+          26
+        ]
+      },
+      "owner_lifecycle": {
+        "result": "passed",
+        "observed": "After leaving Production, frame 33 shows Space and the Crafting map tab is absent.",
+        "frames": [
+          33
+        ]
+      },
+      "callins_header_layout": {
+        "result": "passed",
+        "observed": "Collapsed label is untruncated in frames 6 and 10. Expanded panel in frame 7 shows Weapons, Pod Support and No pods installed entirely inside its bounds.",
+        "frames": [
+          6,
+          7,
+          10
+        ],
+        "scope": "Raid Call-ins panel only; does not complete spacecraft Drop Support header comparison."
+      },
+      "header_comparison": {
+        "result": "not_run",
+        "note": "The separately verified raid Call-ins panel is not the spacecraft Drop Support module header. Native/Drop Support module comparison remains pending."
+      }
+    },
+    "custom_batch": {
+      "status": "queue_submission_and_completion_passed_exact_cargo_delta_unverified",
+      "output_id": "iom_metal_ore",
+      "inventory_inputs": [],
+      "base_hours": 3,
+      "submitted_batches": 1,
+      "queued_output_units": 4,
+      "displayed_time_hours": 1,
+      "before_conveyor": "1/1",
+      "after_conveyor": "0/1",
+      "queue_completion_verified": true,
+      "post_test_matching_icon_stack": 6,
+      "post_test_arsenal_tab": 1,
+      "before_aggregate_total": null,
+      "exact_item_identity_from_post_icon_verified": false,
+      "exact_plus_four_aggregate_cargo_delta_verified": false,
+      "frames": [
+        24,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        37,
+        39
+      ],
+      "checks": [
+        {
+          "id": "native_zero_input_recipe_visible",
+          "result": "passed",
+          "frames": [
+            29
+          ]
+        },
+        {
+          "id": "single_batch_selected",
+          "result": "passed",
+          "frames": [
+            30,
+            31
+          ],
+          "default_quantity": 30,
+          "submitted_batches": 1
+        },
+        {
+          "id": "custom_queue_four_outputs",
+          "result": "passed",
+          "frames": [
+            32
+          ],
+          "output_id": "iom_metal_ore",
+          "output_units": 4,
+          "displayed_time_hours": 1,
+          "conveyor_used": 1,
+          "conveyor_capacity": 1
+        },
+        {
+          "id": "production_completion",
+          "result": "passed",
+          "frames": [
+            32,
+            37
+          ],
+          "observed": "Submitted queue was occupied in frame 32 and Conveyor 0/1 after time advancement in frame 37."
+        },
+        {
+          "id": "aggregate_cargo_delta_plus_four",
+          "result": "not_verified",
+          "frames": [
+            39
+          ],
+          "reason": "No before-stack total was captured; post-test matching-icon stack alone does not establish an exact delta.",
+          "post_test_matching_icon_stack": 6
+        },
+        {
+          "id": "space_clock_advanced_via_native_control",
+          "result": "passed",
+          "frames": [
+            33,
+            34
+          ],
+          "visible_from": "2200-10-26 00:08",
+          "visible_to": "2200-10-26 11:23",
+          "elapsed_minutes": 675,
+          "native_speed_multiplier": 250,
+          "note": "Time progression alone does not establish output collection or cargo delta."
+        },
+        {
+          "id": "post_test_cargo_observation",
+          "result": "observed",
+          "frames": [
+            39
+          ],
+          "arsenal_tab": 1,
+          "category_heading": "GOODS / PARTS / PACTS / OTHER",
+          "matching_icon_stack": 6,
+          "row": 4,
+          "column": 2,
+          "before_total": null,
+          "exact_delta_proven": false
+        }
+      ]
+    },
+    "runtime_mission_generation": {
+      "result": "failed_in_session005",
+      "diagnostic_capture": "passed",
+      "global_preset_count": 0,
+      "initial_diagnostic_identities": 14,
+      "first_identity": {
+        "station": "Patton",
+        "template": "cerera_cereraMine_annaherman",
+        "requested_folder": "CereraSurface",
+        "resolved_folder": null
+      },
+      "first_log_evidence": {
+        "delivery_commit": "54ab6d67a0ed3bc8dcd44fe43ecd907eb3229578",
+        "git_blob": "cdc944a4407e48d3d3355e81fecf19f15a94d397",
+        "sha256": "d0f9ef1e94ed48adb8a7fcb15658b7e241862e1b324e9658bfd8f7c7216d31f4",
+        "bytes": 57002
+      },
+      "subsequent_api_diagnosis": "Core preset map lookup uses process-relative GameData/BinaryPresetsMap.json; missing file silently yields an empty map. Session005 launcher used its newly created evidence directory.",
+      "launcher_correction_commit": "366b2d35c4f62a5ca7ac10c0f0577d9eb0054397",
+      "corrected_launcher_runtime_confirmation": "bounded_session006_passed_see_corrected_context_retest"
+    },
+    "cleanup": {
+      "delivery_commit": "2eec3e6597f6049d47bcd63d94501338f0c072ed",
+      "status_git_blob": "f7f29318586518d933fb45dd85bb5dd6dd686f9f",
+      "status_bytes": 5429,
+      "status_sha256": "e300acffc33ed7a670832a52e86084155f815b513b810515a1c5cd6844a20c69",
+      "state": "operator_stopped",
+      "sequence": 42,
+      "finished_utc": "2026-11-26T15:24:50.075Z",
+      "protected_original_files": 11,
+      "original_package_restored": true,
+      "original_campaign_files_unchanged": true,
+      "fixture_cleanup_complete": true,
+      "retained_files": [],
+      "unexpected_campaign_files": [],
+      "new_campaign_files": []
+    },
+    "remaining_checks": [
+      "Exact +4 aggregate cargo delta with measured before/after totals and explicit item identity",
+      "Spacecraft native/Drop Support module-header comparison",
+      "Capability purchases and physical pattern-chip learning",
+      "Recovery, cancellation/refunds and active-order save/load",
+      "Call-in use/controller operation and turret deployment"
+    ],
+    "attempts": [
+      {
+        "run_id": 45840559081,
+        "controller_sha": "04798ccfab420d5bb0dc323fec3402a1cebb4b1d",
+        "result": "prelaunch_candidate_download_incomplete_read",
+        "game_launched": false,
+        "fixture_created": false,
+        "original_package_restored": true,
+        "gameplay_result": "not_run"
+      },
+      {
+        "run_id": 45841032741,
+        "controller_sha": "11277b5f0a23c7e3239396c381f54924101a08f6",
+        "result": "completed_with_findings",
+        "terminal_state": "operator_stopped",
+        "terminal_sequence": 42,
+        "targeted_ui_passed": true,
+        "custom_queue_completion_passed": true,
+        "exact_inventory_delta_verified": false,
+        "mission_generation_passed": false,
+        "cleanup_passed": true
+      }
+    ]
+  },
+  "historical_candidates": [
+    {
+      "source_sha": "bdb17590322a8f27090918f83e0bf613eaee04de",
+      "native_build_run": 45822897943,
+      "native_compile": "passed",
+      "package_sha256": "3e958daebacf3cee4fe7f503bc453d2dbc773bddb7a619b292a376f5d37b9f23",
+      "package_git_blob_sha": "b4d7b837d0c01c7ef73fd23a0e4431d022647262",
+      "headed_run": 45825014723,
+      "startup": "passed",
+      "campaign_load": "passed",
+      "organic_target_filter": "seven_intended_targets_observed",
+      "production_map": "live_search_selection_pan_zoom_escape_and_values_passed_with_visual_findings",
+      "live_index": {
+        "items": 2363,
+        "routes": 3017
+      },
+      "ordinary_native_queue": "medical_order_quantity_1_submitted_displayed_1_item_1_hour_conveyor_1_of_1",
+      "custom_batch_completion": "not_run",
+      "cancellation_refund": "not_run",
+      "recovery_transaction": "not_run",
+      "mission_generation": "argument_null_collection_after_return_to_space",
+      "overall_gameplay": "not_clean_pass",
+      "original_package_restored": true,
+      "original_campaign_files_unchanged": true,
+      "fixture_cleanup_complete": true,
+      "final_delivery": "002336903bf7561e9b2bfbddc38c927b9b1c13d3",
+      "record": "CraftingMapHeadedValidation.md"
+    },
+    {
+      "source_sha": "585715f554181ed56220c5ba2ed9055b46b44b38",
+      "native_build_run": 45813237686,
+      "native_compile": "passed",
+      "package_sha256": "f42be5c24cbd9d06e2d6e70984ba54a4186f77106f4c64763a7ffc0ba15fd925",
+      "headed_run": 45815345319,
+      "startup": "passed",
+      "campaign_load": "failed_unsupported_pact_component",
+      "organic_target_filter": "failed",
+      "production_map": "not_reached",
+      "original_package_restored": true,
+      "original_campaign_files_unchanged": true,
+      "record": "CraftingMapHeadedValidation.md"
+    }
+  ],
+  "mission_api_evidence": {
+    "run_id": 45831181826,
+    "delivery": "45f38e0ed4a9c6f08e7981699f0d1c82240c674c",
+    "assembly_sha256": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+    "complete_fixed_source_and_il_verified": true,
+    "game_or_save_operations": false
+  },
+  "preset_path_api_evidence": {
+    "run_id": 45849018302,
+    "job_id": 140010133935,
+    "implementation_controller_sha": "e9ca58d828b55b0fb225ac194ae2176285e697f3",
+    "execution_controller_sha": "2eec3e6597f6049d47bcd63d94501338f0c072ed",
+    "delivery": "bee68f710da80411898ca20206f4489101532a8e",
+    "prefix": "runner-results/quasimorph-preset-path/45849018302-1",
+    "workflow_conclusion": "success",
+    "assembly_sha256": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+    "assembly_before_after_match": true,
+    "complete_capture_verified": true,
+    "api_types": [
+      "MGSC.Data",
+      "MGSC.PresetIdRegistry",
+      "MGSC.PresetNamespaceInfo",
+      "MGSC.PresetAuthoringTarget"
+    ],
+    "required_loader_body": {
+      "name": "LoadBinaryPresetsMap",
+      "complete": true,
+      "start_line": 183,
+      "end_line": 189,
+      "bytes": 245,
+      "sha256": "db103c05ca2cc63770c830b7e48e71ddeaeeaf72d9b8774f437017ba972c71aa"
+    },
+    "api_files": {
+      "native-api/MGSC.Data.txt": {
+        "bytes": 37964,
+        "sha256": "e60d67e71bebfc56087440dbc006ce00e741181826aacce4e5f0705eb6ac3319",
+        "git_blob": "778228087ef1306c2345d8f4be77b72dec6d8d0d"
+      },
+      "native-api/MGSC.PresetIdRegistry.txt": {
+        "bytes": 7707,
+        "sha256": "328468c2ec8c7ab17afbebaa6867131f0fd5033e4c6592394b0b58f4cce6cb83",
+        "git_blob": "79bbe32d815cc9ded3ba65a0f1d800f0d726d84f"
+      },
+      "native-api/MGSC.PresetNamespaceInfo.txt": {
+        "bytes": 1189,
+        "sha256": "1bc0fb78818e57b06db9885aef64b0ec2b0db9314998a312bc6f676ee68e53fd",
+        "git_blob": "f715180077a069fdfcca878e5bf22b9f7796747c"
+      },
+      "native-api/MGSC.PresetAuthoringTarget.txt": {
+        "bytes": 4491,
+        "sha256": "578bc1c1dca450058fa38c7a21c58a814b3570dcd87c90920dd047630e27d083",
+        "git_blob": "11cf1bdc24ea1bcdad41ffb3b44d088c6d216e40"
+      }
+    },
+    "game_or_save_or_preset_file_operations": false,
+    "retained_file_manager": {
+      "delivery": "41f649f324759041d881d9f2bb45e911c6d4036c",
+      "path": "runner-results/quasimorph-native/45838490203-1/native-api/MGSC.FileManager.txt",
+      "git_blob": "3dc155a45451b2925b8b3d8216cc392a7f16f8b5",
+      "bytes": 4431,
+      "sha256": "41cb29720902ee0977892113646c2bd06432b20704a1b12b5747872c6d00788f"
+    },
+    "finding": "Core preset catalogue path is relative to process cwd; missing file silently creates an empty map. Session005 used the evidence directory. Existing launcher correction sets cwd to the game installation; runtime confirmation remains pending."
+  },
+  "corrected_context_retest": {
+    "session_id": "crafting-map-ui-006",
+    "run_id": 45849635092,
+    "controller_sha": "1ffc3f3b8094452b2031c83b08b236d022d6c3d6",
+    "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+    "candidate_sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+    "launch_working_directory": "installed game directory",
+    "mod_source_changed_for_retest": false,
+    "result": "bounded_space_save_and_time_advance_passed",
+    "space_transition_and_save": {
+      "passed": true,
+      "delivery_commit": "086eb510ae23348709f7abcf0c97e04668e9d7a2",
+      "action_sequence": 10,
+      "complete_log": true,
+      "log_bytes": 15693,
+      "log_sha256": "a054ecf9d0e174f99ca8982f2ab341f5952711dad0fa2c280e262ced35b92b1a"
+    },
+    "space_simulation": {
+      "observed_from": "26.10.2200 00:04",
+      "observed_to": "27.10.2200 22:24",
+      "elapsed_game_minutes": 2780,
+      "observed_speed_multiplier": 25,
+      "complete_log": true,
+      "log_bytes": 15897,
+      "log_sha256": "ff0ab3f3f813bf26637d43fe4e69d40ff4591ced7c611b79f09af79af84d2bdd",
+      "log_git_blob_sha": "982353fd55a3493d3ef672c41202bd38d5b2f826",
+      "missing_preset_diagnostic_count": 0,
+      "managed_exception_heading_count": 0
+    },
+    "cleanup": {
+      "delivery_commit": "99ca540fe800abc8c9adda725c1bf4281bb339eb",
+      "status_sha256": "c20b112d26f68e18d8b72d085c3d6dcd40eb6f3dc4f7834407e152abe465021b",
+      "terminal_state": "bounded_slot_finished",
+      "action_sequence": 32,
+      "original_package_restored": true,
+      "original_campaign_files_unchanged": true,
+      "fixture_cleanup_complete": true
+    },
+    "visual_evidence": "docs/crafting/native-occult-ui-347de7d.json",
+    "scope": "Same binary with the launch directory corrected. No recurrence of the prior preset diagnostic or managed-exception headings in the complete final log through the observed interval; not an all-game or transaction acceptance guarantee. Current Culture/Manifestation hover proof is recorded separately; exact cargo delta remains unverified."
+  },
+  "current_occult_visual_verification": {
+    "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+    "run_id": 45857447221,
+    "session_id": "occult-research-ui-003",
+    "controller_sha": "0fccc7500a51986a8ce169a65a9b6246dbfba60a",
+    "result": "six_node_structure_and_both_corrected_hovers_visually_verified",
+    "evidence": "docs/crafting/native-occult-ui-347de7d.json",
+    "checks": {
+      "Culture_Recipes_value_no_overlap": "visually_verified",
+      "Manifestation_three_complete_Materials_rows": "visually_verified",
+      "native_status_material_costs_and_hover": "visually_verified",
+      "no_research_purchase_performed": true
+    },
+    "research_purchase_performed": false,
+    "cleanup": "Verified operator_stopped sequence17; exact immutable receipt is in the shared UI evidence manifest."
+  }
+}

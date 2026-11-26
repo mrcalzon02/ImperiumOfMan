@@ -1,85 +1,184 @@
-IMPERIUM REFORGED 1.1.9 — OCCULT CAPABILITIES AND ORGANIC RECYCLING
+DRAFT TEST BUILD CHANGE NOTES — 1.1.9
 
-Research and recipe knowledge
+Cumulative post-release changes included in source 347de7db77f9121ad26e1c12c534b97760ee92f2. This combines the recent crafting balance and chemistry work with the in-game Crafting map, revised occult progression, ship interface improvements, and follow-up visual fixes. It is a test-candidate summary, not a Steam release announcement. Native compilation and complete package verification passed. Exact-source session 005 verified the revised map controls and native queue completion. Session 006, using the corrected launch directory and unchanged binary, completed Space/save and 46 hours 20 minutes of in-game time without the prior preset or managed-exception diagnostics. The current six-node tree and both corrected tooltip hovers also passed visual review. An exact +4 cargo delta is not established.
 
-Occult Research has six purchases: Culture, Distillation, Manifestation,
-Binding, Infusion and Soulforge. They grant fabrication capability. They do
-not teach recipes, refresh recipe knowledge on load, or grant a recipe when
-Production is opened. Each level after the first requires the previous level.
+COMPARISON BASELINE
+Published GitHub release v1.1.0, source b08c27e38bbc73712e073ec9141a6e8769984d9a, assembly 1.1.0.0. The release was published on 25 November 2026. The comparison ends at the pinned 1.1.9 candidate above. Imperial and Chaos campaign content, endgame interiors, and the established faction equipment already present in that baseline are retained, rather than counted as new changes below. The candidate's implementation and package verification do not establish its Steam publication or gameplay acceptance.
+https://github.com/mrcalzon02/ImperiumOfMan/releases/tag/v1.1.0
+https://github.com/mrcalzon02/ImperiumOfMan/compare/b08c27e38bbc73712e073ec9141a6e8769984d9a...347de7db77f9121ad26e1c12c534b97760ee92f2
 
-Physical pattern chips provide recipe knowledge through existing faction
-stock and contract-reward routes. Each chip teaches one selected recipe from
-its small pool. The source declares 21 pools and 53 candidate new formulas;
-existing native formulas and missing native records are skipped before the
-runtime chip pools are created. An order needs both its learned recipe and
-its purchased research capability.
+[h1]In-game Crafting map[/h1]
+[list]
+[*]Added a Crafting map tab on the left edge of Production and its recipe picker. It opens a muted sage-green panel, with a collapse handle on the right and recipe details below the graph.
+[*]Use the mouse wheel to zoom, click and drag to pan, and click an item or process to highlight its connections. Single-click selection preserves the current view. Focus and double-click can recenter the selected branch.
+[*]Search reads the active game's loaded item catalogue, including native items, mod items, and items with no registered producer. Filters cover Magnum production, workbenches, station industry, and recovery.
+[*]The graph shows multi-ingredient recipes, alternative producers, downstream uses, and multiple outputs. The details panel reports ingredients, output quantities, base time, venue, and captured access/readiness information.
+[*]Quantity labels now appear only on connections incident to the selected item or process, reducing dense-view overlap while retaining every connection and all detail values. Both lower detail columns have auto-hiding scrollbars and a stable gutter.
+[*]Opening the map or pressing Refresh reads current recipe knowledge, cargo, station listings, modified-project outputs, and custom output batches. Occult routes report recipe knowledge and fabrication capability separately, with physical pattern-chip sources where registered.
+[*]Explicit recycling routes now show their actual consumed-input batch size. Whole-batch routes explain combined selected stacks and retained remainders instead of presenting their output as a per-item return.
+[*]Expand inputs or uses to follow longer chains. Large views expand in pages; unknown workbench quantities and times remain marked as unknown.
+[*]Collapse or Escape returns to Production. Leaving Production removes the tab. The map is read-only; it does not place crafting orders.
+[/list]
 
-Existing saves that contain the old facility purchases receive a one-time
-capability migration. Old Manifestation, Binding, Infusion and Soulforge
-progress maps to the corresponding new level, including its prerequisites.
-Only the four obsolete facility markers are retired. Learned recipes, other
-purchases and cargo are unchanged; saves without old markers are untouched.
+[h1]Crafting balance retained from the recent updates[/h1]
+[list]
+[*]Existing custom Magnum recipes retain their different ingredient types while each required quantity is halved, rounded up to a whole item with a minimum of one. Existing custom batches are doubled.
+[*]The service Lasgun recipe uses one rolled armor plate, one armor fitting, and one weapon component to produce two rifles.
+[*]New ordinary component orders generally produce four units; the new ammunition orders produce twelve. Finished medicine, repair, grenade, and cyborg orders produce two.
+[*]Production times and normal schematic requirements continue to apply. New occult formulas use the explicit final quantities listed below; the ordinary half-input/double-output adjustment is not applied to them again.
+[/list]
 
-Production
+[h1]Raw materials, chemistry, and ordinary manufacturing[/h1]
+[list]
+[*]Added shared starting recipes for four metal smelting feedstock or four Water Bottles in three base hours without consuming cargo ingredients.
+[*]Ore feeds refined metal, silicate, conductive material, reactive minerals, and carbon-rich feedstock. These branches support glass, electrical stock, and chemical production.
+[*]One Piece of Flesh and one Water Bottle produce eight raw vat biomass. Biomass separates into cellulose pulp, organic oil, and chemical extract.
+[*]Connected manufacturing routes supply native acid, gasoline, paper, plastic, rubber, propellant, explosives, ordinary components, selected medicines, repair supplies, ammunition, and cyborg parts.
+[*]Reclaimed fiber starts from raw pulp. Polymer stock uses oil and chemical extract, with a recycling route from polymer scrap.
+[*]Biomass preparation, conductor separation, and shared chemical foundations are available to new and existing campaigns. New schematic rolls omit the relevant already-shared formulas while saved selections remain valid.
+[*]Ore Cargo can be opened through its normal container action for 12 metal smelting feedstock, six silicate feedstock, and six conductive scrap. Intact cargo remains available for its established trade and station uses.
+[*]Existing native Sorbent production is preserved. A carbon-feedstock-and-water fallback is added only when that native recipe is absent.
+[/list]
 
-The starter chain uses final quantities, without the ordinary helper's
-input reduction or batch multiplier:
+[h1]Occult Research: six capabilities and acquired patterns[/h1]
+[list]
+[*]Reworked the earlier test tree into six sequential purchases: I Culture, II Distillation, III Manifestation, IV Binding, V Infusion, and VI Soulforge. Each capability after the first requires its predecessor. The former separate facility prerequisites are folded into the first two capabilities.
+[*]Research purchases provide fabrication capability only. Each occult order also requires its independently learned recipe. Buying research, loading a save, and opening Production do not teach those patterns.
+[*]This knowledge guarantee is scoped to occult research, its migration and UI. The separate general Industry load hook retains shared-foundation teaching and Fury Sigil legacy recipe/order retirement.
+[*]Physical pattern chips each select one recipe through the native datadisk system. New pools supply cultures, distillation, selected otherworldly materials, ammunition, weapons, medicine, and grafts through existing faction stock and reward routes. Empty or conflicting pools are omitted.
+[*]Culture covers clone gestation and torment containment. Distillation covers suffering separation and Gavvakh condensation. Later capabilities cover selected Agga, Gannix, Shartamakhum, Duggur, Ron, Scrivnus, Ur, Cattaram, and Flauros routes, six Mars replacement parts, and advanced occult assembly.
+[*]Selected Chaos weapons, armor, ritual items, Bound Ash, Soulforge Embers, and esoteric stock require the appropriate capability while retaining their established physical schematics. Ordinary food, dressings, medicine, mechanical supplies, and physical stock keep normal crafting.
+[*]Native or other-mod recipes are preserved. Shared ordinary implants remain outside the new occult gates. Fury Sigil remains purchase-only, Shadowblade remains the finale reward, and Purity Seals retain their established reward route.
+[*]Known recipes that lack their required capability are dimmed in the production picker and explain the missing research. Order creation checks both capability and knowledge.
+[*]Research prices consume acquired samples and supplies once when the capability is purchased. These are separate from the materials required by each later crafting order.
+[*]Added a one-time migration for saves containing old occult facility purchases. Clone Vat or Containment Cradle preserves Culture; Essence Still or Gavvakh Retort preserves Distillation. Old research I, II, and III preserve Manifestation, Binding, and Infusion; old IV or V preserves Soulforge. Required preceding capabilities are retained, obsolete facility markers are retired, and learned recipes, unrelated purchases, and cargo remain unchanged. Saves without old facility markers are untouched. Save/load acceptance is still pending.
+[/list]
 
-  Clone gestation:      no cargo       -> 2 Raw Clones          / 8 hours
-  Torment containment:  2 Raw Clones   -> 4 Torment Imprints     / 4 hours
-  Suffering separation:4 Imprints     -> 4 Suffering Essence    / 4 hours
-  Gavvakh condensation:4 Essence      -> 2 native Gavvakh       / 4 hours
+[h1]Clone, torment, and Gavvakh production[/h1]
+[list]
+[*]Clone gestation: no cargo ingredients, eight base hours, two Raw Clones; requires Culture and the learned clone pattern.
+[*]Torment containment: two Raw Clones, four base hours, four Torment Imprints; requires Culture and its own learned pattern.
+[*]Suffering separation: four Torment Imprints, four base hours, four Essence of Suffering; requires Distillation and its own learned pattern.
+[*]Gavvakh condensation: four Essence of Suffering, four base hours, two native Gavvakh; requires Distillation and its own learned pattern. An existing native Gavvakh recipe takes precedence over this addition.
+[*]These are normal production orders using production time and queue space. Native production-speed and difficulty modifiers still apply.
+[*]Raw Clone harvesting is a separate selected recycling route: one clone yields four native meat, two skin, and one rib where those installed records exist. Harvesting consumes the clone that could otherwise enter torment production. It spawns no actor and awards no combat rewards.
+[*]Recognized spoiled organic stock can be recycled into two Raw Vat Biomass. Destinations require explicit spoilage markers and organic item classes; generic parts also require a tissue marker. This corrects the earlier intake of clean water and mechanical salvage through broad expiry conversions. A bounded rotten-flesh fallback uses the same target checks. Fresh-food and native antibiotic routes remain available.
+[*]Dirty Corpse Starch can now be recycled in batches of eight for one Raw Vat Biomass. Selected stacks count together; incomplete batches are retained. Original leftover objects keep their decay and item state without merging into other stacks.
+[*]Locked and quest inputs covered by custom recycling profiles are protected from both the custom pass and the native recycler, including their loaded ammunition. Ordinary native-only behavior remains unchanged.
+[*]The existing recycle button shows the exact return and remainder. An incomplete ration-only selection stays visible but disabled with an explanation; mixed selections can still process ordinary recyclable items. The native recycler department and its duration remain required.
+[*]Corrected organic expiry lookup to the installed game's separate expiry configuration table, resolving the native compilation error in the earlier candidate.
+[*]Added six research images with green normal and matching crimson locked states. The game retains control of available/purchased opacity and yellow markers. The clone, imprint, essence, and physical pattern chip each have inventory, floor, and shadow sprites: 24 runtime PNGs in total. Source artwork and a repeatable export script are included.
+[*]The Occult Research ship marker resolves the midpoint of native Engineering and Research. Research tooltips explain the capabilities and the separate need for acquired recipe knowledge. The Recipes label is shorter, and Gannix and Shartamakhum use separate native rows to fit the tooltip width.
+[/list]
 
-Culture enables the first two processes; Distillation enables the last two.
-The native Gavvakh formula takes precedence if one already exists. Production
-speed/difficulty modifiers and normal production-line scheduling still apply.
+[h1]Equipment project compatibility[/h1]
+[list]
+[*]Added compatibility for the supplemental pact component on equipment made by the new occult recipes. Native project reconstruction can create default upgraded variants for recipe outputs even when the campaign has no saved project for that item; this was the cause of the observed Ron mask loading failure.
+[*]Native weapon, armor, helmet, leggings, and boots cloning, localization, and applied upgrades remain in the native method. The custom variant receives an independent pact component with its essence, power, stability, stack size, categories, and disassembly quantities retained.
+[*]The compatibility path is limited to equipment outputs registered by the mod's occult recipe additions and respects other patches that skip the native injection. Existing source records and saved project collections remain intact. The earlier bdb1759 headed session successfully loaded the copied campaign and logged preservation of the Ron Mask pact component. Exact-source 347 session 005 again preserved the component and loaded the copied campaign; specific modification transactions remain pending.
+[/list]
 
-Selected clone recycling instead spends one Raw Clone for four flesh, two
-skin and one rib, when those installed native records exist. It does not
-spawn an actor or award combat rewards. A clone spent this way cannot also
-enter torment production.
+[h1]Mission-generation diagnostics[/h1]
+[list]
+[*]Added bounded diagnostic context for the native mission-generation null collection found after returning to Space. The log identifies the station, template, requested and resolved preset folders, and available folder names. It does not repair preset data, replace generation, or suppress the original exception. Runtime identity and a clean gameplay outcome remain under investigation.
+[/list]
 
-Native spoiled organics are detected from their actual expiry mappings, with
-a bounded rotten-flesh fallback. Their selected ship-recycling route returns
-two Raw Vat Biomass per item. Fresh-food and native antibiotic routes remain
-available. Ordinary food, dressings, medicines and mechanical stock retain
-normal crafting access.
+[h1]Crafting reference updates[/h1]
+[list]
+[*]Updated the separate offline source map to include conditional occult recipe candidates with their literal quantities, capability requirements, and physical pattern sources. The in-game map continues to read the recipes actually registered by the active game.
+[*]Added a six-capability reference using the exported research icons. It supersedes the original four-facility proposal wherever that older design differs from the implemented progression. Diagrams and sprite sheets are reference previews, not in-game captures.
+[/list]
 
-Dirty Corpse Starch can now be recycled in batches of eight for one Raw Vat
-Biomass. Selected stacks count together. Incomplete batches are retained,
-and the original leftover objects keep their decay and item state without
-merging. Locked and quest custom-profile inputs are protected from both the
-custom pass and the native recycler. Ordinary native-only behavior is retained.
-The existing recycle button shows the exact return and remainder; a partial
-ration-only selection stays visible but disabled, with an explanation.
+[h1]Ship call-in drawer[/h1]
+[list]
+[*]Added a compact pull tab at the top of the raid HUD. It opens a sage-green drawer containing Weapons and Pod Support groups.
+[*]Installed weapon calls have separate tiles. Pod Support shows the supply call and the troop detachment selected in the ship's loadout.
+[*]Tiles use their research icons and show remaining calls in a separate badge, including zero. Exhausted calls darken and cannot activate. Hover or navigation focus shows the call's name and availability.
+[*]Activating an available call collapses the drawer and enters the existing targeting and confirmation flow. Cancellation does not spend a charge.
+[*]Weapon calls retain their shared fire reserve; supply and troop calls retain their shared pod reserve. Existing charges, costs, cooldowns, troop selections, and targeting rules are retained.
+[*]Native menus and targeting hide the drawer. Input handling consumes drawer presses through release and keeps the closing frame from triggering an underlying raid action.
+[/list]
 
-Presentation
+[h1]Comms turrets and ship controls[/h1]
+[list]
+[*]Security Intrusion, Entrance Override, and Extraction Override have a separate Comms Node tree for non-story missions.
+[*]Random-site, entrance, and extraction turrets each have an independent Ballistic → Flamer → Beamer → Arc Sentry → Lance Sentry progression.
+[*]Each location deploys one turret of its highest purchased type. Replacement upgrades change that location's turret rather than adding another; each tier requires its immediate predecessor.
+[*]Replacement kits and support materials are paid once at purchase. Later eligible deployments use the existing once-per-raid behavior. New upgrades apply to subsequent mission generation, without replacing turrets already deployed in a saved raid.
+[*]The non-story restriction applies to native story missions and the mod's story campaigns. Existing placement checks and allied ownership remain in use.
+[*]Adjusted Ship Weapons, Comms Node, and Drop Support marker positions. Major system and location unlocks use large nodes; incremental upgrades use smaller connecting nodes. Pooled node geometry is restored before reuse.
+[*]Added fitted-mount connections to the Weapons tree while preserving its purchase requirements and costs.
+[/list]
 
-Six generated research images have matched green normal and crimson locked
-versions. The game controls available/purchased opacity and its yellow markers.
-The clone, imprint, essence and physical pattern chip each have inventory,
-floor and shadow sprites: 24 runtime PNGs in total. Source artwork and the
-repeatable export script are included in the repository.
+[h1]Native descriptions and earlier post-release fixes[/h1]
+[list]
+[*]Ship upgrade tooltips now use the native effect rows, status, and material-cost panels. Values describe the actual configured upgrade effects, including Comms replacements and occult capabilities.
+[*]Item, module, station, and alliance headers use concise subtitles. Full item descriptions remain available in wrapping native body panels.
+[*]Reduced the cybernetic implant and material icon bounds to fit native production rows.
+[*]Retained the custom production-chip correction: each physical chip contains one selected recipe and shows its stored selection. Existing learned recipes and saved selections remain, apart from the explicitly retired Fury Sigil fabrication route.
+[*]Retained Fury Sigil acquisition through Chaos station purchases from Tech 1 and removed its Fury-drop/fabrication routes.
+[*]Retained clean and decayed Imperial ration supplies on newly generated Imperial raid floors. Loading an already visited floor does not replenish its loot.
+[*]Retained loose-material ingredient corrections and the Bound Ash inventory footprint and stacking fixes.
+[/list]
 
-The Occult Research ship pip is positioned between the native Engineering
-and Research anchors. Research tooltips explain capabilities and acquired
-recipe knowledge. A learned recipe whose capability is missing is dimmed in
-Production and explains the required research instead of starting an order.
+SCOPE
+The map displays the recipes actually registered by the active game. An item without a producer remains visible as such. This update does not establish a complete raw-material path to every object or full equipment coverage for every otherworldly family; dedicated Olirna stock and remaining family coverage still need work. Quantity planning, automatic queue submission, and complete exports remain further work.
 
-The Crafting Map reports knowledge, capability and materials separately. The
-offline source map now includes the occult candidates with exact quantities
-and physical chip sources. The six-capability reference replaces the original
-four-facility proposal wherever that old design differs from current source.
+The six capability purchases, independent pattern chips, clone/torment/essence chain, selected otherworldly formulas, and selected Chaos capability gates are implemented in the candidate. Older design documents retain earlier facility proposals; the six-capability implementation supersedes those proposals. The remaining full-family trees and browser planning/export features above remain design work.
 
-Preserved acquisition rules
+The source declares 21 new occult pattern pools and 53 candidate formulas. Actual registered counts depend on installed item definitions and existing recipes; these figures are not a claim that all candidates registered in a running game. Bulk Dirty Corpse Starch recycling is implemented at eight rations per biomass; it does not add a per-item field-disassembly return or a cellulose-pulp conversion.
 
-Fury Sigil remains purchase-only. Shadowblade remains a finale reward.
-Purity Seal reward behavior is retained. Existing native formulas and the
-player's already learned recipes are preserved.
+The startup material-coverage diagnostic examines Magnum and workbench recipes only. It omits Recovery and station routes, as well as quantities and access checks. Its warnings for bone_knife, impaler, and skrivnus_knife do not establish global unreachability: the separately registered Raw Clone recovery route supplies four meat, two skin, and one rib per clone, and those three formulas use ribs. The in-game map includes that route under Recovery when the required native item records exist. This is a source-level route explanation; successful orders and complete self-sufficiency are still unverified.
 
-Verification
+VERIFICATION — SESSIONS 005, 006 AND FOCUSED OCCULT UI
 
-See diagnostics/OccultResearchExpansion.md and
-diagnostics/OccultOrganicProduction.md for current build and gameplay evidence.
-Source counts, diagrams and sprite previews do not establish native runtime
-acceptance. This file is included with the tested candidate when available.
+Source: 347de7db77f9121ad26e1c12c534b97760ee92f2
+Assembly: 1.1.9.0
+Native build: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203
+Native compilation: passed with zero warnings and zero errors.
+Runtime package: package/ImperiumOfMan-1.1.9-CraftingMap.zip
+ZIP bytes: 11,796,267
+SHA-256: 4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413
+Package verification covered transport chunks, ZIP length/hash/CRC, four exact members, member hashes, manifest identity, assembly version, hook metadata and all 24 embedded occult PNGs. This is separate from gameplay acceptance.
+
+Exact-source session 005: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741
+Startup, copied-campaign load, intended organic registration and Ron Mask pact preservation passed. The live map reported 2,363 items and 3,017 routes. Selected-edge quantities, both overflow scrollbars, final-row access, isolated detail-wheel scrolling, short-list bar hiding, 19-node Fit at 48%, Escape/picker behavior and owner cleanup were observed. The raid Call-ins headings fit at 1920x1080; this does not establish the spacecraft Drop Support header comparison.
+
+One custom raw-ore batch was explicitly selected. The native queue showed four outputs, one displayed hour and Conveyor 1/1, then later returned to Conveyor 0/1. A matching-looking cargo stack of six appeared afterward, but no pre-order aggregate baseline was captured. Native queue completion is observed; an exact plus-four cargo delta and the icon-only output identity are not established.
+
+Space simulation encountered an empty global preset catalogue and repeated collection exceptions. Read-only loader audit 45849018302 verified the relative GameData/BinaryPresetsMap.json lookup and silent empty-map fallback when missing. The adapter's launch directory was corrected without changing mod C#. Same-binary session 006 passed the bounded corrected-directory Space/save and time-advance check: 26.10.2200 00:04 to 27.10.2200 22:24 (46 hours 20 minutes of game time). The complete 15,897-byte log contains no missing-preset diagnostics or managed-exception headings. This is bounded runtime evidence, not complete transaction acceptance. Focused same-binary run 45857447221 verified the six-node tree, the clear Recipes / Acquired in game row, and Agga, Gannix and Shartamakhum in three complete Materials rows. Native status/costs and yellow hover remain visible. Current screenshots and hashes: docs/crafting/native-occult-ui-347de7d.json.
+
+Session 006 ended bounded_slot_finished at action sequence 32; delivery 99ca540fe800abc8c9adda725c1bf4281bb339eb confirms the original package was restored, original saves were unchanged and fixture cleanup completed. Its final receipt SHA-256 is c20b112d26f68e18d8b72d085c3d6dcd40eb6f3dc4f7834407e152abe465021b.
+
+The focused tooltip session stopped at action sequence 17; cleanup was independently pinned at delivery 925925ad4a54b2b16a7286d92b7f31cc19bad74f, confirming original package restoration, unchanged original saves and complete fixture cleanup.
+
+Session 005 stopped at action sequence 42. The original mod package was restored, all 11 protected original campaign files were unchanged, and six remaining disposable-fixture files were archived and removed. Exact recycling transactions, capability purchases, physical-chip learning, cancellation/refunds, further save/load and purchased/item sprite states remain separate checks.
+
+Current cases and provenance: diagnostics/CraftingMapAcceptance-347de7d.json
+Combined receipt: diagnostics/OccultBuildReceipt.json
+Historical bdb receipt: diagnostics/OccultBuildReceipt-bdb1759.json
+The design review ZIP contains 10 generated masters, 24 runtime variants, one unchanged user-provided Navigation style reference, node/variant links, exporter, source and companion documents. It contains no runtime binaries. Historical bdb screenshots retain their source/hash and do not demonstrate the later tooltip fixes.
+
+HISTORICAL ACTUAL MAP EXECUTION — SOURCE bdb17590322a8f27090918f83e0bf613eaee04de
+Headed run: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45825014723
+The copied campaign loaded, the intended seven organic destinations registered, and the Ron Mask pact component was preserved. Production and its recipe picker displayed the left sage tab. The expanded map indexed 2,363 items and 3,017 routes; search, selection, wheel zoom, drag pan, and Escape were exercised. Live Lasgun details showed one plate plus one fitting plus one weapon part producing two Lasguns in twelve base hours. Raw Clone showed no inventory inputs, two outputs, eight base hours, and distinct Culture/pattern requirements. Metal feedstock showed no inputs, four outputs, three base hours.
+One ordinary native medical order was submitted at quantity one and displayed one item, one hour, and Conveyor 1/1. This confirms ordinary queue compatibility, not custom batch completion, refunds, or recovery transactions. Fit/Focus, leaving Production entirely, detail scrolling and the earlier Drop Support header comparison were not completed. Original runtime files and original campaigns were preserved and the disposable fixture cleaned up.
+The session found overlapping quantity labels, unclear detail-list scrolling, and a separate mission-generation null collection after returning to Space. The current revision addresses the two presentation findings and adds bounded diagnostics for the mission context. Subsequent session-005 map checks, session-006 corrected-directory simulation and current tooltip proof are recorded above; unperformed transactions remain separate. See diagnostics/CraftingMapHeadedValidation.md.
+
+The previous 1.1.9 candidate 585715f554181ed56220c5ba2ed9055b46b44b38 passed native compilation and startup but failed to load the disposable campaign because of the unsupported pact record. Its log also exposed overly broad organic recycling. Production and the map were not reached in that earlier session; the original package and all original campaign files were preserved. See diagnostics/OccultProjectCompatibility.md.
+
+Earlier 1.1.6 evidence applies only to source 40939a398f1a2d3f79ec9ece08cfe5170444d885. Headed run 45801114949 booted the candidate and completed mod registration; its fresh slot-1 campaign reached the locked Conveyor requirement, displayed as 1 (0), so Production and the map were not reached. Cleanup restored the original runtime package and preserved all seven pre-existing slot-0 campaign files. That session does not validate the changed 1.1.9 index, occult gates, picker hooks, artwork, call-in drawer, tooltip work, or turret progression.
+
+SOURCE REFERENCES
+https://github.com/mrcalzon02/ImperiumOfMan/tree/347de7db77f9121ad26e1c12c534b97760ee92f2
+diagnostics/RecipeCostBatchBalance.md
+diagnostics/RecipeFoundationsAudit.md
+diagnostics/RawMaterialChemistryAudit.md
+diagnostics/OccultOrganicProduction.md
+diagnostics/OccultResearchExpansion.md
+diagnostics/ShipSupportDrawer.md
+diagnostics/CommsTurretProgression.md
+diagnostics/FuryFoodChipBalanceFix.md
+diagnostics/BoundAshInventoryFix.md
+diagnostics/CraftingMapHeadedValidation.md
+diagnostics/OccultProjectCompatibility.md
