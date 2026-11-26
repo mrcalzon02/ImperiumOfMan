@@ -249,10 +249,14 @@ namespace ImperiumOfMan
 
         private static void IndustryRecipe(string output, float hours, int batch, params ItemQuantity[] inputs)
         {
-            IndustryBatches.Add(output, batch);
+            // Keep each ingredient type; whole-item costs round up when halved.
+            // Clone quantities because station workshops can share the caller's input objects.
+            var fabricationInputs = inputs.Select(input => new ItemQuantity(input.ItemId,
+                Math.Max(1, input.Count / 2 + input.Count % 2))).ToArray();
+            IndustryBatches.Add(output, checked(batch * 2));
             Registrations.Add(() =>
             {
-                if (Data.Items.GetRecord(output) == null || inputs.Any(input => Data.Items.GetRecord(input.ItemId) == null))
+                if (Data.Items.GetRecord(output) == null || fabricationInputs.Any(input => Data.Items.GetRecord(input.ItemId) == null))
                 {
                     throw new InvalidDataException("Unregistered item in production recipe " + output);
                 }
@@ -261,13 +265,13 @@ namespace ImperiumOfMan
                 {
                     Data.ProduceReceipts.Add(new ItemProduceReceipt
                     {
-                        Id = output, OutputItem = output, RequiredItems = [.. inputs], ProduceTimeInHours = hours,
+                        Id = output, OutputItem = output, RequiredItems = [.. fabricationInputs], ProduceTimeInHours = hours,
                         ModifyStartCost = 1, ModifyStep = 1.05f, ModifyItemsGrades = []
                     });
                 }
                 else
                 {
-                    existing.RequiredItems = [.. inputs];
+                    existing.RequiredItems = [.. fabricationInputs];
                     existing.ProduceTimeInHours = hours;
                 }
             });
