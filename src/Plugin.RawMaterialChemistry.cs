@@ -34,21 +34,21 @@ namespace ImperiumOfMan
             // The common recipe helper halves whole-item quantities and doubles these base batches.
             SharedRecipe(Biomass, 12, 4, new("human_meat", 1), new("water_bottle_1", 1));
             SharedRecipe(RawPulp, 2, 2, new(Biomass, 2), new("water_bottle_1", 1));
-            SharedRecipe(OrganicOil, 3, 2, new(Biomass, 2));
+            SharedRecipe(OrganicOil, 3, 2, new ItemQuantity(Biomass, 2));
             SharedRecipe(ChemicalExtract, 3, 2, new(Biomass, 2), new("water_bottle_1", 1));
-            SharedRecipe(ReactiveMinerals, 3, 2, new(Ore, 3));
-            SharedRecipe(CarbonFeedstock, 3, 2, new(Ore, 3));
+            SharedRecipe(ReactiveMinerals, 3, 2, new ItemQuantity(Ore, 3));
+            SharedRecipe(CarbonFeedstock, 3, 2, new ItemQuantity(Ore, 3));
 
             // Use the native ingredient IDs so every existing recipe can consume these products.
             SharedRecipe("acid", 3, 2, new(ChemicalExtract, 1), new(ReactiveMinerals, 1), new("water_bottle_1", 1));
             SharedRecipe("gas_ammo", 4, 6, new(OrganicOil, 1), new(CarbonFeedstock, 1), new(ChemicalExtract, 1));
             SharedRecipe("paper_towel", 2, 2, new(RawPulp, 2), new("water_bottle_1", 1));
-            SharedRecipe("rags", 2, 2, new(Fiber, 2));
+            SharedRecipe("rags", 2, 2, new ItemQuantity(Fiber, 2));
             SharedRecipe("plastic", 3, 2, new(OrganicOil, 1), new(ChemicalExtract, 1));
             SharedRecipe("rubber", 3, 2, new(PolymerStock, 1), new(CarbonFeedstock, 1));
             SharedRecipe("powder", 3, 2, new(ChemicalExtract, 1), new(ReactiveMinerals, 1), new(CarbonFeedstock, 1));
             SharedRecipe("explosives", 4, 2, new(ChemicalExtract, 1), new(ReactiveMinerals, 1), new("acid", 1));
-            SharedRecipe("tin", 3, 2, new(Metal, 2));
+            SharedRecipe("tin", 3, 2, new ItemQuantity(Metal, 2));
         }
     }
 }
