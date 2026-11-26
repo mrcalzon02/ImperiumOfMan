@@ -1,0 +1,52 @@
+PREPARED CHANGE NOTES — 1.1.9 CRAFTING MAP
+
+VERSION SCOPE: These notes describe the tested 1.1.9 candidate at source 347de7d. Later source 5fae43b / 1.1.10 removes the finished-ration reverse conversion and dedicated batch UI described here. See CHANGE_NOTES_1.1.10.txt for that separate correction; session-007 results do not validate the later binary.
+
+[h1]Crafting map[/h1]
+[list]
+[*]Open the Crafting map tab on the left of Production or its recipe picker. The muted sage-green panel shows connected ingredients, recipes, and finished items, with details below the graph.
+[*]Use the mouse wheel to zoom, click and drag to pan, and click an item or recipe to highlight its connections. Selection keeps your current view. Fit shows the whole visible graph; Focus or a double-click starts a view around the selected item.
+[*]Search the active game's item catalogue, including items without a crafting recipe. Filter routes by Magnum production, workbenches, stations, or recovery.
+[*]Follow alternative recipes, multiple outputs, and downstream uses. Expand inputs or uses to explore longer chains.
+[*]Recipe details show inputs, output quantities, base production time, and requirements where captured. Unknown workbench quantities and times remain marked as unknown. Occult recipe knowledge and research capability appear separately.
+[*]Selected connections show their quantities clearly, and both lower detail lists have scrollbars when needed. Refresh updates the map's recipe knowledge, cargo, and station information.
+[*]Collapse or Escape returns to Production. Leaving Production closes the map. Crafting orders continue to use the normal production controls.
+[/list]
+
+[h1]Materials and production batches[/h1]
+[list]
+[*]Existing ordinary custom recipes retain their ingredient types while their required quantities are halved, rounded up to at least one. Their output batches are doubled. One rolled armor plate, one armor fitting, and one weapon component now produce two service Lasguns.
+[*]Shared starting recipes collect metal smelting feedstock and Water Bottles using production time alone. Each order produces four units in three base hours, before campaign production modifiers.
+[*]Ore supplies refined metal, silicate, conductive material, reactive minerals, and carbon-rich feedstock. These branches support glass, electrical supplies, and chemical production.
+[*]Flesh and water make raw vat biomass, which separates into pulp, oil, and chemical extract. Connected recipes supply acid, gasoline, paper, plastic, rubber, propellant, explosives, ordinary components, and selected medical and repair supplies.
+[*]New ordinary component orders generally produce four units; new ammunition orders produce twelve. Finished medicine, repair supplies, grenades, and cyborg parts produce two. Normal production time and schematic requirements still apply.
+[*]Ore Cargo can be opened into mixed metal, silicate, and conductive feedstock. Existing native Sorbent production is preserved.
+[/list]
+
+[h1]Occult production and recovery[/h1]
+[list]
+[*]Occult Research has six sequential capabilities: Culture, Distillation, Manifestation, Binding, Infusion, and Soulforge. Its ship marker sits between Engineering and Research, with green research artwork and matching crimson locked variants.
+[*]Research provides the capability to use occult recipes. Physical pattern chips acquired in game teach one selected recipe each. Production requires both the learned pattern and its capability.
+[*]Added connected clone, torment, suffering, and Gavvakh production, plus selected otherworldly ingredients, equipment, and ammunition. These recipes use their listed quantities; the ordinary batch adjustment is not applied again.
+[*]Eligible spoiled organic items can be recycled into biomass. Raw Clones have a separate meat, skin, and bone recovery route. Dirty Corpse Starch recycles eight rations into one biomass, combining selected stacks and retaining incomplete batches.
+[/list]
+
+VERIFICATION RECORD
+Package: package/ImperiumOfMan-1.1.9-CraftingMap.zip
+Compiled source: 347de7db77f9121ad26e1c12c534b97760ee92f2
+Native compilation passed with zero warnings and zero errors; package integrity was verified.
+
+Recorded game sessions exercised the left Production/picker tab, sage layout, search, selection, zoom, pan, detail scrolling, Fit, Escape, and removal when Production closes. The observed game catalogue contained 2,363 items and 3,017 recipe routes. The exact 347 candidate passed its revised map checks and native custom-order submission/completion. Corrected-directory testing also completed Space/save and 46 hours 20 minutes of in-game time without the earlier preset or managed-exception diagnostics.
+
+Session 007 used the unchanged source and package and confirmed the named Metal smelting feedstock stack increased from 2/30 to 6/30 after one four-output batch. The native queue and completion banner also showed four outputs. This establishes an exact +4 change in that identified stack; it is not a whole-inventory aggregate measurement. Research purchases, chip learning, recycling transactions, cancellation/refunds, and the legacy progression migration retain separate test scope. These notes describe the prepared package; they do not announce Steam publication.
+
+The same session verified Focus, double-click, Fit at 40% for a 12-node graph, a Stations recipe retaining both eight-unit outputs, and Purity Seal search with zero producers and three uses. Its complete 15,967-byte log had no managed-exception headings or missing-preset diagnostics. Cleanup restored the original package, preserved all 11 protected original campaign files, and removed the six remaining disposable-fixture files.
+
+Current continuation evidence: diagnostics/CraftingMapAcceptance-347de7d-007.json
+Execution history: diagnostics/CraftingMapHeadedValidation.md
+Historical session-005 evidence: diagnostics/CraftingMapAcceptance-347de7d.json
+Full cumulative notes: docs/crafting/CHANGE_NOTES_1.1.9.txt
+Native build: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203
+Exact-source map checks: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741
+Corrected-directory runtime check: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45849635092
+Named-stack production check: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45869745770

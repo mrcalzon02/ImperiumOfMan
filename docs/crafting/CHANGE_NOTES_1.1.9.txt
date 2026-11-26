@@ -1,6 +1,8 @@
 DRAFT TEST BUILD CHANGE NOTES — 1.1.9
 
-Cumulative post-release changes included in source 347de7db77f9121ad26e1c12c534b97760ee92f2. This combines the recent crafting balance and chemistry work with the in-game Crafting map, revised occult progression, ship interface improvements, and follow-up visual fixes. It is a test-candidate summary, not a Steam release announcement. Native compilation and complete package verification passed. Exact-source session 005 verified the revised map controls and native queue completion. Session 006, using the corrected launch directory and unchanged binary, completed Space/save and 46 hours 20 minutes of in-game time without the prior preset or managed-exception diagnostics. The current six-node tree and both corrected tooltip hovers also passed visual review. An exact +4 cargo delta is not established.
+VERSION SCOPE: These notes describe the tested 1.1.9 candidate at source 347de7d. Later source 5fae43b / 1.1.10 removes the finished-ration reverse conversion and dedicated batch UI described here. See CHANGE_NOTES_1.1.10.txt for that separate correction; session-007 results do not validate the later binary.
+
+Cumulative post-release changes included in source 347de7db77f9121ad26e1c12c534b97760ee92f2. This combines the recent crafting balance and chemistry work with the in-game Crafting map, revised occult progression, ship interface improvements, and follow-up visual fixes. It is a test-candidate summary, not a Steam release announcement. Native compilation and complete package verification passed. Exact-source session 005 verified the revised map controls and native queue completion. Session 006, using the corrected launch directory and unchanged binary, completed Space/save and 46 hours 20 minutes of in-game time without the prior preset or managed-exception diagnostics. The current six-node tree and both corrected tooltip hovers also passed visual review. Session 007 confirmed the named Metal smelting feedstock stack increased from 2/30 to 6/30 after one four-output batch on the same package. This establishes an exact +4 change in that stack; a whole-inventory aggregate was not measured.
 
 COMPARISON BASELINE
 Published GitHub release v1.1.0, source b08c27e38bbc73712e073ec9141a6e8769984d9a, assembly 1.1.0.0. The release was published on 25 November 2026. The comparison ends at the pinned 1.1.9 candidate above. Imperial and Chaos campaign content, endgame interiors, and the established faction equipment already present in that baseline are retained, rather than counted as new changes below. The candidate's implementation and package verification do not establish its Steam publication or gameplay acceptance.
@@ -80,7 +82,7 @@ https://github.com/mrcalzon02/ImperiumOfMan/compare/b08c27e38bbc73712e073ec9141a
 
 [h1]Mission-generation diagnostics[/h1]
 [list]
-[*]Added bounded diagnostic context for the native mission-generation null collection found after returning to Space. The log identifies the station, template, requested and resolved preset folders, and available folder names. It does not repair preset data, replace generation, or suppress the original exception. Runtime identity and a clean gameplay outcome remain under investigation.
+[*]Added bounded diagnostic context for the native mission-generation null collection found after returning to Space. The log identifies the station, template, requested and resolved preset folders, and available folder names. The investigation traced the missing presets to the test launcher's working directory. Launching the unchanged candidate from the installed game directory passed the Space/save check and 46 hours 20 minutes of simulated game time without the earlier preset diagnostics or managed-exception headings. The diagnostic preserves normal generation and exceptions; other gameplay transactions retain their separate test scope.
 [/list]
 
 [h1]Crafting reference updates[/h1]
@@ -130,7 +132,7 @@ The source declares 21 new occult pattern pools and 53 candidate formulas. Actua
 
 The startup material-coverage diagnostic examines Magnum and workbench recipes only. It omits Recovery and station routes, as well as quantities and access checks. Its warnings for bone_knife, impaler, and skrivnus_knife do not establish global unreachability: the separately registered Raw Clone recovery route supplies four meat, two skin, and one rib per clone, and those three formulas use ribs. The in-game map includes that route under Recovery when the required native item records exist. This is a source-level route explanation; successful orders and complete self-sufficiency are still unverified.
 
-VERIFICATION — SESSIONS 005, 006 AND FOCUSED OCCULT UI
+VERIFICATION — SESSIONS 005, 006, 007 AND FOCUSED OCCULT UI
 
 Source: 347de7db77f9121ad26e1c12c534b97760ee92f2
 Assembly: 1.1.9.0
@@ -141,10 +143,17 @@ ZIP bytes: 11,796,267
 SHA-256: 4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413
 Package verification covered transport chunks, ZIP length/hash/CRC, four exact members, member hashes, manifest identity, assembly version, hook metadata and all 24 embedded occult PNGs. This is separate from gameplay acceptance.
 
-Exact-source session 005: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741
+Current exact-source session 007: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45869745770
+The unchanged source and package completed the previously unfinished named-stack production check. Native item tooltips identified Metal smelting feedstock at 2/30 before production and 6/30 afterward. The quantity selector was set to one batch; the queue and production-complete banner each showed four outputs. This verifies an exact +4 change in the identified stack, without claiming a whole-inventory aggregate.
+
+Focus and double-click worked, and Fit contained the 12-node inspected graph at 40% zoom. The Stations recipe showed two Processed textile and one Moldable polymer stock producing eight Flak laminate and eight Fitted armor liner in 120 base hours. In the All view, search found Purity Seal with zero producing routes and three uses. These checks verify the displayed station cooutputs and no-producer search behaviour, not completion of that station recipe.
+
+The complete 15,967-byte session-007 log contains no managed-exception headings or missing-preset diagnostics. Final delivery 64d12e10c05b364fee33e392c6c38bdc09e9d034 confirms the original mod package was restored, all 11 protected original campaign files were unchanged, and the six remaining disposable-fixture files were removed with cleanup complete.
+
+Historical exact-source session 005: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741
 Startup, copied-campaign load, intended organic registration and Ron Mask pact preservation passed. The live map reported 2,363 items and 3,017 routes. Selected-edge quantities, both overflow scrollbars, final-row access, isolated detail-wheel scrolling, short-list bar hiding, 19-node Fit at 48%, Escape/picker behavior and owner cleanup were observed. The raid Call-ins headings fit at 1920x1080; this does not establish the spacecraft Drop Support header comparison.
 
-One custom raw-ore batch was explicitly selected. The native queue showed four outputs, one displayed hour and Conveyor 1/1, then later returned to Conveyor 0/1. A matching-looking cargo stack of six appeared afterward, but no pre-order aggregate baseline was captured. Native queue completion is observed; an exact plus-four cargo delta and the icon-only output identity are not established.
+One custom raw-ore batch was explicitly selected. The native queue showed four outputs, one displayed hour and Conveyor 1/1, then later returned to Conveyor 0/1. A matching-looking cargo stack of six appeared afterward, but no pre-order aggregate baseline was captured. Session 005 observed native queue completion but did not establish an exact plus-four cargo delta or the icon-only output identity. The identified-stack measurement belongs to session 007 above.
 
 Space simulation encountered an empty global preset catalogue and repeated collection exceptions. Read-only loader audit 45849018302 verified the relative GameData/BinaryPresetsMap.json lookup and silent empty-map fallback when missing. The adapter's launch directory was corrected without changing mod C#. Same-binary session 006 passed the bounded corrected-directory Space/save and time-advance check: 26.10.2200 00:04 to 27.10.2200 22:24 (46 hours 20 minutes of game time). The complete 15,897-byte log contains no missing-preset diagnostics or managed-exception headings. This is bounded runtime evidence, not complete transaction acceptance. Focused same-binary run 45857447221 verified the six-node tree, the clear Recipes / Acquired in game row, and Agga, Gannix and Shartamakhum in three complete Materials rows. Native status/costs and yellow hover remain visible. Current screenshots and hashes: docs/crafting/native-occult-ui-347de7d.json.
 
@@ -154,7 +163,8 @@ The focused tooltip session stopped at action sequence 17; cleanup was independe
 
 Session 005 stopped at action sequence 42. The original mod package was restored, all 11 protected original campaign files were unchanged, and six remaining disposable-fixture files were archived and removed. Exact recycling transactions, capability purchases, physical-chip learning, cancellation/refunds, further save/load and purchased/item sprite states remain separate checks.
 
-Current cases and provenance: diagnostics/CraftingMapAcceptance-347de7d.json
+Current continuation cases and provenance: diagnostics/CraftingMapAcceptance-347de7d-007.json
+Historical session-005 cases and provenance: diagnostics/CraftingMapAcceptance-347de7d.json
 Combined receipt: diagnostics/OccultBuildReceipt.json
 Historical bdb receipt: diagnostics/OccultBuildReceipt-bdb1759.json
 The design review ZIP contains 10 generated masters, 24 runtime variants, one unchanged user-provided Navigation style reference, node/variant links, exporter, source and companion documents. It contains no runtime binaries. Historical bdb screenshots retain their source/hash and do not demonstrate the later tooltip fixes.
@@ -163,7 +173,7 @@ HISTORICAL ACTUAL MAP EXECUTION — SOURCE bdb17590322a8f27090918f83e0bf613eaee0
 Headed run: https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45825014723
 The copied campaign loaded, the intended seven organic destinations registered, and the Ron Mask pact component was preserved. Production and its recipe picker displayed the left sage tab. The expanded map indexed 2,363 items and 3,017 routes; search, selection, wheel zoom, drag pan, and Escape were exercised. Live Lasgun details showed one plate plus one fitting plus one weapon part producing two Lasguns in twelve base hours. Raw Clone showed no inventory inputs, two outputs, eight base hours, and distinct Culture/pattern requirements. Metal feedstock showed no inputs, four outputs, three base hours.
 One ordinary native medical order was submitted at quantity one and displayed one item, one hour, and Conveyor 1/1. This confirms ordinary queue compatibility, not custom batch completion, refunds, or recovery transactions. Fit/Focus, leaving Production entirely, detail scrolling and the earlier Drop Support header comparison were not completed. Original runtime files and original campaigns were preserved and the disposable fixture cleaned up.
-The session found overlapping quantity labels, unclear detail-list scrolling, and a separate mission-generation null collection after returning to Space. The current revision addresses the two presentation findings and adds bounded diagnostics for the mission context. Subsequent session-005 map checks, session-006 corrected-directory simulation and current tooltip proof are recorded above; unperformed transactions remain separate. See diagnostics/CraftingMapHeadedValidation.md.
+The session found overlapping quantity labels, unclear detail-list scrolling, and a separate mission-generation null collection after returning to Space. The current revision addresses the two presentation findings and adds bounded diagnostics for the mission context. Subsequent session-005 map checks, session-006 corrected-directory simulation, session-007 named-stack and map checks, and current tooltip proof are recorded above; unperformed transactions remain separate. See diagnostics/CraftingMapHeadedValidation.md.
 
 The previous 1.1.9 candidate 585715f554181ed56220c5ba2ed9055b46b44b38 passed native compilation and startup but failed to load the disposable campaign because of the unsupported pact record. Its log also exposed overly broad organic recycling. Production and the map were not reached in that earlier session; the original package and all original campaign files were preserved. See diagnostics/OccultProjectCompatibility.md.
 

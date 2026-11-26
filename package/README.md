@@ -1,12 +1,18 @@
 # Runtime package
 
-## 1.1.9 Crafting Map and occult capabilities candidate
+## Current source — 1.1.10 ration recovery correction
 
-Current package: **[ImperiumOfMan-1.1.9-CraftingMap.zip](ImperiumOfMan-1.1.9-CraftingMap.zip)**. Source `347de7db77f9121ad26e1c12c534b97760ee92f2`, assembly **1.1.9.0**. Native build [45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203) and package verification passed with zero warnings/errors. Session 005 verified the map controls and queue completion. Corrected-directory session 006 passed Space/save and a bounded 46-hour-20-minute game-time check without the earlier preset exception. Current six-node visuals and both corrected tooltip hovers passed. Research purchases, chip learning, recycling and other transaction checks retain the limits below. [Change notes](../docs/crafting/CHANGE_NOTES_1.1.9.txt).
+Source [5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad](https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad), assembly **1.1.10.0**, removes the unintended eight-ration-to-one-biomass conversion and its batch machinery/UI. Both Corpse Starch and Dirty Corpse Starch have independent empty disassembly lists, preserving their native donor item. Forward manufacturing, actual spoiled-organic recovery, clone harvesting, equipment salvage and protected-item handling remain. [Native build 45870535209](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45870535209) completed successfully. Its [immutable receipt](https://github.com/mrcalzon02/Dens-Mortis/blob/ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc/runner-results/quasimorph-native/45870535209-1/build-receipt.json) confirms compilation passed for this exact source. Game boot and gameplay were not run, and full 1.1.10 package verification is not recorded here. The last verified public ZIP remains 1.1.9. [1.1.10 change notes](../docs/crafting/CHANGE_NOTES_1.1.10.txt).
+
+## Last verified package — 1.1.9 Crafting Map and occult capabilities
+
+**Version notice:** the ZIP below is the verified `347de7d` build. It **still includes the old ration recovery route and does not contain the 1.1.10 correction**. The 1.1.9 features and acceptance records below describe that historical binary.
+
+Last verified package: **[ImperiumOfMan-1.1.9-CraftingMap.zip](ImperiumOfMan-1.1.9-CraftingMap.zip)**. Source `347de7db77f9121ad26e1c12c534b97760ee92f2`, assembly **1.1.9.0**. Native build [45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203) and package verification passed with zero warnings/errors. Session 005 verified the map controls and queue completion. Corrected-directory session 006 passed Space/save and a bounded 46-hour-20-minute game-time check without the earlier preset exception. Session 007 used the unchanged package and confirmed an exact +4 change in the named Metal smelting feedstock stack, plus Focus, double-click, station cooutputs and a searchable item without a producer. The 1.1.9 six-node visuals and both corrected tooltip hovers passed. Research purchases, chip learning, recycling and other transaction checks retain the limits below. [Concise 1.1.9 crafting notes](../docs/crafting/CHANGE_NOTES_1.1.9_CRAFTING_MAP.txt) · [Cumulative 1.1.9 change notes](../docs/crafting/CHANGE_NOTES_1.1.9.txt).
 
 The cumulative comparison starts at the published [v1.1.0 release](https://github.com/mrcalzon02/ImperiumOfMan/releases/tag/v1.1.0), source `b08c27e38bbc73712e073ec9141a6e8769984d9a`. The campaign and endgame content already present there is retained background. The changes below are included in this compiled test package; their gameplay acceptance is recorded separately. This review has not published the candidate as a Steam update.
 
-## Install the verified package for testing
+## Install the verified 1.1.9 package for testing
 
 Use the complete verified candidate ZIP linked above.
 
@@ -27,7 +33,7 @@ Extract the ZIP, open its `ImperiumOfMan` folder, and copy these **four files di
 
 Do not add a nested `ImperiumOfMan` directory inside the Workshop folder. The separate loose `package/ImperiumOfMan/` folder in this repository is the older baseline; use the complete ZIP.
 
-## Included changes
+## Changes included in the verified 1.1.9 package
 
 ### In-game Crafting map
 
@@ -65,7 +71,21 @@ The candidate also includes the top raid call-in drawer, native upgrade effect r
 
 ## Current 347 observations and remaining limits
 
-[Session 005](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741) used this exact 347 candidate. The [sanitized acceptance record](../diagnostics/CraftingMapAcceptance-347de7d.json) retains frame hashes and immutable evidence references.
+### Session 007: completed production and map continuation
+
+[Session 007](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45869745770) used the same source `347de7d` and unchanged 1.1.9 package. Its [acceptance record](../diagnostics/CraftingMapAcceptance-347de7d-007.json) records the continuation evidence.
+
+| Check | Observed result |
+| --- | --- |
+| Named-stack production | Metal smelting feedstock was identified at 2/30 before production and 6/30 afterward. One batch was selected; both the native queue and produced banner showed four outputs. This establishes an exact +4 change in that stack, without claiming a whole-inventory aggregate measurement. |
+| Focus and double-click | Both map actions were exercised successfully. |
+| Station cooutputs | The Stations view retained two outputs of eight units each for the inspected recipe. |
+| Item without a producer | Search found Purity Seal and showed zero producing routes and three uses. |
+| Cleanup | Final status at immutable delivery `64d12e10c05b364fee33e392c6c38bdc09e9d034` confirmed `original_package_restored=true`, `existing_campaign_files_unchanged=true` and fixture `cleanup_complete=true`. |
+
+### Earlier session 005: map refinements and queue completion
+
+[Session 005](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741) used this exact 347 candidate. Its [sanitized acceptance record](../diagnostics/CraftingMapAcceptance-347de7d.json) retains the original frame hashes and evidence references; its cargo-measurement gap was subsequently closed by session 007 above.
 
 | Check | Observed result |
 | --- | --- |
@@ -74,7 +94,7 @@ The candidate also includes the top raid call-in drawer, native upgrade effect r
 | Quantities and details | Selected item/process labels remained focused; both overflowing detail lists reached their final rows; wheel input stayed within the detail list; short lists hid their scrollbars. |
 | Fit, Escape and owner lifetime | Fit contained the 19-node example at 48%; Escape closed the map while retaining Production; leaving Production removed the tab. |
 | Custom order | One batch was explicitly chosen; the native queue showed four raw-ore outputs, one displayed hour and Conveyor 1/1, then later returned to Conveyor 0/1. |
-| Cargo increase | A matching-looking stack of six was visible afterward. No starting aggregate count was captured, so an exact +4 cargo delta remains unverified. |
+| Cargo increase | A matching-looking stack of six was visible afterward. This session lacked a named before-stack measurement; the exact +4 named-stack result belongs to session 007 above. |
 | Raid Call-ins header | Collapsed and expanded labels fit at 1920 × 1080. This is separate from the spacecraft Drop Support header comparison. |
 | Cleanup | Operator stop at sequence 42 restored the original package, left all 11 protected original campaign files unchanged and removed the six remaining disposable-fixture files. |
 
@@ -84,7 +104,7 @@ Corrected-directory [session 006](https://github.com/mrcalzon02/Dens-Mortis/acti
 
 Session 006 ended at `bounded_slot_finished`, sequence 32. Immutable delivery `99ca540fe800abc8c9adda725c1bf4281bb339eb` confirms the original package was restored, original campaign files were unchanged and the disposable fixture was fully cleaned.
 
-The [current Culture capture](../docs/crafting/native-occult-culture-347de7d.png) shows `Recipes` / `Acquired in game` clearly separated. The [current Manifestation capture](../docs/crafting/native-occult-manifestation-347de7d.png) shows Agga, Gannix and Shartamakhum in three complete Materials rows. Native status, material costs and yellow hover remain intact. The [six-node tree](../docs/crafting/native-occult-tree-347de7d.png) and [provenance/cleanup record](../docs/crafting/native-occult-ui-347de7d.json) retain the exact 347 identity. The older bdb screenshot remains historical. Capability purchases, pattern-chip learning, protected recycling, precise cargo deltas, cancellation/refunds, further save/load and purchased/item sprite states remain separate checks.
+The [current Culture capture](../docs/crafting/native-occult-culture-347de7d.png) shows `Recipes` / `Acquired in game` clearly separated. The [current Manifestation capture](../docs/crafting/native-occult-manifestation-347de7d.png) shows Agga, Gannix and Shartamakhum in three complete Materials rows. Native status, material costs and yellow hover remain intact. The [six-node tree](../docs/crafting/native-occult-tree-347de7d.png) and [provenance/cleanup record](../docs/crafting/native-occult-ui-347de7d.json) retain the exact 347 identity. The older bdb screenshot remains historical. Capability purchases, pattern-chip learning, protected recycling, other cargo transactions, cancellation/refunds, further save/load and purchased/item sprite states remain separate checks.
 
 ### Artwork and design review
 
@@ -92,7 +112,7 @@ The [art manifest](../media/OccultProduction/art-manifest.json) links 10 generat
 
 ## Focused in-game checks
 
-The session-005 results above establish bounded map behavior and native queue completion. The corrected-directory simulation check also passed its bounded scope. Exact cargo delivery, occult purchases and recycling remain pending. The following broader production-chain cases remain planned:
+The session-005 results above establish bounded map behavior and native queue completion. The corrected-directory simulation check also passed its bounded scope. Session 007 confirmed the named feedstock stack increased by exactly four after one batch. Occult purchases, recycling and the following broader production-chain cases remain pending:
 
 1. Load an existing save and confirm shared biomass, conductor, and chemical recipes appear. Confirm the five new material icons display.
 2. Complete a biomass order: one Piece of Flesh and one Water Bottle should produce eight biomass. Use biomass and water to make pulp and chemical extract, and biomass alone to make oil.
@@ -100,17 +120,17 @@ The session-005 results above establish bounded map behavior and native queue co
 4. With an already learned recipe, confirm reduced inputs and doubled output on a representative custom equipment order. Check that a newly found chip still teaches one selected recipe.
 5. Start and cancel one new ordinary order, then save/load a separate active order. Check its paid inputs, progress, and final output. Inspect the log for `[Cvar_ImperiumOfMan] Crafting coverage` and any registration or missing-resource errors.
 
-Map acceptance covers its presence in Production and the recipe picker, left-side placement, sage styling, zoom, pan, selection, recipe details, filters, collapse/Escape, and removal when Production closes. Observations are recorded in the [crafting map audit](../diagnostics/CraftingMapAudit.md). The graph audit does not establish recovery balance or completion of every crafting chain. Research purchases, quantitatively verified cargo delivery, further save/load behavior and wider gameplay remain unverified until separately exercised.
+Map acceptance covers its presence in Production and the recipe picker, left-side placement, sage styling, zoom, pan, selection, recipe details, filters, collapse/Escape, and removal when Production closes. Session 007 adds Focus, double-click, station cooutputs and a searchable item without a producer. Observations are recorded in the [crafting map audit](../diagnostics/CraftingMapAudit.md) and [session-007 acceptance](../diagnostics/CraftingMapAcceptance-347de7d-007.json). The graph audit does not establish recovery balance or completion of every crafting chain. Research purchases, other cargo transactions, further save/load behavior and wider gameplay remain unverified until separately exercised.
 
 ## Build evidence
 
 Source `347de7db77f9121ad26e1c12c534b97760ee92f2`, request `crafting-map-visual-diagnostic-001`, [native build 45838490203](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45838490203), controller `b42126b92be056ecd6ea1da1cce542d55b8c16e7`: native compilation passed with zero warnings and zero errors. Package verification covered the 30 transport chunks, exact four members, ZIP CRC, member hashes, manifest identity, assembly version and relevant static hook metadata. All 24 embedded occult PNGs were verified.
 
-[Companion build receipt](../diagnostics/CraftingMapBuildReceipt.json) · [Current combined build/runtime receipt](../diagnostics/OccultBuildReceipt.json) · [Session-005 acceptance cases](../diagnostics/CraftingMapAcceptance-347de7d.json).
+[Companion build receipt](../diagnostics/CraftingMapBuildReceipt.json) · [Combined build/runtime receipt](../diagnostics/OccultBuildReceipt.json) · [Session-005 acceptance cases](../diagnostics/CraftingMapAcceptance-347de7d.json) · [Session-007 continuation](../diagnostics/CraftingMapAcceptance-347de7d-007.json).
 
 ZIP size: **11,796,267 bytes**. SHA-256: `4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413`.
 
-The current receipt records the 005 map findings and completed 006 launch-context check. Both current corrected tooltip hovers also passed; remaining transactions retain their separate scope. The [archived bdb build receipt](../diagnostics/OccultBuildReceipt-bdb1759.json) preserves the superseded package and native tree evidence without relabeling them as 347.
+The combined build/runtime receipt records the 005 map findings and completed 006 launch-context check. The separate session-007 record adds the verified named-stack +4 result and map continuation checks on the same source and package. Both current corrected tooltip hovers also passed; remaining transactions retain their separate scope. The [archived bdb build receipt](../diagnostics/OccultBuildReceipt-bdb1759.json) preserves the superseded package and native tree evidence without relabeling them as 347.
 
 ### Historical live map result and current limitation
 

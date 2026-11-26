@@ -1,0 +1,517 @@
+{
+  "schema": "iom.headed-acceptance-summary.v1",
+  "source_sha": "347de7db77f9121ad26e1c12c534b97760ee92f2",
+  "candidate_sha256": "4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413",
+  "package_path": "package/ImperiumOfMan-1.1.9-CraftingMap.zip",
+  "package_bytes": 11796267,
+  "native_build_run_id": 45838490203,
+  "session_id": "crafting-map-ui-007",
+  "run_id": 45869745770,
+  "run_url": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45869745770",
+  "workflow_conclusion": "success",
+  "controller_sha": "c3c29d1015365db1fd9262229eaa333879b10870",
+  "evidence_prefix": "runner-results/quasimorph-headed/45869745770-1",
+  "status": "completed_targeted_acceptance",
+  "observations_through_action_sequence": 52,
+  "terminal_sequence": 53,
+  "terminal_state": "operator_stopped",
+  "finished_utc": "2026-11-26T18:18:06.668870+00:00",
+  "source_or_runtime_package_changed_for_this_session": false,
+  "environment": {
+    "game": "Quasimorph 1.0.4.590s.969afc6",
+    "unity": "2022.3.62f2",
+    "assembly_csharp_sha256": "d72cd91f98de4d6cce8ee420ac1a906d89e68ba0cb164694d266b56f46339ebe",
+    "resolution": [
+      1920,
+      1080
+    ],
+    "launch_working_directory": "installed game directory",
+    "disposable_campaign_slot": 2,
+    "copied_from_slot": 0
+  },
+  "cases": [
+    {
+      "id": "campaign_load_and_space",
+      "result": "passed",
+      "observation": "Copied slot 2 loaded in 4.6353123 seconds, preserved the Ron Mask pact component, reached Dungeon then Space, and saved normally.",
+      "frames": [
+        5,
+        9
+      ]
+    },
+    {
+      "id": "single_batch_submission",
+      "result": "passed",
+      "observation": "Named feedstock baseline 2/30; native quantity explicitly set to one batch; queue showed four outputs, one displayed hour, and Conveyor 1/1.",
+      "frames": [
+        13,
+        24,
+        25
+      ]
+    },
+    {
+      "id": "named_stack_delivery",
+      "result": "passed",
+      "observation": "Native banner named Metal smelting feedstock x4 produced; the same hovered Arsenal tab 1 row 4 column 2 stack changed from 2/30 to 6/30. Exact observed named-stack gain: four.",
+      "frames": [
+        13,
+        28,
+        31
+      ]
+    },
+    {
+      "id": "production_queue_cleared",
+      "result": "passed",
+      "observation": "Supply showed Conveyor 0/1 and the Production slot was empty after completion.",
+      "frames": [
+        35,
+        36
+      ]
+    },
+    {
+      "id": "map_catalogue_and_entry",
+      "result": "passed",
+      "observation": "The left Production tab opened the sage map with 2,363 items and 3,017 loaded recipes.",
+      "frames": [
+        36,
+        37
+      ]
+    },
+    {
+      "id": "selection_preserves_view",
+      "result": "passed",
+      "observation": "Single-clicking Carbon-rich mineral feedstock changed selection and details while preserving the 19-node graph positions and 90% zoom.",
+      "frames": [
+        37,
+        38
+      ]
+    },
+    {
+      "id": "explicit_focus",
+      "result": "passed",
+      "observation": "Focus centered the selected carbon feedstock and rebuilt its 16-node local graph.",
+      "frames": [
+        38,
+        39
+      ]
+    },
+    {
+      "id": "double_click_focus",
+      "result": "passed",
+      "observation": "Double-clicking Metal smelting feedstock centered it and restored its 19-node local graph.",
+      "frames": [
+        39,
+        40
+      ]
+    },
+    {
+      "id": "keyboard_and_exact_id_search",
+      "result": "passed",
+      "observation": "Ctrl+F focused and selected the search text; exact IDs iom_flak_laminate and iom_purity_seal returned the correct named items within the map.",
+      "frames": [
+        41,
+        42,
+        47,
+        48
+      ]
+    },
+    {
+      "id": "station_cooutputs",
+      "result": "passed",
+      "observation": "Stations selected iom_budapest_armor_textiles: two Processed textile plus one Moldable polymer stock produce eight Flak laminate and eight Fitted armor liner in 120 base hours. Both output nodes and detail rows were visible.",
+      "frames": [
+        43,
+        44,
+        45
+      ]
+    },
+    {
+      "id": "item_without_producer",
+      "result": "passed",
+      "observation": "All sources retained Purity Seal with zero producing routes and three uses, plus the explicit loot/trade/reward/other-system acquisition explanation.",
+      "frames": [
+        48,
+        49
+      ]
+    },
+    {
+      "id": "fit",
+      "result": "passed",
+      "observation": "Fit placed all twelve Purity Seal graph nodes inside the viewport at 40% zoom.",
+      "frames": [
+        49,
+        50
+      ]
+    }
+  ],
+  "named_stack_transaction": {
+    "item_name": "METAL SMELTING FEEDSTOCK",
+    "before_count": 2,
+    "after_count": 6,
+    "observed_delta": 4,
+    "submitted_batches": 1,
+    "queued_output_units": 4,
+    "native_completion_banner_observed": true,
+    "before_named_frame": 13,
+    "batch_quantity_frame": 24,
+    "queue_frame": 25,
+    "completion_banner_frame": 28,
+    "after_named_frame": 31,
+    "scope": "One identified hovered stack in Arsenal tab1 row4 column2; not a complete all-tabs inventory accounting claim."
+  },
+  "runtime_log_review": {
+    "campaign_slot": 2,
+    "load_success": true,
+    "load_seconds": 4.6353123,
+    "space_transition_success": true,
+    "partial_index_failures": 0,
+    "managed_exception_lines": 0,
+    "missing_preset_diagnostic_lines": 0,
+    "expected_original_save_sharing_warnings": 3,
+    "log_complete_within_128_kib_tail_budget": true
+  },
+  "final_log": {
+    "git_blob": "368b86500687b9a3eaef7f43127b98e365f5bbb3",
+    "bytes": 15967,
+    "sha256": "c65b3942868f6cf881dbd445280334f69b4dcaff9ed570078c2b7460051b374e",
+    "evidence_commit": "64d12e10c05b364fee33e392c6c38bdc09e9d034"
+  },
+  "cleanup": {
+    "original_package_restored": true,
+    "original_campaign_files_unchanged": true,
+    "protected_original_file_count": 11,
+    "fixture_cleanup_complete": true,
+    "archived_and_removed_file_count": 6,
+    "archived_and_removed_sets_match": true,
+    "retained_fixture_files": 0,
+    "unexpected_campaign_files": 0,
+    "new_campaign_files": 0,
+    "evidence_commit": "64d12e10c05b364fee33e392c6c38bdc09e9d034",
+    "final_status": {
+      "git_blob": "8e994672f9005f849ebad9e6ee8347ca291a474b",
+      "bytes": 5429,
+      "sha256": "38ff336b991ff6bd81b96930f849b7ea4dbe61454537b6530ecd336e88700eb8"
+    },
+    "state": "operator_stopped",
+    "action_sequence": 53
+  },
+  "visual_evidence": [
+    {
+      "frame": 5,
+      "action_sequence": 5,
+      "evidence_commit": "3a7c7e0055d68e9398e5582bde514199c5a6ea0c",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0005/frame.png",
+      "sha256": "0de18449f4af51e687660cb1bb17d19fe3a461dc5866bdcba04bb79b189e9d3f",
+      "bytes": 538240,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 9,
+      "action_sequence": 10,
+      "evidence_commit": "c294f2853081c7b842d177ede8e94936b78e1fd6",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0009/frame.png",
+      "sha256": "19734fba968dfb69ffe966b41772412e1d3343947d888fed221aa74cd369c2ad",
+      "bytes": 1911494,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 13,
+      "action_sequence": 14,
+      "evidence_commit": "f5c62d7babd3e1bad9477baaab2116bc972d6f99",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0013/frame.png",
+      "sha256": "82e18f20f05065ad812cc54cf21271ddb5b45b5b9d33b84bbaf6b590e8e8d450",
+      "bytes": 906167,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": true,
+      "public_repo_path": "docs/crafting/native-crafting-feedstock-before-347de7d-007.png"
+    },
+    {
+      "frame": 24,
+      "action_sequence": 25,
+      "evidence_commit": "99ad2dfbcb5d966a4dd619f84c339c305a3c59ae",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0024/frame.png",
+      "sha256": "b12e238217348a117bd669f12c222abb82ea5e3cf1f2033c62265b0771b9e75c",
+      "bytes": 843364,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": true
+    },
+    {
+      "frame": 25,
+      "action_sequence": 26,
+      "evidence_commit": "20a3c495393eccc0e42766d0f312464b03b7d85f",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0025/frame.png",
+      "sha256": "181cbe5b684df0df3ff9fc51f25f2382eebe9f3d2b8dc41f502d05fdb47ef523",
+      "bytes": 982554,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": true
+    },
+    {
+      "frame": 28,
+      "action_sequence": 30,
+      "evidence_commit": "bdccc5a4e6dfb9eb093654f063af5a2ad16dc323",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0028/frame.png",
+      "sha256": "612189d27d5cd71bf9187e5c363115602efbb6359814ce8caf14215abb22bdfa",
+      "bytes": 2240075,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": true
+    },
+    {
+      "frame": 31,
+      "action_sequence": 33,
+      "evidence_commit": "ae5024dc40134b8ef295ba44c2239bf49f1c22cf",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0031/frame.png",
+      "sha256": "36a470a99a41b72d83254f4aaa879160cde7d3e93da9bb267174a94cddc04605",
+      "bytes": 1006930,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": true,
+      "public_repo_path": "docs/crafting/native-crafting-feedstock-after-347de7d-007.png"
+    },
+    {
+      "frame": 35,
+      "action_sequence": 37,
+      "evidence_commit": "7a3c4c3ec816dc2c852c88e5b40d4be4c5b5aadd",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0035/frame.png",
+      "sha256": "e67f2a871eb01e5a5fbbff6529575d481438484c4f1ec793ba868ea60d88d3f7",
+      "bytes": 1901751,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 36,
+      "action_sequence": 38,
+      "evidence_commit": "d6680941c07cac3dfbd18285cdfc8cb4b6b84a06",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0036/frame.png",
+      "sha256": "f48a875f4af5f5037da4561e164c2522d639467a00c916cabfdff248a1931875",
+      "bytes": 1157920,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 37,
+      "action_sequence": 39,
+      "evidence_commit": "d40b80e944e2371c2fd2b9cc906288e9f29c554e",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0037/frame.png",
+      "sha256": "4a5a7c733f4c43e368e2bb1fe25fa9b61c05f4b74dee6a973a31ae6b7cd2ee47",
+      "bytes": 286800,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 38,
+      "action_sequence": 40,
+      "evidence_commit": "9598c5a1a83033d12adb896743b4db7a7190f495",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0038/frame.png",
+      "sha256": "9a83f87d259bf6c029442d8baaf551deb31fde89602987dc8bd0579597fd91b5",
+      "bytes": 278310,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 39,
+      "action_sequence": 41,
+      "evidence_commit": "c0f23346dbcff7e89bcd37c6d5bd5abc3fdd8e05",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0039/frame.png",
+      "sha256": "fe046030b28af7d3ff71e9d5cb7c1d855f361d958a3f6fba38151deccf60b29d",
+      "bytes": 252773,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 40,
+      "action_sequence": 42,
+      "evidence_commit": "4f3773cdef0849481683706b96f7a8a09b9587a0",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0040/frame.png",
+      "sha256": "5b502f5cea87f85143a1d451e5e6848cce9a06304dc420feda46904f1bd3e6f8",
+      "bytes": 284484,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 41,
+      "action_sequence": 43,
+      "evidence_commit": "79383ad961f20709625e89513c4e60aefb5f2ab5",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0041/frame.png",
+      "sha256": "6bd1d4d099f7efbc6466843849c5ba891b8f4010fd4c90f06b8d9e08b90df2f9",
+      "bytes": 296626,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 42,
+      "action_sequence": 44,
+      "evidence_commit": "ce843510cb191b238092b9c8c164da674ba732b6",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0042/frame.png",
+      "sha256": "6e4e52268e991863fa763a978c8213bc34b7acc7bfa78d4ec5d5ecd0dcdf4a50",
+      "bytes": 284489,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 43,
+      "action_sequence": 45,
+      "evidence_commit": "7b8efb582f7b331bf4d545b5eb66b3ea0dfbffc9",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0043/frame.png",
+      "sha256": "5fb3f4e512a8eb8cbbe42a2c4d941b8290b3dc956c8aacbe758b4fb4eb18b2f9",
+      "bytes": 265300,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 44,
+      "action_sequence": 46,
+      "evidence_commit": "bf4b5767da481328dbbc582fcfbcff36b1576c0e",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0044/frame.png",
+      "sha256": "67f7c968a60ee5f164f340227bf9b981f10b89240b4e71923556b5bdd8dc1df3",
+      "bytes": 263005,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 45,
+      "action_sequence": 47,
+      "evidence_commit": "287380ec087d42d9835f958ad7161ae58f5c0a36",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0045/frame.png",
+      "sha256": "dbe62eb0e0286525ab73b5838d1072aac9fa403d06e08a9a7bc15cbd03691d5b",
+      "bytes": 264565,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false,
+      "public_repo_path": "docs/crafting/native-crafting-station-cooutputs-347de7d-007.png"
+    },
+    {
+      "frame": 47,
+      "action_sequence": 49,
+      "evidence_commit": "cd4080372664010dcb6750360dd57d0172ef6779",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0047/frame.png",
+      "sha256": "0a295a4714709a3f684ef7a9b81b1a26481e471b629e293009a4e3c991270874",
+      "bytes": 265793,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 48,
+      "action_sequence": 50,
+      "evidence_commit": "cbad0fa4e381812e230bafc00289f36f9843aa76",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0048/frame.png",
+      "sha256": "44e6047de0f72f33c27c8e86a594310a2505d7a823a5a700d64fff8604c01157",
+      "bytes": 270209,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    },
+    {
+      "frame": 49,
+      "action_sequence": 51,
+      "evidence_commit": "4dab60ed72c4e84b5b8a5f34bfe26f845a0571a4",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0049/frame.png",
+      "sha256": "328f0bbda320ccca519011df968a2cd4edfc813369076754bb8192a54066c8cd",
+      "bytes": 240796,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false,
+      "public_repo_path": "docs/crafting/native-crafting-no-producer-347de7d-007.png"
+    },
+    {
+      "frame": 50,
+      "action_sequence": 52,
+      "evidence_commit": "64d12e10c05b364fee33e392c6c38bdc09e9d034",
+      "path": "runner-results/quasimorph-headed/45869745770-1/frames/0050/frame.png",
+      "sha256": "fc8e6996eb7fc97fd6d103ae18a0a8f646766db452f1bcd61cdbc81a00f3028b",
+      "bytes": 216180,
+      "width": 1920,
+      "height": 1080,
+      "operator_viewed": true,
+      "transport_chunks_and_png_verified": true,
+      "independent_visual_and_transport_review": false
+    }
+  ],
+  "execution_notes": [
+    "Sequence 27 was rejected because its observed frame expired; capture 28 refreshed the observation before any further input.",
+    "A frame download response disconnected after action 40. The already-consumed action was not replayed; its existing frame was fetched and verified.",
+    "Three native campaign-menu sharing warnings were expected from guards on original save files; the disposable campaign loaded successfully."
+  ],
+  "not_exercised_by_this_session": [
+    "Whole-inventory aggregate accounting across all storage tabs",
+    "Recipe-readiness Refresh comparison before and after a cargo change",
+    "Capability purchases and independent physical pattern-chip learning",
+    "Recycling transactions and cancellation/refund accounting",
+    "Save/load with an active order and legacy progression migration",
+    "Spacecraft Drop Support header comparison, call-in/controller use, and turret deployment",
+    "All gameplay, recipe chains, or otherworldly-family coverage"
+  ],
+  "prior_evidence": {
+    "session_005_ledger": "diagnostics/CraftingMapAcceptance-347de7d.json",
+    "session_006_run": "https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45849635092",
+    "native_build_receipt": "diagnostics/CraftingMapBuildReceipt.json"
+  },
+  "raw_private_campaign_payload_published": false,
+  "scope": "This continuation closes the named-stack production gap and the listed map interaction cases on the unchanged 347 candidate. Session 005 history remains intact. Native build success, these targeted passes, and whole-game acceptance are distinct claims.",
+  "later_source_not_covered_by_this_session": {
+    "source_sha": "5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad",
+    "assembly_version": "1.1.10.0",
+    "change": "Removes finished-ration recovery and sole-use batch machinery/UI; tested session-007 package remains 1.1.9.",
+    "separate_native_build_run_id": 45870535209
+  }
+}

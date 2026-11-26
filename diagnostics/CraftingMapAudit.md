@@ -1,6 +1,34 @@
 # In-game crafting map — 1.1.9 candidate
 
-## Current corrected-directory result — session 006
+Source-version note: `main` advanced to [1.1.10 source `5fae43b`](https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad), which removes finished Corpse Starch recovery and its batch UI. The session-007 evidence below applies to the unchanged **1.1.9 / `347de7d`** archive and does not validate that later source. See [1.1.10 change notes](../docs/crafting/CHANGE_NOTES_1.1.10.txt) for the correction.
+
+## Current continuation result — session 007
+
+[Session 007](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45869745770) completed the missing named-stack production check on unchanged source `347de7db77f9121ad26e1c12c534b97760ee92f2` and package SHA-256 `4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413`. No mod source or runtime archive changed for this continuation.
+
+| Check | Observed result | Session-007 frames |
+| --- | --- | --- |
+| Named starting stack | Native Metal smelting feedstock tooltip: Capacity 2/30 | 0013 |
+| One native batch | Quantity 1 selected; queue showed four outputs, one hour, Conveyor 1/1 | 0024–0025 |
+| Completed delivery | Native named ×4 completion banner; the same named stack became 6/30 | 0028, 0031 |
+| Cleared order | Conveyor 0/1 and empty Production slot | 0035–0036 |
+| Map catalogue | Left Production tab; 2,363 items and 3,017 loaded recipes | 0036–0037 |
+| Selection and focus | Ordinary selection preserved the view; Focus and double-click recentered the selected branch | 0037–0040 |
+| Station cooutputs | Two textile plus one polymer stock → eight flak laminate and eight fitted armor liner; 120 base hours | 0043–0045 |
+| Item without a producer | All-source Purity Seal: zero producing routes, three uses, explicit other-acquisition explanation | 0048–0049 |
+| Fit | All twelve Purity Seal nodes fit at 40% zoom | 0050 |
+
+The named **2/30 → 6/30** comparison, one-batch selector, queue and completion banner were independently checked against their screenshot transport hashes. This establishes **+4 in the identified stack**, not an inventory aggregate across unobserved storage tabs. It closes the identification/baseline gap from sessions 005 and 006 without changing their historical findings.
+
+The complete 15,967-byte native log contains no managed-exception headings or missing-preset diagnostics. The copied campaign loaded normally, preserved the Ron Mask pact component, reached Space and saved. Three expected original-save sharing warnings came from the existing write/delete guards.
+
+Operator stop at sequence 53 finished before the session deadline; the workflow concluded successfully. Final delivery `64d12e10c05b364fee33e392c6c38bdc09e9d034` confirms restoration of the original mod package, all eleven original campaign files unchanged, and complete removal of the disposable fixture. Six archived/removed fixture files match, with zero retained, unexpected or new campaign files.
+
+[Session-007 acceptance, frame hashes and cleanup](CraftingMapAcceptance-347de7d-007.json) · [Prepared crafting notes](../docs/crafting/CHANGE_NOTES_1.1.9_CRAFTING_MAP.txt) · [Named stack before](../docs/crafting/native-crafting-feedstock-before-347de7d-007.png) · [Named stack after](../docs/crafting/native-crafting-feedstock-after-347de7d-007.png) · [Station details](../docs/crafting/native-crafting-station-cooutputs-347de7d-007.png) · [No-producer item](../docs/crafting/native-crafting-no-producer-347de7d-007.png)
+
+Capability purchases, physical-chip learning, recycling, cancellation/refunds, active-order reload, migration and the separate Drop Support/turret checks retain their own acceptance scope. The Refresh comparison across a cargo change was not exercised in this session. The evidence below is retained under its original session and source.
+
+## Earlier corrected-directory result — session 006
 
 Corrected-directory [session 006](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45849635092) used the same 347 binary, completed the Space transition and save, and advanced from 26.10.2200 00:04 to 27.10.2200 22:24: **46 hours 20 minutes of in-game time**. Its complete 15,897-byte log contains zero missing-preset diagnostic lines and zero managed-exception headings. This confirms the bounded launch-context retest, not every gameplay transaction.
 
@@ -8,9 +36,9 @@ Session 006 ended at `bounded_slot_finished`, sequence 32. Immutable delivery `9
 
 The exact source remains `347de7db77f9121ad26e1c12c534b97760ee92f2`, candidate SHA-256 `4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413`; no mod C# was changed for this retest. Controller `1ffc3f3b8094452b2031c83b08b236d022d6c3d6` launches from the installed game directory. The complete final log SHA-256 is `ff0ab3f3f813bf26637d43fe4e69d40ff4591ced7c611b79f09af79af84d2bdd`; cleanup receipt SHA-256 is `c20b112d26f68e18d8b72d085c3d6dcd40eb6f3dc4f7834407e152abe465021b`.
 
-[Current receipt](OccultBuildReceipt.json) · [Session-005 cases and frame hashes](CraftingMapAcceptance-347de7d.json) · [Current ship/UI evidence](../docs/crafting/native-occult-ui-347de7d.json). Current Culture and Manifestation hovers passed in focused run 45857447221: Recipes / Acquired in game fits, and the three Manifestation Materials names are complete. Six-node topology, native status/costs and green/crimson/yellow states are retained. The focused session stopped at sequence 17 with restoration and fixture cleanup verified. Controlled exact cargo increase, capability purchases, chip learning and recycling transactions remain separate checks. Session 005's map/queue observations and the original launch-context failure remain recorded below under their actual scope.
+[Current receipt](OccultBuildReceipt.json) · [Session-005 cases and frame hashes](CraftingMapAcceptance-347de7d.json) · [Current ship/UI evidence](../docs/crafting/native-occult-ui-347de7d.json). Current Culture and Manifestation hovers passed in focused run 45857447221: Recipes / Acquired in game fits, and the three Manifestation Materials names are complete. Six-node topology, native status/costs and green/crimson/yellow states are retained. The focused session stopped at sequence 17 with restoration and fixture cleanup verified. Session 006 did not establish a cargo delta; session 007 above now verifies the identified stack's exact increase. Capability purchases, chip learning and recycling transactions remain separate checks. Session 005's map/queue observations and the original launch-context failure remain recorded below under their actual scope.
 
-Pinned candidate: `347de7db77f9121ad26e1c12c534b97760ee92f2`, assembly version `1.1.9.0`. Native compilation and complete package verification passed. Exact-candidate headed session 005 verified the revised map controls, raid Call-ins headings, and native custom queue submission/completion. Its exact four-unit cargo delta remains unverified. The bounded corrected-directory session-006 result is recorded above. Source links are pinned so later work on `main` is not mistaken for this candidate.
+Pinned candidate: `347de7db77f9121ad26e1c12c534b97760ee92f2`, assembly version `1.1.9.0`. Native compilation and complete package verification passed. Exact-candidate headed session 005 verified the revised map controls, raid Call-ins headings, and native custom queue submission/completion. Its exact four-unit cargo delta was unverified within session 005; session 007 above closes the named-stack gap. The bounded corrected-directory session-006 result is retained above. Source links are pinned so later work on `main` is not mistaken for this candidate.
 
 The cumulative change-note baseline is the published [v1.1.0 release](https://github.com/mrcalzon02/ImperiumOfMan/releases/tag/v1.1.0), whose annotated tag resolves to `b08c27e38bbc73712e073ec9141a6e8769984d9a`. The source comparison establishes which changes are new; compile/package evidence and actual gameplay observations establish different validation stages. No Steam publication of this candidate is recorded by this review.
 
@@ -53,7 +81,7 @@ The expanded map intercepts `MGSC.UI.Process(out bool interruptProcessing)` and 
 - Complete package verification passed at immutable private delivery `41f649f324759041d881d9f2bb45e911c6d4036c`: all 30 chunk lengths/hashes/Git blobs, combined ZIP length/SHA-256/Git blob, CRC, exact four members and their hashes, and manifest identity. DLL metadata confirmed `1.1.9.0`, the mission diagnostic target, and the Pact/Map/picker/migration hooks. [Machine-readable receipt](CraftingMapBuildReceipt.json)
 - Package `ImperiumOfMan-1.1.9-CraftingMap.zip`: 11,796,267 bytes; SHA-256 `4a096861fa4315820e3391fdc948cc704b01301d502b2c1897056feb05825413`; immutable public Git blob `5ef0e238445463fd370774cb4f8ae575b9026941`. Its public readback matched the verified archive byte for byte.
 - Exact-candidate headed session [005](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45841032741), controller `11277b5f0a23c7e3239396c381f54924101a08f6`, exercised the same verified source and ZIP. Targeted results are below. Session 004 stopped during a candidate-download interruption before game launch or fixture creation; it supplies no gameplay result.
-- Independent capability/knowledge transactions, exact inventory gain, cancellation/refunds, recovery, active-order save/load, call-in/controller use, turret deployment, and wider gameplay retain separate acceptance status.
+- Session 007 establishes the identified feedstock stack's exact gain. Independent capability/knowledge transactions, cancellation/refunds, recovery, active-order save/load, call-in/controller use, turret deployment, and wider gameplay retain separate acceptance status.
 
 ### Exact source 347de7d: headed session 005
 

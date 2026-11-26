@@ -1,0 +1,31 @@
+PREPARED CHANGE NOTES — 1.1.10 RATION RECOVERY CORRECTION
+
+[h1]Keep finished Imperial rations out of recycling[/h1]
+[list]
+[*]Removed the unintended recipe that turned eight Dirty Corpse Starch rations back into one Raw Vat Biomass.
+[*]Corpse Starch and Dirty Corpse Starch remain finished food. Neither ration has a disassembly return.
+[*]Removed the dedicated ration batch processing and recycling preview controls that supported that reverse conversion.
+[*]Preserved forward ration manufacturing, recovery from eligible spoiled organic items, Raw Clone harvesting, equipment salvage, and protection for locked and quest items.
+[*]The Crafting map continues to show the remaining recycling routes with their per-item input and output quantities.
+[/list]
+
+IMPLEMENTATION AND VERSION SCOPE
+Source: 5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad
+Assembly version: 1.1.10.0
+
+Each custom ration receives a new empty Disassembly list. Clearing its recovery definition therefore leaves the native ration_pack_3 donor unchanged. The obsolete bulk-input bookkeeping, batch-only guards, remainder handling and dedicated OrganicRecyclingUi implementation were removed. Ordinary recycling and its protected-item handling remain.
+
+The last verified runtime ZIP, package/ImperiumOfMan-1.1.9-CraftingMap.zip, was built from 347de7db77f9121ad26e1c12c534b97760ee92f2. It still contains the old eight-ration recovery route and does not include this correction. The 1.1.9 change notes and recorded game tests remain evidence for that binary.
+
+VERIFICATION STATUS
+The native build for this exact 1.1.10 source completed successfully; compilation passed:
+https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45870535209
+Request: occult-food-cycle-correction-001
+
+The independently retrieved immutable build receipt reports NATIVE_COMPILE_PASSED_GAMEPLAY_NOT_RUN for source 5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad. Native boot and gameplay were not run; the live game and saves were not modified.
+Receipt: https://github.com/mrcalzon02/Dens-Mortis/blob/ceda9a55729d58e09e9a67fdb2c7b420bfadb4dc/runner-results/quasimorph-native/45870535209-1/build-receipt.json
+
+The build receipt lists an 11,794,130-byte candidate with SHA-256 8af3889a259a8a988d7e2a154d4a87af653b59b3a05de5c9616a32e529e00cf1. These are reported build values; full independent package verification and 1.1.10 runtime acceptance are not established here. The last verified public ZIP remains the 1.1.9 package above. These notes do not announce Steam publication.
+
+SOURCE
+https://github.com/mrcalzon02/ImperiumOfMan/commit/5fae43b49ff9fe4ee21cb88a3e8e30eb8e3558ad
