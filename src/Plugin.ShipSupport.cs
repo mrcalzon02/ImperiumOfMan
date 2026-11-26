@@ -169,6 +169,13 @@ namespace ImperiumOfMan
             {
                 return SupportSprites[key] = ReadItemSprite(art, null, keepReadable: true);
             }
+            // Occult research ships matched native-green/crimson artwork. Use the
+            // explicit locked image, keeping the existing fallback for other art.
+            if (art.StartsWith("OccultResearch", StringComparison.Ordinal) &&
+                SpriteResources.ContainsKey("ImperiumOfMan.Art." + key + ".png"))
+            {
+                return SupportSprites[key] = ReadItemSprite(key, null);
+            }
             var source = SupportIcon(art).texture;
             var pixels = source.GetPixels32();
             for (int i = 0; i < pixels.Length; i++)

@@ -71,15 +71,6 @@ namespace ImperiumOfMan
             ["iom.tooltip.none"] = "None",
             ["iom.tooltip.consumes"] = "Consumes",
             ["iom.tooltip.input_batch"] = "Input per batch",
-            ["iom.tooltip.recipe_unlocks"] = "Recipe unlocks",
-            ["iom.tooltip.chaos_designs"] = "Chaos designs",
-            ["iom.tooltip.design_tiers"] = "Design tiers",
-            ["iom.tooltip.tradition"] = "Tradition",
-            ["iom.tooltip.research"] = "Research",
-            ["iom.tooltip.grafts_weapons"] = "Grafts and weapons",
-            ["iom.tooltip.advanced_gear"] = "Advanced occult gear",
-            ["iom.tooltip.recipe_details"] = "Recipe details",
-            ["iom.tooltip.crafting_map"] = "Crafting Map"
         };
 
         internal static string UpgradeText(string key)

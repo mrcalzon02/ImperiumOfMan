@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,17 @@ namespace ImperiumOfMan
     {
         private const string OreCargo = "ore_cargo";
         private static readonly Dictionary<string, ItemQuantity[]> ShredProfiles = new();
+        private static readonly Dictionary<string, int> ShredInputBatches = new();
+
+        private static int GetShredInputBatch(string id) =>
+            ShredInputBatches.TryGetValue(id, out int batch) ? batch : 1;
+
+        private static bool IsEligibleShredInput(BasePickupItem item) =>
+            item != null && item.StackCount > 0 && !item.Locked && !ItemInteractionSystem.IsQuestItem(item);
+
+        private static int CountSelectedShredInput(MagnumCargo cargo, string id) =>
+            cargo?.RecyclingStorage?.Items.Where(item => item.Id == id && IsEligibleShredInput(item))
+                .Sum(item => (int)item.StackCount) ?? 0;
 
         private static void RegisterShredding()
         {
@@ -58,11 +70,19 @@ namespace ImperiumOfMan
             }
         }
 
-        private static void AddShredProfile(ItemQuantity[] outputs, params string[] items)
+        private static void AddShredProfile(ItemQuantity[] outputs, params string[] items) =>
+            AddShredProfile(outputs, 1, items);
+
+        private static void AddShredProfile(ItemQuantity[] outputs, int inputBatch, params string[] items)
         {
+            if (inputBatch < 1) throw new ArgumentOutOfRangeException(nameof(inputBatch));
             foreach (string id in items)
             {
                 ShredProfiles.Add(id, outputs);
+                ShredInputBatches.Add(id, inputBatch);
+                // A bulk recipe cannot be represented by native per-item Disassembly.
+                // In particular, do not advertise one biomass for every spoiled ration.
+                if (inputBatch > 1) continue;
                 Registrations.Add(() =>
                 {
                     // Also enables the native recycle button for new equipment with no field-disassembly record.
@@ -85,10 +105,46 @@ namespace ImperiumOfMan
                 {
                     return;
                 }
-                foreach (BasePickupItem item in magnumCargo.RecyclingStorage.Items.ToArray())
+                var selected = magnumCargo.RecyclingStorage.Items.ToArray();
+                foreach (var group in selected.Where(item => GetShredInputBatch(item.Id) > 1)
+                    .GroupBy(item => item.Id))
                 {
-                    if (!ShredProfiles.TryGetValue(item.Id, out var outputs) ||
-                        ItemInteractionSystem.IsQuestItem(item) || item.Locked)
+                    int inputBatch = GetShredInputBatch(group.Key);
+                    int available = group.Where(IsEligibleShredInput).Sum(item => (int)item.StackCount);
+                    int batches = available / inputBatch;
+                    int remainingToConsume = batches * inputBatch;
+                    __state ??= new List<BasePickupItem>();
+                    foreach (ItemQuantity output in ShredProfiles[group.Key])
+                    {
+                        if (batches > 0)
+                            ItemInteractionSystem.CreateItem(__state, output.ItemId, output.Count * batches);
+                    }
+                    // Protect every bulk-treated stack from native per-item recycling.
+                    // Return original remainder objects, preserving decay and other state.
+                    foreach (BasePickupItem item in group)
+                    {
+                        int consumed = IsEligibleShredInput(item)
+                            ? Math.Min(remainingToConsume, item.StackCount) : 0;
+                        remainingToConsume -= consumed;
+                        magnumCargo.RecyclingStorage.Remove(item);
+                        if (consumed == 0)
+                        {
+                            __state.Add(item);
+                            continue;
+                        }
+                        item.StackCount -= (short)consumed;
+                        if (item.StackCount > 0)
+                        {
+                            if (item.IsUsable)
+                                item.Comp<UsableItemComponent>()?.ChangeStacksCapacity((short)consumed);
+                            __state.Add(item);
+                        }
+                    }
+                }
+                foreach (BasePickupItem item in selected)
+                {
+                    if (GetShredInputBatch(item.Id) > 1 ||
+                        !ShredProfiles.TryGetValue(item.Id, out var outputs) || !IsEligibleShredInput(item))
                     {
                         continue;
                     }

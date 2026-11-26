@@ -122,15 +122,12 @@ namespace ImperiumOfMan
             ["iom_mercenary_pod"] = "Troop deployment",
             ["iom_pod_capacity"] = "Troop capacity",
             ["iom_pod_calls"] = "Drop support charges",
-            ["iom_occult_clone_vat"] = "Clone cultivation",
-            ["iom_occult_containment_cradle"] = "Occult containment",
-            ["iom_occult_essence_still"] = "Essence extraction",
-            ["iom_occult_gavvakh_retort"] = "Reagent distillation",
-            ["iom_occult_research_1"] = "Occult research",
-            ["iom_occult_research_2"] = "Occult research",
-            ["iom_occult_research_3"] = "Occult research",
-            ["iom_occult_research_4"] = "Occult research",
-            ["iom_occult_research_5"] = "Occult research"
+            ["iom_occult_research_1"] = "Cultures and containment",
+            ["iom_occult_research_2"] = "Essence distillation",
+            ["iom_occult_research_3"] = "Manifested materials",
+            ["iom_occult_research_4"] = "Bone and blood processes",
+            ["iom_occult_research_5"] = "Infused materials",
+            ["iom_occult_research_6"] = "Advanced occult assembly"
         };
 
         private static readonly Dictionary<string, string> ModuleSubtitles = new(StringComparer.Ordinal)

@@ -1,0 +1,66 @@
+{
+  "schema": "iom.occult-art.v1",
+  "generator": "built-in image_gen",
+  "reference": "User supplied native Navigation Technology Tree screenshot",
+  "research": [
+    {
+      "filename": "OccultResearch1",
+      "prompt": "Use case: stylized-concept. Asset type: production game research-tree icon for the Quasimorph ImperiumOfMan mod. Primary request: one sealed upright industrial clone culture cylinder, very simple suspended adult humanoid silhouette inside the chamber, connected to a small culture reservoir and two external tubes; no anatomy or gore. This must be a single small monochrome raster pixel-art schematic, matching a 1990s industrial CRT research interface: thick deliberate square pixel clusters, sparse technical outlines, very simplified silhouette and very limited detail. Think 36 by 36 logical pixels enlarged for delivery, not a detailed illustration. Three muted sage/teal green values only: dark #153e32, line #34735b, highlight #65966a. Transparent background and negative spaces; centered subject occupies 84% of a square canvas with equal clear margin. No surrounding box or card border, no text, no letters, no numerals, no UI, no labels, no icons beside it, no full scene, no purple, no neon glow, no antialias smoothing, no photography. Strong read at 36px. Output one standalone icon only.",
+      "source": "media/OccultProduction/Source/OccultResearch1.png"
+    },
+    {
+      "filename": "OccultResearch2",
+      "prompt": "Use case: stylized-concept. Asset type: production game research-tree icon for the Quasimorph ImperiumOfMan mod. Primary request: one compact occult distillation apparatus: a large round glass flask, a short stepped condenser coil, and a small collecting phial, all joined into one machine silhouette. This must be a single small monochrome raster pixel-art schematic, matching a 1990s industrial CRT research interface: thick deliberate square pixel clusters, sparse technical outlines, very simplified silhouette and very limited detail. Think 36 by 36 logical pixels enlarged for delivery, not a detailed illustration. Three muted sage/teal green values only: dark #153e32, line #34735b, highlight #65966a. Transparent background and negative spaces; centered subject occupies 84% of a square canvas with equal clear margin. No surrounding box or card border, no text, no letters, no numerals, no UI, no labels, no icons beside it, no full scene, no purple, no neon glow, no antialias smoothing, no photography. Strong read at 36px. Output one standalone icon only.",
+      "source": "media/OccultProduction/Source/OccultResearch2.png"
+    },
+    {
+      "filename": "OccultResearch3",
+      "prompt": "Use case: stylized-concept. Asset type: production game research-tree icon for the Quasimorph ImperiumOfMan mod. Primary request: one angular containment pedestal enclosing a single floating demonic eye inside a simple crystal prism, two tiny calibration electrodes, readable as an occult material manifestation apparatus. This must be a single small monochrome raster pixel-art schematic, matching a 1990s industrial CRT research interface: thick deliberate square pixel clusters, sparse technical outlines, very simplified silhouette and very limited detail. Think 36 by 36 logical pixels enlarged for delivery, not a detailed illustration. Three muted sage/teal green values only: dark #153e32, line #34735b, highlight #65966a. Transparent background and negative spaces; centered subject occupies 84% of a square canvas with equal clear margin. No surrounding box or card border, no text, no letters, no numerals, no UI, no labels, no icons beside it, no full scene, no purple, no neon glow, no antialias smoothing, no photography. Strong read at 36px. Output one standalone icon only.",
+      "source": "media/OccultProduction/Source/OccultResearch3.png"
+    },
+    {
+      "filename": "OccultResearch4",
+      "prompt": "Use case: stylized-concept. Asset type: production game research-tree icon for the Quasimorph ImperiumOfMan mod. Primary request: one upright bone relic secured inside a square mechanical clamp, two visibly linked chains bind the relic to the bracket, very simplified rib-like silhouette, no gore. A single small monochrome raster pixel-art schematic, matching a 1990s industrial CRT research interface: thick deliberate square pixel clusters, sparse technical outlines, extremely simplified silhouette and very limited detail. Think 36 by 36 logical pixels enlarged for delivery, not detailed illustration. Three muted sage/teal green values only: dark #153e32, line #34735b, highlight #65966a. Transparent background and negative spaces; centered subject occupies 80% of square canvas with equal margin. The green border will be applied during game import, so no surrounding box or card border here. No text, letters, numerals, UI, labels, icons beside it, scene, purple, neon glow, antialias smoothing, photography. Strong read at 36px. Output one standalone icon.",
+      "source": "media/OccultProduction/Source/OccultResearch4.png"
+    },
+    {
+      "filename": "OccultResearch5",
+      "prompt": "Use case: stylized-concept. Asset type: production game research-tree icon for the Quasimorph ImperiumOfMan mod. Primary request: one mechanical forearm suspended within a compact laboratory infusion frame, a single phial above connected to the forearm by a tube, a small gear at the side; not a human injury. A single small monochrome raster pixel-art schematic, matching a 1990s industrial CRT research interface: thick deliberate square pixel clusters, sparse technical outlines, extremely simplified silhouette and very limited detail. Think 36 by 36 logical pixels enlarged for delivery, not detailed illustration. Three muted sage/teal green values only: dark #153e32, line #34735b, highlight #65966a. Transparent background and negative spaces; centered subject occupies 80% of square canvas with equal margin. The green border will be applied during game import, so no surrounding box or card border here. No text, letters, numerals, UI, labels, icons beside it, scene, purple, neon glow, antialias smoothing, photography. Strong read at 36px. Output one standalone icon.",
+      "source": "media/OccultProduction/Source/OccultResearch5.png"
+    },
+    {
+      "filename": "OccultResearch6",
+      "prompt": "Use case: stylized-concept. Asset type: production game research-tree icon for the Quasimorph ImperiumOfMan mod. Primary request: one compact arcane industrial furnace, heavy angular arch, one small skull-shaped vent above a bright three-pronged flame, broad solid base, readable as a soulforge. A single small monochrome raster pixel-art schematic, matching a 1990s industrial CRT research interface: thick deliberate square pixel clusters, sparse technical outlines, extremely simplified silhouette and very limited detail. Think 36 by 36 logical pixels enlarged for delivery, not detailed illustration. Three muted sage/teal green values only: dark #153e32, line #34735b, highlight #65966a. Transparent background and negative spaces; centered subject occupies 80% of square canvas with equal margin. The green border will be applied during game import, so no surrounding box or card border here. No text, letters, numerals, UI, labels, icons beside it, scene, purple, neon glow, antialias smoothing, photography. Strong read at 36px. Output one standalone icon.",
+      "source": "media/OccultProduction/Source/OccultResearch6.png"
+    }
+  ],
+  "items": [
+    {
+      "filename": "iom_occult_raw_clone",
+      "prompt": "Use case: stylized-concept. Asset type: inventory game sprite for Quasimorph, dark pixel-art science-fiction roguelike. Primary request: a single sealed squat translucent olive-green culture capsule with steel end caps, containing a tiny curled ADULT clone silhouette, carried as organic cargo stock; no gore, no injury, no child, no scene. Must be one isolated compact object only, full color raster pixel art with crisp blocky edges, tiny readable silhouette and only a few shade clusters. Designed to remain clear at 24 by24 logical pixels, artwork enlarged for delivery. Three-quarter slightly elevated inventory view, centered inside square canvas, object fills80% with transparent padding. Color palette: muted olive glass, gray steel, pale organic silhouette; dark outline. Truly transparent background. No environment, no text, no typography, no labels, no grid, no card border, no multiple objects, no UI, no glow outside silhouette, no photorealism, no fine ornament. This is a production game asset, not concept illustration.",
+      "source": "media/OccultProduction/Source/iom_occult_raw_clone.png"
+    },
+    {
+      "filename": "iom_occult_torment_imprint",
+      "prompt": "Use case: stylized-concept. Asset type: inventory game sprite for Quasimorph, dark pixel-art science-fiction roguelike. Primary request: a single compact black data wafer held in a dull bronze clamp, with one jagged pale violet resonance trace across its center; a physical occult imprint stored in a rectangular reliquary cassette, NOT a face. Must be one isolated compact object only, full color raster pixel art with crisp blocky edges, tiny readable silhouette and only a few shade clusters. Designed to remain clear at 24 by24 logical pixels, artwork enlarged for delivery. Three-quarter slightly elevated inventory view, centered inside square canvas, object fills80% with transparent padding. Color palette: charcoal black, worn bronze, restrained pale violet trace; dark outline. Truly transparent background. No environment, no text, no typography, no labels, no grid, no card border, no multiple objects, no UI, no glow outside silhouette, no photorealism, no fine ornament. This is a production game asset, not concept illustration.",
+      "source": "media/OccultProduction/Source/iom_occult_torment_imprint.png"
+    },
+    {
+      "filename": "iom_occult_suffering_essence",
+      "prompt": "Use case: stylized-concept. Asset type: inventory game sprite for Quasimorph, dark pixel-art science-fiction roguelike. Primary request: a single small sealed faceted glass ampoule containing dense dark violet occult liquid, with a heavy aged brass cap and one narrow metal protective band. Must be one isolated compact object only, full color raster pixel art with crisp blocky edges, tiny readable silhouette and only a few shade clusters. Designed to remain clear at 24 by24 logical pixels, artwork enlarged for delivery. Three-quarter slightly elevated inventory view, centered inside square canvas, object fills80% with transparent padding. Color palette: dark violet glass/liquid, pale lavender glass highlight, aged brass; dark outline. Truly transparent background. No environment, no text, no typography, no labels, no grid, no card border, no multiple objects, no UI, no glow outside silhouette, no photorealism, no fine ornament. This is a production game asset, not concept illustration.",
+      "source": "media/OccultProduction/Source/iom_occult_suffering_essence.png"
+    },
+    {
+      "filename": "iom_occult_pattern",
+      "prompt": "Use case: stylized-concept. Asset type: inventory game sprite for Quasimorph, dark pixel-art science-fiction roguelike. Primary request: a single compact square worn black and dark iron computer data chip with exposed bronze contacts along its bottom edge and one simple pale sage eye-shaped etched occult mark in its center. Must be one isolated compact object only, full color raster pixel art with crisp blocky edges, tiny readable silhouette and only a few shade clusters. Designed to remain clear at 24 by24 logical pixels, artwork enlarged for delivery. Three-quarter slightly elevated inventory view, centered inside square canvas, object fills80% with transparent padding. Color palette: dark iron, gray metal, old brass contacts, restrained pale sage etching; dark outline. Truly transparent background. No environment, no text, no typography, no labels, no grid, no card border, no multiple objects, no UI, no glow outside silhouette, no photorealism, no fine ornament. This is a production game asset, not concept illustration.",
+      "source": "media/OccultProduction/Source/iom_occult_pattern.png"
+    }
+  ],
+  "runtime": {
+    "research": "36x36 RGBA, 1px green frame; locked crimson palette with identical alpha",
+    "inventory": "24x24 RGBA",
+    "floor": "16x16 RGBA",
+    "shadow": "16x16 RGBA, exact floor alpha at45%",
+    "exporter": "tools/export_occult_art.py"
+  }
+}

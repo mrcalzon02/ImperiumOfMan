@@ -44,7 +44,7 @@ namespace ImperiumOfMan
             public float? Hours;
             public string Access;
             public bool? Learned;
-            // Learned and enough cargo ingredients; does not assert that a line is free.
+            // Learned, capable and enough cargo; does not assert that a line is free.
             public bool? Ready;
         }
 
@@ -110,13 +110,16 @@ namespace ImperiumOfMan
                     }
                     if (OccultRecipeRequirements.TryGetValue(receipt.Id, out string occultPerk))
                     {
-                        bool? installed = occultProgression == null ? (bool?)null : occultProgression.IsPerkPurchased(occultPerk);
-                        route.Access += " Requires Occult Research: " + OccultResearchTitle(occultPerk) + ".";
-                        if (installed == false) { route.Ready = false; route.Access += " Research locked."; }
-                    }
-                    else if (OccultResearchUnlocks.TryGetValue(receipt.OutputItem, out string researchPerk))
-                    {
-                        route.Access += " Learn through " + OccultResearchTitle(researchPerk) + " or a faction schematic.";
+                        bool? capable = occultProgression == null ? (bool?)null :
+                            HasOccultCapability(occultProgression, occultPerk);
+                        route.Access += " Capability: " + OccultResearchTitle(occultPerk) +
+                            (capable == true ? " installed." : capable == false ? " not installed." : " unavailable in this view.");
+                        if (capable != true) route.Ready = capable == false ? false : (bool?)null;
+                        if (OccultPatternSources.TryGetValue(receipt.OutputItem, out var patternChips))
+                            route.Access += " Recipe source: " + string.Join(", ", patternChips.Select(CraftingItemName)) +
+                                ". Each physical chip teaches one pattern.";
+                        else
+                            route.Access += " Recipe knowledge is acquired independently through in-game schematics.";
                     }
                     if (output != receipt.OutputItem)
                     {

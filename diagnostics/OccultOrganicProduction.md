@@ -1,16 +1,30 @@
-# Organic recycling and occult starter production
+# Organic recycling and occult production
 
-Source baseline: ef6f83b8ccce6afae57f21f9d5f0f01e0b1ee42e. This change is source and embedded artwork, not a compiled Workshop package.
+**Source status:** continuation from `40939a3`. Native build and headed gameplay validation for this revision are still pending.
 
-## Player-facing routes
-- Ship Recycling: one recognized spoiled organic item (including native rotten meat and skin where present) yields two Raw Vat Biomass. Existing antibiotics and fresh-flesh fabrication stay intact. Native spoilage variants are discovered from the loaded registry and logged; no invented vanilla IDs are registered.
-- Clone Vat: no cargo inputs, 8 ship-hours, 2 Raw Clones.
-- Containment Cradle: 2 Raw Clones, 4 hours, 4 Torment Imprints.
-- Essence Still: 4 Torment Imprints, 4 hours, 4 Essence of Suffering.
-- Gavvakh Retort: 4 Essence of Suffering, 4 hours, 2 native Gavvakh, only if no existing recipe conflicts.
-- Alternative clone harvest in Ship Recycling: consume one Raw Clone, recover 4 native meat, 2 skin and 1 rib. This is mutually exclusive with torment production; no spawned actors or kill rewards.
+## Four-step production chain
 
-The occult module is a separate tree anchored near engineering. Purchase gates are checked when an order starts and learned recipes refresh on load and opening Production. All new item icons have embedded inventory, floor and shadow PNGs; the four upgrade icons are 36px. See [sprite sheet](../docs/crafting/occult-starter-sprites.png).
+The figures below are final batch quantities and baseline ship-hours. They do not pass through the ordinary recipe helper's half-input/double-output adjustment. Native production speed and difficulty modifiers still apply.
 
-## Verification limits
-These are deliberately initial quantities and construction prices, not balance-tested. The current native config must be checked for actual spoiled item IDs, and the build/launch must confirm purchase gates, zero-input orders, cargo consumption, refund behavior, decay, visual fit, and the existing recipe picker. A conflicting native Gavvakh recipe is preserved and reported, not overwritten. This implementation does not yet add all otherworldly equipment families, nor an automatic meat coproduct from the torment order. The harvest is a separate recycling route. No change to other panels or existing published package.
+| Process | Consumed cargo | Batch output | Baseline time | Capability |
+| --- | --- | --- | --- | --- |
+| Clone gestation | None | 2 Raw Clones | 8 hours | I Culture |
+| Torment containment | 2 Raw Clones | 4 Torment Imprints | 4 hours | I Culture |
+| Suffering separation | 4 Torment Imprints | 4 Essence of Suffering | 4 hours | II Distillation |
+| Gavvakh condensation | 4 Essence of Suffering | 2 native Gavvakh (`quasi_medical_kit_1`) | 4 hours | II Distillation |
+
+Each step also requires its own learned recipe. The Culture and Distillation physical chips each select one pattern from their respective two-candidate pools; purchasing research never supplies knowledge. The whole occult addition declares 21 chip pools and 53 candidate formulas, with existing/missing native routes skipped before pool construction. A pre-existing native Gavvakh formula is preserved, so the displayed condensation formula is conditional on no conflict.
+
+The root produces two Gavvakh in twenty serial baseline hours when all four formulas are registered and learned. Clone gestation consumes a normal production order and time despite having no cargo input.
+
+## Harvest and recycling
+
+A selected ship-recycling harvest consumes one Raw Clone and yields 4 native `human_meat`, 2 `human_skin`, and 1 `human_rib`, provided those installed records exist. The same clone cannot also enter torment containment. The process uses inventory tokens; it spawns no actor and grants no kill, mission or faction reward. Harvest is a separate selected route, not a free coproduct of torment.
+
+Native spoiled-organic targets are derived from actual `ItemExpireRecord.ConvertedItemId` relationships and bounded food/organic record classes. Explicit named rotten flesh is a fallback for records without an expiring donor. Quest items and medical classes are excluded from that fallback. One recognized spoiled organic item yields 2 Raw Vat Biomass through selected ship recycling. Existing antibiotics and fresh-flesh fabrication remain intact; native recipes and item behavior are not replaced.
+
+Contaminated Imperial rations currently keep their existing behavior. A proposed bulk route would consume 8 rations for 1 Raw Vat Biomass, preserve a remainder, and show the same quantities before recycling. It is not registered yet: the current per-item shredding schema has integer output quantities and no consumed-input batch divisor, and the current native recycler/UI hooks still need inspection. A per-ration biomass conversion would multiply biomass through the existing six-ration fabrication batch. No cellulose-pulp conversion is retained.
+
+## Runtime checks still required
+
+Inspect the actual accepted spoilage IDs and skipped formulas in the installed game. Verify each physical chip learns only one recipe, research teaches none, and both knowledge and capability are enforced when starting an order. Check no-input orders, normal queue limits, exact ingredient consumption, native cancellation refunds, decay, save/load, sprite fit, and exclusive clone harvest. Current source counts and static checks do not prove boot or gameplay success.
