@@ -24,6 +24,15 @@ namespace ImperiumOfMan
             var accepted = new HashSet<string>(StringComparer.Ordinal);
             string[] fleshMarkers = ["meat", "skin", "flesh", "guts", "organ"];
             string[] spoiledMarkers = ["rotten", "rotting", "spoiled", "decayed", "putrid"];
+
+            bool IsSpoiledOrganicTarget(string targetId, ItemRecord target) =>
+                target != null && !string.IsNullOrEmpty(targetId) &&
+                spoiledMarkers.Any(marker => targetId.IndexOf(marker, StringComparison.OrdinalIgnoreCase) >= 0) &&
+                (target.ItemClass == ItemClass.Food || target.ItemClass == ItemClass.Drink ||
+                 target.ItemClass == ItemClass.Organ || target.ItemClass == ItemClass.QuasiOrgan ||
+                 (target.ItemClass == ItemClass.Parts &&
+                  fleshMarkers.Any(marker => targetId.IndexOf(marker, StringComparison.OrdinalIgnoreCase) >= 0)));
+
             foreach (string id in Data.Items.Ids.ToArray())
             {
                 var item = Data.Items.GetSimpleRecord<ItemRecord>(id);
@@ -36,18 +45,16 @@ namespace ImperiumOfMan
                       (source.ItemClass == ItemClass.Food || source.ItemClass == ItemClass.Drink)) ||
                      (flesh && (source?.ItemClass == ItemClass.Food || item.ItemClass == ItemClass.Organ ||
                                 item.ItemClass == ItemClass.QuasiOrgan || item.ItemClass == ItemClass.Parts)));
-                // Native expiry mappings are authoritative even when the spoiled ID
-                // has no English word such as "rotten" in it. Medicines are excluded.
+                // Expiry also converts items into clean water and mechanical salvage.
+                // The destination must itself be explicitly spoiled and organic.
                 if (organicSource && !string.IsNullOrEmpty(expiry?.ConvertedItemId) &&
                     expiry.ConvertedItemId != id &&
                     Data.Items.GetSimpleRecord<ItemRecord>(expiry.ConvertedItemId) is ItemRecord rotten &&
-                    IsOrganicRecyclingClass(rotten.ItemClass))
+                    IsSpoiledOrganicTarget(expiry.ConvertedItemId, rotten))
                     accepted.Add(expiry.ConvertedItemId);
 
-                // Also support explicit rotten flesh records with no expiring donor.
-                if (item != null && IsOrganicRecyclingClass(item.ItemClass) &&
-                    spoiledMarkers.Any(marker => id.IndexOf(marker, StringComparison.OrdinalIgnoreCase) >= 0) &&
-                    (source?.ItemClass == ItemClass.Food || flesh))
+                // Also support verified rotten food/flesh with no expiring donor.
+                if (IsSpoiledOrganicTarget(id, item))
                     accepted.Add(id);
             }
             foreach (string id in accepted.OrderBy(value => value, StringComparer.Ordinal))
@@ -56,12 +63,9 @@ namespace ImperiumOfMan
                 AddShredProfile([new(Biomass, 2)], id);
             }
             Debug.Log("[Cvar_ImperiumOfMan] Spoiled organic recycling: " +
-                (accepted.Count == 0 ? "no native expiry targets found" : string.Join(", ", accepted)));
+                (accepted.Count == 0 ? "no verified spoiled organic targets found" :
+                    string.Join(", ", accepted.OrderBy(value => value, StringComparer.Ordinal))));
         }
-
-        private static bool IsOrganicRecyclingClass(ItemClass itemClass) =>
-            itemClass == ItemClass.Food || itemClass == ItemClass.Drink ||
-            itemClass == ItemClass.Organ || itemClass == ItemClass.QuasiOrgan || itemClass == ItemClass.Parts;
 
         private static void RegisterOccultProduction()
         {
