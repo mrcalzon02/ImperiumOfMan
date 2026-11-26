@@ -195,6 +195,7 @@ namespace ImperiumOfMan
             IndustryRecipe(RationBase, 3, 4, new ItemQuantity(Biomass, 3));
             IndustryRecipe(Wrapper, 2, 4, new ItemQuantity("paper_towel", 2));
             IndustryRecipe(CorpseStarch, 3, 4, new(RationBase, 2), new(Wrapper, 2));
+            // Dirty Corpse Starch is a finished food output; it has no reverse recycling route.
             IndustryRecipe(DirtyStarch, 2, 3, new(Biomass, 2), new(Wrapper, 1));
             AddCatalog("iom_ration_chip", "Imperial ration line schematic", "Ration base, wrappers, and two grades of Corpse Starch. Raw biomass preparation is available as a basic Magnum recipe.",
                 ItemCategory, 1, 95, CorpseStarch, RationBase, Wrapper, DirtyStarch);

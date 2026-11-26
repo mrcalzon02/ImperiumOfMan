@@ -216,18 +216,14 @@ namespace ImperiumOfMan
                     }
                     if (ShredProfiles.TryGetValue(id, out var outputs))
                     {
-                        int inputBatch = GetShredInputBatch(id);
                         AddRoute(new CraftingRecipe
                         {
                             Key = "shredding/" + id,
                             Name = CraftingItemName(id) + " ship recycling",
                             Venue = "Recycling",
-                            Inputs = [new CraftingAmount { ItemId = id, Count = inputBatch }],
+                            Inputs = [new CraftingAmount { ItemId = id, Count = 1 }],
                             Outputs = CopyCraftingAmounts(outputs),
-                            Access = inputBatch > 1
-                                ? "Magnum shredding combines selected stacks and consumes complete batches of " + inputBatch +
-                                    ". Smaller remainders are retained. Locked and quest items are excluded."
-                                : "Magnum shredding returns these materials per item. Locked and quest items are excluded; weapon ammunition is unloaded separately."
+                            Access = "Magnum shredding returns these materials per item. Locked and quest items are excluded; weapon ammunition is unloaded separately."
                         });
                     }
                 }

@@ -39,6 +39,9 @@ namespace ImperiumOfMan
         private static void AddRation(string id, string artwork, string name, int calories, float price, bool spoiled)
         {
             var ration = CloneItem<ConsumableRecord>(id, "ration_pack_3", 1, price, artwork);
+            // Finished rations are production outputs, never raw-material recovery inputs.
+            // Use a new list so the native donor's disassembly record stays unchanged.
+            ration.Disassembly = [];
             ration.StarvationValue = calories;
             ration.HealthValue = spoiled ? -4 : 0;
             ration.EffectChance = spoiled ? new() { ["poisonEffect"] = 0.25f } : new();
