@@ -1,0 +1,6 @@
+{
+  "schema": "iom.native-validation.v1",
+  "request_id": "recipe-foundations-ore-water-glass-cargo-001",
+  "source_sha": "c474fe05e5257236a6c5ff2854d2df30273071cd",
+  "mode": "native-build"
+}

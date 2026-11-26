@@ -2,6 +2,8 @@
 
 Imperium of Man is a Warhammer 40,000 fan mod for Quasimorph. It adds the Imperium as a campaign faction you can take contracts from, earn reputation and equipment with, and barter with at its stations.
 
+**Current download:** [ImperiumOfMan-1.1.2-RecipeFoundations.zip](package/ImperiumOfMan-1.1.2-RecipeFoundations.zip). Includes the ore, water, glass, and Ore Cargo corrections. [Installation and build details](package/README.md).
+
 Planetary Defence Troopers carry Lasguns and wear flak armor. Cadian Guardsmen reinforce them with Lasguns and Guard Frag Grenades. On Terra, Arbites Vigilants carry Judgement shotguns and Arbites Subductors wield Arbites Shock Mauls. You can fight alongside the Arbites or face them as enemies.
 
 At Imperial Tech 3, Arbites, Valhallan, and Steel Legion requisitions enter the Imperial chip pool. Valhallan gear protects against cold and cryo damage. Steel Legion sealed armor protects against poison. At Tech 4, Elysian drop requisitions enter the same pool, and Phobos can issue an orbital Security contract featuring a drop rifleman and a Long-Las spotter.

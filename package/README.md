@@ -1,17 +1,28 @@
 # Runtime package
 
-Use **[ImperiumOfMan-1.1.1-FuryFoodChipFixes.zip](ImperiumOfMan-1.1.1-FuryFoodChipFixes.zip)** for the current corrections. Close Quasimorph, extract the ZIP's `ImperiumOfMan` folder over the existing mod folder, and reload your save. The package contains the compiled DLL, manifest, existing content bundle, and thumbnail.
+Use **[ImperiumOfMan-1.1.2-RecipeFoundations.zip](ImperiumOfMan-1.1.2-RecipeFoundations.zip)** for the current update. Close Quasimorph, extract the ZIP’s `ImperiumOfMan` folder over the existing mod folder, and reload your save.
 
-This package includes:
+## Recipe foundations
 
-- One saved native recipe selection per custom production chip, including faction, support, requisition, and Chaos chips. Normal weapon-ammunition and native armor-set companion unlocks still apply. Existing learned recipes remain learned, except the retired Fury Sigil fabrication recipe; existing chips keep their stored selection.
-- Fury Sigil faction purchase restrictions, including removal from Fury loot and fabrication.
-- Clean and decayed Imperial rations on newly generated Imperial raid floors. Already generated floors are not replenished on load.
-- Meat-and-water biomass fabrication and raw-material replacements for packaged trade cargo in twelve custom player recipes.
-- The earlier Bound Ash inventory footprint and stacking correction.
+- Produce two metal smelting feedstock (ore) or two Water Bottles in three base hours with no ingredients.
+- Convert ore into refined metal, conductive scrap for Cable, or silicate feedstock.
+- Make two basic Glass from two silicate in two base hours, or two Industrial Glass from three silicate in four base hours.
+- Open one Ore Cargo crate for twelve ore, six silicate, and six conductive scrap. The selected crate is consumed through the native container action.
+- Recycle stored metal scrap and glass cullet into useful ore and silicate.
+- Cathode Rampart builds Logic Cores from electronic components and a sealed cell; AI modules are downstream products.
 
-The loose `ImperiumOfMan/ImperiumOfMan.dll` is the original compiled baseline and does **not** contain these corrections. The older `ImperiumOfMan-BoundAsh-Fix.zip` covers only Bound Ash. Building `src/ImperiumOfMan.csproj` against the installed Quasimorph game regenerates the loose runtime package from source.
+Ore, water, and shared refining recipes are added on loading an existing save as well as at a new-game start. Conductive scrap retains its Workshop Fundamentals schematic unlock. Existing queued orders retain their paid ingredients for cancellation refunds.
 
-See [source, build provenance, package hashes, and verification limits](../diagnostics/FuryFoodChipBalanceFix.md). Current-gameplay validation is recorded separately from compilation; a successful compile is not a gameplay pass.
+## Included previous corrections
 
-This ZIP was built from source `1332988a4b5645727c966a2836e098bc9fd1af3d` against the installed game with zero warnings and zero errors. Its SHA-256 is `8445e076eca9a9c66b0daf8b5dbfc1b597642cb3d4c94d17de2a6b3d7be7ed86`; its size is 11,728,251 bytes. The [machine-readable receipt](../diagnostics/FuryFoodChipBuildReceipt.json) also records every runtime member hash. Live gameplay has not been tested.
+This full package also includes the previous custom-chip selection fix, Fury Sigil faction-purchase restrictions, clean and decayed ration loot on new Imperial floors, meat-and-water biomass and other loose-material recipe corrections, and the Bound Ash footprint and stacking fix.
+
+## Build and verification
+
+The 1.1.2 ZIP contains all four runtime files: the newly compiled DLL, authoritative manifest, existing Unity content bundle, and thumbnail. Its ZIP checksum, CRC, and all four file checksums were verified against the native build receipt.
+
+The separate loose `ImperiumOfMan/` folder remains the older baseline. Install the complete 1.1.2 ZIP for the current fixes. The binary-upload transport accepted the compressed package but could not accept the larger loose DLL.
+
+The native build uses source `c474fe05e5257236a6c5ff2854d2df30273071cd` and the installed Quasimorph game. See [run 45755660429](https://github.com/mrcalzon02/Dens-Mortis/actions/runs/45755660429), the [recipe audit](../diagnostics/RecipeFoundationsAudit.md), and the [build receipt and package hashes](../diagnostics/RecipeFoundationsBuildReceipt.json). Compilation and package verification are separate from live gameplay; no live-game test is claimed.
+
+The older ZIPs remain available for reference. Use the 1.1.2 Recipe Foundations ZIP for all current corrections.
