@@ -1,7 +1,7 @@
 digraph Chemistry {
 graph [rankdir=TB,bgcolor="#101714",pad="0.5",nodesep="0.28",ranksep="0.75",splines=polyline,
 fontname="DejaVu Sans",fontcolor="#e8eee6",fontsize=23,labelloc=t,
-label="RAW MATERIALS TO SHARED CHEMISTRY\n1.1.4 source · every incoming ingredient is required\nQuantities are effective units per order; time is base hours"];
+label="RAW MATERIALS TO SHARED CHEMISTRY\n1.1.9 source · every incoming ingredient is required\nQuantities are effective units per order; time is base hours"];
 node [shape=box,style="rounded,filled",fillcolor="#24372b",color="#627b66",
 fontname="DejaVu Sans",fontcolor="#e8eee6",fontsize=15,margin="0.16,0.12"];
 edge [color="#9eafa0",fontname="DejaVu Sans",fontcolor="#e8eee6",fontsize=12,arrowsize=.7];

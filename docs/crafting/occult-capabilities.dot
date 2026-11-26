@@ -1,0 +1,37 @@
+digraph OccultCapabilities {
+  graph [rankdir=TB, bgcolor="#101714", pad="0.4", nodesep="0.4", ranksep="0.65",
+    splines=ortho, fontname="DejaVu Sans", fontcolor="#d8e7d6", fontsize=23,
+    labelloc=t, label="OCCULT RESEARCH · SIX CAPABILITIES\nRecipes are learned from physical pattern chips acquired in game"];
+  node [shape=plain, fontname="DejaVu Sans", fontcolor="#d8e7d6"];
+  edge [color="#65966a", penwidth=2, arrowsize=0.8];
+
+  r1 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#65966a" BGCOLOR="#18251f">
+    <TR><TD WIDTH="80" HEIGHT="80" FIXEDSIZE="TRUE"><IMG SRC="src/Art/OccultProduction/OccultResearch1.png" SCALE="TRUE"/></TD><TD WIDTH="215" ALIGN="LEFT"><FONT POINT-SIZE="18">I · Culture</FONT><BR ALIGN="LEFT"/><FONT POINT-SIZE="12">Clone cultures<BR ALIGN="LEFT"/>Torment containment</FONT></TD></TR>
+  </TABLE>>];
+  r2 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#65966a" BGCOLOR="#18251f">
+    <TR><TD WIDTH="80" HEIGHT="80" FIXEDSIZE="TRUE"><IMG SRC="src/Art/OccultProduction/OccultResearch2.png" SCALE="TRUE"/></TD><TD WIDTH="215" ALIGN="LEFT"><FONT POINT-SIZE="18">II · Distillation</FONT><BR ALIGN="LEFT"/><FONT POINT-SIZE="12">Suffering separation<BR ALIGN="LEFT"/>Gavvakh condensation</FONT></TD></TR>
+  </TABLE>>];
+  r3 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#65966a" BGCOLOR="#18251f">
+    <TR><TD WIDTH="80" HEIGHT="80" FIXEDSIZE="TRUE"><IMG SRC="src/Art/OccultProduction/OccultResearch3.png" SCALE="TRUE"/></TD><TD WIDTH="215" ALIGN="LEFT"><FONT POINT-SIZE="18">III · Manifestation</FONT><BR ALIGN="LEFT"/><FONT POINT-SIZE="12">Agga · Gannix<BR ALIGN="LEFT"/>Shartamakhum</FONT></TD></TR>
+  </TABLE>>];
+  r6 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#65966a" BGCOLOR="#18251f">
+    <TR><TD WIDTH="80" HEIGHT="80" FIXEDSIZE="TRUE"><IMG SRC="src/Art/OccultProduction/OccultResearch6.png" SCALE="TRUE"/></TD><TD WIDTH="215" ALIGN="LEFT"><FONT POINT-SIZE="18">VI · Soulforge</FONT><BR ALIGN="LEFT"/><FONT POINT-SIZE="12">Advanced occult assembly<BR ALIGN="LEFT"/>Selected quasi grafts</FONT></TD></TR>
+  </TABLE>>];
+  r5 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#65966a" BGCOLOR="#18251f">
+    <TR><TD WIDTH="80" HEIGHT="80" FIXEDSIZE="TRUE"><IMG SRC="src/Art/OccultProduction/OccultResearch5.png" SCALE="TRUE"/></TD><TD WIDTH="215" ALIGN="LEFT"><FONT POINT-SIZE="18">V · Infusion</FONT><BR ALIGN="LEFT"/><FONT POINT-SIZE="12">Ur · Cattaram · Flauros<BR ALIGN="LEFT"/>Six Mars replacements</FONT></TD></TR>
+  </TABLE>>];
+  r4 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#65966a" BGCOLOR="#18251f">
+    <TR><TD WIDTH="80" HEIGHT="80" FIXEDSIZE="TRUE"><IMG SRC="src/Art/OccultProduction/OccultResearch4.png" SCALE="TRUE"/></TD><TD WIDTH="215" ALIGN="LEFT"><FONT POINT-SIZE="18">IV · Binding</FONT><BR ALIGN="LEFT"/><FONT POINT-SIZE="12">Duggur · Ron<BR ALIGN="LEFT"/>Scrivnus relics</FONT></TD></TR>
+  </TABLE>>];
+
+  {rank=same; r1; r2; r3;}
+  {rank=same; r6; r5; r4;}
+  r1 -> r2;
+  r2 -> r3;
+  r3 -> r4;
+  r6 -> r5 -> r4 [style=invis];
+  r4 -> r5 [constraint=false];
+  r5 -> r6 [constraint=false];
+  r1 -> r6 [style=invis];
+  r2 -> r5 [style=invis];
+}

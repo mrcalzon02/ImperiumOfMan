@@ -1,5 +1,7 @@
 # Future occult production and otherworldly crafting trees
 
+> **Historical proposal — superseded where it differs from the current source.** The implemented progression has exactly six capability purchases. Research never teaches recipes; physical pattern chips acquired in game teach one selected recipe each. There are no separate prerequisite facility purchases. Use [the current capability reference](docs/crafting/occult-capabilities.svg), [research implementation](diagnostics/OccultResearchExpansion.md), and [organic production implementation](diagnostics/OccultOrganicProduction.md) for the active behavior and verification status. The original proposal below is retained for its broader equipment and worldbuilding ideas.
+
 **Status: FUTURE DESIGN PROPOSAL ONLY — 25 November 2026 (America/Anchorage).** No occult runtime recipes, ship upgrade, UI, or artwork have been implemented by this memo. The current Chaos code was inspected at source baseline `de43df89d6b5878422606fa69c43a4c544f2987e`; the implemented ordinary-material foundation work is separate. Proposed identifiers below are explicitly marked and are not claimed to exist in Quasimorph.
 
 ## Visual overview

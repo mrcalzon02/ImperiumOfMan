@@ -24,16 +24,19 @@ Open docs/crafting/recipe-map.html in your browser to explore the source recipe 
 It works offline. Keep the extracted folder structure for companion-file links.
 
 Main plan: CRAFTING_TREE_EXPANSION_DESIGN.md
-Occult resource and equipment plan: OCCULT_PRODUCTION_DESIGN.md
-Flowcharts: docs/crafting/raw-material-overview.svg and occult-proposal.svg
+Current occult research: diagnostics/OccultResearchExpansion.md
+Current organic production: diagnostics/OccultOrganicProduction.md
+Historical equipment proposal: OCCULT_PRODUCTION_DESIGN.md
+Flowcharts: docs/crafting/raw-material-overview.svg and occult-capabilities.svg
 PNG copies and draft change notes are in the same folder.
 Verification: diagnostics/RawMaterialChemistryAudit.md
 
 This bundle contains documentation, an offline map, diagrams, and source evidence.
 It is not a game installation package and contains no compiled mod DLL.
-The live game window and occult production are future proposals.
-The ordinary chemistry update has passed native compilation. Its separately delivered
-runtime package has its own verification receipt; game boot and gameplay remain unverified.
+The current source includes the live Crafting Map and six occult capabilities.
+Physical pattern chips teach recipes; research provides the capability to use them.
+Source candidates and asset previews do not establish installed-game acceptance.
+Check the current diagnostics for native build, launch and gameplay evidence.
 '''
 with zipfile.ZipFile(destination, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     archive.writestr('START_HERE.txt', start)

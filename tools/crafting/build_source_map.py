@@ -5,6 +5,7 @@ Requires Python 3 and Graphviz's dot executable for SVG/PNG generation.
 The input must be produced by export_source_graph.py; it is not a live-game dump.
 """
 import argparse
+import base64
 import json
 import pathlib
 import re
@@ -56,6 +57,8 @@ graph = {
     'source_hashes': source['source_hashes'],
     'source_hashes_description': source['source_hashes_description'],
     'direct_recipe_quantity_policy': source['direct_recipe_quantity_policy'],
+    'occult_recipe_quantity_policy': source.get('occult_recipe_quantity_policy', 'unknown'),
+    'occult_pattern_pools': source.get('occult_pattern_pools', []),
     'limitations': source['limitations'],
 }
 (output / 'recipe-graph.json').write_text(json.dumps(graph, indent=2) + '\n', encoding='utf-8')
@@ -125,6 +128,23 @@ dot_path = output / 'raw-material-overview.dot'
 dot_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 for extension in ('svg', 'png'):
     subprocess.run(['dot', '-T' + extension, str(dot_path), '-o', str(output / ('raw-material-overview.' + extension))], check=True)
+
+# Keep the current capability reference portable: SVG embeds the exact runtime
+# icons; its PNG is a documentation diagram, never a claimed game screenshot.
+occult_dot = ROOT / 'docs' / 'crafting' / 'occult-capabilities.dot'
+if graph['occult_pattern_pools'] and occult_dot.exists():
+    for extension in ('svg', 'png'):
+        destination = output / ('occult-capabilities.' + extension)
+        subprocess.run(['dot', '-T' + extension, str(occult_dot), '-o', str(destination)],
+                       cwd=ROOT, check=True)
+        if extension == 'svg':
+            svg = destination.read_text(encoding='utf-8')
+            def embed_icon(match):
+                payload = base64.b64encode((ROOT / match[1]).read_bytes()).decode('ascii')
+                return 'style="image-rendering:pixelated" xlink:href="data:image/png;base64,' + payload + '"'
+            svg = re.sub(r'xlink:href="(src/Art/OccultProduction/OccultResearch[1-6]\.png)"',
+                         embed_icon, svg)
+            destination.write_text(svg, encoding='utf-8')
 print(json.dumps({'source_commit': graph['source_commit'], 'recipe_records': len(graph['records']),
                   'overview_items': len(nodes), 'html_bytes': (output / 'recipe-map.html').stat().st_size,
                   'output': str(output)}, indent=2))

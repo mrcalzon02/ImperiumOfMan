@@ -1,8 +1,8 @@
 {
   "schema": "iom.crafting.source-map.v1",
-  "version": "1.1.4 source",
-  "source_commit": "de43df89d6b5878422606fa69c43a4c544f2987e",
-  "source_ref": "de43df89d6b5878422606fa69c43a4c544f2987e",
+  "version": "1.1.9 source",
+  "source_commit": "ceba30c2292be3975748cdfb750c287e20eff78d",
+  "source_ref": "ceba30c2292be3975748cdfb750c287e20eff78d",
   "source_kind": "bounded-source-parser",
   "native_records_loaded": false,
   "names": {
@@ -50,6 +50,9 @@
     "iom_raw_vat_biomass": "Raw vat biomass",
     "iom_vat_ration_base": "Vat ration base",
     "iom_ration_wrapper": "Ration wrapper",
+    "iom_occult_raw_clone": "Raw Clone",
+    "iom_occult_torment_imprint": "Torment Imprint",
+    "iom_occult_suffering_essence": "Essence of Suffering",
     "iom_raw_cellulose_pulp": "Raw cellulose pulp",
     "iom_organic_oil": "Organic oil",
     "iom_chemical_extract": "Chemical extract",
@@ -12983,6 +12986,3015 @@
     {
       "kind": "magnum",
       "outputs": [
+        "iom_occult_raw_clone"
+      ],
+      "inputs": [],
+      "source": "src/Plugin.OccultProduction.cs",
+      "line": 79,
+      "method": "RegisterOccultRecipe",
+      "conditional": false,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_1",
+        "title": "I \u00b7 Culture"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 8.0,
+      "quantities": [],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_culture_pattern_chip",
+          "title": "Culture Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomHollowSignalDepot",
+          "tier": 1,
+          "candidates": [
+            "iom_occult_raw_clone",
+            "iom_occult_torment_imprint"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 17
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "iom_occult_torment_imprint"
+      ],
+      "inputs": [
+        "iom_occult_raw_clone"
+      ],
+      "source": "src/Plugin.OccultProduction.cs",
+      "line": 80,
+      "method": "RegisterOccultRecipe",
+      "conditional": false,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_1",
+        "title": "I \u00b7 Culture"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_raw_clone",
+          "base_count": 2,
+          "effective_count": 2
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_culture_pattern_chip",
+          "title": "Culture Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomHollowSignalDepot",
+          "tier": 1,
+          "candidates": [
+            "iom_occult_raw_clone",
+            "iom_occult_torment_imprint"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 17
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "iom_occult_suffering_essence"
+      ],
+      "inputs": [
+        "iom_occult_torment_imprint"
+      ],
+      "source": "src/Plugin.OccultProduction.cs",
+      "line": 81,
+      "method": "RegisterOccultRecipe",
+      "conditional": false,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_2",
+        "title": "II \u00b7 Distillation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_torment_imprint",
+          "base_count": 4,
+          "effective_count": 4
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_distillation_pattern_chip",
+          "title": "Distillation Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomHollowSignalDepot",
+          "tier": 2,
+          "candidates": [
+            "iom_occult_suffering_essence",
+            "quasi_medical_kit_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 19
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_medical_kit_1"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence"
+      ],
+      "source": "src/Plugin.OccultProduction.cs",
+      "line": 82,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_2",
+        "title": "II \u00b7 Distillation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 4,
+          "effective_count": 4
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_distillation_pattern_chip",
+          "title": "Distillation Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomHollowSignalDepot",
+          "tier": 2,
+          "candidates": [
+            "iom_occult_suffering_essence",
+            "quasi_medical_kit_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 19
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "demonic_eye"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_industrial_glass"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 13,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "iom_industrial_glass",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_agga_pattern_chip",
+          "title": "Agga Manifestation Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 3,
+          "candidates": [
+            "demonic_eye"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 21
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_venus_rags"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_vat_biomass"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 14,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_tissue_pattern_chip",
+          "title": "Gannix Tissue Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "quasi_venus_rags",
+            "quasi_venus_feather",
+            "venus_guts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 23
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "venus_armor_plates"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_rolled_plate",
+        "iom_raw_silicate"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 15,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_rolled_plate",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_silicate",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_forge_pattern_chip",
+          "title": "Gannix Forge Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "venus_armor_plates",
+            "venus_weapon_parts",
+            "venus_melee_parts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 25
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "venus_weapon_parts"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "weapon_parts"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 16,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "weapon_parts",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_forge_pattern_chip",
+          "title": "Gannix Forge Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "venus_armor_plates",
+            "venus_weapon_parts",
+            "venus_melee_parts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 25
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "venus_melee_parts"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "rod_parts"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 17,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "rod_parts",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_forge_pattern_chip",
+          "title": "Gannix Forge Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "venus_armor_plates",
+            "venus_weapon_parts",
+            "venus_melee_parts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 25
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_venus_feather"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_processed_textile"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 18,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_processed_textile",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_tissue_pattern_chip",
+          "title": "Gannix Tissue Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "quasi_venus_rags",
+            "quasi_venus_feather",
+            "venus_guts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 23
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "venus_guts"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_vat_biomass"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 19,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_tissue_pattern_chip",
+          "title": "Gannix Tissue Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "quasi_venus_rags",
+            "quasi_venus_feather",
+            "venus_guts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 23
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_basic_ammo"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_chemical_extract"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 20,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 12,
+      "effective_batch": 12,
+      "hours": 3.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_chemical_extract",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_ammo_pattern_chip",
+          "title": "Gannix Ammunition Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "quasi_basic_ammo",
+            "quasi_darts_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_darts_ammo"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "rod_parts"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 21,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 12,
+      "effective_batch": 12,
+      "hours": 3.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "rod_parts",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_ammo_pattern_chip",
+          "title": "Gannix Ammunition Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "quasi_basic_ammo",
+            "quasi_darts_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mercury_glass"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_industrial_glass",
+        "iom_reactive_minerals"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 22,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_industrial_glass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_reactive_minerals",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_shartamakhum_pattern_chip",
+          "title": "Shartamakhum Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 3,
+          "candidates": [
+            "mercury_glass",
+            "mercury_rags",
+            "mercury_scales",
+            "mercury_guts",
+            "quasi_energy_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mercury_rags"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_processed_textile"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 23,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_processed_textile",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_shartamakhum_pattern_chip",
+          "title": "Shartamakhum Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 3,
+          "candidates": [
+            "mercury_glass",
+            "mercury_rags",
+            "mercury_scales",
+            "mercury_guts",
+            "quasi_energy_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mercury_scales"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_pressed_insert"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 24,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_pressed_insert",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_shartamakhum_pattern_chip",
+          "title": "Shartamakhum Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 3,
+          "candidates": [
+            "mercury_glass",
+            "mercury_rags",
+            "mercury_scales",
+            "mercury_guts",
+            "quasi_energy_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mercury_guts"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_vat_biomass"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 25,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_shartamakhum_pattern_chip",
+          "title": "Shartamakhum Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 3,
+          "candidates": [
+            "mercury_glass",
+            "mercury_rags",
+            "mercury_scales",
+            "mercury_guts",
+            "quasi_energy_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_energy_ammo"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "mercury_glass",
+        "iom_cell_stock"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 26,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 12,
+      "effective_batch": 12,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mercury_glass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_cell_stock",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_shartamakhum_pattern_chip",
+          "title": "Shartamakhum Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 3,
+          "candidates": [
+            "mercury_glass",
+            "mercury_rags",
+            "mercury_scales",
+            "mercury_guts",
+            "quasi_energy_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "bone_knife"
+      ],
+      "inputs": [
+        "human_rib",
+        "venus_melee_parts",
+        "iom_fitted_liner"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 27,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 8.0,
+      "quantities": [
+        {
+          "item": "human_rib",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "venus_melee_parts",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_fitted_liner",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_arms_pattern_chip",
+          "title": "Gannix Arms Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "bone_knife",
+            "venus_quasi_pistol_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "venus_quasi_pistol_1"
+      ],
+      "inputs": [
+        "venus_weapon_parts",
+        "mercury_glass",
+        "iom_armor_fittings"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 28,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_3",
+        "title": "III \u00b7 Manifestation"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "venus_weapon_parts",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mercury_glass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_armor_fittings",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_arms_pattern_chip",
+          "title": "Gannix Arms Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 3,
+          "candidates": [
+            "bone_knife",
+            "venus_quasi_pistol_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "moon_guts"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_vat_biomass"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 31,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_duggur_pattern_chip",
+          "title": "Duggur Binding Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "moon_guts",
+            "moon_armor_plates",
+            "moon_weapon_parts",
+            "quasi_bolts_ammo",
+            "moon_mace_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "moon_armor_plates"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_pressed_insert"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 32,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_pressed_insert",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_duggur_pattern_chip",
+          "title": "Duggur Binding Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "moon_guts",
+            "moon_armor_plates",
+            "moon_weapon_parts",
+            "quasi_bolts_ammo",
+            "moon_mace_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "moon_weapon_parts"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "weapon_parts"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 33,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "weapon_parts",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_duggur_pattern_chip",
+          "title": "Duggur Binding Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "moon_guts",
+            "moon_armor_plates",
+            "moon_weapon_parts",
+            "quasi_bolts_ammo",
+            "moon_mace_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_bolts_ammo"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "rod_parts"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 34,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 12,
+      "effective_batch": 12,
+      "hours": 3.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "rod_parts",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_duggur_pattern_chip",
+          "title": "Duggur Binding Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "moon_guts",
+            "moon_armor_plates",
+            "moon_weapon_parts",
+            "quasi_bolts_ammo",
+            "moon_mace_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "moon_mace_1"
+      ],
+      "inputs": [
+        "moon_weapon_parts",
+        "moon_armor_plates",
+        "rod_parts"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 35,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "moon_weapon_parts",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "moon_armor_plates",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "rod_parts",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_duggur_pattern_chip",
+          "title": "Duggur Binding Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "moon_guts",
+            "moon_armor_plates",
+            "moon_weapon_parts",
+            "quasi_bolts_ammo",
+            "moon_mace_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "ron_blood"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "water_bottle_1"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 36,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "water_bottle_1",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ron_pattern_chip",
+          "title": "Ron Bloodwork Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "ron_blood",
+            "ron_tentacle",
+            "quasi_ron_medicine_1",
+            "ron_mask_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "ron_tentacle"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_vat_biomass",
+        "iom_processed_textile"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 37,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_processed_textile",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ron_pattern_chip",
+          "title": "Ron Bloodwork Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "ron_blood",
+            "ron_tentacle",
+            "quasi_ron_medicine_1",
+            "ron_mask_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_ron_medicine_1"
+      ],
+      "inputs": [
+        "ron_blood",
+        "iom_chemical_extract"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 38,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "ron_blood",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "iom_chemical_extract",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ron_pattern_chip",
+          "title": "Ron Bloodwork Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "ron_blood",
+            "ron_tentacle",
+            "quasi_ron_medicine_1",
+            "ron_mask_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "ron_mask_1"
+      ],
+      "inputs": [
+        "ron_tentacle",
+        "iom_fitted_liner",
+        "lens"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 39,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 8.0,
+      "quantities": [
+        {
+          "item": "ron_tentacle",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_fitted_liner",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "lens",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ron_pattern_chip",
+          "title": "Ron Bloodwork Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "ron_blood",
+            "ron_tentacle",
+            "quasi_ron_medicine_1",
+            "ron_mask_1"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "skrivnus_knife"
+      ],
+      "inputs": [
+        "human_rib",
+        "iom_occult_suffering_essence",
+        "iom_refined_metal"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 40,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_4",
+        "title": "IV \u00b7 Binding"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "human_rib",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_refined_metal",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_scrivnus_pattern_chip",
+          "title": "Scrivnus Relic Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomOssuaryWorks",
+          "tier": 4,
+          "candidates": [
+            "skrivnus_knife"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 37
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_skin"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_raw_vat_biomass",
+        "iom_polymer_stock"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 43,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_polymer_stock",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ur_pattern_chip",
+          "title": "Ur Furnace Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_skin",
+            "mars_gear",
+            "mars_gas_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_gear"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_armor_fittings",
+        "iom_rolled_plate"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 44,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_armor_fittings",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_rolled_plate",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ur_pattern_chip",
+          "title": "Ur Furnace Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_skin",
+            "mars_gear",
+            "mars_gas_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_gas_ammo"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_organic_oil"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 45,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 12,
+      "effective_batch": 12,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_organic_oil",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_ur_pattern_chip",
+          "title": "Ur Furnace Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_skin",
+            "mars_gear",
+            "mars_gas_ammo"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "cattaram_geode"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_silicate",
+        "iom_reactive_minerals"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 46,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 6.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_silicate",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_reactive_minerals",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_cattaram_pattern_chip",
+          "title": "Cattaram Crystal Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 5,
+          "candidates": [
+            "cattaram_geode",
+            "cattaram_stone",
+            "cattaram_mine"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "cattaram_stone"
+      ],
+      "inputs": [
+        "cattaram_geode",
+        "quasi_medical_kit_1"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 47,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "cattaram_geode",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_cattaram_pattern_chip",
+          "title": "Cattaram Crystal Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 5,
+          "candidates": [
+            "cattaram_geode",
+            "cattaram_stone",
+            "cattaram_mine"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "cattaram_mine"
+      ],
+      "inputs": [
+        "cattaram_geode",
+        "explosives",
+        "iom_armor_fittings"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 48,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "cattaram_geode",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "explosives",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_armor_fittings",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_cattaram_pattern_chip",
+          "title": "Cattaram Crystal Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomCinderCrucible",
+          "tier": 5,
+          "candidates": [
+            "cattaram_geode",
+            "cattaram_stone",
+            "cattaram_mine"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "jupiter_mushrooms"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_raw_vat_biomass",
+        "water_bottle_1"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 49,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "water_bottle_1",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_flauros_culture_pattern_chip",
+          "title": "Flauros Culture Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomChainforge",
+          "tier": 5,
+          "candidates": [
+            "jupiter_mushrooms",
+            "jupiter_grass",
+            "jupiter_guts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "jupiter_grass"
+      ],
+      "inputs": [
+        "quasi_medical_kit_1",
+        "iom_raw_vat_biomass",
+        "iom_processed_textile"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 50,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_processed_textile",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_flauros_culture_pattern_chip",
+          "title": "Flauros Culture Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomChainforge",
+          "tier": 5,
+          "candidates": [
+            "jupiter_mushrooms",
+            "jupiter_grass",
+            "jupiter_guts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "jupiter_guts"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "iom_raw_vat_biomass",
+        "jupiter_mushrooms"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 51,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 4,
+      "effective_batch": 4,
+      "hours": 5.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_raw_vat_biomass",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "jupiter_mushrooms",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_flauros_culture_pattern_chip",
+          "title": "Flauros Culture Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomChainforge",
+          "tier": 5,
+          "candidates": [
+            "jupiter_mushrooms",
+            "jupiter_grass",
+            "jupiter_guts"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "flauros_ammo"
+      ],
+      "inputs": [
+        "jupiter_mushrooms",
+        "tin",
+        "gas_ammo"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 52,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 12,
+      "effective_batch": 12,
+      "hours": 4.0,
+      "quantities": [
+        {
+          "item": "jupiter_mushrooms",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "tin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "gas_ammo",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_flauros_ordnance_pattern_chip",
+          "title": "Flauros Ordnance Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomChainforge",
+          "tier": 5,
+          "candidates": [
+            "flauros_ammo",
+            "spore_mine"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 45
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "spore_mine"
+      ],
+      "inputs": [
+        "jupiter_mushrooms",
+        "explosives",
+        "iom_polymer_stock"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 53,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 6.0,
+      "quantities": [
+        {
+          "item": "jupiter_mushrooms",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "explosives",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_polymer_stock",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_flauros_ordnance_pattern_chip",
+          "title": "Flauros Ordnance Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomChainforge",
+          "tier": 5,
+          "candidates": [
+            "flauros_ammo",
+            "spore_mine"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 45
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_cyborg_head"
+      ],
+      "inputs": [
+        "mars_gear",
+        "mars_skin",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 58,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "mars_gear",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mars_skin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_mars_core_pattern_chip",
+          "title": "Mars Core Replacement Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_cyborg_head",
+            "mars_cyborg_chest",
+            "mars_cyborg_stomach"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_cyborg_chest"
+      ],
+      "inputs": [
+        "mars_gear",
+        "mars_skin",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 58,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "mars_gear",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mars_skin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_mars_core_pattern_chip",
+          "title": "Mars Core Replacement Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_cyborg_head",
+            "mars_cyborg_chest",
+            "mars_cyborg_stomach"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_cyborg_stomach"
+      ],
+      "inputs": [
+        "mars_gear",
+        "mars_skin",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 58,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "mars_gear",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mars_skin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_mars_core_pattern_chip",
+          "title": "Mars Core Replacement Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_cyborg_head",
+            "mars_cyborg_chest",
+            "mars_cyborg_stomach"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_cyborg_knee"
+      ],
+      "inputs": [
+        "mars_gear",
+        "mars_skin",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 58,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "mars_gear",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mars_skin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_mars_limb_pattern_chip",
+          "title": "Mars Limb Replacement Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_cyborg_knee",
+            "mars_cyborg_hand",
+            "mars_cyborg_leg"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_cyborg_hand"
+      ],
+      "inputs": [
+        "mars_gear",
+        "mars_skin",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 58,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "mars_gear",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mars_skin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_mars_limb_pattern_chip",
+          "title": "Mars Limb Replacement Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_cyborg_knee",
+            "mars_cyborg_hand",
+            "mars_cyborg_leg"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "mars_cyborg_leg"
+      ],
+      "inputs": [
+        "mars_gear",
+        "mars_skin",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 58,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_5",
+        "title": "V \u00b7 Infusion"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "mars_gear",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "mars_skin",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_mars_limb_pattern_chip",
+          "title": "Mars Limb Replacement Pattern",
+          "faction": "SheduThousand",
+          "supplier": "RedTiangong",
+          "tier": 5,
+          "candidates": [
+            "mars_cyborg_knee",
+            "mars_cyborg_hand",
+            "mars_cyborg_leg"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "warp_armor"
+      ],
+      "inputs": [
+        "venus_armor_plates",
+        "quasi_medical_kit_1",
+        "iom_sterile_scaffold"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 59,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_6",
+        "title": "VI \u00b7 Soulforge"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 12.0,
+      "quantities": [
+        {
+          "item": "venus_armor_plates",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "quasi_medical_kit_1",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_sterile_scaffold",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_tezctlan_graft_pattern_chip",
+          "title": "Tezctlan Graft Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 6,
+          "candidates": [
+            "warp_armor",
+            "steadfast_heart"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 51
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "steadfast_heart"
+      ],
+      "inputs": [
+        "quasi_venus_rags",
+        "iom_occult_suffering_essence",
+        "iom_sterile_scaffold"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 60,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_6",
+        "title": "VI \u00b7 Soulforge"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 12.0,
+      "quantities": [
+        {
+          "item": "quasi_venus_rags",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "iom_sterile_scaffold",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_tezctlan_graft_pattern_chip",
+          "title": "Tezctlan Graft Pattern",
+          "faction": "Tezctlan",
+          "supplier": "FeatheredTemple",
+          "tier": 6,
+          "candidates": [
+            "warp_armor",
+            "steadfast_heart"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 51
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "blood_dance"
+      ],
+      "inputs": [
+        "quasi_venus_rags",
+        "ron_blood",
+        "iom_sterile_scaffold"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 61,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_6",
+        "title": "VI \u00b7 Soulforge"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 12.0,
+      "quantities": [
+        {
+          "item": "quasi_venus_rags",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "ron_blood",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_sterile_scaffold",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_xiomara_graft_pattern_chip",
+          "title": "Xiomara Graft Pattern",
+          "faction": "XiomaraMasks",
+          "supplier": "FeatheredTemple",
+          "tier": 6,
+          "candidates": [
+            "blood_dance"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 53
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "stunning_stride"
+      ],
+      "inputs": [
+        "venus_weapon_parts",
+        "quasi_venus_rags",
+        "iom_servo_cartridge"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 62,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_6",
+        "title": "VI \u00b7 Soulforge"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 12.0,
+      "quantities": [
+        {
+          "item": "venus_weapon_parts",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "quasi_venus_rags",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_servo_cartridge",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_gannix_graft_pattern_chip",
+          "title": "Gannix Graft Pattern",
+          "faction": "ChurchGannix",
+          "supplier": "Gloria",
+          "tier": 6,
+          "candidates": [
+            "stunning_stride"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 55
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "quasi_repair_kit"
+      ],
+      "inputs": [
+        "iom_occult_suffering_essence",
+        "cattaram_stone",
+        "iom_chaos_forge_ember"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 65,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_6",
+        "title": "VI \u00b7 Soulforge"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 10.0,
+      "quantities": [
+        {
+          "item": "iom_occult_suffering_essence",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "cattaram_stone",
+          "base_count": 1,
+          "effective_count": 1
+        },
+        {
+          "item": "iom_chaos_forge_ember",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_soulforge_pattern_chip",
+          "title": "Soulforge Relic Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomBlackMeridian",
+          "tier": 6,
+          "candidates": [
+            "quasi_repair_kit",
+            "impaler"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
+        "impaler"
+      ],
+      "inputs": [
+        "moon_weapon_parts",
+        "human_rib",
+        "iom_chaos_forge_ember"
+      ],
+      "source": "src/Plugin.OccultRecipes.cs",
+      "line": 66,
+      "method": "RegisterOccultRecipe",
+      "conditional": true,
+      "recipe": null,
+      "capability": {
+        "id": "iom_occult_research_6",
+        "title": "VI \u00b7 Soulforge"
+      },
+      "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+      "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+      "base_batch": 2,
+      "effective_batch": 2,
+      "hours": 16.0,
+      "quantities": [
+        {
+          "item": "moon_weapon_parts",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "human_rib",
+          "base_count": 2,
+          "effective_count": 2
+        },
+        {
+          "item": "iom_chaos_forge_ember",
+          "base_count": 1,
+          "effective_count": 1
+        }
+      ],
+      "knowledge_sources": [
+        {
+          "id": "iom_occult_soulforge_pattern_chip",
+          "title": "Soulforge Relic Pattern",
+          "faction": "iom_chaos_undivided",
+          "supplier": "iomBlackMeridian",
+          "tier": 6,
+          "candidates": [
+            "quasi_repair_kit",
+            "impaler"
+          ],
+          "patterns_per_chip": 1,
+          "source": "src/Plugin.OccultKnowledge.cs",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "kind": "magnum",
+      "outputs": [
         "iom_chaos_fury_fang_knife"
       ],
       "inputs": [
@@ -13070,7 +16082,7 @@
         "rags"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 91,
+      "line": 92,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13085,7 +16097,7 @@
         "iom_ration_wrapper"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 112,
+      "line": 113,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13180,7 +16192,7 @@
         "mercury_glass"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 92,
+      "line": 93,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13195,7 +16207,7 @@
         "quasi_basic_ammo"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 113,
+      "line": 114,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13305,7 +16317,7 @@
         "rod_parts"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 93,
+      "line": 94,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13320,7 +16332,7 @@
         "iom_processed_textile"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 114,
+      "line": 115,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13415,7 +16427,7 @@
         "iom_armor_fittings"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 94,
+      "line": 95,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13431,7 +16443,7 @@
         "armor_plates"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 115,
+      "line": 116,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13526,7 +16538,7 @@
         "iom_servo_cartridge"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 95,
+      "line": 96,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13541,7 +16553,7 @@
         "smoke_grenade"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 116,
+      "line": 117,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13636,7 +16648,7 @@
         "iom_polymer_stock"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 96,
+      "line": 97,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13651,7 +16663,7 @@
         "battery_basic_ammo"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 117,
+      "line": 118,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13762,7 +16774,7 @@
         "armor_plates"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 97,
+      "line": 98,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13778,7 +16790,7 @@
         "tech_repair_kit"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 118,
+      "line": 119,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13873,7 +16885,7 @@
         "weapon_parts"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 98,
+      "line": 99,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -13889,7 +16901,7 @@
         "goldenstar_balm"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 119,
+      "line": 120,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -13984,7 +16996,7 @@
         "iom_armor_fittings"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 99,
+      "line": 100,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -14000,7 +17012,7 @@
         "iom_sealed_treatment_pack"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 120,
+      "line": 121,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -14080,7 +17092,7 @@
         "capacitor_parts"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 100,
+      "line": 101,
       "method": "ChaosMaterialSwitch",
       "conditional": false,
       "recipe": null
@@ -14096,7 +17108,7 @@
         "iom_clinical_refill"
       ],
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 121,
+      "line": 122,
       "method": "ChaosUtilitySwitch",
       "conditional": false,
       "recipe": null
@@ -14788,10 +17800,10 @@
   ],
   "summaries": {
     "magnum": {
-      "records": 365,
-      "distinct_products": 365,
-      "nodes": 381,
-      "edges": 986,
+      "records": 368,
+      "distinct_products": 368,
+      "nodes": 384,
+      "edges": 988,
       "cycles": []
     },
     "station": {
@@ -14951,10 +17963,10 @@
       ]
     },
     "combined": {
-      "records": 668,
-      "distinct_products": 597,
-      "nodes": 611,
-      "edges": 1819,
+      "records": 671,
+      "distinct_products": 600,
+      "nodes": 614,
+      "edges": 1821,
       "cycles": [
         {
           "items": [
@@ -15216,10 +18228,10 @@
       ]
     },
     "combined_with_conditional_support": {
-      "records": 698,
-      "distinct_products": 602,
-      "nodes": 616,
-      "edges": 1904,
+      "records": 751,
+      "distinct_products": 640,
+      "nodes": 651,
+      "edges": 2018,
       "cycles": [
         {
           "items": [
@@ -15228,9 +18240,27 @@
             "robot_parts_container",
             "rod_parts",
             "tool_container",
+            "venus_weapon_parts",
+            "weapon_parts",
             "wire"
           ],
           "recipes": [
+            {
+              "kind": "station",
+              "outputs": [
+                "rod_parts",
+                "lens"
+              ],
+              "inputs": [
+                "venus_weapon_parts",
+                "glass"
+              ],
+              "source": "src/Plugin.ArmoryWorkshops.cs",
+              "line": 237,
+              "method": "AddFactionWorkshop",
+              "conditional": false,
+              "recipe": "iom_gannix_ritual_spares"
+            },
             {
               "kind": "station",
               "outputs": [
@@ -15245,6 +18275,36 @@
               "method": "AddSupportWorkshop",
               "conditional": false,
               "recipe": "iom_phobos_electrical_works"
+            },
+            {
+              "kind": "magnum",
+              "outputs": [
+                "weapon_parts"
+              ],
+              "inputs": [
+                "iom_refined_metal",
+                "rod_parts"
+              ],
+              "source": "src/Plugin.ComponentFoundations.cs",
+              "line": 26,
+              "method": "SharedRecipe",
+              "conditional": false,
+              "recipe": null,
+              "base_batch": 2,
+              "effective_batch": 4,
+              "quantities": [
+                {
+                  "item": "iom_refined_metal",
+                  "base_count": 1,
+                  "effective_count": 1
+                },
+                {
+                  "item": "rod_parts",
+                  "base_count": 1,
+                  "effective_count": 1
+                }
+              ],
+              "hours": 4.0
             },
             {
               "kind": "station",
@@ -15356,6 +18416,21 @@
             {
               "kind": "station",
               "outputs": [
+                "weapon_parts"
+              ],
+              "inputs": [
+                "iom_refined_metal",
+                "rod_parts"
+              ],
+              "source": "src/Plugin.MaintenanceWorkshops.cs",
+              "line": 31,
+              "method": "AddFactionWorkshop",
+              "conditional": false,
+              "recipe": "iom_zephyr_weapon_spares"
+            },
+            {
+              "kind": "station",
+              "outputs": [
                 "wire"
               ],
               "inputs": [
@@ -15366,6 +18441,60 @@
               "method": "AddFactionWorkshop",
               "conditional": false,
               "recipe": "iom_ares_post_wiring_recovery"
+            },
+            {
+              "kind": "magnum",
+              "outputs": [
+                "venus_weapon_parts"
+              ],
+              "inputs": [
+                "quasi_medical_kit_1",
+                "weapon_parts"
+              ],
+              "source": "src/Plugin.OccultRecipes.cs",
+              "line": 16,
+              "method": "RegisterOccultRecipe",
+              "conditional": true,
+              "recipe": null,
+              "capability": {
+                "id": "iom_occult_research_3",
+                "title": "III \u00b7 Manifestation"
+              },
+              "knowledge_rule": "One pattern learned from a physical in-game chip; research grants capability only.",
+              "registration_rule": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+              "conditional_reason": "Candidate only; existing receipts and missing native records are skipped before chip pools are created.",
+              "base_batch": 2,
+              "effective_batch": 2,
+              "hours": 5.0,
+              "quantities": [
+                {
+                  "item": "quasi_medical_kit_1",
+                  "base_count": 1,
+                  "effective_count": 1
+                },
+                {
+                  "item": "weapon_parts",
+                  "base_count": 1,
+                  "effective_count": 1
+                }
+              ],
+              "knowledge_sources": [
+                {
+                  "id": "iom_occult_gannix_forge_pattern_chip",
+                  "title": "Gannix Forge Pattern",
+                  "faction": "Tezctlan",
+                  "supplier": "FeatheredTemple",
+                  "tier": 3,
+                  "candidates": [
+                    "venus_armor_plates",
+                    "venus_weapon_parts",
+                    "venus_melee_parts"
+                  ],
+                  "patterns_per_chip": 1,
+                  "source": "src/Plugin.OccultKnowledge.cs",
+                  "line": 25
+                }
+              ]
             }
           ]
         },
@@ -15481,10 +18610,10 @@
       ]
     },
     "combined_without_explicit_station_recovery": {
-      "records": 666,
-      "distinct_products": 597,
-      "nodes": 611,
-      "edges": 1816,
+      "records": 669,
+      "distinct_products": 600,
+      "nodes": 614,
+      "edges": 1818,
       "cycles": [
         {
           "items": [
@@ -15702,7 +18831,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 103,
+      "line": 104,
       "reason": "unresolved tier.Salvage.Id",
       "arguments": [
         "tier.Salvage.Id",
@@ -15714,7 +18843,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 112,
+      "line": 113,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15727,7 +18856,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 113,
+      "line": 114,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15740,7 +18869,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 114,
+      "line": 115,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15753,7 +18882,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 115,
+      "line": 116,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15767,7 +18896,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 116,
+      "line": 117,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15780,7 +18909,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 117,
+      "line": 118,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15793,7 +18922,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 118,
+      "line": 119,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15807,7 +18936,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 119,
+      "line": 120,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15821,7 +18950,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 120,
+      "line": 121,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -15835,7 +18964,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.ChaosProduction.cs",
-      "line": 121,
+      "line": 122,
       "reason": "unresolved id",
       "arguments": [
         "id",
@@ -16318,7 +19447,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.Industry.cs",
-      "line": 249,
+      "line": 251,
       "reason": "unresolved output",
       "arguments": [
         "output",
@@ -16330,7 +19459,7 @@
     {
       "method": "IndustryRecipe",
       "source": "src/Plugin.Industry.cs",
-      "line": 288,
+      "line": 290,
       "reason": "unresolved piece",
       "arguments": [
         "piece",
@@ -16895,12 +20024,17 @@
     "src/Plugin.ChaosFinale.cs": "b78dd2ef15e321982d215024731427ed017f5de7e39db3eec28cc0e8ea9fae2f",
     "src/Plugin.ChaosModels.cs": "edec993b197c6a3a159c108474cc456ea84d08dc84b1ec11cbd125d8e6131aa7",
     "src/Plugin.ChaosPacts.cs": "af91b03c7541b4e605219812b331da2a8d89ed051c00b28838d88551915e64d9",
-    "src/Plugin.ChaosProduction.cs": "3d581f7afc40eeed3b01bc19d93882e78d3aa11624e933b5cf69722e6b96e5a6",
+    "src/Plugin.ChaosProduction.cs": "73b3b69f9695a244d23a86800f4b9b23ec3fc0efc156414d4ec7513f5f552807",
     "src/Plugin.CombatEngineerClass.cs": "6e8acc4d348feded0810ce419b68c9e21faccf0449223cebe71a76de1d95d2a0",
-    "src/Plugin.CommsNode.cs": "2b04c3278d4510c71c99147b661cc98fd370fb8e9d913525b524abe4e5ee00f3",
+    "src/Plugin.CommsNode.cs": "1d2e004412c3c935a1aa9ca061bc65cba4ceb0cbe8feab16893d8d5e0e1afafa",
+    "src/Plugin.CommsTurretIcons.cs": "0feb89f37bdc0f4df402bfd0ecff996b34f90c3e4e920550573f8c2299623bf1",
+    "src/Plugin.CommsTurretUpgrades.cs": "dc4e23ce33aa2d8fd5e2782e87f6353e54245dfd008d2422a68ecd0e5e30111d",
     "src/Plugin.ComponentFoundations.cs": "a9f5e4e126034873ba07ce00bf9dc63612a7af3432a50af6fad8c610bab2b85d",
-    "src/Plugin.Core.cs": "f6191ea78ccf3e8f687afa0a969eb1096ce7812867aa15a33504f172bca7656f",
+    "src/Plugin.Core.cs": "6caa9e9b5af7581fb14d4753f1333b1c3ceea1a918568d0551118e4965eaa124",
     "src/Plugin.CraftingCoverage.cs": "46a160f0bd2ee729ea0404df911d981425b87a5cfe7ff99c4816faf8854d85ab",
+    "src/Plugin.CraftingIndex.cs": "2a678992ffb281405cc5148674987b81b72be88dcd479ee4a546914ce018a753",
+    "src/Plugin.CraftingTreeEntry.cs": "f3d86f15c82ee8df2c1676ed72ef74c8097f3bffd9370bda0c809dd527864e5d",
+    "src/Plugin.CraftingTreeUi.cs": "70d0a1ec68e03b5f647cdbb64144680cefd7297e7cb31cb984508b0aea0c657c",
     "src/Plugin.Cybernetics.cs": "660ce9ed84cc83512c190519c7498aaaa90cee21977d0588efef886ae99db10c",
     "src/Plugin.CyberneticsCatalog.cs": "924e9ba0534e228975ec528f042f89e63b79e7fc8aec3e138570a70998680967",
     "src/Plugin.DeployableWorkshops.cs": "169fe39ec26d18c105b0e4f69a55c85e8dfdf53305442b5f41f88525d6dab18e",
@@ -16927,26 +20061,35 @@
     "src/Plugin.ImperialSpines.cs": "6f1f195bb7a3568c2157be79c208e031149f7614c0609564d88833125c1a6d88",
     "src/Plugin.ImperialSupplyClosetDressing.cs": "eed3b36a37328e038e92e1e0c092d2b5eb1599bc176149f3201776073f28f032",
     "src/Plugin.ImperialSupplyClosetPlan.cs": "0e4fb0b23e126c04eb68a96814b3f10014d1c0372b7ff5bed215390f2cd25cf4",
-    "src/Plugin.Industry.cs": "4b2875ca9984ef00463b1bdc2d297b3533630924a5e2d2aadea99cbac4c28b6d",
-    "src/Plugin.IndustryRecycling.cs": "86b9860435bf652775cc25aeaee8e326462befb3b1af7f585eba5ce41bf51f83",
+    "src/Plugin.Industry.cs": "2964976e2a925792fbc5efea3770bae82dbe2662f93b2b4c701e78cffef1c181",
+    "src/Plugin.IndustryRecycling.cs": "fe45b3d2c8beeb8901df20e706fd3cd52340e165058b18d218057eec6dd84ec7",
     "src/Plugin.IndustrySupply.cs": "03bcc8888af195e1d2ea52906705ce933ce81d30dd599fc171bef736419f5429",
     "src/Plugin.InnerIndustrySites.cs": "da5f3af822075af1927403b0afa4d0e006a9e998be8dbb39bf0ee1066a6f21b6",
     "src/Plugin.InteriorDamage.cs": "5d3b6f8fe8c493353a4b836477764ac3aed57d0b73ee4868abcf29ab8662380f",
+    "src/Plugin.ItemTooltipDescriptions.cs": "13bc07326a8def7069ece0766b39dbb17b81bd536e537dc103b7b52cc93f62bb",
     "src/Plugin.Krieg.cs": "0640097932fdab50b307d2ea142a587aab957854101b51f02e9a62a22c5d5421",
     "src/Plugin.MaintenanceWorkshops.cs": "1a414b0a3edc2a087c10f02c8899db8033a4175a1fcb2a95390f56c45d8468af",
     "src/Plugin.MechanicusSites.cs": "2d394e5bc7409e4c9cb37d7edd2a01613e53a52e3e289d079c89b47af014c72b",
     "src/Plugin.MercenaryClassActions.cs": "c03bdcf1f201687175a345cc323f76a0a7e318851d2ee75d6a9593c671584f4c",
     "src/Plugin.MercenaryClasses.cs": "04c4671010cb2a1e0a3341a94c404ec4a37814ab339f3ff7428bdfcaa5efc944",
     "src/Plugin.NecromancerClass.cs": "db139eb4ad77c7860190950055284e28d4deb41410166b92bc6d13ecac721426",
+    "src/Plugin.OccultKnowledge.cs": "77f237407f75280a1459a4a5dd225d1627f8348fb5ccc0b30bd34a1f3e56d1a8",
+    "src/Plugin.OccultProduction.cs": "1213762e7f44a472dcf8375ab5b0c4068ddc9abdff7aec4c3ef4fcab1c6d2ddb",
+    "src/Plugin.OccultRecipes.cs": "8948f69860e0a834711835b7c39ef358a518447c2e19094b26be03a98f7a5898",
+    "src/Plugin.OccultResearch.cs": "6610e27a97a01f9be530c04015b0c9b8387d64fd6f0a632e344cccab7824ceeb",
+    "src/Plugin.OccultUi.cs": "9207faa955b890046cc0dd3d134b591f34e23d629ebf3c02f718b91bb68b158d",
     "src/Plugin.OrdoXenos.cs": "b91e37d3f16ed8e4e34a33e024ba1eb6dad3e90d3a75c56457f0f9a1399d44cc",
     "src/Plugin.OrphanTutorial.cs": "a31b4ae0623aba998c93bd8ea01388cab5c4e85f5e63db7ef02f3d96d739186d",
     "src/Plugin.PharmaceuticalWorkshops.cs": "c6d17fa5da5b5fa87cf8b8f207d2b402ba80fcc415437e6a3236583feb99023b",
     "src/Plugin.Provisioning.cs": "5800cab11d991b06f18187985e28361b50f8b3c99092dfbfd2e7e47ab5e9a6de",
-    "src/Plugin.RawMaterialChemistry.cs": "d6b1a9d62c83aee7750e61409e04f0327d68aee2bb404056ea47e3e5b96572d4",
+    "src/Plugin.RawMaterialChemistry.cs": "3161b6fbe028fd056666d1bac3e51eb399176c24e7477b3d724c56d3382a26a4",
     "src/Plugin.Scions.cs": "d1d68aa1be157130987ed4f6fb7387d17b0a33c1c8b1a3392fa1b528c914f91e",
-    "src/Plugin.ShipSupport.cs": "b74042c7eb0abb03826cf9d83ed4f8e1ac77721352c4d576ab5487944e8f3cef",
+    "src/Plugin.ShipSupport.cs": "98ff2e0e91587ec2c7941e2c9eadfdfcc28c9c76e3a2fd639fac8ebd0cdacb70",
+    "src/Plugin.ShipSupportDrawer.cs": "ce0d476e4f48756689ab9576ed4bbf2e4a28441d509cd687046058cb05945be4",
     "src/Plugin.ShipSupportRaid.cs": "a3fc4bdbb3399fd90f290671f061c5b8888637ae1377ceb67870696d2d0677c6",
-    "src/Plugin.ShipSupportUi.cs": "5ff6d5eb1ecddffd607d37feef0f50a7b0f9b89b6ead8a7de9ccf71c3ba750d0",
+    "src/Plugin.ShipSupportTile.cs": "e99a397732ef99f5c36fe30d3f93b28618542455db0b121e99cb890518e7b48a",
+    "src/Plugin.ShipSupportUi.cs": "2e71927a87dd58695ac819527aee6d5e18e33a403a5a1294f2b2de4d0bf45a55",
+    "src/Plugin.ShipUpgradeStyle.cs": "f04d188d6ed5992880567e2c6c0074ff795c0378cdfd16edc69f9ffbafc490a5",
     "src/Plugin.Skitarii.cs": "f1b82c1173e5d6c8ff4f0f629a1f34db823cd0e959320b4f15ac666f9b87c8f8",
     "src/Plugin.Sororitas.cs": "9c0835aa064cd6a43ee0a4cb3a0178ee0bd62cc8ea910011d45dde0716adaad5",
     "src/Plugin.SpecialistSupplies.cs": "8e31f53a4505012031b74d5efa61c7d088f08aa0ea199f2904de6f0e38662942",
@@ -16955,15 +20098,327 @@
     "src/Plugin.SteelLegion.cs": "cb154d14dfda707118ba6da6533d162c316e48963b308740c5b000d0124d9245",
     "src/Plugin.SupportProduction.cs": "e05481846130ed3d2b06b0c0038f77d0b4cb776729aca4d98d807f4e86dd0492",
     "src/Plugin.Technology.cs": "80dc4ab3f96de009cde3c7b086849b9db2d2a423ff2fba53f6281b56727fafa9",
+    "src/Plugin.UpgradeTooltipPanels.cs": "c8400aaa396e552fbf3852146d431d7518d17529ef5aa3a21414e45ea1c3366c",
+    "src/Plugin.UpgradeTooltips.cs": "3ea91958fda79a3929f552f9aecbb9d2a33f74d5a19b31e7a3267f958b56d81c",
     "src/Plugin.Valhallan.cs": "9ca18f677dc16bbe449838428e542b5e0ced373f78969d30ed75727ea8b10a65",
     "src/Plugin.VigilsClass.cs": "3f7bfb75e0199de0daecba913c668b0d308bfbefe2727788ba47772913c4e93d",
-    "src/TranslationPatch.cs": "bcf884de09d03ab2e2742003b643d9f247536f6d4a72aa72197b27b616dcd7d8"
+    "src/TranslationPatch.ShortHeaders.cs": "0f992cd59189ee4d8cf9696f4b5b925a84661866c66d28fcf0a5fb9a6b8287e5",
+    "src/TranslationPatch.UpgradeTooltipText.cs": "9f7432567c473830309526c2c7e069b2e9487e8503b002f9d087906c761b9cb5",
+    "src/TranslationPatch.cs": "9fb17a3a1bf77432cdd1de2a229ebac648ed9750dcccb0ad34503335c00d2c1a"
   },
   "source_hashes_description": "SHA-256 of normalized UTF-8 C# text: comments removed and their line breaks preserved. These are not raw-file hashes.",
   "direct_recipe_quantity_policy": {
     "ingredient_rule": "ceil_half_minimum_one",
     "batch_multiplier": 2
   },
+  "occult_recipe_quantity_policy": "literal_inputs_and_batches",
+  "occult_pattern_pools": [
+    {
+      "id": "iom_occult_culture_pattern_chip",
+      "title": "Culture Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomHollowSignalDepot",
+      "tier": 1,
+      "candidates": [
+        "iom_occult_raw_clone",
+        "iom_occult_torment_imprint"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 17
+    },
+    {
+      "id": "iom_occult_distillation_pattern_chip",
+      "title": "Distillation Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomHollowSignalDepot",
+      "tier": 2,
+      "candidates": [
+        "iom_occult_suffering_essence",
+        "quasi_medical_kit_1"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 19
+    },
+    {
+      "id": "iom_occult_agga_pattern_chip",
+      "title": "Agga Manifestation Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomOssuaryWorks",
+      "tier": 3,
+      "candidates": [
+        "demonic_eye"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 21
+    },
+    {
+      "id": "iom_occult_gannix_tissue_pattern_chip",
+      "title": "Gannix Tissue Pattern",
+      "faction": "Tezctlan",
+      "supplier": "FeatheredTemple",
+      "tier": 3,
+      "candidates": [
+        "quasi_venus_rags",
+        "quasi_venus_feather",
+        "venus_guts"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 23
+    },
+    {
+      "id": "iom_occult_gannix_forge_pattern_chip",
+      "title": "Gannix Forge Pattern",
+      "faction": "Tezctlan",
+      "supplier": "FeatheredTemple",
+      "tier": 3,
+      "candidates": [
+        "venus_armor_plates",
+        "venus_weapon_parts",
+        "venus_melee_parts"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 25
+    },
+    {
+      "id": "iom_occult_gannix_ammo_pattern_chip",
+      "title": "Gannix Ammunition Pattern",
+      "faction": "Tezctlan",
+      "supplier": "FeatheredTemple",
+      "tier": 3,
+      "candidates": [
+        "quasi_basic_ammo",
+        "quasi_darts_ammo"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 27
+    },
+    {
+      "id": "iom_occult_gannix_arms_pattern_chip",
+      "title": "Gannix Arms Pattern",
+      "faction": "Tezctlan",
+      "supplier": "FeatheredTemple",
+      "tier": 3,
+      "candidates": [
+        "bone_knife",
+        "venus_quasi_pistol_1"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 29
+    },
+    {
+      "id": "iom_occult_shartamakhum_pattern_chip",
+      "title": "Shartamakhum Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomCinderCrucible",
+      "tier": 3,
+      "candidates": [
+        "mercury_glass",
+        "mercury_rags",
+        "mercury_scales",
+        "mercury_guts",
+        "quasi_energy_ammo"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 31
+    },
+    {
+      "id": "iom_occult_duggur_pattern_chip",
+      "title": "Duggur Binding Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomOssuaryWorks",
+      "tier": 4,
+      "candidates": [
+        "moon_guts",
+        "moon_armor_plates",
+        "moon_weapon_parts",
+        "quasi_bolts_ammo",
+        "moon_mace_1"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 33
+    },
+    {
+      "id": "iom_occult_ron_pattern_chip",
+      "title": "Ron Bloodwork Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomOssuaryWorks",
+      "tier": 4,
+      "candidates": [
+        "ron_blood",
+        "ron_tentacle",
+        "quasi_ron_medicine_1",
+        "ron_mask_1"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 35
+    },
+    {
+      "id": "iom_occult_scrivnus_pattern_chip",
+      "title": "Scrivnus Relic Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomOssuaryWorks",
+      "tier": 4,
+      "candidates": [
+        "skrivnus_knife"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 37
+    },
+    {
+      "id": "iom_occult_ur_pattern_chip",
+      "title": "Ur Furnace Pattern",
+      "faction": "SheduThousand",
+      "supplier": "RedTiangong",
+      "tier": 5,
+      "candidates": [
+        "mars_skin",
+        "mars_gear",
+        "mars_gas_ammo"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 39
+    },
+    {
+      "id": "iom_occult_cattaram_pattern_chip",
+      "title": "Cattaram Crystal Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomCinderCrucible",
+      "tier": 5,
+      "candidates": [
+        "cattaram_geode",
+        "cattaram_stone",
+        "cattaram_mine"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 41
+    },
+    {
+      "id": "iom_occult_flauros_culture_pattern_chip",
+      "title": "Flauros Culture Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomChainforge",
+      "tier": 5,
+      "candidates": [
+        "jupiter_mushrooms",
+        "jupiter_grass",
+        "jupiter_guts"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 43
+    },
+    {
+      "id": "iom_occult_flauros_ordnance_pattern_chip",
+      "title": "Flauros Ordnance Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomChainforge",
+      "tier": 5,
+      "candidates": [
+        "flauros_ammo",
+        "spore_mine"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 45
+    },
+    {
+      "id": "iom_occult_mars_core_pattern_chip",
+      "title": "Mars Core Replacement Pattern",
+      "faction": "SheduThousand",
+      "supplier": "RedTiangong",
+      "tier": 5,
+      "candidates": [
+        "mars_cyborg_head",
+        "mars_cyborg_chest",
+        "mars_cyborg_stomach"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 47
+    },
+    {
+      "id": "iom_occult_mars_limb_pattern_chip",
+      "title": "Mars Limb Replacement Pattern",
+      "faction": "SheduThousand",
+      "supplier": "RedTiangong",
+      "tier": 5,
+      "candidates": [
+        "mars_cyborg_knee",
+        "mars_cyborg_hand",
+        "mars_cyborg_leg"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 49
+    },
+    {
+      "id": "iom_occult_tezctlan_graft_pattern_chip",
+      "title": "Tezctlan Graft Pattern",
+      "faction": "Tezctlan",
+      "supplier": "FeatheredTemple",
+      "tier": 6,
+      "candidates": [
+        "warp_armor",
+        "steadfast_heart"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 51
+    },
+    {
+      "id": "iom_occult_xiomara_graft_pattern_chip",
+      "title": "Xiomara Graft Pattern",
+      "faction": "XiomaraMasks",
+      "supplier": "FeatheredTemple",
+      "tier": 6,
+      "candidates": [
+        "blood_dance"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 53
+    },
+    {
+      "id": "iom_occult_gannix_graft_pattern_chip",
+      "title": "Gannix Graft Pattern",
+      "faction": "ChurchGannix",
+      "supplier": "Gloria",
+      "tier": 6,
+      "candidates": [
+        "stunning_stride"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 55
+    },
+    {
+      "id": "iom_occult_soulforge_pattern_chip",
+      "title": "Soulforge Relic Pattern",
+      "faction": "iom_chaos_undivided",
+      "supplier": "iomBlackMeridian",
+      "tier": 6,
+      "candidates": [
+        "quasi_repair_kit",
+        "impaler"
+      ],
+      "patterns_per_chip": 1,
+      "source": "src/Plugin.OccultKnowledge.cs",
+      "line": 57
+    }
+  ],
   "limitations": [
     "This is a bounded source parser of the inspected helpers and top-level src/*.cs files, not a C# interpreter or an installed-game export.",
     "No native game records are loaded. Native implant Disassembly arrays and unmodified native/support recipe inputs remain unknown; unresolved_calls retains the inspected cases.",
@@ -16974,6 +20429,7 @@
     "Recycling profiles are intentionally excluded from manufacturing graphs; recovery can create deliberate material return paths.",
     "String constants and generated family IDs are resolved only through the inspected source patterns. Unresolved calls remain explicit and must be reviewed when source helpers change.",
     "Direct literal IndustryRecipe/SharedRecipe calls include available base inputs, batch sizes, and times. Effective values are supplied only for the recognized common-helper policy; generated-family quantities and native quantities remain unknown.",
+    "Occult calls use separately verified literal quantities. Their declared capability and physical chip sources do not prove that a runtime recipe was registered or that the player has acquired either requirement.",
     "Dependency edges do not establish schematic, workbench, research, tech-tier, trade, quest, or reward access. The export cannot establish whole-game crafting coverage.",
     "The legacy Guard clip receipt is superseded by the later explicit IndustryRecipe for the same output; the active explicit route is represented."
   ]

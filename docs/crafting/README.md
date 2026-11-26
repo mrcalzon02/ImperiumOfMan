@@ -1,40 +1,54 @@
-# Crafting design and visual reference
+# Crafting map and occult reference
 
-This folder contains a source snapshot and future design material. It is not a game installation package.
+The current source implements six occult research capabilities, independent physical pattern chips, the clone-to-Gavvakh chain, and the in-game Crafting Map. Native build and gameplay evidence are tracked in [Occult research](../../diagnostics/OccultResearchExpansion.md) and [Organic recycling](../../diagnostics/OccultOrganicProduction.md).
 
 ## Open the map
 
-Open [recipe-map.html](recipe-map.html) in a browser. The graph is embedded, so the page works offline without a server or external scripts. Search for an item, choose Magnum/station/all sources, inspect its producer recipes, expand the upstream trace, or select a downstream consumer. Conditional fallbacks are off by default because a native recipe may replace them in the active game.
+Open [recipe-map.html](recipe-map.html) in a browser. Its data is embedded, so it works offline. Search for an item, choose Magnum/station/all sources, inspect producer recipes, expand the upstream trace, or select a downstream consumer.
 
-Keep this folder structure when extracting the review ZIP so its links to the diagrams, graph data, and design documents continue to work. The complete HTML remains usable on its own, but its companion-file links need the other files.
+Enable **Include conditional recipe candidates** to inspect occult additions that may be omitted when an installed native formula already exists or a required item is absent. Conditional candidates are hidden initially. The in-game Crafting Map reads the accepted live catalogue and the current campaign's recipe knowledge, capability and cargo.
 
-## Contents
+The offline snapshot is pinned to source commit `ceba30c2292be3975748cdfb750c287e20eff78d`, version **1.1.9.0**. Its **751 captured records** comprise 368 unconditional Magnum source records, 303 station records, and 80 conditional Magnum candidates. This includes **53 new occult candidates** and their **21 declared physical pattern-chip pools**. Source counts do not establish the number registered by the installed game.
+
+## Six capabilities and acquired knowledge
+
+![Six occult research capabilities using the exported runtime icons](occult-capabilities.png)
+
+This reference diagram uses the actual exported research icons. The native game positions and states still require the headed game check. Research progresses through **Culture, Distillation, Manifestation, Binding, Infusion and Soulforge**, with exactly six purchases and no separate facility levels.
+
+Research buys the capability to use a class of formulas. Each physical pattern chip teaches one selected recipe from its small pool. Production needs both requirements. The offline recipe details show these separately and preserve the occult formulas' literal quantities; the ordinary half-input/double-output helper is not applied to them.
+
+## Files
 
 | File | Purpose |
 | --- | --- |
-| [Crafting expansion design](../../CRAFTING_TREE_EXPANSION_DESIGN.md) | Active-game index, graph window, quantities, access, exports, and delivery phases |
-| [Occult production design](../../OCCULT_PRODUCTION_DESIGN.md) | Proposed clone/essence production, upgrades, family equipment trees, and icon specification |
-| [Source graph JSON](recipe-graph.json) | 698 captured records with source provenance, known quantities, conditional flags, and unresolved cases |
-| [Raw-material SVG](raw-material-overview.svg) / [PNG](raw-material-overview.png) | Exact subset of the 1.1.4 source chemistry routes; incoming quantities are effective per-order costs |
-| [Occult proposal SVG](occult-proposal.svg) / [PNG](occult-proposal.png) | Future production proposal, clearly separate from existing recipes |
-| [Draft change notes](CHANGE_NOTES_1.1.3-1.1.4.txt) | Unreleased source changes and documentation additions |
-| [Source audit](../../diagnostics/RawMaterialChemistryAudit.md) | Coverage, validation, exceptions, economy caveats, and native build evidence |
+| [Source graph JSON](recipe-graph.json) | Captured records, exact known quantities, source provenance, conditional rules and unresolved cases |
+| [Capability SVG](occult-capabilities.svg) / [PNG](occult-capabilities.png) | Six-node research sequence; SVG embeds the actual runtime icons |
+| [Research sprites](occult-research-ranks.png) | All six green normal images and corresponding crimson locked images |
+| [Inventory sprites](occult-starter-sprites.png) | Clone, imprint, essence and physical pattern-chip icon/floor/shadow versions |
+| [Occult research details](../../diagnostics/OccultResearchExpansion.md) | Purchase samples, knowledge-source groups, capability gates and verification status |
+| [Organic production details](../../diagnostics/OccultOrganicProduction.md) | Exact four-step production quantities and selected recycling behavior |
+| [Raw-material SVG](raw-material-overview.svg) / [PNG](raw-material-overview.png) | Ordinary chemistry routes with effective input quantities |
+| [Crafting expansion design](../../CRAFTING_TREE_EXPANSION_DESIGN.md) | Broader design and future work beyond the current live browser |
+| [Historical occult proposal](../../OCCULT_PRODUCTION_DESIGN.md) | Original equipment and worldbuilding ideas; superseded by the six-capability implementation where they differ |
 
-The snapshot is pinned to source commit `de43df89d6b5878422606fa69c43a4c544f2987e`. It captures 365 explicit Magnum recipes, 303 station records, and 30 conditional fallbacks. It does not load native-only recipes, inventory, learned schematics, other mods, or active station state. Generated-family quantities are shown as unknown when the bounded exporter cannot establish them. The live game browser, complete runtime export, queue planner, and occult production are future work.
+Keep the folder structure when extracting a review ZIP so companion links continue to work. The complete HTML itself works independently.
 
-## Rebuild the source map
+## Rebuild the reference
 
-Run from the repository root with Python 3. Graphviz supplies the `dot` command used for SVG/PNG output.
+Run from the repository root with Python 3 and Graphviz installed:
 
 ```sh
-python tools/crafting/export_source_graph.py --ref de43df89d6b5878422606fa69c43a4c544f2987e --out chemistry-source-graph.json
-python tools/crafting/build_source_map.py --graph chemistry-source-graph.json
-dot -Tsvg docs/crafting/occult-proposal.dot -o docs/crafting/occult-proposal.svg
-dot -Tpng docs/crafting/occult-proposal.dot -o docs/crafting/occult-proposal.png
+python tools/crafting/export_source_graph.py --ref ceba30c2292be3975748cdfb750c287e20eff78d --out /tmp/occult-source-graph.json
+python tools/crafting/build_source_map.py --graph /tmp/occult-source-graph.json
 ```
 
-The occult DOT file is an authored proposal, not generated from the active recipe catalogue. Updating its drawing does not implement those recipes. Source helper changes may require an exporter update; review unresolved calls rather than treating the snapshot as a complete game database.
+The bounded exporter recognizes the reviewed source helpers and the six explicit Mars replacement variants. It retains unresolved calls. A changed helper may need a corresponding exporter change. Native-only recipes, active station state, inventory, learned schematics and accepted runtime registration results require the live game view.
 
-## Review and limits
+The older `occult-proposal.*` files remain historical design drawings. Their proposed facility structure does not describe the current six-purchase tree. The current capability drawing and its source are `occult-capabilities.*`.
 
-The source graph and UI logic received independent review. JavaScript syntax, embedded JSON, unique element IDs, source counts, links, and diagram rendering were checked. Graphviz output was visually inspected. A full Chromium interaction/layout check was unavailable in this environment, so browser behavior is not reported as a completed visual test. Native compilation passed against the installed game on the Windows Steam runner. The separate runtime ZIP passed checksum, CRC, member-hash, assembly-version, method, constant, and embedded-resource checks. This review bundle contains no compiled mod DLL. Game boot, live coverage logs, and gameplay are still unverified. See the source audit for the final package verification record.
+## Verification scope
+
+The source export captures all 53 new occult candidates with a capability and physical knowledge source, including all six Mars parts. Exact starter batches are 2 clones, 4 imprints, 4 essence and 2 Gavvakh, with baseline times 8/4/4/4 hours. No occult parse calls are unresolved. JavaScript syntax, graph generation and the rendered capability reference were checked.
+
+The art exporter produced 24 runtime sprites with the required RGBA dimensions, matching normal/locked silhouettes, green normal borders and crimson locked borders. The sheets above are asset previews. Native compilation, game launch and gameplay evidence are recorded separately; source and diagram checks are not substitutes for those results.

@@ -221,6 +221,91 @@ for path,s in src.items():
             elif name=='AddCyberneticsBatch':put('station',[resolve(x) for x in a[4:]],quantities(a[3]),path,line,name)
         except (ValueError,IndexError) as e:failure(name,a,path,line,e)
 
+# Occult formulas deliberately bypass the common half-input/double-output helper.
+# Interpret the reviewed literal calls and the one explicit Mars body-part loop.
+# Native outputs remain conditional: an installed receipt or missing item can
+# cause RegisterOccultRecipe to omit a candidate before creating its chip pool.
+occult_records = []
+occult_titles = {}
+occult_research = src.get('src/Plugin.OccultResearch.cs', '')
+for match in re.finditer(r'(OccultRank\w+)\s*=>\s*("[^"\n]+")', occult_research):
+    occult_titles.setdefault(resolve(match[1]), resolve(match[2]))
+occult_helper = src.get('src/Plugin.OccultProduction.cs', '')
+helper = re.search(r'private\s+static\s+void\s+RegisterOccultRecipe\s*\(', occult_helper)
+occult_literal_quantities = False
+if helper:
+    _, signature_end = balanced(occult_helper, occult_helper.find('(', helper.start()))
+    body, _ = balanced(occult_helper, occult_helper.find('{', signature_end))
+    compact = re.sub(r'\s+', '', body)
+    occult_literal_quantities = ('IndustryBatches.Add(output,batch);' in compact and
+                                'RequiredItems=[..inputs]' in compact)
+for path, s in src.items():
+    aliases = {}
+    for match in re.finditer(r'\bvar\s+(\w+)\s*=\s*(OccultRank\w+)\s*;', s):
+        aliases[match[1]] = resolve(match[2])
+    for name, a, start, end in calls(s, ['RegisterOccultRecipe']):
+        line = s.count('\n', 0, start) + 1
+        try:
+            environments = [aliases]
+            if a[0] == '"mars_cyborg_" + part':
+                loop = re.search(r'foreach\s*\(string\s+part\s+in\s+new\[\]\s*\{([^}]+)\}\)\s*$', s[:start])
+                if loop is None:
+                    raise ValueError('unreviewed generated occult output loop')
+                environments = [{**aliases, 'part': resolve(value)} for value in split(loop[1])]
+            for env in environments:
+                output = resolve(a[0], env)
+                perk = resolve(a[1], env)
+                own_stock = output in {symbols.get('RawClone'), symbols.get('TormentImprint'),
+                                       symbols.get('SufferingEssence')}
+                put('magnum', output, quantities(','.join(a[4:]), env), path, line, name,
+                    conditional=not own_stock)
+                record = records[-1]
+                record['capability'] = {'id': perk, 'title': occult_titles.get(perk, perk)}
+                record['knowledge_rule'] = 'One pattern learned from a physical in-game chip; research grants capability only.'
+                record['registration_rule'] = 'Candidate only; existing receipts and missing native records are skipped before chip pools are created.'
+                if not own_stock:
+                    record['conditional_reason'] = record['registration_rule']
+                if occult_literal_quantities:
+                    record['base_batch'] = record['effective_batch'] = int(a[3])
+                    record['hours'] = float(a[2])
+                    record['quantities'] = []
+                    for raw in a[4:]:
+                        match = re.fullmatch(r'new\s*(?:ItemQuantity\s*)?\((.*)\)', raw.strip(), re.S)
+                        pair = split(match[1])
+                        count = int(pair[1])
+                        record['quantities'].append(dict(item=resolve(pair[0], env), base_count=count,
+                                                         effective_count=count))
+                occult_records.append(record)
+        except (ValueError, TypeError, IndexError, AttributeError) as error:
+            failure(name, a, path, line, error)
+
+# Capture declared physical knowledge sources without claiming that the installed
+# game accepted every candidate. Empty runtime pools are omitted by the mod.
+occult_pools = []
+site_ids = []
+chaos_faction_source = src.get('src/Plugin.ChaosFaction.cs', '')
+sites = re.search(r'ChaosSites\s*=\s*\[', chaos_faction_source)
+if sites:
+    body, _ = balanced(chaos_faction_source, chaos_faction_source.find('[', sites.start()))
+    for declaration in split(body):
+        arguments, _ = balanced(declaration, declaration.find('('))
+        site_ids.append(resolve(split(arguments)[0]))
+for path, s in src.items():
+    for name, a, start, end in calls(s, ['AddOccultPatternPool']):
+        line = s.count('\n', 0, start) + 1
+        try:
+            site = re.fullmatch(r'ChaosSites\[(\d+)\]\.Id', a[3])
+            supplier = site_ids[int(site[1])] if site else resolve(a[3])
+            pool = dict(id='iom_occult_' + resolve(a[0]) + '_pattern_chip', title=resolve(a[1]),
+                        faction=resolve(a[2]), supplier=supplier, tier=int(a[4]),
+                        candidates=[resolve(value) for value in a[5:]],
+                        patterns_per_chip=1, source=path, line=line)
+            occult_pools.append(pool)
+        except (ValueError, IndexError) as error:
+            failure(name, a, path, line, error)
+for record in occult_records:
+    record['knowledge_sources'] = [pool for pool in occult_pools if record['outputs'][0] in pool['candidates']]
+
 # Expand Chaos families from the actual registered tier data; execute only the
 # dependency-selection branches of the source helpers, not the game API.
 chaos_path='src/Plugin.ChaosEquipment.cs';s=src[chaos_path]
@@ -348,6 +433,8 @@ report = dict(
     source_hashes_description='SHA-256 of normalized UTF-8 C# text: comments removed and their line breaks preserved. These are not raw-file hashes.',
     source_hashes={path: hashlib.sha256(value.encode('utf-8')).hexdigest() for path, value in src.items()},
     direct_recipe_quantity_policy=quantity_policy,
+    occult_recipe_quantity_policy='literal_inputs_and_batches' if occult_literal_quantities else 'unknown',
+    occult_pattern_pools=occult_pools,
     record_count=len(records),
     by_method=dict(collections.Counter(record['method'] for record in records)),
     graphs={},
@@ -363,6 +450,7 @@ report = dict(
         'Recycling profiles are intentionally excluded from manufacturing graphs; recovery can create deliberate material return paths.',
         'String constants and generated family IDs are resolved only through the inspected source patterns. Unresolved calls remain explicit and must be reviewed when source helpers change.',
         'Direct literal IndustryRecipe/SharedRecipe calls include available base inputs, batch sizes, and times. Effective values are supplied only for the recognized common-helper policy; generated-family quantities and native quantities remain unknown.',
+        'Occult calls use separately verified literal quantities. Their declared capability and physical chip sources do not prove that a runtime recipe was registered or that the player has acquired either requirement.',
         'Dependency edges do not establish schematic, workbench, research, tech-tier, trade, quest, or reward access. The export cannot establish whole-game crafting coverage.',
         'The legacy Guard clip receipt is superseded by the later explicit IndustryRecipe for the same output; the active explicit route is represented.',
     ],
