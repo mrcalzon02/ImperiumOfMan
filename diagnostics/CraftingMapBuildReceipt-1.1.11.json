@@ -16,7 +16,7 @@
     "bytes": 11819417,
     "sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
     "git_blob_sha": "fced694e499dc8944dc59193fe79e93820c19a05",
-    "publication_status": "published_in_same_commit_as_this_receipt",
+    "publication_status": "published_native_test_package",
     "zip_crc_verified": true,
     "member_root": "ImperiumOfMan/",
     "member_count": 4,
@@ -45,7 +45,8 @@
       "ImperiumOfMan.dll"
     ],
     "assembly_name": "ImperiumOfMan",
-    "assembly_version": "1.1.11.0"
+    "assembly_version": "1.1.11.0",
+    "publication_commit": "2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3"
   },
   "native_build": {
     "run_id": 45886658790,
@@ -115,7 +116,8 @@
     "returned_sha_matches_locally_verified_zip": true,
     "created_as_unreferenced_blob": true,
     "branch_or_ref_modified_by_upload": false,
-    "publication_pending": true
+    "publication_pending_at_upload": true,
+    "subsequently_published_in_commit": "2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3"
   },
   "native_boot": "not_run_in_native_build",
   "gameplay_validation": "not_run_in_native_build",
@@ -209,5 +211,32 @@
     "native_build_run_id": 45878912836,
     "relationship": "Earlier native-style baseline; its package is not this expanded b89 candidate."
   },
-  "verification_scope": "Exact source b89e15990b42d8bc4911237d5d1502fe0c283d99 compiled against installed native references with zero warnings and errors. All 31 transport chunks, the reconstructed ZIP size, SHA256, Git blob SHA and CRC, all four runtime members and their hashes, mod identity, assembly version, compiled TMP types, and new graph/dependency method bodies were verified. The verified ZIP was uploaded only as an unreferenced primary-repository blob. Runtime acceptance and publication at the target package path remain pending; no runtime success is inferred from compilation or metadata checks."
+  "verification_scope": "Exact source b89e15990b42d8bc4911237d5d1502fe0c283d99 compiled against installed native references with zero warnings and errors. All 31 transport chunks, the reconstructed ZIP size, SHA256, Git blob SHA and CRC, all four runtime members and their hashes, mod identity, assembly version, compiled TMP types, and new graph/dependency method bodies were verified. After initial unreferenced blob upload, the test package was published in commit 2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3 and its public URL returned HTTP200 application/zip with byte-identical content. Runtime acceptance remains pending; no runtime success is inferred from compilation or metadata checks.",
+  "public_download_verification": {
+    "url": "https://raw.githubusercontent.com/mrcalzon02/ImperiumOfMan/2c5f6dc35a6d41c63440a8c78c7dc01f31e826f3/package/ImperiumOfMan-1.1.11-CraftingMap.zip",
+    "http_status": 200,
+    "content_type": "application/zip",
+    "bytes": 11819417,
+    "sha256": "db5e72f9202d8303fdacf467af04fb7f9d59412fd5ea05d41652eb9df9bdd539",
+    "exact_bytes_match_verified_candidate": true
+  },
+  "embedded_material_art_verification": {
+    "source_sha": "b89e15990b42d8bc4911237d5d1502fe0c283d99",
+    "source_directory": "src/Art/RawMaterialChemistry/",
+    "runtime_pngs": 21,
+    "unique_embedded_matches": 21,
+    "families": 7,
+    "variants": [
+      "icon",
+      "floor",
+      "shadow"
+    ],
+    "logical_name_pattern": "ImperiumOfMan.Art.<filename>.png",
+    "all_resource_bytes_equal_exact_source_git_blobs": true,
+    "all_sizes_sha256_and_git_blob_shas_match": true,
+    "missing_resources": 0,
+    "duplicate_logical_names": 0,
+    "dll_sha256": "ad52a154c7889fe1624c1051fb2ab862a383994f2a57e4f8e00c2d2f5637a1f8",
+    "inspection": "Nonexecuting extraction of actual CLR managed-resource data with dnfile."
+  }
 }
