@@ -1,0 +1,126 @@
+name: Assemble verified occult review archive
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/one-shot-publish-occult-review.yml]
+permissions:
+  contents: write
+concurrency:
+  group: one-shot-publish-occult-review
+  cancel-in-progress: false
+jobs:
+  assemble:
+    if: >-
+      github.repository == 'mrcalzon02/ImperiumOfMan' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.event.head_commit.message == 'chore(ci): assemble verified occult review archive'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Assemble and verify the exact review archive blob
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEW_PARTS: '[{"bytes":8000001,"sha256":"afda23f560827f8836e52d9f7195b802d015953f7d85a3c7793fdb3109b4fc7c","git_blob_sha":"b2373d013e325a5ab53c84e47c1ea13be8164b4e"},{"bytes":9105315,"sha256":"b44a864c582e9a74257a90faa1ae9e706f507eeda33397b0d1a24bf1fe7b4536","git_blob_sha":"2885f573f0f8ac96973b6203afcfaf2ee2f67cbf"}]'
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          """Create one exact review-archive blob from two already uploaded Git blobs."""
+          import base64
+          import hashlib
+          import json
+          import os
+          import urllib.request
+          
+          REPOSITORY = "mrcalzon02/ImperiumOfMan"
+          EXPECTED_SIZE = 17105316
+          EXPECTED_SHA256 = "3d7adb09bd1b7b849260712c94bc05687ecb50fdac55ebef894e361420aa9ede"
+          EXPECTED_BLOB = "5292864f945f61f96a75b4240e0f7f9a54b5484c"
+          EXPECTED_PARENT = "e6c3026b3a11e4194b4597866099fcee850d836a"
+          WORKFLOW_PATH = ".github/workflows/one-shot-publish-occult-review.yml"
+          TRIGGER_MESSAGE = "chore(ci): assemble verified occult review archive"
+          
+          if os.environ.get("GITHUB_REPOSITORY") != REPOSITORY:
+              raise SystemExit("Repository guard failed")
+          if os.environ.get("GITHUB_REF") != "refs/heads/main":
+              raise SystemExit("Branch guard failed")
+          if os.environ.get("GITHUB_EVENT_NAME") != "push":
+              raise SystemExit("Event guard failed")
+          parts = json.loads(os.environ["REVIEW_PARTS"])
+          if len(parts) != 2 or sum(part["bytes"] for part in parts) != EXPECTED_SIZE:
+              raise SystemExit("Transport manifest guard failed")
+          headers = {
+              "Authorization": "Bearer " + os.environ["GH_TOKEN"],
+              "Accept": "application/vnd.github+json",
+              "Content-Type": "application/json",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "verified-occult-review-archive-publication",
+          }
+          base = "https://api.github.com/repos/" + REPOSITORY + "/git/blobs"
+          
+          
+          def request(url, payload=None):
+              data = None if payload is None else json.dumps(payload, separators=(",", ":")).encode("utf-8")
+              method = "GET" if payload is None else "POST"
+              with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=headers, method=method), timeout=90) as response:
+                  return json.load(response)
+          
+          
+          def blob_sha(content):
+              return hashlib.sha1(b"blob " + str(len(content)).encode("ascii") + b"\0" + content).hexdigest()
+          
+          
+          trigger_sha = os.environ["GITHUB_SHA"]
+          if len(trigger_sha) != 40 or any(c not in "0123456789abcdef" for c in trigger_sha):
+              raise ValueError("Invalid trigger commit identifier")
+          trigger = request("https://api.github.com/repos/" + REPOSITORY + "/commits/" + trigger_sha)
+          if [parent["sha"] for parent in trigger.get("parents", [])] != [EXPECTED_PARENT]:
+              raise ValueError("Unexpected trigger commit parent")
+          if trigger.get("commit", {}).get("message") != TRIGGER_MESSAGE:
+              raise ValueError("Unexpected trigger commit message")
+          changed = trigger.get("files", [])
+          if len(changed) != 1 or changed[0].get("filename") != WORKFLOW_PATH or changed[0].get("status") != "added":
+              raise ValueError("Unexpected trigger commit changes")
+          
+          
+          def read_blob(sha):
+              if len(sha) != 40 or any(c not in "0123456789abcdef" for c in sha):
+                  raise ValueError("Invalid pinned Git blob identifier")
+              result = request(base + "/" + sha)
+              if result.get("sha") != sha or result.get("encoding") != "base64":
+                  raise ValueError("Unexpected Git blob response")
+              content = base64.b64decode("".join(result["content"].split()), validate=True)
+              if result.get("size") != len(content) or blob_sha(content) != sha:
+                  raise ValueError("Git blob byte verification failed")
+              return content
+          
+          
+          chunks = []
+          for part in parts:
+              content = read_blob(part["git_blob_sha"])
+              if len(content) != part["bytes"] or hashlib.sha256(content).hexdigest() != part["sha256"]:
+                  raise ValueError("Transport chunk verification failed")
+              chunks.append(content)
+          archive = b"".join(chunks)
+          if len(archive) != EXPECTED_SIZE or hashlib.sha256(archive).hexdigest() != EXPECTED_SHA256 or blob_sha(archive) != EXPECTED_BLOB:
+              raise ValueError("Assembled archive verification failed")
+          result = request(base, {"content": base64.b64encode(archive).decode("ascii"), "encoding": "base64"})
+          if result.get("sha") != EXPECTED_BLOB:
+              raise ValueError("Created archive blob identifier mismatch")
+          stored = read_blob(EXPECTED_BLOB)
+          if stored != archive:
+              raise ValueError("Stored archive failed exact byte comparison")
+          receipt = {
+              "repository": REPOSITORY,
+              "bytes": len(stored),
+              "sha256": hashlib.sha256(stored).hexdigest(),
+              "git_blob_sha": blob_sha(stored),
+              "transport_chunks": len(parts),
+              "byte_for_byte_verified": True,
+              "ref_mutations": False,
+          }
+          print("REVIEW_ARCHIVE_BLOB_VERIFIED " + json.dumps(receipt, sort_keys=True), flush=True)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write("## Verified review archive blob\n\n```json\n" + json.dumps(receipt, indent=2) + "\n```\n")
+          PY
