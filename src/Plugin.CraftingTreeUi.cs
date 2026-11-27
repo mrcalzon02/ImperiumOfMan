@@ -456,7 +456,8 @@ namespace ImperiumOfMan
                 _matches = _allItems.Where(item => query.Length == 0 ||
                     (item.Name ?? "").IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
                     item.Id.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                    (item.Category ?? "").IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                    (item.Category ?? "").IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    GroupTitle(ItemGroup(item)).IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
                 _searchPanel.gameObject.SetActive(true);
                 _searchPanel.SetAsLastSibling();
                 DrawSearchResults();
@@ -667,7 +668,8 @@ namespace ImperiumOfMan
                     var producers = Routes(node.ItemId, true);
                     var consumers = Routes(node.ItemId, false);
                     _detailTitle.text = Name(node.ItemId);
-                    _detailMeta.text = producers.Count + " recipes · " + consumers.Count + " uses";
+                    _detailMeta.text = GroupTitle(ItemGroup(node.Item)) + " · " +
+                        producers.Count + " recipes · " + consumers.Count + " uses";
                     foreach (var recipe in producers)
                         _inputDetails.Add(RecipeDetail(recipe));
                     foreach (var recipe in consumers)
@@ -682,7 +684,7 @@ namespace ImperiumOfMan
                 {
                     var recipe = node.Recipe;
                     _detailTitle.text = recipe.Name;
-                    _detailMeta.text = VenueLabel(recipe.Venue) + " · " + (recipe.Hours.HasValue ? recipe.Hours.Value.ToString("0.##") + " h before bonuses" : "time unavailable");
+                    _detailMeta.text = RecipeVenueLabel(recipe) + " · " + RecipeTimeLabel(recipe);
                     foreach (var input in recipe.Inputs)
                         _inputDetails.Add(AmountDetail(input));
                     foreach (var output in recipe.Outputs)
@@ -696,7 +698,7 @@ namespace ImperiumOfMan
 
             private DetailRow RecipeDetail(CraftingRecipe recipe)
             {
-                return new DetailRow { Caption = VenueLabel(recipe.Venue) + " · " + recipe.Name, Icon = RecipeIcon(recipe),
+                return new DetailRow { Caption = RecipeVenueLabel(recipe) + " · " + recipe.Name, Icon = RecipeIcon(recipe),
                     Action = () =>
                     {
                         string key = RecipeKey(recipe.Key);
@@ -912,7 +914,8 @@ namespace ImperiumOfMan
                             label.Meta.rectTransform.offsetMax = new Vector2(-6f, metaHeight + 2f - area.height);
                             label.Meta.fontSize = metaFont;
                             label.Meta.text = item ? node.Item != null && !node.Item.Registered ? "UNAVAILABLE ITEM" : "ITEM" :
-                                VenueLabel(node.Recipe.Venue).ToUpperInvariant() + (node.Recipe.Hours.HasValue ? " · " + node.Recipe.Hours.Value.ToString("0.##") + " h before bonuses" : "");
+                                RecipeVenueLabel(node.Recipe).ToUpperInvariant() +
+                                (node.Recipe.Hours.HasValue ? " · " + RecipeTimeLabel(node.Recipe) : "");
                         }
                         if (_zoom >= 0.42f) foreach (var edge in _window._edges)
                         {

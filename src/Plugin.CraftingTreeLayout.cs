@@ -13,12 +13,18 @@ namespace ImperiumOfMan
             private CraftingGraphLayout.Result _layout;
             private static readonly string[] GroupTitles = { "Shared materials", "Metalworking", "Minerals & ceramics", "Chemicals & polymers",
                 "Electronics", "Organics", "Textiles & paper", "Food & provisions", "Medical supplies",
-                "Weapons & equipment", "Occult materials", "Recovery", "Mixed processing", "Other processing" };
+                "Weapons & equipment", "Occult foundations", "Recovery", "Mixed processing", "Other processing",
+                "Gannix · living tissue & ammunition", "Duggur · bone & binding", "Shartamakhum · resonant materials",
+                "Ron · bloodwork", "Ur · living forge", "Cattaram · crystals", "Flauros · spores & ordnance",
+                "Agga / Scrivnus · relics", "Chaos Undivided · Soulforge" };
             private static readonly Color32[] GroupColors = { new Color32(129,157,135,255), new Color32(136,171,120,255),
                 new Color32(168,158,108,255), new Color32(101,167,147,255), new Color32(113,157,177,255),
                 new Color32(145,168,105,255), new Color32(162,151,119,255), new Color32(174,158,107,255),
                 new Color32(125,175,157,255), new Color32(139,158,146,255), new Color32(155,132,170,255),
-                new Color32(146,149,119,255), new Color32(134,154,144,255), new Color32(117,145,128,255) };
+                new Color32(146,149,119,255), new Color32(134,154,144,255), new Color32(117,145,128,255),
+                new Color32(119,172,130,255), new Color32(176,161,137,255), new Color32(131,157,186,255),
+                new Color32(175,119,128,255), new Color32(190,149,107,255), new Color32(157,143,188,255),
+                new Color32(153,177,102,255), new Color32(152,139,168,255), new Color32(165,130,137,255) };
 
             private void TraceSelectedIngredients()
             {
@@ -109,6 +115,8 @@ namespace ImperiumOfMan
             private int RecipeGroup(CraftingRecipe recipe)
             {
                 if (recipe.Venue == "Recycling") return 11;
+                int occultGroup = OccultDisplayGroup(recipe.OccultOutput);
+                if (occultGroup >= 0) return occultGroup;
                 var outputs = recipe.Outputs.Select(amount => _index.Items.TryGetValue(amount.ItemId, out var item) ? ItemGroup(item) : 13)
                     .Distinct().ToArray();
                 if (outputs.Length == 1 && outputs[0] != 13) return outputs[0];
@@ -118,10 +126,65 @@ namespace ImperiumOfMan
                 return inputs.Length == 1 ? inputs[0] : 13;
             }
 
+            // Display-only mapping of existing native records and owned occult stock.
+            // Never classify by guessed planet substrings: ordinary Mars equipment,
+            // for example, must not be assigned to Ur merely by its name.
+            private static int OccultDisplayGroup(string id)
+            {
+                if (string.IsNullOrEmpty(id)) return -1;
+                if (id.EndsWith("_custom", StringComparison.Ordinal))
+                    id = id.Substring(0, id.Length - "_custom".Length);
+
+                switch (id)
+                {
+                    case RawClone: case TormentImprint: case SufferingEssence: case NativeGavvakh:
+                        return 10;
+                    case GannixConcentrate: case GannixLivingCell: case IgvasAmmo: case "quasi_darts_ammo":
+                    case "quasi_venus_rags": case "quasi_venus_feather": case "venus_guts":
+                    case "venus_armor_plates": case "venus_weapon_parts": case "venus_melee_parts":
+                    case "bone_knife": case "venus_quasi_pistol_1": case "warp_armor":
+                    case "steadfast_heart": case "blood_dance": case "stunning_stride":
+                        return 14;
+                    case DuggurMatrix: case DuggurNailBlank: case NailsOfPainAmmo:
+                    case "moon_guts": case "moon_armor_plates": case "moon_weapon_parts": case "moon_mace_1":
+                        return 15;
+                    case "mercury_glass": case "mercury_rags": case "mercury_scales": case "mercury_guts":
+                    case "quasi_energy_ammo":
+                        return 16;
+                    case "ron_blood": case "ron_tentacle": case "quasi_ron_medicine_1": case "ron_mask_1":
+                        return 17;
+                    case "mars_skin": case "mars_gear": case "mars_gas_ammo":
+                    case "mars_cyborg_head": case "mars_cyborg_chest": case "mars_cyborg_stomach":
+                    case "mars_cyborg_knee": case "mars_cyborg_hand": case "mars_cyborg_leg":
+                        return 18;
+                    case "cattaram_geode": case "cattaram_stone": case "cattaram_mine":
+                        return 19;
+                    case "jupiter_mushrooms": case "jupiter_grass": case "jupiter_guts":
+                    case "flauros_ammo": case "spore_mine":
+                        return 20;
+                    case "demonic_eye": case "skrivnus_knife":
+                        return 21;
+                    case "quasi_repair_kit": case "impaler":
+                        return 22;
+                }
+                // Chaos fabrication capabilities are explicitly registered by the
+                // occult subsystem. This does not classify ordinary Chaos utilities.
+                return OccultRecipeRequirements.ContainsKey(id) ? 22 : -1;
+            }
+
             private static int ItemGroup(CraftingItem item)
             {
                 if (item == null) return 13;
-                string id = (item.Id ?? "").ToLowerInvariant();
+                string id = item.Id ?? "";
+                int occult = OccultDisplayGroup(id);
+                if (occult >= 0) return occult;
+                if (IndustryCatalogs.TryGetValue(id, out var patterns) && patterns.Length > 0)
+                {
+                    var groups = patterns.Select(OccultDisplayGroup).Distinct().ToArray();
+                    if (groups.Length == 1 && groups[0] >= 0) return groups[0];
+                    if (groups.All(group => group >= 0)) return 10;
+                }
+                id = id.ToLowerInvariant();
                 // These are display families only. Native recipes, item classes and dependencies stay unchanged.
                 if (id.StartsWith("iom_occult_", StringComparison.Ordinal) || HasAny(id, "gavvakh", "suffering_essence", "torment_imprint")) return 10;
                 if (HasAny(id, "electronic_substrate", "circuit", "conductive_wire", "copper_wire", "wiring", "logic_core", "battery", "electronic")) return 4;
@@ -153,6 +216,13 @@ namespace ImperiumOfMan
                 => GroupColors[Math.Max(0, Math.Min(group, GroupColors.Length - 1))];
 
             private static string VenueLabel(string venue) => venue == "Recycling" ? "Recovery" : venue == "Station" ? "Station industry" : venue;
+
+            private static string RecipeVenueLabel(CraftingRecipe recipe) =>
+                recipe.OccultOutput != null ? "Occult fabrication" : VenueLabel(recipe.Venue);
+
+            private static string RecipeTimeLabel(CraftingRecipe recipe) =>
+                recipe.Hours.HasValue ? recipe.Hours.Value.ToString("0.##") +
+                    (recipe.OccultOutput != null ? " h per batch" : " h before bonuses") : "time unavailable";
 
             private Sprite RecipeIcon(CraftingRecipe recipe)
             {

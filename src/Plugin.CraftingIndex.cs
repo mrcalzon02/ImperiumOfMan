@@ -47,6 +47,8 @@ namespace ImperiumOfMan
             public string Key;
             public string Name;
             public string Venue;
+            // Original receipt identity, retained when a project changes its displayed output.
+            public string OccultOutput;
             public List<CraftingAmount> Inputs = new();
             public List<CraftingAmount> Outputs = new();
             public float? Hours;
@@ -102,6 +104,7 @@ namespace ImperiumOfMan
                             Key = "magnum/" + receipt.Id + "/" + sequence++,
                             Name = "Produce " + CraftingItemName(output),
                             Venue = "Magnum",
+                            OccultOutput = occult ? receipt.OutputItem : null,
                             Inputs = CopyCraftingAmounts(receipt.RequiredItems),
                             Outputs = [new CraftingAmount { ItemId = output,
                                 // Native receipts do not expose a yield field. A separate
