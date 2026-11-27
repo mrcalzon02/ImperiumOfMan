@@ -337,9 +337,10 @@ namespace ImperiumOfMan
                 }
 
                 // Resolve by story ID so an in-progress raid with an old floor template uses the same captions.
-                var mission = missions.Get(raidMetadata);
+                var mission = missions?.Get(raidMetadata);
                 if (!IsCampaignMission(mission))
                 {
+                    UseCustomStationCaptionIfMissing(raidMetadata, ref __result);
                     return;
                 }
                 if (locationCustomId == "arrival")
