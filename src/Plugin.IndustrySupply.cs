@@ -129,13 +129,9 @@ namespace ImperiumOfMan
             // faction trade. Match the native reward tiers and provide at most one
             // first-stage batch of tissue per restock. No pirate fallback, free
             // cargo grant, recipe unlock, finished ammunition or new drop table.
-            if (ActiveRegionalAmmoChains.Contains(IgvasAmmo))
-            {
-                TopUpRegionalSeed(TezctlanFaction, null, 2, "venus_guts", 1);
-                TopUpRegionalSeed(TezctlanFaction, null, 2, "quasi_venus_feather", 1);
-            }
-            if (ActiveRegionalAmmoChains.Contains(NailsOfPainAmmo))
-                TopUpRegionalSeed(ChaosFaction, "iomOssuaryWorks", 3, "moon_guts", 2);
+            foreach (var chain in RegionalOccultAmmoChains.Where(chain => ActiveRegionalAmmoChains.Contains(chain.Output)))
+                foreach (var seed in RegionalOccultSeeds.Where(seed => seed.Chain == chain.Output))
+                    TopUpRegionalSeed(chain.Faction, chain.Supplier, seed.SeedTier, seed.Item, seed.Stock);
 
             var chaos = factions.Get(ChaosFaction, logMissing: false);
             if (chaos?.Record.CanBeTraded == true && factions.IsEnabledFaction(chaos) && chaos.CurrentTechLevel >= 1)

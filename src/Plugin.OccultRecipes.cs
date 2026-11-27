@@ -34,12 +34,14 @@ namespace ImperiumOfMan
             RegisterOccultRecipe("venus_guts", a, 4, 4, new(SufferingEssence, 1), OccultOrganicInput("dog_meat", Biomass));
             if (!TryRegisterRegionalOccultAmmo(IgvasAmmo))
                 RegisterOccultRecipe(IgvasAmmo, a, 3, 12, new(NativeGavvakh, 1), new(ChemicalExtract, 1));
-            RegisterOccultRecipe("quasi_darts_ammo", a, 3, 12, new(NativeGavvakh, 1), new("rod_parts", 1));
+            if (!TryRegisterRegionalOccultAmmo(AngerlingsAmmo))
+                RegisterOccultRecipe(AngerlingsAmmo, a, 3, 12, new(NativeGavvakh, 1), new("rod_parts", 1));
             RegisterOccultRecipe("mercury_glass", a, 5, 4, new(SufferingEssence, 1), new(GlassStock, 1), new(ReactiveMinerals, 1));
             RegisterOccultRecipe("mercury_rags", a, 4, 4, new(SufferingEssence, 1), new(Textile, 1));
             RegisterOccultRecipe("mercury_scales", a, 5, 4, new(SufferingEssence, 1), OccultOrganicInput("spider_joint", Plate));
             RegisterOccultRecipe("mercury_guts", a, 4, 4, new(SufferingEssence, 1), OccultOrganicInput("spider_meat", Biomass));
-            RegisterOccultRecipe("quasi_energy_ammo", a, 4, 12, new(NativeGavvakh, 1), new("mercury_glass", 1), new(CellStock, 1));
+            if (!TryRegisterRegionalOccultAmmo(EleriumAmmo))
+                RegisterOccultRecipe(EleriumAmmo, a, 4, 12, new(NativeGavvakh, 1), new("mercury_glass", 1), new(CellStock, 1));
             RegisterOccultRecipe("bone_knife", a, 8, 2, new("human_rib", 1), new("venus_melee_parts", 1), new(Liner, 1));
             RegisterOccultRecipe("venus_quasi_pistol_1", a, 10, 2, new("venus_weapon_parts", 1), new("mercury_glass", 1), new(Fittings, 1));
 
@@ -59,14 +61,16 @@ namespace ImperiumOfMan
             var c = OccultRankFive;
             RegisterOccultRecipe("mars_skin", c, 5, 4, new(NativeGavvakh, 1), OccultOrganicInput("human_skin", Biomass), new(PolymerStock, 1));
             RegisterOccultRecipe("mars_gear", c, 5, 4, new(NativeGavvakh, 1), new(Fittings, 1), new(Sheet, 1));
-            RegisterOccultRecipe("mars_gas_ammo", c, 4, 12, new(NativeGavvakh, 1), new(OrganicOil, 1));
+            if (!TryRegisterRegionalOccultAmmo(EannisAmmo))
+                RegisterOccultRecipe(EannisAmmo, c, 4, 12, new(NativeGavvakh, 1), new(OrganicOil, 1));
             RegisterOccultRecipe("cattaram_geode", c, 6, 4, new(SufferingEssence, 1), new(Silicate, 1), new(ReactiveMinerals, 1));
             RegisterOccultRecipe("cattaram_stone", c, 5, 2, new("cattaram_geode", 1), new(NativeGavvakh, 1));
             RegisterOccultRecipe("cattaram_mine", c, 5, 2, new("cattaram_geode", 1), new("explosives", 1), new(Fittings, 1));
             RegisterOccultRecipe("jupiter_mushrooms", c, 5, 4, new(NativeGavvakh, 1), new(Biomass, 1), new("water_bottle_1", 1));
             RegisterOccultRecipe("jupiter_grass", c, 5, 4, new(NativeGavvakh, 1), new(Biomass, 1), new(Textile, 1));
             RegisterOccultRecipe("jupiter_guts", c, 5, 4, new(SufferingEssence, 1), OccultOrganicInput("dog_meat", Biomass), new("jupiter_mushrooms", 1));
-            RegisterOccultRecipe("flauros_ammo", c, 4, 12, new("jupiter_mushrooms", 1), new("tin", 1), new("gas_ammo", 1));
+            if (!TryRegisterRegionalOccultAmmo(FlaurosAmmo))
+                RegisterOccultRecipe(FlaurosAmmo, c, 4, 12, new("jupiter_mushrooms", 1), new("tin", 1), new("gas_ammo", 1));
             RegisterOccultRecipe("spore_mine", c, 6, 2, new("jupiter_mushrooms", 1), new("explosives", 1), new(PolymerStock, 1));
 
             var d = OccultRankFive;

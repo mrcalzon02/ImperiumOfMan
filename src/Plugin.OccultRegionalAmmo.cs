@@ -15,6 +15,18 @@ namespace ImperiumOfMan
         private const string IgvasAmmo = "quasi_basic_ammo";
         private const string NailsOfPainAmmo = "quasi_bolts_ammo";
         private const string TezctlanFaction = "Tezctlan";
+        private const string AngerlingsAmmo = "quasi_darts_ammo";
+        private const string EleriumAmmo = "quasi_energy_ammo";
+        private const string EannisAmmo = "mars_gas_ammo";
+        private const string FlaurosAmmo = "flauros_ammo";
+        private const string GannixChitin = "iom_occult_gannix_chitin";
+        private const string GannixLivingDart = "iom_occult_gannix_living_dart";
+        private const string ShartamakhumSubstrate = "iom_occult_shartamakhum_substrate";
+        private const string ShartamakhumCell = "iom_occult_shartamakhum_cell";
+        private const string UrConcentrate = "iom_occult_ur_concentrate";
+        private const string UrRedfireStock = "iom_occult_ur_redfire_stock";
+        private const string FlaurosCulture = "iom_occult_flauros_spore_culture";
+        private const string FlaurosBrood = "iom_occult_flauros_brood_substrate";
 
         private sealed class RegionalOccultMaterial(string id, string donor, string name,
             string description, float price, int hours, int batch, params ItemQuantity[] inputs)
@@ -31,7 +43,7 @@ namespace ImperiumOfMan
 
         private sealed class RegionalOccultAmmo(string output, string title, string region,
             string faction, string factionName, string supplier, string rank, int tier,
-            RegionalOccultMaterial first, RegionalOccultMaterial second)
+            RegionalOccultMaterial first, RegionalOccultMaterial second, int finishHours = 3)
         {
             public readonly string Output = output;
             public readonly string Title = title;
@@ -41,6 +53,7 @@ namespace ImperiumOfMan
             public readonly string Supplier = supplier;
             public readonly string Rank = rank;
             public readonly int Tier = tier;
+            public readonly int FinishHours = finishHours;
             public readonly RegionalOccultMaterial[] Materials = [first, second];
         }
 
@@ -63,7 +76,57 @@ namespace ImperiumOfMan
                     new("moon_guts", 2), new("human_rib", 1), new(SufferingEssence, 1)),
                 new(DuggurNailBlank, "moon_weapon_parts", "Pain-bound Nail Blanks",
                     "Lunar matrix shaped and charged for occult ammunition.", 9, 4, 4,
-                    new(DuggurMatrix, 2), new(NativeGavvakh, 1)))
+                    new(DuggurMatrix, 2), new(NativeGavvakh, 1))),
+            new(AngerlingsAmmo, "Angerlings", "Gannix", "XiomaraMasks", "Feathered Masks", null, OccultRankThree, 3,
+                new(GannixChitin, "venus_melee_parts", "Gannix Chitin Stock",
+                    "Living Gannixian structural stock.", 7, 4, 3,
+                    new("venus_melee_parts", 1), new(SufferingEssence, 1)),
+                new(GannixLivingDart, "quasi_venus_feather", "Barbed Living Dart Blanks",
+                    "Prepared living dart stock for Angerlings.", 9, 4, 4,
+                    new(GannixChitin, 2), new("quasi_venus_feather", 1))),
+            new(EleriumAmmo, "Elerium", "Shartamakhum", ChaosFaction, "Chaos Undivided",
+                null, OccultRankThree, 3,
+                new(ShartamakhumSubstrate, "mercury_glass", "Resonant Mercury Substrate",
+                    "An occult substrate formed from Mercury glass and scales.", 8, 5, 3,
+                    new("mercury_glass", 1), new("mercury_scales", 1), new(SufferingEssence, 1)),
+                new(ShartamakhumCell, "mercury_scales", "Resonant Cell Stock",
+                    "Bound energy-bearing stock for Elerium.", 10, 4, 4,
+                    new(ShartamakhumSubstrate, 2), new(NativeGavvakh, 1)), 4),
+            new(EannisAmmo, "Eannis Redfire", "Ur", "SheduThousand", "Shedu's Thousand",
+                null, OccultRankFive, 5,
+                new(UrConcentrate, "mars_skin", "Eannis Concentrate",
+                    "Living forge stock concentrated for Redfire.", 9, 5, 3,
+                    new("mars_skin", 1), new(NativeGavvakh, 1)),
+                new(UrRedfireStock, "mars_gear", "Contained Redfire Stock",
+                    "Ur forge components prepared to contain Eannis.", 11, 4, 4,
+                    new(UrConcentrate, 2), new("mars_gear", 1)), 4),
+            new(FlaurosAmmo, "Flies", "Flauros", ChaosFaction, "Chaos Undivided",
+                null, OccultRankFive, 5,
+                new(FlaurosCulture, "jupiter_mushrooms", "Flauros Spore Culture",
+                    "Living spore stock from Flauros.", 8, 5, 3,
+                    new("jupiter_mushrooms", 1), new("jupiter_guts", 1), new(NativeGavvakh, 1)),
+                new(FlaurosBrood, "jupiter_grass", "Viable Brood Substrate",
+                    "Cultured brood stock for native Flauros ammunition.", 10, 4, 4,
+                    new(FlaurosCulture, 2), new("jupiter_grass", 1)), 4)
+        ];
+
+        // One acquisition ledger drives pattern registration, native rewards,
+        // station restock and payout observation. Preserve the original prototype
+        // chip keys, reward tiers and stock targets for already learned saves.
+        private static readonly (string Chain, string Item, string Key, string Title, int SeedTier, int Stock)[] RegionalOccultSeeds =
+        [
+            (IgvasAmmo, "venus_guts", "tezctlan_tissue", "Gannix Tissue Culture Pattern", 2, 1),
+            (IgvasAmmo, "quasi_venus_feather", "tezctlan_feather", "Gannix Living Fiber Pattern", 2, 1),
+            (NailsOfPainAmmo, "moon_guts", "duggur_tissue", "Duggur Tissue Pattern", 3, 2),
+            (AngerlingsAmmo, "venus_melee_parts", "xiomara_chitin_feedstock", "Gannix Structural Stock Pattern", 2, 1),
+            (AngerlingsAmmo, "quasi_venus_feather", "xiomara_feather", "Gannix Living Fiber Pattern", 2, 1),
+            (EleriumAmmo, "mercury_glass", "shartamakhum_glass", "Mercury Glass Pattern", 2, 1),
+            (EleriumAmmo, "mercury_scales", "shartamakhum_scales", "Mercury Scales Pattern", 2, 1),
+            (EannisAmmo, "mars_skin", "shedu_skin", "Ur Living Skin Pattern", 4, 1),
+            (EannisAmmo, "mars_gear", "shedu_gear", "Ur Forge Gear Pattern", 4, 1),
+            (FlaurosAmmo, "jupiter_mushrooms", "flauros_mushrooms", "Flauros Fungal Stock Pattern", 4, 1),
+            (FlaurosAmmo, "jupiter_guts", "flauros_guts", "Flauros Tissue Pattern", 4, 1),
+            (FlaurosAmmo, "jupiter_grass", "flauros_grass", "Flauros Living Fiber Pattern", 4, 1)
         ];
 
         private static readonly HashSet<string> RegionalOccultMaterials = new(StringComparer.Ordinal);
@@ -117,7 +180,7 @@ namespace ImperiumOfMan
                 OccultMaterialOutputs.Add(material.Id);
                 RegisterOccultRecipe(material.Id, chain.Rank, material.Hours, material.Batch, material.Inputs);
             }
-            RegisterOccultRecipe(chain.Output, chain.Rank, 3, 12,
+            RegisterOccultRecipe(chain.Output, chain.Rank, chain.FinishHours, 12,
                 new ItemQuantity(chain.Materials[1].Id, 4));
             if (!AddedOccultRecipes.Contains(chain.Output) ||
                 chain.Materials.Any(material => !AddedOccultRecipes.Contains(material.Id)))
@@ -138,23 +201,28 @@ namespace ImperiumOfMan
                 foreach (var material in chain.Materials)
                     AddRegionalPattern(region + "_" + material.Id.Substring("iom_occult_".Length + region.Length + 1),
                         material.Name + " Pattern", chain.Faction, chain.FactionName, chain.Supplier, chain.Tier, material.Id);
-                AddRegionalPattern(region + "_ammo_finish", chain.Title + " Pattern", chain.Faction, chain.FactionName,
+                // The original Gannix/Duggur finish keys are save-stable. The
+                // second Gannix ammunition family must have a different key.
+                string finishKey = chain.Output == AngerlingsAmmo ? "gannix_angerlings_finish" : region + "_ammo_finish";
+                AddRegionalPattern(finishKey, chain.Title + " Pattern", chain.Faction, chain.FactionName,
                     chain.Supplier, chain.Tier, chain.Output);
-                if (chain.Output == IgvasAmmo)
+                foreach (var seed in RegionalOccultSeeds.Where(seed => seed.Chain == chain.Output))
                 {
-                    AddRegionalPattern("tezctlan_tissue", "Gannix Tissue Culture Pattern", chain.Faction, chain.FactionName, null, 3, "venus_guts");
-                    AddRegionalPattern("tezctlan_feather", "Gannix Living Fiber Pattern", chain.Faction, chain.FactionName, null, 3, "quasi_venus_feather");
-                    RegisterRegionalFoundationPatterns("tezctlan", chain.Faction, chain.FactionName, null);
-                    RegisterRegionalSeedReward(chain.Faction, 2, "venus_guts");
-                    RegisterRegionalSeedReward(chain.Faction, 2, "quasi_venus_feather");
-                }
-                else if (chain.Output == NailsOfPainAmmo)
-                {
-                    AddRegionalPattern("duggur_tissue", "Duggur Tissue Pattern", chain.Faction, chain.FactionName, chain.Supplier, 4, "moon_guts");
-                    RegisterRegionalFoundationPatterns("chaos", chain.Faction, chain.FactionName, "iomHollowSignalDepot");
-                    RegisterRegionalSeedReward(chain.Faction, 3, "moon_guts");
+                    AddRegionalPattern(seed.Key, seed.Title, chain.Faction, chain.FactionName,
+                        chain.Supplier, chain.Tier, seed.Item);
+                    RegisterRegionalSeedReward(chain.Faction, seed.SeedTier, seed.Item);
                 }
             }
+
+            if (ActiveRegionalAmmoChains.Contains(IgvasAmmo))
+                RegisterRegionalFoundationPatterns("tezctlan", TezctlanFaction, "Tezctlan", null);
+            if (ActiveRegionalAmmoChains.Contains(AngerlingsAmmo))
+                RegisterRegionalFoundationPatterns("xiomara", "XiomaraMasks", "Feathered Masks", null);
+            if (ActiveRegionalAmmoChains.Contains(EannisAmmo))
+                RegisterRegionalFoundationPatterns("shedu", "SheduThousand", "Shedu's Thousand", null);
+            if (RegionalOccultAmmoChains.Any(chain => chain.Faction == ChaosFaction &&
+                ActiveRegionalAmmoChains.Contains(chain.Output)))
+                RegisterRegionalFoundationPatterns("chaos", ChaosFaction, "Chaos Undivided", "iomHollowSignalDepot");
         }
 
         private static void RegisterRegionalFoundationPatterns(string key, string faction, string name, string supplier)

@@ -15,9 +15,7 @@ namespace ImperiumOfMan
         {
             if (string.IsNullOrEmpty(id)) return false;
             if (IsOccultPatternChip(id)) return true;
-            return (ActiveRegionalAmmoChains.Contains(IgvasAmmo) &&
-                    (id == "venus_guts" || id == "quasi_venus_feather")) ||
-                   (ActiveRegionalAmmoChains.Contains(NailsOfPainAmmo) && id == "moon_guts");
+            return RegionalOccultSeeds.Any(seed => seed.Item == id && ActiveRegionalAmmoChains.Contains(seed.Chain));
         }
 
         private static Dictionary<string, int> SelectedRegionalRewards(Mission mission) =>
