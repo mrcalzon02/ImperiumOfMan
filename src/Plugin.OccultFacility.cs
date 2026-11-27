@@ -247,7 +247,10 @@ namespace ImperiumOfMan
                     panel.OnStartProduction += start;
                     panel.OnCancelProduction += cancel;
                     panel.OnCancelQueuedProduction += cancelQueued;
-                    panel.Initialize(line, orders, OccultQueueCount(____magnumSpaceship), ____spaceTime.Time);
+                    // Native maxQueue is the number of waiting slots, not the
+                    // total including the active order. Keep the visible add
+                    // button consistent with OccultLineCanQueue's total limit.
+                    panel.Initialize(line, orders, OccultQueueCount(____magnumSpaceship) - 1, ____spaceTime.Time);
                     panel.transform.parent.SetParent(____panelsRoot, false);
                     panel.transform.parent.SetAsLastSibling();
                     ____panels.Add(panel);
