@@ -103,7 +103,8 @@ namespace ImperiumOfMan
         {
             // Decide ownership before registering physical chip pools. Native recipes,
             // including their knowledge and production rules, keep their existing route.
-            bool ownIntermediate = output == RawClone || output == TormentImprint || output == SufferingEssence;
+            bool ownIntermediate = output == RawClone || output == TormentImprint || output == SufferingEssence ||
+                IsOwnedRegionalOccultMaterial(output);
             if (!ownIntermediate && Data.Items.GetRecord(output) == null)
             {
                 Debug.LogWarning("[Cvar_ImperiumOfMan] Occult recipe skipped; installed output missing: " + output);

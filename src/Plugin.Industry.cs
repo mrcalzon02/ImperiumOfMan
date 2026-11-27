@@ -229,14 +229,18 @@ namespace ImperiumOfMan
         }
 
         private static TrashRecord AddMaterial(string id, string donor, string title, string description, float price,
-            int techLevel = 1, string category = ItemCategory, int maxIconSize = 0, string artwork = null)
+            int techLevel = 1, string category = ItemCategory, int maxIconSize = 0, string artwork = null,
+            bool retainNativeArtwork = false)
         {
             var source = Data.Items.GetSimpleRecord<ItemRecord>(donor)
                 ?? throw new InvalidDataException("No production material descriptor donor " + donor);
             var descriptor = UnityEngine.Object.Instantiate(source.ItemDesc);
             descriptor.name = id;
             descriptor._overridenRenderId = string.Empty;
-            ApplyItemArtwork(descriptor, artwork ?? id, maxIconSize);
+            // Scoped prototype opt-in: keep the actual donor icon, floor sprite and
+            // shadow. All existing authored-material registrations retain their artwork path.
+            if (!retainNativeArtwork)
+                ApplyItemArtwork(descriptor, artwork ?? id, maxIconSize);
             var material = new TrashRecord
             {
                 Id = id, ContentDescriptor = descriptor, Categories = [category], TechLevel = techLevel,

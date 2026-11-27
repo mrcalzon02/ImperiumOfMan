@@ -136,8 +136,10 @@ namespace ImperiumOfMan
                                 capable == false ? " Requires " + research + "." : " Check research: " + research + ".";
                             if (capable != true || OccultLineCount(occultProgression) == 0)
                                 route.Ready = occultProgression != null ? false : (bool?)null;
+                            string regionalBranch = RegionalOccultRecipeBranch(receipt.OutputItem);
+                            if (regionalBranch != null) route.Access += " Occult resource family: " + regionalBranch + ".";
                             if (OccultPatternSources.TryGetValue(receipt.OutputItem, out var patternChips))
-                                route.Access += " Learn from " + string.Join(", ", patternChips.Select(CraftingItemName)) +
+                                route.Access += " Learn from " + string.Join(", ", patternChips.Select(RegionalOccultPatternSource)) +
                                     ". Each chip teaches one recipe.";
                             else
                                 route.Access += " The schematic must also be learned.";

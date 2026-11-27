@@ -93,8 +93,8 @@ namespace ImperiumOfMan
             foreach (var entry in CatalogStock)
             {
                 var maker = factions.Get(entry.Key, logMissing: false);
-                var faction = maker?.Record.CanBeTraded == true && factions.IsEnabledFaction(maker)
-                    ? maker : factions.Get("UnchainedBelt", logMissing: false);
+                bool makerAvailable = maker?.Record.CanBeTraded == true && factions.IsEnabledFaction(maker);
+                var faction = makerAvailable ? maker : factions.Get("UnchainedBelt", logMissing: false);
                 if (faction?.Record.CanBeTraded != true || !factions.IsEnabledFaction(faction))
                 {
                     continue;
@@ -103,6 +103,9 @@ namespace ImperiumOfMan
                     !string.IsNullOrEmpty(station.SpaceObjectId));
                 foreach (var (chip, tier, supplier) in entry.Value)
                 {
+                    // Faction-specific occult knowledge does not silently become
+                    // generic pirate stock when its maker is absent or disabled.
+                    if (!makerAvailable && IsOccultPatternChip(chip)) continue;
                     if (tier > faction.CurrentTechLevel)
                     {
                         continue;

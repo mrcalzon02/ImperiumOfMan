@@ -17,7 +17,8 @@ namespace ImperiumOfMan
             RegisterOccultRecipe("venus_melee_parts", a, 4, 4, new(SufferingEssence, 1), new("rod_parts", 1));
             RegisterOccultRecipe("quasi_venus_feather", a, 4, 4, new(SufferingEssence, 1), new(Textile, 1));
             RegisterOccultRecipe("venus_guts", a, 4, 4, new(SufferingEssence, 1), new(Biomass, 1));
-            RegisterOccultRecipe("quasi_basic_ammo", a, 3, 12, new(NativeGavvakh, 1), new(ChemicalExtract, 1));
+            if (!TryRegisterRegionalOccultAmmo(IgvasAmmo))
+                RegisterOccultRecipe(IgvasAmmo, a, 3, 12, new(NativeGavvakh, 1), new(ChemicalExtract, 1));
             RegisterOccultRecipe("quasi_darts_ammo", a, 3, 12, new(NativeGavvakh, 1), new("rod_parts", 1));
             RegisterOccultRecipe("mercury_glass", a, 5, 4, new(SufferingEssence, 1), new(GlassStock, 1), new(ReactiveMinerals, 1));
             RegisterOccultRecipe("mercury_rags", a, 4, 4, new(SufferingEssence, 1), new(Textile, 1));
@@ -31,7 +32,8 @@ namespace ImperiumOfMan
             RegisterOccultRecipe("moon_guts", b, 4, 4, new(SufferingEssence, 1), new(Biomass, 1));
             RegisterOccultRecipe("moon_armor_plates", b, 5, 4, new(SufferingEssence, 1), new(Plate, 1));
             RegisterOccultRecipe("moon_weapon_parts", b, 5, 4, new(SufferingEssence, 1), new("weapon_parts", 1));
-            RegisterOccultRecipe("quasi_bolts_ammo", b, 3, 12, new(NativeGavvakh, 1), new("rod_parts", 1));
+            if (!TryRegisterRegionalOccultAmmo(NailsOfPainAmmo))
+                RegisterOccultRecipe(NailsOfPainAmmo, b, 3, 12, new(NativeGavvakh, 1), new("rod_parts", 1));
             RegisterOccultRecipe("moon_mace_1", b, 10, 2, new("moon_weapon_parts", 1), new("moon_armor_plates", 1), new("rod_parts", 1));
             RegisterOccultRecipe("ron_blood", b, 4, 4, new(SufferingEssence, 1), new("water_bottle_1", 1));
             RegisterOccultRecipe("ron_tentacle", b, 5, 4, new(SufferingEssence, 1), new(Biomass, 1), new(Textile, 1));

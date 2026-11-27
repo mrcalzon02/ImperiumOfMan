@@ -92,6 +92,7 @@ namespace ImperiumOfMan
                     register();
                 }
                 FinishIndustryRegistration();
+                AuditRegionalOccultRegistration();
                 FinishCommsTurretUpgrades();
                 FinishSupplyPodResearch();
                 FinishOccultFacilityIcons();
