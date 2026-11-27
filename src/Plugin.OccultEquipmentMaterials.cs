@@ -94,7 +94,8 @@ namespace ImperiumOfMan
                 }
 
                 AddMaterial(stock.Id, stock.Donor, stock.Name, stock.Description, stock.Price,
-                    definition.Tier, category: definition.Faction, retainNativeArtwork: true);
+                    definition.Tier, category: definition.Faction, maxIconSize: 24,
+                    retainNativeArtwork: !HasRegionalOccultArtwork(stock.Id));
                 RegionalOccultMaterials.Add(stock.Id);
                 OccultMaterialOutputs.Add(stock.Id);
                 RegisterOccultRecipe(stock.Id, definition.Rank, stock.Hours, stock.Batch, stock.Inputs);

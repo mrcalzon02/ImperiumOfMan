@@ -1,0 +1,250 @@
+{
+  "schema": "iom.occult-regional-art-batch.v1",
+  "generator": "image_gen",
+  "source_generation_id": "c2a93553-e44d-4d1b-a28c-0251f9b90ff9",
+  "source_sha256": "a78415878c165d4b60830d500a5e0cb46268e6bb6259b55e53029dad44681483",
+  "source_dimensions": [
+    1246,
+    1262
+  ],
+  "source_archive_sha256": "29d7be1ad312651471db7b76ca6095ac1e57fbbb0cb4a76d77b903ac273d76b0",
+  "source_archive_location": "Conversation artifact Occult_Intermediate_Art_Batch_02.zip (original master sheet and normalized masters; not checked into Git)",
+  "import": "3 x 3 equal cells; alpha threshold 128; remove small isolated components; nearest-neighbor fitting; floor-silhouette shadow",
+  "validation": "Local RGBA, dimensions, transparent margins, nonempty silhouette and native-size visual review. Every Git blob matches local bytes. Native rendering remains untested.",
+  "items": [
+    {
+      "id": "iom_occult_gannix_concentrate",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "7bdac813fc6713ccf4357b835ee90d50708acafa"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "7885fd22cfa6588f5b2a738d7866aaa139d2b20c"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "abaf57de2824a2464ea3046660caa0253a7bac9e"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_gannix_living_cell",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "86dfbf462550ab9bcbd667c2aa71224e44d7d7f7"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "8c46a75b2f4b8c0b47074b6baada08c05f1945be"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "1372d6877fc3695847c5a2e8d914a87867afa255"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_duggur_matrix",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "2a0763783ddc7ffacdae4a1a24d5ee6a5bc763ad"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "6983e332b0b1ca6c5863c6cb4a177cb0e326be22"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "1b698fef34e4e8facb78f316aed59ecded5d5782"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_duggur_nail_blank",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "1e5351556ee529af6ff2451e34701502825c3bb6"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "b0f0dfadc5a3e4e6d65043e15d0d926ceb5f5230"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "b29bef4f1dfc506f15f7f2f6896ff777136c359d"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_agga_ocular_focus",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "6a9666f83f89c31e75cdb97b04fb439cb31607e8"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "4f309b8ab461fd9f421a5918bfb6731e74fe7ab2"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "9a106b2b6ffbd3fc4de70f4a456fa3bb5b9b27b9"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_gannix_living_weave",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "bdf127401380910e2d2c418b836751bb2e37f8ab"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "3214186bebe10740616feaf26da12c14006d5aa6"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "3ef0708592cd8fd103a4b39d0ef50aa3c5fcc5cd"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_ron_blood_concentrate",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "ac0ea48adcff12ebd3aaebe9a00116721efc43ff"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "e854f2d0fb350fa16d4023ab73b7423b17b5fa37"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "205054a1b896e45b0891050ed7e1c463c5403139"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_ron_binding_weave",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "79f582c01e2b9f55969cca906844cf38387a112e"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "e586d9ea9663420eae21aed4862a5f68627825ed"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "c5794853176b1a96ba0e677e0467691e8c4a46a7"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_scrivnus_relic_core",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "0f6677ee3fb32d402796b404dcda7edc336e1472"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "4f678015795cba3ebd53cf61acd31e0a4a4eb2ea"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "7cff2b334b60979d3d1d03f07a4bed39ef7ccfd9"
+        }
+      }
+    }
+  ]
+}
