@@ -36,6 +36,7 @@ namespace ImperiumOfMan
             ["requires_research"] = "Requires Occult Research",
             ["known_pattern"] = "Recipe known; research capability required.",
             ["insufficient_ingredients"] = "Not enough ingredients for the selected quantity.",
+            ["required_ingredients"] = "Required ingredients",
             ["agga"] = "Agga",
             ["gannix"] = "Gannix",
             ["shartamakhum"] = "Shartamakhum",
@@ -72,6 +73,26 @@ namespace ImperiumOfMan
             perk = null;
             return TryGetOccultRequirement(receipt, out perk) &&
                 !HasOccultCapability(progression, perk);
+        }
+
+        // Native receipt icons occupy a finite array. The production count API
+        // aggregates the entire formula, including repeated inputs and custom items.
+        private static bool HasOccultBatchIngredients(MagnumCargo cargo, ItemProduceReceipt receipt, int count) =>
+            cargo != null && receipt != null && count > 0 &&
+            ItemProductionSystem.GetAvailableToProduceCount(
+                MagnumCargoSystem.GetAvailableCargoStorages(cargo),
+                receipt.RequiredItems, countCustomItems: true) >= count;
+
+        private static void ShowOccultIngredientReason(ItemProduceReceipt receipt, int count, ItemReceiptPanel owner)
+        {
+            string required = string.Join(", ", receipt.RequiredItems
+                .GroupBy(input => input.ItemId, StringComparer.Ordinal)
+                .Select(group => CraftingItemName(group.Key) + " ×" +
+                    group.Sum(input => (long)input.Count) * Math.Max(1, count)));
+            string message = OccultUiText("insufficient_ingredients");
+            if (!string.IsNullOrEmpty(required))
+                message += "\n" + OccultUiText("required_ingredients") + ": " + required;
+            ShowOccultPickerMessage(message, owner);
         }
 
         private static bool _occultPickerReasonShown;
@@ -111,10 +132,17 @@ namespace ImperiumOfMan
             private static void Prefix(ItemReceiptPanel __instance) =>
                 __instance.GetComponent<OccultReceiptAvailability>()?.Restore();
 
-            private static void Postfix(ItemReceiptPanel __instance, MagnumProgression __1,
+            private static void Postfix(ItemReceiptPanel __instance, MagnumCargo __0, MagnumProgression __1,
                 ItemProduceReceipt __3)
             {
-                if (!MissingOccultCapability(__3, __1, out _)) return;
+                if (!TryGetOccultRequirement(__3, out _)) return;
+                // The base panel already indicates shortages within its visible
+                // slots. Correct the misleading affordable state when later
+                // required quantities do not fit in those slots.
+                bool missingResearch = MissingOccultCapability(__3, __1, out _);
+                bool hiddenShortage = __instance.HasCompsToCraft &&
+                    !HasOccultBatchIngredients(__0, __3, 1);
+                if (!missingResearch && !hiddenShortage) return;
                 var availability = __instance.GetComponent<OccultReceiptAvailability>() ??
                     __instance.gameObject.AddComponent<OccultReceiptAvailability>();
                 availability.MarkUnavailable();
@@ -165,12 +193,16 @@ namespace ImperiumOfMan
                 HideOccultPickerReason();
                 if (panel?.Receipt == null) return true;
                 bool missing = MissingOccultCapability(panel.Receipt, ____magnumSpaceship, out string perk);
-                if (!missing && OccultProductionRouteAllowed(panel.Receipt, ____magnumCargo,
-                    ____magnumSpaceship, ____lineIndex)) return true;
+                bool routeAllowed = !missing && OccultProductionRouteAllowed(panel.Receipt, ____magnumCargo,
+                    ____magnumSpaceship, ____lineIndex);
+                bool sufficient = !routeAllowed || !TryGetOccultRequirement(panel.Receipt, out _) ||
+                    HasOccultBatchIngredients(____magnumCargo, panel.Receipt, 1);
+                if (routeAllowed && sufficient) return true;
                 ____receiptToProduce = null;
                 panel.MakeSelected(false);
                 if (missing) ShowOccultPickerReason(perk, panel);
-                else ShowOccultPickerMessage(OccultPickerRouteMessage(panel.Receipt, ____lineIndex), panel);
+                else if (!routeAllowed) ShowOccultPickerMessage(OccultPickerRouteMessage(panel.Receipt, ____lineIndex), panel);
+                else ShowOccultIngredientReason(panel.Receipt, 1, panel);
                 return false;
             }
         }
@@ -188,16 +220,15 @@ namespace ImperiumOfMan
                 bool routeAllowed = !missing && OccultProductionRouteAllowed(pending, ____magnumCargo,
                     ____magnumSpaceship, ____lineIndex);
                 bool sufficientIngredients = true;
+                int count = 1;
                 if (routeAllowed && TryGetOccultRequirement(pending, out _))
                 {
                     // The native confirmation handler always emits its success event
                     // after calling StartMagnumItemProduction, even when our production
                     // prefix skips the original. Recheck the actual selected quantity
                     // against current cargo using the same custom-item rule as that guard.
-                    int count = UI.Get<CommonContextMenu>().SliderButtonSelectedValue;
-                    sufficientIngredients = count > 0 && ItemProductionSystem.GetAvailableToProduceCount(
-                        MagnumCargoSystem.GetAvailableCargoStorages(____magnumCargo),
-                        pending.RequiredItems, countCustomItems: true) >= count;
+                    count = UI.Get<CommonContextMenu>().SliderButtonSelectedValue;
+                    sufficientIngredients = HasOccultBatchIngredients(____magnumCargo, pending, count);
                 }
                 if (routeAllowed && sufficientIngredients) return true;
                 var owner = ____receiptPanels.FirstOrDefault(panel => panel.Receipt == pending);
@@ -205,7 +236,7 @@ namespace ImperiumOfMan
                 UI.Back();
                 if (missing) ShowOccultPickerReason(perk, owner);
                 else if (!routeAllowed) ShowOccultPickerMessage(OccultPickerRouteMessage(pending, ____lineIndex), owner);
-                else ShowOccultPickerMessage(OccultUiText("insufficient_ingredients"), owner);
+                else ShowOccultIngredientReason(pending, count, owner);
                 // Do not emit the native success sound or ItemSelectedToProduce
                 // event when a pending order can no longer be started.
                 return false;
