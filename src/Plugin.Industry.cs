@@ -376,9 +376,10 @@ namespace ImperiumOfMan
         private static class IndustryProduction
         {
             private static bool Prefix(MagnumCargo magnumCargo, MagnumProgression magnumSpaceship,
-                Difficulty difficulty, ItemProduceReceipt receipt, int count, int lineIndex, out int __state)
+                Difficulty difficulty, ItemProduceReceipt receipt, int count, int lineIndex,
+                out (int Batch, OccultStartTrace Trace) __state)
             {
-                __state = 0;
+                __state = default;
                 if (!_industryReady || receipt == null || !IndustryBatches.TryGetValue(receipt.OutputItem, out int batch))
                     return true;
 
@@ -392,21 +393,25 @@ namespace ImperiumOfMan
                         countCustomItems: occult) < count)
                     return false;
 
-                __state = batch;
+                __state = (batch, occult ? CaptureOccultStart(magnumCargo, receipt, lineIndex) : null);
                 return true;
             }
 
             private static void Postfix(MagnumCargo magnumCargo, MagnumProgression magnumSpaceship,
-                Difficulty difficulty, ItemProduceReceipt receipt, int count, int lineIndex, int __state, bool __runOriginal)
+                Difficulty difficulty, ItemProduceReceipt receipt, int count, int lineIndex,
+                (int Batch, OccultStartTrace Trace) __state, bool __runOriginal)
             {
                 // Do not multiply a prior queued order if a different prefix denied
                 // this request (e.g. capability, recipe knowledge or queue limit).
-                if (!__runOriginal || __state < 1) return;
+                if (!__runOriginal || __state.Batch < 1) return;
                 var orders = magnumCargo.ItemProduceOrders[lineIndex];
                 var order = orders[orders.Count - 1];
-                order.Count *= __state;
+                order.Count *= __state.Batch;
                 if (IsOccultLine(lineIndex) && TryGetOccultRequirement(receipt, out _))
+                {
                     order.DurationInHours = OccultBatchHours(receipt, magnumSpaceship, difficulty) * count;
+                    ReportOccultStart(magnumCargo, receipt, lineIndex, count, order, __state.Trace);
+                }
             }
         }
     }

@@ -80,6 +80,7 @@ namespace ImperiumOfMan
                     }
                 }
                 LearnRecipes(cargo, SharedIndustryRecipes);
+                AuditOccultLoadedOrders(cargo);
             }
             RefreshIndustryMarkets(state.Get<Stations>(), state.Get<Factions>(), state.Get<SpaceTime>());
             AuditOccultSupplierCoverage(state.Get<Stations>(), state.Get<Factions>());
