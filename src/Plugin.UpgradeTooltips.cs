@@ -10,7 +10,7 @@ namespace ImperiumOfMan
     {
         private static bool HasCustomShipUpgradeTooltip(string id) =>
             // Occult capability rows have one dedicated supplier in OccultUi.
-            !OccultRanks.Contains(id) &&
+            !OccultRanks.Contains(id) && !IsOccultProductionUpgrade(id) &&
             (TryGetCommsUpgrade(id, out _, out _) ||
             id is BarrageDuration or BarrageRounds or BarrageCalls or
                 SupplyDrop or TroopDrop or PodCapacity or PodCapacityTwo or PodCalls ||

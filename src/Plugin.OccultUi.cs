@@ -23,8 +23,15 @@ namespace ImperiumOfMan
             ["body_parts"] = "Body parts",
             ["soulforge"] = "Soulforge",
             ["augmentation"] = "Augmentation",
-            ["recipe_knowledge"] = "Recipes",
-            ["acquired_in_game"] = "Acquired in game",
+            ["recipe_knowledge"] = "Pattern knowledge",
+            ["acquired_in_game"] = "Recovered pattern chips",
+            ["production_line"] = "Occult production lines",
+            ["queue_depth"] = "Orders per occult line",
+            ["reagent_yield"] = "Reagents per batch",
+            ["material_yield"] = "Occult materials per batch",
+            ["batch_time"] = "Occult batch time",
+            ["prerequisite"] = "Requires",
+            ["capacity_only"] = "Facility upgrade; no recipes granted",
             ["requires_research"] = "Requires Occult Research",
             ["known_pattern"] = "Recipe known; research capability required.",
             ["agga"] = "Agga",
@@ -61,7 +68,7 @@ namespace ImperiumOfMan
             MagnumProgression progression, out string perk)
         {
             perk = null;
-            return receipt != null && OccultRecipeRequirements.TryGetValue(receipt.Id, out perk) &&
+            return TryGetOccultRequirement(receipt, out perk) &&
                 !HasOccultCapability(progression, perk);
         }
 
@@ -72,10 +79,15 @@ namespace ImperiumOfMan
         {
             string titleTag = "mgperk." + perk + ".name";
             string title = Localization.HasKey(titleTag) ? Localization.Get(titleTag) : OccultResearchTitle(perk);
+            ShowOccultPickerMessage(OccultUiText("requires_research") + ": " + title +
+                "\n" + OccultUiText("known_pattern"), owner);
+        }
+
+        private static void ShowOccultPickerMessage(string message, ItemReceiptPanel owner)
+        {
             var factory = SingletonMonoBehaviour<TooltipFactory>.Instance;
             factory.HideTooltip();
-            factory.ShowSimpleTextTooltip(OccultUiText("requires_research") + ": " + title +
-                "\n" + OccultUiText("known_pattern"));
+            factory.ShowSimpleTextTooltip(message);
             factory.SetSimpleTextTooltipColor(Colors.LightRed);
             _occultPickerReasonOwner = owner;
             _occultPickerReasonShown = true;
@@ -146,13 +158,17 @@ namespace ImperiumOfMan
         {
             [HarmonyPriority(Priority.First)]
             private static bool Prefix(ItemReceiptPanel panel, MagnumProgression ____magnumSpaceship,
-                ref ItemProduceReceipt ____receiptToProduce)
+                MagnumCargo ____magnumCargo, int ____lineIndex, ref ItemProduceReceipt ____receiptToProduce)
             {
                 HideOccultPickerReason();
-                if (!MissingOccultCapability(panel?.Receipt, ____magnumSpaceship, out string perk)) return true;
+                if (panel?.Receipt == null) return true;
+                bool missing = MissingOccultCapability(panel.Receipt, ____magnumSpaceship, out string perk);
+                if (!missing && OccultProductionRouteAllowed(panel.Receipt, ____magnumCargo,
+                    ____magnumSpaceship, ____lineIndex)) return true;
                 ____receiptToProduce = null;
                 panel.MakeSelected(false);
-                ShowOccultPickerReason(perk, panel);
+                if (missing) ShowOccultPickerReason(perk, panel);
+                else ShowOccultPickerMessage(OccultPickerRouteMessage(panel.Receipt, ____lineIndex), panel);
                 return false;
             }
         }
@@ -161,19 +177,30 @@ namespace ImperiumOfMan
         private static class RecheckOccultPickerRequirement
         {
             [HarmonyPriority(Priority.First)]
-            private static bool Prefix(MagnumProgression ____magnumSpaceship,
-                ref ItemProduceReceipt ____receiptToProduce, List<ItemReceiptPanel> ____receiptPanels)
+            private static bool Prefix(MagnumProgression ____magnumSpaceship, MagnumCargo ____magnumCargo,
+                int ____lineIndex, ref ItemProduceReceipt ____receiptToProduce, List<ItemReceiptPanel> ____receiptPanels)
             {
-                if (!MissingOccultCapability(____receiptToProduce, ____magnumSpaceship, out string perk)) return true;
                 var pending = ____receiptToProduce;
+                if (pending == null) return true;
+                bool missing = MissingOccultCapability(pending, ____magnumSpaceship, out string perk);
+                if (!missing && OccultProductionRouteAllowed(pending, ____magnumCargo,
+                    ____magnumSpaceship, ____lineIndex)) return true;
                 var owner = ____receiptPanels.FirstOrDefault(panel => panel.Receipt == pending);
                 ____receiptToProduce = null;
                 UI.Back();
-                ShowOccultPickerReason(perk, owner);
+                if (missing) ShowOccultPickerReason(perk, owner);
+                else ShowOccultPickerMessage(OccultPickerRouteMessage(pending, ____lineIndex), owner);
                 // Do not emit the native success sound or ItemSelectedToProduce
                 // event when a pending order can no longer be started.
                 return false;
             }
+        }
+
+        private static string OccultPickerRouteMessage(ItemProduceReceipt receipt, int lineIndex)
+        {
+            if (TryGetOccultRequirement(receipt, out _) != IsOccultLine(lineIndex))
+                return OccultProductionText("wrong_line", "Use the corresponding production line.");
+            return OccultProductionText("queue_full", "Occult line unavailable or queue full.");
         }
 
         [HarmonyPatch(typeof(MagnumSelectItemToProduceWindow), "OnDisable")]
@@ -184,9 +211,32 @@ namespace ImperiumOfMan
 
         private static IEnumerable<(string Label, string Value)> OccultCapabilityRows(string id)
         {
+            if (TryGetOccultFacilityUpgrade(id, out var node))
+            {
+                if (id is OccultYieldCultureI or OccultYieldCultureII)
+                    yield return (OccultUiText("reagent_yield"), id == OccultYieldCultureI ? "+1" : "+2 total");
+                else if (id is OccultYieldMaterialI or OccultYieldMaterialII)
+                    yield return (OccultUiText("material_yield"), id == OccultYieldMaterialI ? "+1" : "+2 total");
+                else if (id is OccultSpeedI or OccultSpeedII)
+                    yield return (OccultUiText("batch_time"), id == OccultSpeedI ? "-15%" : "-30%");
+                else if (id is OccultQueueI or OccultQueueII)
+                    yield return (OccultUiText("queue_depth"), id == OccultQueueI ? "2" : "3");
+                else if (id is OccultLineII or OccultLineIII)
+                    yield return (OccultUiText("production_line"), id == OccultLineII ? "2" : "3");
+                yield return (OccultUiText("prerequisite"), UpgradeName(node.Parent, node.Parent));
+                if (node.RequiredRank != node.Parent)
+                    yield return (OccultUiText("prerequisite"), UpgradeName(node.RequiredRank, node.RequiredRank));
+                if (id == OccultLineIII && node.Parent != OccultLineII)
+                    yield return (OccultUiText("prerequisite"), UpgradeName(OccultLineII, "Secondary Occult Line"));
+                yield return (OccultUiText("recipe_knowledge"), OccultUiText("capacity_only"));
+                yield break;
+            }
+
             switch (id)
             {
                 case OccultRankOne:
+                    yield return (OccultUiText("production_line"), "1");
+                    yield return (OccultUiText("queue_depth"), "1");
                     yield return (OccultUiText("culture"), OccultUiItemName(RawClone, "Raw Clone"));
                     yield return (OccultUiText("containment"), OccultUiItemName(TormentImprint, "Torment Imprint"));
                     break;
@@ -224,7 +274,8 @@ namespace ImperiumOfMan
             private static void Postfix(TooltipFactory __instance, MagnumPerkRecord record,
                 bool isPerkPurchased, RectTransform[] ____itemsGridBlocks)
             {
-                if (record?.ModuleId != OccultModule || !OccultRanks.Contains(record.Id)) return;
+                if (record?.ModuleId != OccultModule ||
+                    (!OccultRanks.Contains(record.Id) && !IsOccultProductionUpgrade(record.Id))) return;
 
                 foreach (var row in OccultCapabilityRows(record.Id))
                     __instance.AddPanelToTooltip().SetIcon("common_datadisk")

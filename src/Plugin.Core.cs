@@ -94,6 +94,7 @@ namespace ImperiumOfMan
                 FinishIndustryRegistration();
                 FinishCommsTurretUpgrades();
                 FinishSupplyPodResearch();
+                FinishOccultFacilityIcons();
                 LogCraftingCoverage();
                 RegisterImperialEquipmentFittings();
                 RegisterImperialDamageTiles();

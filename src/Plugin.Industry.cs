@@ -371,31 +371,38 @@ namespace ImperiumOfMan
         [HarmonyPatch(typeof(ItemProductionSystem), nameof(ItemProductionSystem.StartMagnumItemProduction))]
         private static class IndustryProduction
         {
-            private static bool Prefix(MagnumCargo magnumCargo, ItemProduceReceipt receipt, int count, out int __state)
+            private static bool Prefix(MagnumCargo magnumCargo, MagnumProgression magnumSpaceship,
+                Difficulty difficulty, ItemProduceReceipt receipt, int count, int lineIndex, out int __state)
             {
                 __state = 0;
-                if (!_industryReady || !IndustryBatches.TryGetValue(receipt.OutputItem, out int batch))
-                {
+                if (!_industryReady || receipt == null || !IndustryBatches.TryGetValue(receipt.OutputItem, out int batch))
                     return true;
-                }
+
+                bool occult = IsOccultLine(lineIndex) && TryGetOccultRequirement(receipt, out _);
+                if (occult) batch = OccultBatchSize(receipt, magnumSpaceship, batch);
                 if (count < 1 || count > int.MaxValue / batch ||
+                    (occult && count > int.MaxValue / OccultBatchHours(receipt, magnumSpaceship, difficulty)) ||
                     !magnumCargo.UnlockedProductionItems.Contains(receipt.OutputItem) ||
                     ItemProductionSystem.GetAvailableToProduceCount(
-                        MagnumCargoSystem.GetAvailableCargoStorages(magnumCargo), receipt.RequiredItems) < count)
-                {
+                        MagnumCargoSystem.GetAvailableCargoStorages(magnumCargo), receipt.RequiredItems,
+                        countCustomItems: occult) < count)
                     return false;
-                }
+
                 __state = batch;
                 return true;
             }
 
-            private static void Postfix(MagnumCargo magnumCargo, int lineIndex, int __state)
+            private static void Postfix(MagnumCargo magnumCargo, MagnumProgression magnumSpaceship,
+                Difficulty difficulty, ItemProduceReceipt receipt, int count, int lineIndex, int __state, bool __runOriginal)
             {
-                if (__state > 1)
-                {
-                    var orders = magnumCargo.ItemProduceOrders[lineIndex];
-                    orders[orders.Count - 1].Count *= __state;
-                }
+                // Do not multiply a prior queued order if a different prefix denied
+                // this request (e.g. capability, recipe knowledge or queue limit).
+                if (!__runOriginal || __state < 1) return;
+                var orders = magnumCargo.ItemProduceOrders[lineIndex];
+                var order = orders[orders.Count - 1];
+                order.Count *= __state;
+                if (IsOccultLine(lineIndex) && TryGetOccultRequirement(receipt, out _))
+                    order.DurationInHours = OccultBatchHours(receipt, magnumSpaceship, difficulty) * count;
             }
         }
     }

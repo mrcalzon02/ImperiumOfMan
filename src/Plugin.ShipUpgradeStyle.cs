@@ -40,7 +40,7 @@ namespace ImperiumOfMan
                     return;
                 }
 
-                bool major = perkRecord.ModuleId == OccultModule ||
+                bool major = (perkRecord.ModuleId == OccultModule && !IsOccultProductionUpgrade(perkRecord.Id)) ||
                     IsSupplyBranchMajor(perkRecord.Id) ||
                     perkRecord.Id is SupplyDrop or TroopDrop or SecurityIntrusion or EntranceOverride or ExtractionOverride ||
                     perkRecord.ModuleId == WeaponsModule &&

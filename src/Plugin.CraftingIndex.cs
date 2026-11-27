@@ -123,14 +123,19 @@ namespace ImperiumOfMan
                                     (available == 1 ? " time. " : " times. ") : "More materials are needed. ";
                             route.Access += "Use a free production line to begin.";
                         }
-                        if (OccultRecipeRequirements.TryGetValue(receipt.Id, out string occultPerk))
+                        if (TryGetOccultRequirement(receipt, out string occultPerk))
                         {
                             bool? capable = occultProgression == null ? (bool?)null :
                                 HasOccultCapability(occultProgression, occultPerk);
+                            if (IndustryBatches.TryGetValue(receipt.OutputItem, out int occultBaseBatch))
+                                route.Outputs[0].Count = OccultBatchSize(receipt, occultProgression, occultBaseBatch);
+                            route.Hours = receipt.ProduceTimeInHours * (1f - OccultSpeedPercent(occultProgression) / 100f);
+                            route.Access += " Requires an occult production line; ordinary lines cannot fabricate this recipe.";
                             string research = CraftingLocalizedName("mgperk." + occultPerk + ".name", OccultResearchTitle(occultPerk));
                             route.Access += capable == true ? " Research installed: " + research + "." :
                                 capable == false ? " Requires " + research + "." : " Check research: " + research + ".";
-                            if (capable != true) route.Ready = capable == false ? false : (bool?)null;
+                            if (capable != true || OccultLineCount(occultProgression) == 0)
+                                route.Ready = occultProgression != null ? false : (bool?)null;
                             if (OccultPatternSources.TryGetValue(receipt.OutputItem, out var patternChips))
                                 route.Access += " Learn from " + string.Join(", ", patternChips.Select(CraftingItemName)) +
                                     ". Each chip teaches one recipe.";

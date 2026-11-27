@@ -45,26 +45,31 @@ namespace ImperiumOfMan
         private static void RegisterOccultResearchRanks()
         {
             RegisterOccultUiText();
-            // Six capabilities, with adjacent graph links. These purchases never teach
-            // a recipe; their samples are consumed by the native upgrade transaction.
+            // The six preserved capability IDs form the major spine. Branches
+            // improve the facility rather than granting pattern knowledge.
             var one = RegisterSupportPerk(OccultModule, OccultRankOne, "OccultResearch1",
-                OccultResearchTitle(OccultRankOne), "Cultures and containment.", 0, 0, null,
+                OccultResearchTitle(OccultRankOne), "Cultures and containment.", 0, 1, null,
                 ["medical_equipment", "quasisamples"]);
             var two = RegisterSupportPerk(OccultModule, OccultRankTwo, "OccultResearch2",
-                OccultResearchTitle(OccultRankTwo), "Essence separation and condensation.", 1, 0, one,
+                OccultResearchTitle(OccultRankTwo), "Essence separation and condensation.", 1, 1, one,
                 ["scientific_equipment", NativeGavvakh]);
             var three = RegisterSupportPerk(OccultModule, OccultRankThree, "OccultResearch3",
-                OccultResearchTitle(OccultRankThree), "Manifested materials.", 2, 0, two,
+                OccultResearchTitle(OccultRankThree), "Manifested materials.", 2, 1, two,
                 ["scientific_equipment", "demonic_eye", "mercury_glass"]);
             var four = RegisterSupportPerk(OccultModule, OccultRankFour, "OccultResearch4",
-                OccultResearchTitle(OccultRankFour), "Bone and blood processes.", 2, 1, three,
+                OccultResearchTitle(OccultRankFour), "Bone and blood processes.", 3, 1, three,
                 ["scientific_equipment", "moon_guts", "ron_blood"]);
             var five = RegisterSupportPerk(OccultModule, OccultRankFive, "OccultResearch5",
-                OccultResearchTitle(OccultRankFive), "Furnace, mineral and spore processes.", 1, 1, four,
+                OccultResearchTitle(OccultRankFive), "Furnace, mineral and spore processes.", 4, 1, four,
                 ["scientific_equipment", "mars_skin", "cattaram_geode", "jupiter_mushrooms"]);
-            RegisterSupportPerk(OccultModule, OccultRankSix, "OccultResearch6",
-                OccultResearchTitle(OccultRankSix), "Advanced occult assembly.", 0, 1, five,
+            var six = RegisterSupportPerk(OccultModule, OccultRankSix, "OccultResearch6",
+                OccultResearchTitle(OccultRankSix), "Advanced occult assembly.", 5, 1, five,
                 ["prototype_schematics", "quasi_repair_kit", "mars_cyborg_head"]);
+            RegisterOccultFacilityUpgrades(new Dictionary<string, MagnumPerkRecord>
+            {
+                [OccultRankOne] = one, [OccultRankTwo] = two, [OccultRankThree] = three,
+                [OccultRankFour] = four, [OccultRankFive] = five, [OccultRankSix] = six
+            });
         }
 
         private static void RegisterChaosOccultCapabilities(ChaosSupplyTier tier, IEnumerable<string> outputs)
@@ -85,6 +90,7 @@ namespace ImperiumOfMan
                 // keep their normal recipe access regardless of their faction branding.
                 if (demonicGear || occultStock || ritual)
                     OccultRecipeRequirements[id] = rank;
+                if (occultStock) OccultMaterialOutputs.Add(id);
             }
         }
 
@@ -93,9 +99,16 @@ namespace ImperiumOfMan
         {
             private static void Postfix(MagnumProgression __instance, string id, ref bool __result)
             {
+                if (TryGetOccultFacilityUpgrade(id, out var node))
+                {
+                    __result = __result && OccultPurchased(__instance, node.Parent) &&
+                        OccultPurchased(__instance, node.RequiredRank) &&
+                        (id != OccultLineIII || OccultPurchased(__instance, OccultLineII));
+                    return;
+                }
                 int index = Array.IndexOf(OccultRanks, id);
-                // Native trees also allow buying backwards from a purchased child.
-                // This compact sequence specifically requires the preceding capability.
+                // Native trees allow buying backward from a purchased child.
+                // Preserve the explicit major rank prerequisites.
                 if (index > 0 && !HasOccultCapability(__instance, OccultRanks[index - 1]))
                     __result = false;
             }

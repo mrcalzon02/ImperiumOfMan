@@ -149,13 +149,11 @@ namespace ImperiumOfMan
         {
             [HarmonyPriority(Priority.First)]
             private static bool Prefix(MagnumCargo magnumCargo, MagnumProgression magnumSpaceship,
-                ItemProduceReceipt receipt)
+                ItemProduceReceipt receipt, int lineIndex)
             {
-                if (receipt == null || !OccultRecipeRequirements.TryGetValue(receipt.Id, out string perk)) return true;
-                // The native production transaction supplies its own progression state.
-                // Capability and physically acquired recipe knowledge are independent.
-                return _industryReady && HasOccultCapability(magnumSpaceship, perk) &&
-                    magnumCargo != null && magnumCargo.UnlockedProductionItems.Contains(receipt.OutputItem);
+                // Gate by the actual persistent queue ID, not just the picker view.
+                // Native recipes keep their own route; old queued orders are untouched.
+                return OccultProductionRouteAllowed(receipt, magnumCargo, magnumSpaceship, lineIndex);
             }
         }
 
