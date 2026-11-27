@@ -16,7 +16,7 @@ namespace ImperiumOfMan
                 "Weapons & equipment", "Occult foundations", "Recovery", "Mixed processing", "Other processing",
                 "Gannix · living tissue & ammunition", "Duggur · bone & binding", "Shartamakhum · resonant materials",
                 "Ron · bloodwork", "Ur · living forge", "Cattaram · crystals", "Flauros · spores & ordnance",
-                "Agga / Scrivnus · relics", "Chaos Undivided · Soulforge" };
+                "Agga / Scrivnus · relics", "Chaos Undivided · Soulforge", "Organic salvage · human & animal" };
             private static readonly Color32[] GroupColors = { new Color32(129,157,135,255), new Color32(136,171,120,255),
                 new Color32(168,158,108,255), new Color32(101,167,147,255), new Color32(113,157,177,255),
                 new Color32(145,168,105,255), new Color32(162,151,119,255), new Color32(174,158,107,255),
@@ -24,7 +24,8 @@ namespace ImperiumOfMan
                 new Color32(146,149,119,255), new Color32(134,154,144,255), new Color32(117,145,128,255),
                 new Color32(119,172,130,255), new Color32(176,161,137,255), new Color32(131,157,186,255),
                 new Color32(175,119,128,255), new Color32(190,149,107,255), new Color32(157,143,188,255),
-                new Color32(153,177,102,255), new Color32(152,139,168,255), new Color32(165,130,137,255) };
+                new Color32(153,177,102,255), new Color32(152,139,168,255), new Color32(165,130,137,255),
+                new Color32(168,137,114,255) };
 
             private void TraceSelectedIngredients()
             {
@@ -176,6 +177,12 @@ namespace ImperiumOfMan
             {
                 if (item == null) return 13;
                 string id = item.Id ?? "";
+                // Explicit native salvage IDs take precedence over the weapon
+                // class of arms, legs and claws. The same item node is shared
+                // by all its real consumers, including ordinary recipes.
+                if (id is "human_skin" or "human_hand" or "human_leg" or "human_skull" or
+                    "human_rib" or "human_meat" or "dog_meat" or "spider_meat" or
+                    "spider_joint" or "spider_claw") return 23;
                 int occult = OccultDisplayGroup(id);
                 if (occult >= 0) return occult;
                 if (IndustryCatalogs.TryGetValue(id, out var patterns) && patterns.Length > 0)
