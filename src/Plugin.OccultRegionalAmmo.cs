@@ -202,6 +202,7 @@ namespace ImperiumOfMan
 
         private static string RegionalOccultRecipeBranch(string output)
         {
+            if (ActiveCloneVatProducts.Contains(output)) return "Clone-vat organic salvage";
             foreach (var chain in RegionalOccultAmmoChains)
                 if (ActiveRegionalAmmoChains.Contains(chain.Output) &&
                     (chain.Output == output || chain.Materials.Any(material => material.Id == output)))

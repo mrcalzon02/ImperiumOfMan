@@ -30,7 +30,7 @@ namespace ImperiumOfMan
 
         private static string OccultCapabilitySummary(string perk) => perk switch
         {
-            OccultRankOne => "Clone cultures and torment containment.",
+            OccultRankOne => "Clone cultures, organic components and torment containment.",
             OccultRankTwo => "Suffering separation and Gavvakh condensation.",
             OccultRankThree => "Agga, Gannix and Shartamakhum fabrication.",
             OccultRankFour => "Duggur, Ron and Scrivnus fabrication.",
@@ -48,7 +48,7 @@ namespace ImperiumOfMan
             // The six preserved capability IDs form the major spine. Branches
             // improve the facility rather than granting pattern knowledge.
             var one = RegisterSupportPerk(OccultModule, OccultRankOne, "OccultResearch1",
-                OccultResearchTitle(OccultRankOne), "Cultures and containment.", 0, 1, null,
+                OccultResearchTitle(OccultRankOne), "Cultures and components.", 0, 1, null,
                 ["medical_equipment", "quasisamples"]);
             var two = RegisterSupportPerk(OccultModule, OccultRankTwo, "OccultResearch2",
                 OccultResearchTitle(OccultRankTwo), "Essence separation and condensation.", 1, 1, one,

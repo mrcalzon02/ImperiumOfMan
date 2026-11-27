@@ -57,6 +57,7 @@ namespace ImperiumOfMan
             AddOccultPatternPool("soulforge", "Soulforge Relic Pattern", ChaosFaction, BlackMeridian, 6,
                 "quasi_repair_kit", "impaler");
 
+            RegisterCloneVatPatterns();
             RegisterRegionalOccultPatterns();
 
             string[] missing = AddedOccultRecipes.Where(id => !OccultPatternSources.ContainsKey(id)).ToArray();

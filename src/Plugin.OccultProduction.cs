@@ -85,6 +85,7 @@ namespace ImperiumOfMan
             RegisterOccultRecipe(TormentImprint, OccultRankOne, 4, 4, new ItemQuantity(RawClone, 2));
             RegisterOccultRecipe(SufferingEssence, OccultRankTwo, 4, 4, new ItemQuantity(TormentImprint, 4));
             RegisterOccultRecipe(NativeGavvakh, OccultRankTwo, 4, 2, new ItemQuantity(SufferingEssence, 4));
+            RegisterCloneVatRecipes();
             RegisterOccultResearchRecipes();
             RegisterOccultPatternSources();
 

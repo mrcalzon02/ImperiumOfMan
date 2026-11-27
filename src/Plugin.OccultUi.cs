@@ -21,6 +21,7 @@ namespace ImperiumOfMan
             ["relics"] = "Relics",
             ["spores"] = "Spore cultures",
             ["body_parts"] = "Body parts",
+            ["clone_vat_components"] = "Biomass-only component patterns",
             ["soulforge"] = "Soulforge",
             ["augmentation"] = "Augmentation",
             ["recipe_knowledge"] = "Pattern knowledge",
@@ -238,6 +239,7 @@ namespace ImperiumOfMan
                     yield return (OccultUiText("production_line"), "1");
                     yield return (OccultUiText("queue_depth"), "1");
                     yield return (OccultUiText("culture"), OccultUiItemName(RawClone, "Raw Clone"));
+                    yield return (OccultUiText("body_parts"), OccultUiText("clone_vat_components"));
                     yield return (OccultUiText("containment"), OccultUiItemName(TormentImprint, "Torment Imprint"));
                     break;
                 case OccultRankTwo:

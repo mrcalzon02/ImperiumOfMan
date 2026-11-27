@@ -136,6 +136,7 @@ namespace ImperiumOfMan
                 if (id.EndsWith("_custom", StringComparison.Ordinal))
                     id = id.Substring(0, id.Length - "_custom".Length);
 
+                if (IsCloneVatComponent(id)) return 23;
                 switch (id)
                 {
                     case RawClone: case TormentImprint: case SufferingEssence: case NativeGavvakh:
@@ -180,9 +181,7 @@ namespace ImperiumOfMan
                 // Explicit native salvage IDs take precedence over the weapon
                 // class of arms, legs and claws. The same item node is shared
                 // by all its real consumers, including ordinary recipes.
-                if (id is "human_skin" or "human_hand" or "human_leg" or "human_skull" or
-                    "human_rib" or "human_meat" or "dog_meat" or "spider_meat" or
-                    "spider_joint" or "spider_claw") return 23;
+                if (IsCloneVatComponent(id)) return 23;
                 int occult = OccultDisplayGroup(id);
                 if (occult >= 0) return occult;
                 if (IndustryCatalogs.TryGetValue(id, out var patterns) && patterns.Length > 0)
