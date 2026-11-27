@@ -15,6 +15,9 @@ namespace ImperiumOfMan
             {
                 Add(WeaponsModule, "engineer");
                 Add(DropModule, "engineer");
+                // The native point builder enumerates every registered perk module,
+                // even a module also reached from a nested research tab.
+                Add(SupplyModule, "engineer");
                 Add(CommsModule, "engineer");
 
                 void Add(string id, string anchor)
@@ -35,7 +38,7 @@ namespace ImperiumOfMan
             {
                 moduleId = moduleId switch
                 {
-                    WeaponsModule or DropModule or CommsModule => "engineer",
+                    WeaponsModule or DropModule or SupplyModule or CommsModule => "engineer",
                     _ => moduleId
                 };
             }
@@ -46,7 +49,7 @@ namespace ImperiumOfMan
         {
             private static void Postfix(MagnumModulePoint __instance)
             {
-                if (__instance.ModuleId is not (WeaponsModule or DropModule or CommsModule))
+                if (__instance.ModuleId is not (WeaponsModule or DropModule or SupplyModule or CommsModule))
                 {
                     return;
                 }
@@ -57,6 +60,7 @@ namespace ImperiumOfMan
                     WeaponsModule => new Vector3(-80f, 0f, 0f),
                     CommsModule => new Vector3(32f, -46f, 0f),
                     DropModule => new Vector3(0f, 64f, 0f),
+                    SupplyModule => new Vector3(80f, 64f, 0f),
                     _ => Vector3.zero
                 };
                 __instance.transform.localPosition += offset;
