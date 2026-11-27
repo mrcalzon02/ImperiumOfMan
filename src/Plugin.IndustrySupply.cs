@@ -117,10 +117,26 @@ namespace ImperiumOfMan
                     }
                     if (station != null)
                     {
-                        TopUp(station, chip, 1);
+                        if (IsOccultPatternChip(chip))
+                            TopUpRegionalStock(station, chip, 1, "pattern");
+                        else
+                            TopUp(station, chip, 1);
                     }
                 }
             }
+
+            // Regional prototype feedstock is also available through ordinary paid
+            // faction trade. Match the native reward tiers and provide at most one
+            // first-stage batch of tissue per restock. No pirate fallback, free
+            // cargo grant, recipe unlock, finished ammunition or new drop table.
+            if (ActiveRegionalAmmoChains.Contains(IgvasAmmo))
+            {
+                TopUpRegionalSeed(TezctlanFaction, null, 2, "venus_guts", 1);
+                TopUpRegionalSeed(TezctlanFaction, null, 2, "quasi_venus_feather", 1);
+            }
+            if (ActiveRegionalAmmoChains.Contains(NailsOfPainAmmo))
+                TopUpRegionalSeed(ChaosFaction, "iomOssuaryWorks", 3, "moon_guts", 2);
+
             var chaos = factions.Get(ChaosFaction, logMissing: false);
             if (chaos?.Record.CanBeTraded == true && factions.IsEnabledFaction(chaos) && chaos.CurrentTechLevel >= 1)
             {
@@ -178,6 +194,33 @@ namespace ImperiumOfMan
                     TopUp(station, LegionFilter, 3);
                     TopUp(station, LegionSmoke, 2);
                 }
+            }
+
+            void TopUpRegionalSeed(string factionId, string preferredStation, int tier, string id, int target)
+            {
+                var owner = factions.Get(factionId, logMissing: false);
+                if (owner?.Record.CanBeTraded != true || !factions.IsEnabledFaction(owner) ||
+                    owner.CurrentTechLevel < tier || Data.Items.GetRecord(id) == null)
+                    return;
+
+                bool IsOwnedSupplier(Station candidate) => candidate?.OwnerFactionId == owner.Id &&
+                    !string.IsNullOrEmpty(candidate.SpaceObjectId);
+                var station = preferredStation == null ? null : stations.Get(preferredStation, logMissing: false);
+                if (!IsOwnedSupplier(station))
+                    station = stations.Values.FirstOrDefault(IsOwnedSupplier);
+                if (station != null)
+                    TopUpRegionalStock(station, id, target, "seed");
+            }
+
+            void TopUpRegionalStock(Station station, string id, int target, string kind)
+            {
+                int before = station.InternalStorage.CountItems(id);
+                TopUp(station, id, target);
+                int after = station.InternalStorage.CountItems(id);
+                if (after > before)
+                    UnityEngine.Debug.Log("[Cvar_ImperiumOfMan] Regional occult " + kind +
+                        " restock | item=" + id + " | faction=" + station.OwnerFactionId +
+                        " | station=" + station.Id + " | before=" + before + " | after=" + after);
             }
 
             void TopUp(Station station, string id, int target)
