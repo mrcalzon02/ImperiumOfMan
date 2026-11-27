@@ -120,7 +120,7 @@ namespace ImperiumOfMan
                 case 1: IndustryRecipe(id, 3, 3, new(RationBase, 2), new(Wrapper, 2)); break;
                 case 2:
                     if (TryRegisterChaosShardStock(tier))
-                        IndustryRecipe(id, 3, 8, new(InfusedShardStock, 8));
+                        IndustryRecipe(id, 3, 8, new ItemQuantity(InfusedShardStock, 8));
                     else
                         IndustryRecipe(id, 3, 8, new(salvage, 1), new("quasi_basic_ammo", 6));
                     break;
@@ -129,7 +129,7 @@ namespace ImperiumOfMan
                 case 5: IndustryRecipe(id, 6, 2, new(PolymerStock, 1), new("smoke_grenade", 1)); break;
                 case 6:
                     if (TryRegisterChaosCoilStock(tier))
-                        IndustryRecipe(id, 5, 8, new(ChargedCoilStock, 8));
+                        IndustryRecipe(id, 5, 8, new ItemQuantity(ChargedCoilStock, 8));
                     else
                         IndustryRecipe(id, 5, 8, new(salvage, 1), new("battery_basic_ammo", 6));
                     break;

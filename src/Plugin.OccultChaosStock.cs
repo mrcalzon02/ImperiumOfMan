@@ -94,13 +94,13 @@ namespace ImperiumOfMan
 
         private static void RegisterSoulforgeMatrix(ChaosSupplyTier tier) =>
             TryRegisterChaosStockChain(tier, OccultRankFour,
-                new(SoulforgeMatrix, "demonic_eye", "Soulforge Matrix",
+                new RegionalOccultMaterial(SoulforgeMatrix, "demonic_eye", "Soulforge Matrix",
                     "Bound essence held in a lunar structural matrix.", 18, 6, 2,
                     new(BoundAsh, 1), OccultStockOr(DuggurMatrix, "moon_armor_plates")));
 
         private static void RegisterSoulforgeArmature(ChaosSupplyTier tier) =>
             TryRegisterChaosStockChain(tier, OccultRankFive,
-                new(SoulforgeArmature, "moon_armor_plates", "Soulforge Armature",
+                new RegionalOccultMaterial(SoulforgeArmature, "moon_armor_plates", "Soulforge Armature",
                     "A reinforced occult matrix for advanced Undivided equipment.", 24, 8, 2,
                     new(ForgeEmber, 1), OccultStockOr(CattaramCrystalCore, "cattaram_stone"),
                     OccultStockOr(DuggurMatrix, "moon_armor_plates")));
