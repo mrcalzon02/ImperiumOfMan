@@ -130,8 +130,15 @@ namespace ImperiumOfMan
                     "XiomaraMasks", "Feathered Masks", null, 3, "quasi_venus_rags");
                 AddRegionalPattern("tezctlan_living_rags", "Gannix Living Tissue Pattern",
                     TezctlanFaction, "Tezctlan", null, 3, "quasi_venus_rags");
-                AddRegionalPattern("equipment_tezctlan_feather", "Gannix Living Fiber Pattern",
-                    TezctlanFaction, "Tezctlan", null, 3, "quasi_venus_feather");
+                // Existing regional ammo seed patterns already license feathers.
+                // Supply targeted fallback patterns only if the matching ammo
+                // chain was skipped because another producer owns its receipt.
+                if (!ActiveRegionalAmmoChains.Contains(IgvasAmmo))
+                    AddRegionalPattern("equipment_tezctlan_feather", "Gannix Living Fiber Pattern",
+                        TezctlanFaction, "Tezctlan", null, 3, "quasi_venus_feather");
+                if (!ActiveRegionalAmmoChains.Contains(AngerlingsAmmo))
+                    AddRegionalPattern("equipment_xiomara_feather", "Gannix Living Fiber Pattern",
+                        "XiomaraMasks", "Feathered Masks", null, 3, "quasi_venus_feather");
             }
             if (IsRegisteredOccultStock(GannixChitin))
             {
@@ -155,8 +162,8 @@ namespace ImperiumOfMan
             }
             // Foundation patterns remain available even if the corresponding
             // ammo producer is native and that prototype was skipped.
-            if (ActiveOccultEquipmentMaterials.Any(id => OccultEquipmentMaterialRegion(id) == "Gannix") &&
-                !ActiveRegionalAmmoChains.Contains(IgvasAmmo))
+            if ((ActiveOccultEquipmentMaterials.Contains(GannixLivingWeave) ||
+                IsRegisteredOccultStock(GannixChitin)) && !ActiveRegionalAmmoChains.Contains(IgvasAmmo))
                 RegisterRegionalFoundationPatterns("tezctlan", TezctlanFaction, "Tezctlan", null);
             if (ActiveOccultEquipmentMaterials.Contains(GannixLivingWeave) &&
                 !ActiveRegionalAmmoChains.Contains(AngerlingsAmmo))
