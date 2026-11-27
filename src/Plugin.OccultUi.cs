@@ -35,6 +35,7 @@ namespace ImperiumOfMan
             ["capacity_only"] = "Facility upgrade; no recipes granted",
             ["requires_research"] = "Requires Occult Research",
             ["known_pattern"] = "Recipe known; research capability required.",
+            ["insufficient_ingredients"] = "Not enough ingredients for the selected quantity.",
             ["agga"] = "Agga",
             ["gannix"] = "Gannix",
             ["shartamakhum"] = "Shartamakhum",
@@ -184,13 +185,27 @@ namespace ImperiumOfMan
                 var pending = ____receiptToProduce;
                 if (pending == null) return true;
                 bool missing = MissingOccultCapability(pending, ____magnumSpaceship, out string perk);
-                if (!missing && OccultProductionRouteAllowed(pending, ____magnumCargo,
-                    ____magnumSpaceship, ____lineIndex)) return true;
+                bool routeAllowed = !missing && OccultProductionRouteAllowed(pending, ____magnumCargo,
+                    ____magnumSpaceship, ____lineIndex);
+                bool sufficientIngredients = true;
+                if (routeAllowed && TryGetOccultRequirement(pending, out _))
+                {
+                    // The native confirmation handler always emits its success event
+                    // after calling StartMagnumItemProduction, even when our production
+                    // prefix skips the original. Recheck the actual selected quantity
+                    // against current cargo using the same custom-item rule as that guard.
+                    int count = UI.Get<CommonContextMenu>().SliderButtonSelectedValue;
+                    sufficientIngredients = count > 0 && ItemProductionSystem.GetAvailableToProduceCount(
+                        MagnumCargoSystem.GetAvailableCargoStorages(____magnumCargo),
+                        pending.RequiredItems, countCustomItems: true) >= count;
+                }
+                if (routeAllowed && sufficientIngredients) return true;
                 var owner = ____receiptPanels.FirstOrDefault(panel => panel.Receipt == pending);
                 ____receiptToProduce = null;
                 UI.Back();
                 if (missing) ShowOccultPickerReason(perk, owner);
-                else ShowOccultPickerMessage(OccultPickerRouteMessage(pending, ____lineIndex), owner);
+                else if (!routeAllowed) ShowOccultPickerMessage(OccultPickerRouteMessage(pending, ____lineIndex), owner);
+                else ShowOccultPickerMessage(OccultUiText("insufficient_ingredients"), owner);
                 // Do not emit the native success sound or ItemSelectedToProduce
                 // event when a pending order can no longer be started.
                 return false;
