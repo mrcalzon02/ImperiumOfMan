@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using MGSC;
 using UnityEngine;
@@ -97,45 +96,6 @@ namespace ImperiumOfMan
             }
         }
 
-        [HarmonyPatch(typeof(MagnumModuleTechTreeWindow), "RefreshGrid")]
-        private static class LinkSharedWeaponUpgrades
-        {
-            private static void Postfix(MagnumModuleTechTreeWindow __instance, string ____moduleId,
-                MagnumProgression ____magnumSpaceship)
-            {
-                if (____moduleId != WeaponsModule)
-                {
-                    return;
-                }
 
-                bool fitted = ShipMounts.Any(mount => ____magnumSpaceship.IsPerkPurchased(mount.Id));
-                var nodes = __instance.GetComponentsInChildren<ShipUpgradeNodeGeometry>(true);
-                string[] upgrades = [BarrageDuration, BarrageRounds, BarrageCalls];
-                for (int column = 1; column <= 3; column++)
-                {
-                    AddLink(column, 0, column, 1,
-                        !____magnumSpaceship.IsPerkPurchased(ShipMounts[column - 1].Id));
-                    // Reuse the native node's result so the branch also reflects the
-                    // individual upgrade's current availability, not just its prerequisite.
-                    bool available = nodes.Any(node => node.PerkId == upgrades[column - 1] &&
-                        node.PurchasedOrAvailable);
-                    AddLink(column, 1, column, 2, !fitted || !available);
-                    if (column < 3)
-                    {
-                        AddLink(column, 1, column + 1, 1, !fitted);
-                    }
-                }
-
-                void AddLink(int fromColumn, int fromRow, int toColumn, int toRow, bool locked)
-                {
-                    // Drawing coordinates only: these records are never registered,
-                    // purchased or added to Parents/Childs. Any fitted mount still
-                    // unlocks all three shared upgrades through the existing gate.
-                    var from = new MagnumPerkRecord { PositionInGraph = new CellPosition(fromColumn, fromRow) };
-                    var to = new MagnumPerkRecord { PositionInGraph = new CellPosition(toColumn, toRow) };
-                    __instance.AddArrow(from, to, locked);
-                }
-            }
-        }
     }
 }
