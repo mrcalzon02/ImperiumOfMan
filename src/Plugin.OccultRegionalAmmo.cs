@@ -135,6 +135,13 @@ namespace ImperiumOfMan
 
         private static bool IsOwnedRegionalOccultMaterial(string id) => RegionalOccultMaterials.Contains(id);
 
+        // Only switch away from donor descriptors when the complete native-sized
+        // artwork triplet is embedded. Incomplete future art batches remain safe.
+        private static bool HasRegionalOccultArtwork(string id) =>
+            SpriteResources.ContainsKey("ImperiumOfMan.Art." + id + "_icon.png") &&
+            SpriteResources.ContainsKey("ImperiumOfMan.Art." + id + "_floor.png") &&
+            SpriteResources.ContainsKey("ImperiumOfMan.Art." + id + "_shadow.png");
+
         private static bool TryRegisterRegionalOccultAmmo(string output)
         {
             var chain = Array.Find(RegionalOccultAmmoChains, candidate => candidate.Output == output);
@@ -175,7 +182,8 @@ namespace ImperiumOfMan
             foreach (var material in chain.Materials)
             {
                 AddMaterial(material.Id, material.Donor, material.Name, material.Description,
-                    material.Price, chain.Tier, category: chain.Faction, retainNativeArtwork: true);
+                    material.Price, chain.Tier, category: chain.Faction, maxIconSize: 24,
+                    retainNativeArtwork: !HasRegionalOccultArtwork(material.Id));
                 RegionalOccultMaterials.Add(material.Id);
                 OccultMaterialOutputs.Add(material.Id);
                 RegisterOccultRecipe(material.Id, chain.Rank, material.Hours, material.Batch, material.Inputs);

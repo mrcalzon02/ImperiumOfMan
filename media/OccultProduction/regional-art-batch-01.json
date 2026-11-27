@@ -1,0 +1,224 @@
+{
+  "schema": "iom.occult-regional-art-batch.v1",
+  "generator": "image_gen",
+  "source_generation_id": "67e66c2d-be6a-4b17-9b7e-956d7e1ebb4e",
+  "source_sha256": "876fed294f0040570ad4f6f78f95a8a62f9b7d8313af4007870fb9a01505672c",
+  "source_dimensions": [
+    1774,
+    887
+  ],
+  "source_archive_sha256": "5f256759271dbb2ef12948fe0ab20887ba70687f0d078be54e2f193f3b0b7fae",
+  "source_archive_location": "Conversation artifact Occult_Intermediate_Art_Batch_01.zip (original master sheet and normalized masters; not checked into Git)",
+  "import": "4 columns x 2 rows; threshold alpha; remove isolated small components; trim; nearest-neighbor fit to 22/24 or 14/16; black floor silhouette alpha multiplied by 0.45",
+  "validation": "Local RGBA, dimensions, nonempty silhouette, transparent margins and visual review; remote Git blob IDs matched local bytes. Native rendering not yet tested.",
+  "items": [
+    {
+      "id": "iom_occult_gannix_chitin",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "ab4c300e331806c23bf4f62216d148b6dbfc7602"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "0a5dce8ac1a0042bb29099efc73164e36565325f"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "d4a83b1b489afca76f733d131f85abf831efa4ef"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_gannix_living_dart",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "1a894e603ac7e67ee27374acd24dbbbc8eb6c76c"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "8965990f2a0fcf21131af5a9cab0c8e207b5819c"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "253d7e62b4267c405ebcac2372fa35ad84e15aa8"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_shartamakhum_substrate",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "64b06371eff67c659fd037b244e5457ae1e8ba82"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "31205e2fb2eed0271c0dcd3e342eb2b70cd42c2f"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "d64b322f2d137b58af977bd0239ecfa992fa39e4"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_shartamakhum_cell",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "7ff5c5eaf617550d6011b70c48353631d93275e8"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "c830796661265e4bd3b3356ff25dccb9b9dd2082"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "5311fb4ce75688b1fe9d731677e3fb95eb3917f2"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_ur_concentrate",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "8f55070ec800d676dc4a0f17d07dcc4815a568b8"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "0cbbc24273220758b3b4b69ccb72877fc34960ea"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "be03133042a6095f846c5819932a82c35189e8ed"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_ur_redfire_stock",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "200d66893b02e0e3ba6231879eb8fabea4f8c0f6"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "bc326ab4df73cdf38eeb44cec63db51e57f2d0d8"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "15ac9db14c390195ebef8168936890c2545b463b"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_flauros_spore_culture",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "c7bceaae77fea9a83ee643a5cb91447f86569463"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "70735d530c3f5f5b5071e26e1c4800df4125c1dd"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "90fea8a9c224f94590e123630912207584ba9ae6"
+        }
+      }
+    },
+    {
+      "id": "iom_occult_flauros_brood_substrate",
+      "runtime": {
+        "icon": {
+          "dimensions": [
+            24,
+            24
+          ],
+          "git_blob": "fa31a8dd7c993bb664cd8c97b2941d2d1ccd9a2d"
+        },
+        "floor": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "c058d9027dec0c1d7a5a5d9ccbc215f6f65a157d"
+        },
+        "shadow": {
+          "dimensions": [
+            16,
+            16
+          ],
+          "git_blob": "ee9f4b0beff74b7f95b02c0b6ae7d0e19e1d1eed"
+        }
+      }
+    }
+  ]
+}
