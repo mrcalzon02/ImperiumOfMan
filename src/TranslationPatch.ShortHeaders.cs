@@ -121,6 +121,7 @@ namespace ImperiumOfMan
             ["iom_supply_pod"] = "Supply delivery",
             ["iom_mercenary_pod"] = "Troop deployment",
             ["iom_pod_capacity"] = "Troop capacity",
+            ["iom_pod_capacity_2"] = "Troop capacity",
             ["iom_pod_calls"] = "Drop support charges",
             ["iom_occult_research_1"] = "Cultures and containment",
             ["iom_occult_research_2"] = "Essence distillation",

@@ -17,6 +17,7 @@ namespace ImperiumOfMan
         private const string SupplyDrop = "iom_supply_pod";
         private const string TroopDrop = "iom_mercenary_pod";
         private const string PodCapacity = "iom_pod_capacity";
+        private const string PodCapacityTwo = "iom_pod_capacity_2";
         private const string PodCalls = "iom_pod_calls";
         private const string SelectedMount = "iom.support.selected_mount";
         private const string SelectedSquad = "iom.support.selected_squad";
@@ -105,11 +106,14 @@ namespace ImperiumOfMan
                 "Call down a cache of Las Clips, standard ammunition and dressings once per raid.", 0, 0, null,
                 ["engineering_parts_container", "communication_relay", "medical_equipment"]);
             var troop = RegisterSupportPerk(DropModule, TroopDrop, "MercenaryPod", "Mercenary Pod",
-                "Deploy two clone Guardsmen with PDF flak and Lasguns. Shares the drop reserve with supplies.", 1, 0, supply,
+                "Deploy one clone Guardsman with PDF flak and a Lasgun. Shares the drop reserve with supplies.", 1, 0, supply,
                 ["military_unit", "armor_container", "biomass_tank"]);
-            RegisterSupportPerk(DropModule, PodCapacity, "MercenaryEquipment", "Expanded Troop Pod",
-                "Add one trooper to every crewed drop.", 2, 0, troop,
+            var capacity = RegisterSupportPerk(DropModule, PodCapacity, "MercenaryEquipment", "Troop Pod Capacity I",
+                "Increase each troop drop to two mercenaries.", 2, 0, troop,
                 ["construction_equipment", "armor_container", "engineering_parts_container"]);
+            RegisterSupportPerk(DropModule, PodCapacityTwo, "MercenaryArmor", "Troop Pod Capacity II",
+                "Increase each troop drop to three mercenaries.", 3, 0, capacity,
+                ["construction_equipment", "armor_container", "military_parts_container", "engineering_parts_container"]);
             RegisterSupportPerk(DropModule, PodCalls, "AdditionalCallIns", "Drop Support Reserve",
                 "Add one supply or troop call per raid.", 0, 1, supply,
                 ["communication_relay", "engineering_parts_container", "management_unit"]);
@@ -216,6 +220,12 @@ namespace ImperiumOfMan
             TranslationPatch.AddShipSupportText(key + ".treecaption", name);
         }
 
+        // One shared capacity calculation for targeting, deployment, loadout and tooltips.
+        // The existing perk ID is retained as rank I; rank II requires rank I.
+        private static int TroopPodCapacity(MagnumProgression progression) =>
+            progression?.IsPerkPurchased(PodCapacity) != true ? 1 :
+            progression.IsPerkPurchased(PodCapacityTwo) ? 3 : 2;
+
         private static int ImperialSupportTech(Factions factions) => factions?.Get(ItemCategory)?.CurrentTechLevel ?? 1;
 
         [HarmonyPatch(typeof(MagnumProgression), nameof(MagnumProgression.IsAvailableToUpgrade))]
@@ -230,6 +240,10 @@ namespace ImperiumOfMan
                 if (id is BarrageDuration or BarrageRounds or BarrageCalls)
                 {
                     __result = ShipMounts.Any(mount => __instance.IsPerkPurchased(mount.Id));
+                }
+                else if (id == PodCapacityTwo)
+                {
+                    __result = __instance.IsPerkPurchased(PodCapacity);
                 }
                 else if (id.StartsWith("iom_drop_troops_", StringComparison.Ordinal) &&
                     int.TryParse(id.Substring("iom_drop_troops_".Length), out int tier))

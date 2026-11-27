@@ -66,7 +66,7 @@ namespace ImperiumOfMan
             };
         }
 
-        private static List<CellPosition> SupportLanding(State state, CellPosition target, int count)
+        private static List<CellPosition> SupportLanding(State state, CellPosition target, int count, bool isSupply)
         {
             var grid = state.Get<MapGrid>();
             var creatures = state.Get<Creatures>();
@@ -77,7 +77,7 @@ namespace ImperiumOfMan
                 var position = target + offset;
                 var cell = grid.GetCell(position);
                 if (cell?.Type == MapCellType.Floor && cell.isSeen && cell.ReachableCellFlag &&
-                    (count > 1 || !cell.IsOneWideCorridor) &&
+                    (!isSupply || !cell.IsOneWideCorridor) &&
                     cell.specialFlag == MapCellSpecialFlag.None && cell.IsPassable(ObstacleType.OneWayCorridor) &&
                     creatures.GetCreature(position.X, position.Y) == null && obstacles.Get(position.X, position.Y) == null)
                 {
@@ -97,7 +97,7 @@ namespace ImperiumOfMan
         }
 
         private static int RequiredLandingCells(State state, SupportAction action) => action == SupportAction.Supply ? 1 :
-            state.Get<MagnumProgression>().IsPerkPurchased(PodCapacity) ? 3 : 2;
+            TroopPodCapacity(state.Get<MagnumProgression>());
 
         private static bool IsFireTarget(MapCell cell) => cell != null && cell.IsFloorSurfaceType && cell.IsExplored;
 
@@ -147,7 +147,7 @@ namespace ImperiumOfMan
             }
             else
             {
-                var landing = SupportLanding(state, target, RequiredLandingCells(state, action));
+                var landing = SupportLanding(state, target, RequiredLandingCells(state, action), action == SupportAction.Supply);
                 if (landing.Count == 0)
                 {
                     return false;
@@ -366,7 +366,7 @@ namespace ImperiumOfMan
                 }
                 else if (order.Action != SupportAction.Fire)
                 {
-                    var landing = SupportLanding(state, order.Cursor, RequiredLandingCells(state, order.Action));
+                    var landing = SupportLanding(state, order.Cursor, RequiredLandingCells(state, order.Action), order.Action == SupportAction.Supply);
                     foreach (var cell in landing)
                     {
                         targetView.DrawSpareAreaCell(cell);

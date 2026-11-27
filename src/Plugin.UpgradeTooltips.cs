@@ -13,7 +13,7 @@ namespace ImperiumOfMan
             !OccultRanks.Contains(id) &&
             (TryGetCommsUpgrade(id, out _, out _) ||
             id is BarrageDuration or BarrageRounds or BarrageCalls or
-                SupplyDrop or TroopDrop or PodCapacity or PodCalls ||
+                SupplyDrop or TroopDrop or PodCapacity or PodCapacityTwo or PodCalls ||
             ShipMounts.Any(mount => mount.Id == id) || TooltipTroopTier(id) > 0 ||
             TranslationPatch.HasUpgradeTooltipDescription(id));
 
@@ -57,7 +57,7 @@ namespace ImperiumOfMan
             int fireCalls = 1 + Bonus(BarrageCalls);
             int podCalls = 1 + Bonus(PodCalls);
             int firingTurns = 1 + Bonus(BarrageDuration);
-            int troopCount = 2 + Bonus(PodCapacity);
+            int troopCount = TroopPodCapacity(progression);
 
             if (TryGetCommsUpgrade(id, out var location, out int commsTier))
             {
@@ -147,10 +147,14 @@ namespace ImperiumOfMan
                     yield return UpgradeRow("landing_tiles", UpgradeNumber(troopCount));
                     yield break;
                 case PodCapacity:
+                case PodCapacityTwo:
+                    string total = id == PodCapacity ? "2" : "3";
                     yield return UpgradeRow("troops", "+1");
-                    yield return UpgradeRow("total_troops", "3");
+                    yield return UpgradeRow("total_troops", total);
                     yield return UpgradeRow("applies_to", TranslationPatch.UpgradeText("all_rosters"));
-                    yield return UpgradeRow("landing_tiles", "3");
+                    yield return UpgradeRow("landing_tiles", total);
+                    yield return UpgradeRow("requires", id == PodCapacity
+                        ? UpgradeName(TroopDrop, "Mercenary Pod") : UpgradeName(PodCapacity, "Troop Pod Capacity I"));
                     yield break;
                 case PodCalls:
                     yield return UpgradeRow("calls", "+1");
