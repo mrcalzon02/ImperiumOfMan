@@ -326,8 +326,13 @@ namespace ImperiumOfMan
         {
             private static void Postfix(RaidMetadata raidMetadata, Missions missions, string locationCustomId, ref string __result)
             {
+                if (raidMetadata == null) return;
                 if (raidMetadata.StationVisit)
                 {
+                    // Native station decks may use a donor caption. Preserve a
+                    // valid deck name and use the actual custom station only if
+                    // that caption is absent.
+                    UseCustomStationCaptionIfMissing(raidMetadata, ref __result);
                     return;
                 }
 
@@ -348,6 +353,15 @@ namespace ImperiumOfMan
                 string key = "story." + mission.StoryId + ".deck.";
                 string caption = key + deck + ".name";
                 __result = Localization.HasKey(caption) ? caption : key + "middle.name";
+            }
+
+            private static void UseCustomStationCaptionIfMissing(RaidMetadata raidMetadata, ref string caption)
+            {
+                if (string.IsNullOrEmpty(raidMetadata.StationId) ||
+                    !raidMetadata.StationId.StartsWith("iom", StringComparison.Ordinal) ||
+                    (!string.IsNullOrEmpty(caption) && Localization.HasKey(caption))) return;
+                string stationTag = "station." + raidMetadata.StationId + ".name";
+                if (Localization.HasKey(stationTag)) caption = stationTag;
             }
         }
 

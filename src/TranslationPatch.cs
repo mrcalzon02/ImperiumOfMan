@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using MGSC;
@@ -215,6 +216,7 @@ namespace ImperiumOfMan
                     Apply(target, Russian);
                 }
                 ApplyStationAliases(target);
+                ApplyCustomLocationAliases(target);
                 ApplyItemHeaders(target, language.Key == Localization.Lang.Russian);
             }
         }
@@ -388,5 +390,29 @@ namespace ImperiumOfMan
             target["station.iomVizg.desc"] = target["station.iomHavoc.desc"];
             target["station.iomVizg.shortname"] = target["station.iomHavoc.shortname"];
         }
+        // Existing station/body captions are the authoritative names. Supply
+        // compatibility keys for saved-location and orbit displays in every
+        // loaded language, including legacy station IDs. Never replace a native
+        // or another mod's existing translation.
+        private static void ApplyCustomLocationAliases(Dictionary<string, string> target)
+        {
+            const string station = "station.";
+            const string body = "spaceobject.";
+            const string suffix = ".name";
+            var aliases = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var entry in target)
+            {
+                string prefix = entry.Key.StartsWith(station + "iom", StringComparison.Ordinal) ? station :
+                    entry.Key.StartsWith(body + "iom", StringComparison.Ordinal) ? body : null;
+                if (prefix == null || !entry.Key.EndsWith(suffix, StringComparison.Ordinal) ||
+                    string.IsNullOrWhiteSpace(entry.Value)) continue;
+                string id = entry.Key.Substring(prefix.Length, entry.Key.Length - prefix.Length - suffix.Length);
+                aliases["location." + id + suffix] = entry.Value;
+                if (prefix == body) aliases["orbit." + id + suffix] = entry.Value;
+            }
+            foreach (var alias in aliases)
+                if (!target.ContainsKey(alias.Key)) target.Add(alias.Key, alias.Value);
+        }
+
     }
 }
