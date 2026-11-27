@@ -14,8 +14,9 @@ namespace ImperiumOfMan
         private static bool IsRegionalOccultReward(string id)
         {
             if (string.IsNullOrEmpty(id)) return false;
-            if (IsOccultPatternChip(id)) return true;
-            return RegionalOccultSeeds.Any(seed => seed.Item == id && ActiveRegionalAmmoChains.Contains(seed.Chain));
+            if (IsTrackedOccultPattern(id)) return true;
+            return OccultResearchSamples.Any(sample => sample.Item == id) ||
+                RegionalOccultSeeds.Any(seed => seed.Item == id && ActiveRegionalAmmoChains.Contains(seed.Chain));
         }
 
         private static Dictionary<string, int> SelectedRegionalRewards(Mission mission) =>
@@ -38,14 +39,14 @@ namespace ImperiumOfMan
                 try
                 {
                     var selected = SelectedRegionalRewards(mission);
-                    bool regionalIssuer = RegionalOccultPatternFactions.Values.Any(faction =>
-                        faction.Id == beneficiary.Id);
+                    bool regionalIssuer = OccultPatternIssuers.Values.Any(issuer =>
+                        issuer.Faction == beneficiary.Id);
                     if (!regionalIssuer && selected.Count == 0) return;
 
                     var chips = Data.FactionDrop.GetTradeItems(beneficiary,
                         FactionDropCollection.TradeItemsFor.Chips);
                     int eligible = chips.SelectMany(record => record.ContentIds)
-                        .Where(IsOccultPatternChip).Distinct(StringComparer.Ordinal).Count();
+                        .Where(IsTrackedOccultPattern).Distinct(StringComparer.Ordinal).Count();
                     int cap = Data.FactionDrop.GetTechLevelLimit(beneficiary);
                     Debug.Log("[Cvar_ImperiumOfMan] Occult contract offer | mission=" +
                         OccultMissionAuditKey(mission) + " | tech=" + beneficiary.CurrentTechLevel +

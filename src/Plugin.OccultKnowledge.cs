@@ -60,6 +60,7 @@ namespace ImperiumOfMan
             RegisterCloneVatPatterns();
             RegisterRegionalOccultPatterns();
             RegisterOccultEquipmentPatterns();
+            RegisterOccultResearchSampleRewards();
 
             string[] missing = AddedOccultRecipes.Where(id => !OccultPatternSources.ContainsKey(id)).ToArray();
             if (missing.Length > 0)
@@ -87,6 +88,7 @@ namespace ImperiumOfMan
             disk.Categories = [faction];
             RegisterCatalog(disk, title, "A recovered occult fabrication pattern.", faction, outputs,
                 restrictOtherSources: false, supplier: supplier);
+            RecordOccultPatternIssuer(id, faction, supplier, tier, true);
             foreach (string output in outputs)
             {
                 if (!OccultPatternSources.TryGetValue(output, out var sources))

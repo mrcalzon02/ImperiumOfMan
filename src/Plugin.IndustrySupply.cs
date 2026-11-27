@@ -82,6 +82,7 @@ namespace ImperiumOfMan
                 LearnRecipes(cargo, SharedIndustryRecipes);
             }
             RefreshIndustryMarkets(state.Get<Stations>(), state.Get<Factions>(), state.Get<SpaceTime>());
+            AuditOccultSupplierCoverage(state.Get<Stations>(), state.Get<Factions>());
         }
 
         private static void RefreshIndustryMarkets(Stations stations, Factions factions, SpaceTime time)
@@ -105,7 +106,7 @@ namespace ImperiumOfMan
                 {
                     // Faction-specific occult knowledge does not silently become
                     // generic pirate stock when its maker is absent or disabled.
-                    if (!makerAvailable && IsOccultPatternChip(chip)) continue;
+                    if (!makerAvailable && IsFactionBoundOccultPattern(chip)) continue;
                     if (tier > faction.CurrentTechLevel)
                     {
                         continue;
@@ -117,7 +118,7 @@ namespace ImperiumOfMan
                     }
                     if (station != null)
                     {
-                        if (IsOccultPatternChip(chip))
+                        if (IsTrackedOccultPattern(chip))
                             TopUpRegionalStock(station, chip, 1, "pattern");
                         else
                             TopUp(station, chip, 1);
@@ -132,6 +133,9 @@ namespace ImperiumOfMan
             foreach (var chain in RegionalOccultAmmoChains.Where(chain => ActiveRegionalAmmoChains.Contains(chain.Output)))
                 foreach (var seed in RegionalOccultSeeds.Where(seed => seed.Chain == chain.Output))
                     TopUpRegionalSeed(chain.Faction, chain.Supplier, seed.SeedTier, seed.Item, seed.Stock);
+
+            foreach (var sample in OccultResearchSamples)
+                TopUpRegionalSeed(sample.Faction, sample.Supplier, sample.Tech, sample.Item, 1);
 
             var chaos = factions.Get(ChaosFaction, logMissing: false);
             if (chaos?.Record.CanBeTraded == true && factions.IsEnabledFaction(chaos) && chaos.CurrentTechLevel >= 1)

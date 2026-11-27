@@ -679,6 +679,9 @@ namespace ImperiumOfMan
                         : producers.Count == 0
                         ? "No producing recipe in this source view. Loot, trade, rewards, or another system may supply this item. Try All sources."
                         : "Select a recipe for its ingredients, products, requirements and time. Expand follows more recipes; Focus starts a map here.";
+                    string sampleHint = OccultResearchSampleHint(node.ItemId);
+                    if (sampleHint != null && node.Item?.Registered == true)
+                        _detailNote.text = sampleHint + " " + _detailNote.text;
                 }
                 else
                 {

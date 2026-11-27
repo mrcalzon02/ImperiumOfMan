@@ -90,7 +90,16 @@ namespace ImperiumOfMan
                 // Food, dressings, mechanical ammunition and ordinary repair stock
                 // keep their normal recipe access regardless of their faction branding.
                 if (demonicGear || occultStock || ritual)
+                {
                     OccultRecipeRequirements[id] = rank;
+                    // Existing mixed Chaos tier chips are genuine knowledge
+                    // sources too, even when no new singleton was introduced.
+                    RecordOccultPatternIssuer(tier.Chip, ChaosFaction,
+                        ChaosStockSupplier(level), level, false);
+                    if (!OccultPatternSources.TryGetValue(id, out var sources))
+                        OccultPatternSources.Add(id, sources = new List<string>());
+                    if (!sources.Contains(tier.Chip)) sources.Add(tier.Chip);
+                }
                 if (occultStock) OccultMaterialOutputs.Add(id);
             }
         }

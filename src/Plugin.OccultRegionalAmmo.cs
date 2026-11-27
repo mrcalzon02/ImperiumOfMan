@@ -264,8 +264,8 @@ namespace ImperiumOfMan
         private static string RegionalOccultPatternSource(string chip)
         {
             string name = CraftingItemName(chip);
-            return RegionalOccultPatternFactions.TryGetValue(chip, out var faction)
-                ? name + " (" + CraftingLocalizedName("faction." + faction.Id + ".name", faction.Name) + " contracts / trade)" : name;
+            return OccultPatternIssuers.TryGetValue(chip, out var issuer)
+                ? name + " (" + OccultIssuerName(issuer.Faction) + " T" + issuer.Tier + ")" : name;
         }
 
         private static string RegionalOccultRecipeBranch(string output)
