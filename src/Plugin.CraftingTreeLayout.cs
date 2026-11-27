@@ -170,6 +170,8 @@ namespace ImperiumOfMan
                     case "demonic_eye": case "skrivnus_knife": case AggaOcularFocus: case ScrivnusRelicCore:
                         return 21;
                     case "quasi_repair_kit": case "impaler":
+                    case ShardMatrix: case InfusedShardStock: case BoundConductor: case ChargedCoilStock:
+                    case SoulforgeMatrix: case SoulforgeArmature: case ShardCells: case CoilCells:
                         return 22;
                 }
                 // Chaos fabrication capabilities are explicitly registered by the

@@ -271,6 +271,8 @@ namespace ImperiumOfMan
         private static string RegionalOccultRecipeBranch(string output)
         {
             if (ActiveCloneVatProducts.Contains(output)) return "Clone-vat organic salvage";
+            if (ActiveChaosOccultStocks.Contains(output) || ActiveChaosAmmoChains.Contains(output))
+                return "Chaos Undivided · Soulforge";
             string equipmentRegion = OccultEquipmentMaterialRegion(output);
             if (equipmentRegion != null) return equipmentRegion;
             foreach (var chain in RegionalOccultAmmoChains)
@@ -286,6 +288,7 @@ namespace ImperiumOfMan
         private static void AuditRegionalOccultRegistration()
         {
             AuditOccultEquipmentMaterials();
+            AuditChaosOccultStock();
             foreach (var entry in RegionalOccultPatternFactions)
             {
                 string chip = entry.Key;

@@ -73,6 +73,14 @@ namespace ImperiumOfMan
             // Empty pools are omitted instead of creating an unusable physical chip.
             string[] outputs = candidates.Where(AddedOccultRecipes.Contains).Distinct().ToArray();
             if (outputs.Length == 0) return;
+            RegisterOccultPatternCatalog(key, title, faction, supplier, tier, outputs);
+        }
+
+        // The Chaos tier registrar also uses this helper for explicitly owned
+        // legacy outputs. It supplies a validated singleton, never a native pool.
+        private static void RegisterOccultPatternCatalog(string key, string title, string faction,
+            string supplier, int tier, string[] outputs)
+        {
             string id = "iom_occult_" + key + "_pattern_chip";
             var disk = CloneItem<DatadiskRecord>(id, "low_chip", tier, 100 + tier * 45,
                 "iom_occult_pattern", maxIconSize: 24);

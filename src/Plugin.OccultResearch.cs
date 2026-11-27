@@ -85,6 +85,7 @@ namespace ImperiumOfMan
                 bool demonicGear = level >= 2 && (id == tier.Weapon.Id || Array.IndexOf(tier.Armor, id) >= 0);
                 bool occultStock = id == tier.Salvage.Id && (level == 2 || level == 3 || level == 4 || level == 9 || level == 10);
                 bool ritual = id == BoundAsh || id == ForgeEmber || id == ShardCells ||
+                    (id == CoilCells && ActiveChaosAmmoChains.Contains(CoilCells)) ||
                     id.StartsWith(ChaosItemPrefix + "skull_", StringComparison.Ordinal);
                 // Food, dressings, mechanical ammunition and ordinary repair stock
                 // keep their normal recipe access regardless of their faction branding.

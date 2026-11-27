@@ -18,7 +18,7 @@ namespace ImperiumOfMan
                 {
                     string stock = level <= 3 ? Metal : level <= 6 ? Sheet : HeavyPlate;
                     IndustryRecipe(tier.Weapon.Id, 6 + 3 * level, 1,
-                        new(salvage, 1), new(stock, 1 + level / 3),
+                        new(salvage, 1), level >= 7 ? OccultStockOr(SoulforgeArmature, stock, 1 + level / 3) : new(stock, 1 + level / 3),
                         new(level is 1 or 3 ? "rod_parts" : "weapon_parts", 1 + level / 4));
                     outputs.Add(tier.Weapon.Id);
                 }
@@ -29,12 +29,13 @@ namespace ImperiumOfMan
                     string piece = tier.Armor[slot];
                     int plateCount = slot == 1 ? 2 : 1;
                     IndustryRecipe(piece, 4 + 2 * level + (slot == 1 ? 5 : 0), 1,
-                        new(salvage, 1), new(insert, plateCount),
+                        new(salvage, 1), level >= 7 && slot == 1 ? OccultStockOr(SoulforgeArmature, insert, plateCount) : new(insert, plateCount),
                         new(slot == 3 ? "rubber" : Liner, level >= 7 && slot == 1 ? 2 : 1));
                     outputs.Add(piece);
                 }
 
-                RegisterChaosUtilityRecipe(tier);
+                // Keep the existing tier chip's output order, but stage the
+                // feedstock and ritual recipes before their dependent utilities.
                 outputs.Add(tier.Utility.Id);
                 RegisterChaosMaterialRecipe(tier);
                 outputs.Add(tier.Salvage.Id);
@@ -43,11 +44,16 @@ namespace ImperiumOfMan
                     IndustryRecipe(BoundAsh, 5, 1, OccultStockOr(AggaOcularFocus, "demonic_eye"), new(tier.Salvage.Id, 1));
                     outputs.Add(BoundAsh);
                 }
+                if (level == 4)
+                    RegisterSoulforgeMatrix(tier);
                 if (level == 6)
                 {
-                    IndustryRecipe(ForgeEmber, 12, 1, new(BoundAsh, 2), new(tier.Salvage.Id, 1), new("circuit_board", 1));
+                    IndustryRecipe(ForgeEmber, 12, 1, OccultStockOr(SoulforgeMatrix, BoundAsh, 2),
+                        new(tier.Salvage.Id, 1), new("circuit_board", 1));
                     outputs.Add(ForgeEmber);
+                    RegisterSoulforgeArmature(tier);
                 }
+                RegisterChaosUtilityRecipe(tier);
                 foreach (var path in ChaosPacts)
                 {
                     foreach (var pact in path)
@@ -83,6 +89,7 @@ namespace ImperiumOfMan
                 RegisterCatalog(chip, name, description, ChaosFaction, outputs.ToArray(), supplier: supplier);
                 RegisterChaosOccultCapabilities(tier, outputs);
             }
+            RegisterChaosOccultStockPatterns();
         }
 
         private static void RegisterChaosMaterialRecipe(ChaosSupplyTier tier)
@@ -111,11 +118,21 @@ namespace ImperiumOfMan
             switch (tier.Level)
             {
                 case 1: IndustryRecipe(id, 3, 3, new(RationBase, 2), new(Wrapper, 2)); break;
-                case 2: IndustryRecipe(id, 3, 8, new(salvage, 1), new("quasi_basic_ammo", 6)); break;
+                case 2:
+                    if (TryRegisterChaosShardStock(tier))
+                        IndustryRecipe(id, 3, 8, new(InfusedShardStock, 8));
+                    else
+                        IndustryRecipe(id, 3, 8, new(salvage, 1), new("quasi_basic_ammo", 6));
+                    break;
                 case 3: IndustryRecipe(id, 4, 2, new(salvage, 1), new(Textile, 2)); break;
                 case 4: IndustryRecipe(id, 6, 1, new(Fittings, 2), new(Liner, 1), new("armor_plates", 1)); break;
                 case 5: IndustryRecipe(id, 6, 2, new(PolymerStock, 1), new("smoke_grenade", 1)); break;
-                case 6: IndustryRecipe(id, 5, 8, new(salvage, 1), new("battery_basic_ammo", 6)); break;
+                case 6:
+                    if (TryRegisterChaosCoilStock(tier))
+                        IndustryRecipe(id, 5, 8, new(ChargedCoilStock, 8));
+                    else
+                        IndustryRecipe(id, 5, 8, new(salvage, 1), new("battery_basic_ammo", 6));
+                    break;
                 case 7: IndustryRecipe(id, 8, 1, new(salvage, 1), new(Fittings, 2), new("tech_repair_kit", 1)); break;
                 case 8: IndustryRecipe(id, 6, 2, new(Textile, 1), new(Treatment, 1), new("goldenstar_balm", 1)); break;
                 case 9: IndustryRecipe(id, 9, 2, new("pills_painkillers", 1), new("water_bottle_1", 1), new(Treatment, 1)); break;

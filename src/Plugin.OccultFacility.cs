@@ -108,7 +108,7 @@ namespace ImperiumOfMan
             "quasi_venus_feather", "venus_guts", "mercury_glass", "mercury_rags", "mercury_scales", "mercury_guts",
             "moon_guts", "moon_armor_plates", "moon_weapon_parts", "ron_blood", "ron_tentacle",
             "mars_skin", "mars_gear", "cattaram_geode", "cattaram_stone", "jupiter_mushrooms", "jupiter_grass", "jupiter_guts",
-            BoundAsh, ForgeEmber, ShardCells
+            BoundAsh, ForgeEmber
         };
 
         private static int OccultBatchSize(ItemProduceReceipt receipt, MagnumProgression progression, int baseBatch)
