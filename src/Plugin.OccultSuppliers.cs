@@ -15,6 +15,7 @@ namespace ImperiumOfMan
         private static readonly (string Item, string Faction, string Supplier, int Tech, int Rank)[] OccultResearchSamples =
         [
             ("quasisamples", ChaosFaction, "iomHollowSignalDepot", 1, 1),
+            ("quasisamples", TezctlanFaction, null, 1, 1),
             (NativeGavvakh, ChaosFaction, "iomHollowSignalDepot", 1, 2),
             (NativeGavvakh, TezctlanFaction, null, 1, 2),
             ("demonic_eye", ChaosFaction, "iomOssuaryWorks", 2, 3),
@@ -22,10 +23,14 @@ namespace ImperiumOfMan
             ("moon_guts", ChaosFaction, "iomOssuaryWorks", 3, 4),
             ("ron_blood", ChaosFaction, "iomOssuaryWorks", 3, 4),
             ("mars_skin", "SheduThousand", null, 4, 5),
+            // Recovered foreign specimens, not Ur fabrication knowledge.
+            // General occult research must not require an extinct faction.
+            ("mars_skin", ChaosFaction, null, 4, 5),
             ("cattaram_geode", ChaosFaction, null, 4, 5),
             ("jupiter_mushrooms", ChaosFaction, null, 4, 5),
             ("quasi_repair_kit", ChaosFaction, null, 5, 6),
-            ("mars_cyborg_head", "SheduThousand", null, 5, 6)
+            ("mars_cyborg_head", "SheduThousand", null, 5, 6),
+            ("mars_cyborg_head", ChaosFaction, null, 5, 6)
         ];
 
         private static readonly Dictionary<string, (string Faction, string Supplier, int Tier, bool Dedicated)> OccultPatternIssuers =
