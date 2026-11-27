@@ -59,6 +59,7 @@ namespace ImperiumOfMan
 
             RegisterCloneVatPatterns();
             RegisterRegionalOccultPatterns();
+            RegisterOccultEquipmentPatterns();
 
             string[] missing = AddedOccultRecipes.Where(id => !OccultPatternSources.ContainsKey(id)).ToArray();
             if (missing.Length > 0)

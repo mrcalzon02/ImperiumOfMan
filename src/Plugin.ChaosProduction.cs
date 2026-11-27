@@ -40,7 +40,7 @@ namespace ImperiumOfMan
                 outputs.Add(tier.Salvage.Id);
                 if (level == 2)
                 {
-                    IndustryRecipe(BoundAsh, 5, 1, new("demonic_eye", 1), new(tier.Salvage.Id, 1));
+                    IndustryRecipe(BoundAsh, 5, 1, OccultStockOr(AggaOcularFocus, "demonic_eye"), new(tier.Salvage.Id, 1));
                     outputs.Add(BoundAsh);
                 }
                 if (level == 6)

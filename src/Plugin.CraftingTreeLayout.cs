@@ -142,7 +142,7 @@ namespace ImperiumOfMan
                     case RawClone: case TormentImprint: case SufferingEssence: case NativeGavvakh:
                         return 10;
                     case GannixConcentrate: case GannixLivingCell: case IgvasAmmo: case AngerlingsAmmo:
-                    case GannixChitin: case GannixLivingDart:
+                    case GannixChitin: case GannixLivingDart: case GannixLivingWeave:
                     case "quasi_venus_rags": case "quasi_venus_feather": case "venus_guts":
                     case "venus_armor_plates": case "venus_weapon_parts": case "venus_melee_parts":
                     case "bone_knife": case "venus_quasi_pistol_1": case "warp_armor":
@@ -155,17 +155,19 @@ namespace ImperiumOfMan
                     case EleriumAmmo: case ShartamakhumSubstrate: case ShartamakhumCell:
                         return 16;
                     case "ron_blood": case "ron_tentacle": case "quasi_ron_medicine_1": case "ron_mask_1":
+                    case RonBloodConcentrate: case RonBindingWeave:
                         return 17;
                     case "mars_skin": case "mars_gear": case EannisAmmo: case UrConcentrate: case UrRedfireStock:
+                    case UrForgeLattice:
                     case "mars_cyborg_head": case "mars_cyborg_chest": case "mars_cyborg_stomach":
                     case "mars_cyborg_knee": case "mars_cyborg_hand": case "mars_cyborg_leg":
                         return 18;
-                    case "cattaram_geode": case "cattaram_stone": case "cattaram_mine":
+                    case "cattaram_geode": case "cattaram_stone": case "cattaram_mine": case CattaramCrystalCore:
                         return 19;
                     case "jupiter_mushrooms": case "jupiter_grass": case "jupiter_guts":
                     case FlaurosAmmo: case FlaurosCulture: case FlaurosBrood: case "spore_mine":
                         return 20;
-                    case "demonic_eye": case "skrivnus_knife":
+                    case "demonic_eye": case "skrivnus_knife": case AggaOcularFocus: case ScrivnusRelicCore:
                         return 21;
                     case "quasi_repair_kit": case "impaler":
                         return 22;
