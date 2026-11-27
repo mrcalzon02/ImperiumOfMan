@@ -113,6 +113,9 @@ namespace ImperiumOfMan
             private TextMeshProUGUI _detailTitle;
             private TextMeshProUGUI _detailMeta;
             private TextMeshProUGUI _detailNote;
+            private TextMeshProUGUI _acquisitionToggle;
+            private bool _showAcquisition;
+            private int _selectedAcquisition;
             private RectTransform _inputRows;
             private RectTransform _outputRows;
             private TextMeshProUGUI _inputTitle;
@@ -274,6 +277,14 @@ namespace ImperiumOfMan
                 Frame(heading, TextColor);
                 _detailTitle = Text(Span(details, "Selected name", 0, 0.68f, 4, 27, 12, 4), "SELECT AN ITEM OR RECIPE", 18);
                 _detailTitle.color = AccentColor;
+                _acquisitionToggle = TextButton(Span(details, "Occult acquisition sources", 0.55f, 0.68f,
+                    4, 27, 4, 4), "SOURCES", () =>
+                    {
+                        _showAcquisition = !_showAcquisition;
+                        _selectedAcquisition = _inputPage = _outputPage = 0;
+                        DrawDetails();
+                    }, 12);
+                _acquisitionToggle.transform.parent.gameObject.SetActive(false);
                 _detailMeta = Text(Span(details, "Time and venue", 0.68f, 1f, 7, 27, 4, 12), "", 13);
                 _detailMeta.alignment = TextAlignmentOptions.MidlineRight;
                 var inputs = Span(details, "Input column", 0f, 0.5f, 39, 101, 12, 8);
@@ -498,6 +509,8 @@ namespace ImperiumOfMan
                 if (_index == null || !_index.Items.ContainsKey(id))
                     return;
                 _rootItem = id;
+                _showAcquisition = false;
+                _selectedAcquisition = _inputPage = _outputPage = 0;
                 ClearMap();
                 AddItem(id, 0);
                 _selectedKey = ItemKey(id);
@@ -616,6 +629,11 @@ namespace ImperiumOfMan
             {
                 if (!_nodes.ContainsKey(key))
                     return;
+                if (_selectedKey != key)
+                {
+                    _showAcquisition = false;
+                    _selectedAcquisition = 0;
+                }
                 _selectedKey = key;
                 _inputPage = _outputPage = 0;
                 _searchPanel.gameObject.SetActive(false);
@@ -663,6 +681,18 @@ namespace ImperiumOfMan
                 _outputDetails.Clear();
                 if (!_nodes.TryGetValue(_selectedKey ?? "", out var node))
                     return;
+                string sourceKey = node.ItemId ?? node.Recipe?.OccultOutput;
+                List<CraftingAcquisition> sources = null;
+                bool hasSources = sourceKey != null && _index.Acquisition.TryGetValue(sourceKey, out sources) &&
+                    sources.Count > 0;
+                if (!hasSources) _showAcquisition = false;
+                var toggle = _acquisitionToggle.transform.parent.gameObject;
+                toggle.SetActive(hasSources);
+                _acquisitionToggle.text = _showAcquisition ? "DETAILS" : "SOURCES";
+                SetButtonColors(toggle.GetComponent<Button>(), _showAcquisition);
+                var titleAnchor = _detailTitle.rectTransform.anchorMax;
+                titleAnchor.x = hasSources ? 0.55f : 0.68f;
+                _detailTitle.rectTransform.anchorMax = titleAnchor;
                 if (node.ItemId != null)
                 {
                     var producers = Routes(node.ItemId, true);
@@ -679,9 +709,15 @@ namespace ImperiumOfMan
                         : producers.Count == 0
                         ? "No producing recipe in this source view. Loot, trade, rewards, or another system may supply this item. Try All sources."
                         : "Select a recipe for its ingredients, products, requirements and time. Expand follows more recipes; Focus starts a map here.";
-                    string sampleHint = OccultResearchSampleHint(node.ItemId);
-                    if (sampleHint != null && node.Item?.Registered == true)
-                        _detailNote.text = sampleHint + " " + _detailNote.text;
+                    if (hasSources)
+                        _detailNote.text = "Occult acquisition: " + sources.Count +
+                            " sources. Open Sources for faction, research and stock details.";
+                    else
+                    {
+                        string sampleHint = OccultResearchSampleHint(node.ItemId);
+                        if (sampleHint != null && node.Item?.Registered == true)
+                            _detailNote.text = sampleHint + " " + _detailNote.text;
+                    }
                 }
                 else
                 {
@@ -695,6 +731,32 @@ namespace ImperiumOfMan
                     _detailNote.text = (recipe.Ready == true ? "Materials ready. " : "") + recipe.Access;
                     if (_inputDetails.Count == 0)
                         _inputDetails.Add(new DetailRow { Caption = "No inventory ingredients", Action = null });
+                }
+                if (_showAcquisition && hasSources)
+                {
+                    _inputDetails.Clear();
+                    _outputDetails.Clear();
+                    _selectedAcquisition = Mathf.Clamp(_selectedAcquisition, 0, sources.Count - 1);
+                    for (int j = 0; j < sources.Count; j++)
+                    {
+                        int selected = j;
+                        var source = sources[j];
+                        _index.Items.TryGetValue(source.ItemId, out var acquisitionItem);
+                        _inputDetails.Add(new DetailRow
+                        {
+                            Caption = (j == _selectedAcquisition ? "> " : "") + source.Caption,
+                            Icon = acquisitionItem?.Icon,
+                            Action = () =>
+                            {
+                                _selectedAcquisition = selected;
+                                _outputPage = 0;
+                                DrawDetails();
+                            }
+                        });
+                    }
+                    foreach (string detail in sources[_selectedAcquisition].Details)
+                        _outputDetails.Add(new DetailRow { Caption = detail });
+                    _detailNote.text = "Campaign snapshot: stock is not a guaranteed sale; eligible rewards are not guaranteed rolls. Refresh to update.";
                 }
                 DrawDetailRows();
             }
@@ -729,8 +791,10 @@ namespace ImperiumOfMan
             private void DrawDetailRows()
             {
                 bool item = _nodes.TryGetValue(_selectedKey ?? "", out var node) && node.ItemId != null;
-                DrawDetailColumn(_inputRows, _inputTitle, _inputDetails, ref _inputPage, item ? "Produced by" : "Ingredients");
-                DrawDetailColumn(_outputRows, _outputTitle, _outputDetails, ref _outputPage, item ? "Used by" : "Produces");
+                DrawDetailColumn(_inputRows, _inputTitle, _inputDetails, ref _inputPage,
+                    _showAcquisition ? "Acquisition" : item ? "Produced by" : "Ingredients");
+                DrawDetailColumn(_outputRows, _outputTitle, _outputDetails, ref _outputPage,
+                    _showAcquisition ? "Current access" : item ? "Used by" : "Produces");
             }
 
             private void DrawDetailColumn(RectTransform content, TextMeshProUGUI title, List<DetailRow> rows, ref int page, string heading)

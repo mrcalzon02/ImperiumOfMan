@@ -15,6 +15,7 @@ namespace ImperiumOfMan
         {
             public readonly Dictionary<string, CraftingItem> Items = new(StringComparer.Ordinal);
             public readonly List<CraftingRecipe> Recipes = new();
+            public readonly Dictionary<string, List<CraftingAcquisition>> Acquisition = new(StringComparer.Ordinal);
             public readonly CraftingDependencyResolver<CraftingRecipe> Dependencies = new(
                 recipe => recipe.Inputs.Select(amount => amount.ItemId),
                 recipe => recipe.Outputs.Select(amount => amount.ItemId));
@@ -64,6 +65,7 @@ namespace ImperiumOfMan
             var incomplete = new List<string>();
             MagnumCargo cargo = null;
             Stations stations = null;
+            Factions factions = null;
             MagnumProjects projects = null;
             MagnumProgression occultProgression = null;
             Difficulty difficulty = null;
@@ -74,6 +76,7 @@ namespace ImperiumOfMan
                 {
                     cargo = game.Get<MagnumCargo>();
                     stations = game.Get<Stations>();
+                    factions = game.Get<Factions>();
                     projects = game.Get<MagnumProjects>();
                     occultProgression = game.Get<MagnumProgression>();
                     difficulty = game.Get<Difficulty>();
@@ -88,6 +91,8 @@ namespace ImperiumOfMan
                 }
             });
             int registeredItems = index.Items.Count;
+
+            Capture("occult acquisition", () => CaptureOccultAcquisition(index, cargo, stations, factions));
 
             Capture("Magnum recipes", () =>
             {
@@ -151,8 +156,8 @@ namespace ImperiumOfMan
                             string regionalBranch = RegionalOccultRecipeBranch(receipt.OutputItem);
                             if (regionalBranch != null) route.Access += " Occult resource family: " + regionalBranch + ".";
                             if (OccultPatternSources.TryGetValue(receipt.OutputItem, out var patternChips))
-                                route.Access += " Learn from " + string.Join(", ", patternChips.Select(RegionalOccultPatternSource)) +
-                                    ". Each chip teaches one recipe.";
+                                route.Access += " Pattern sources: " + patternChips.Distinct(StringComparer.Ordinal).Count() +
+                                    ". Open Sources for issuers and stock.";
                             else
                                 route.Access += " The schematic must also be learned.";
                         }
