@@ -35,12 +35,13 @@ namespace ImperiumOfMan
                 Image ____icon, Image ____upgradeAvailableIcon, Image ____blackCover, CommonButton ____button)
             {
                 var perkRecord = __0;
-                if (perkRecord.ModuleId is not (WeaponsModule or DropModule or CommsModule or OccultModule))
+                if (perkRecord.ModuleId is not (WeaponsModule or DropModule or CommsModule or OccultModule or SupplyModule))
                 {
                     return;
                 }
 
                 bool major = perkRecord.ModuleId == OccultModule ||
+                    IsSupplyBranchMajor(perkRecord.Id) ||
                     perkRecord.Id is SupplyDrop or TroopDrop or SecurityIntrusion or EntranceOverride or ExtractionOverride ||
                     perkRecord.ModuleId == WeaponsModule &&
                     perkRecord.Id is not (BarrageDuration or BarrageRounds or BarrageCalls);

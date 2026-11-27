@@ -49,7 +49,7 @@ namespace ImperiumOfMan
         }
 
         private static IEnumerable<ShipUpgradeTooltipRow> ShipUpgradeTooltipRows(string id,
-            MagnumProgression progression)
+            MagnumProgression progression, StoryTriggers triggers = null)
         {
             // Native "default values" previews pass no progression. Normal hovers
             // show the fitted ship's totals. Incremental upgrades always state the
@@ -111,6 +111,13 @@ namespace ImperiumOfMan
                 yield break;
             }
 
+            if (TryGetSupplyResearch(id, out var supplyResearch))
+            {
+                foreach (var row in SupplyResearchTooltipRows(supplyResearch, progression))
+                    yield return row;
+                yield break;
+            }
+
             switch (id)
             {
                 case BarrageDuration:
@@ -131,15 +138,15 @@ namespace ImperiumOfMan
                     yield return UpgradeRow("requires", TranslationPatch.UpgradeText("fitted_mount"));
                     yield break;
                 case SupplyDrop:
-                    yield return new ShipUpgradeTooltipRow(UpgradeItemName(LasClip, "Las Clip"), "12");
-                    yield return new ShipUpgradeTooltipRow(UpgradeItemName("rifle_basic_ammo", "Rifle ammo"), "8");
-                    yield return new ShipUpgradeTooltipRow(UpgradeItemName("medical_glue", "Medical glue"), "2");
+                    foreach (var cargo in SupplyPodManifest(progression, triggers))
+                        yield return new ShipUpgradeTooltipRow(UpgradeItemName(cargo.Id, cargo.Name), UpgradeNumber(cargo.Count));
                     yield return UpgradeRow("calls", UpgradeNumber(podCalls));
                     yield return UpgradeRow("shared_reserve", TranslationPatch.UpgradeText("supply_and_troops"));
                     yield return UpgradeRow("landing_tiles", "1");
                     yield break;
                 case TroopDrop:
                     yield return UpgradeRow("roster", DropSquads[0].Name);
+                    yield return UpgradeRow("requires", UpgradeName(SupplyDrop, "Supply Pod"));
                     yield return UpgradeRow("troops", UpgradeNumber(troopCount));
                     yield return UpgradeRow("equipment", TranslationPatch.UpgradeText("clone_equipment"));
                     yield return UpgradeRow("calls", UpgradeNumber(podCalls));
@@ -157,6 +164,7 @@ namespace ImperiumOfMan
                         ? UpgradeName(TroopDrop, "Mercenary Pod") : UpgradeName(PodCapacity, "Troop Pod Capacity I"));
                     yield break;
                 case PodCalls:
+                    yield return UpgradeRow("requires", UpgradeName(SupplyDrop, "Supply Pod"));
                     yield return UpgradeRow("calls", "+1");
                     yield return UpgradeRow("total_calls", "2");
                     yield return UpgradeRow("shared_reserve", TranslationPatch.UpgradeText("supply_and_troops"));

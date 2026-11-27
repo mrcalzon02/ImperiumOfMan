@@ -71,6 +71,11 @@ namespace ImperiumOfMan
             ["iom.tooltip.none"] = "None",
             ["iom.tooltip.consumes"] = "Consumes",
             ["iom.tooltip.input_batch"] = "Input per batch",
+            ["iom.tooltip.ammo_multiplier"] = "Ammo load limit",
+            ["iom.tooltip.ammo_selection"] = "Ammo selection",
+            ["iom.tooltip.select_on_supply_page"] = "Choose on Supply Pod page",
+            ["iom.tooltip.pod_food"] = "Food supplies",
+            ["iom.tooltip.pod_medical"] = "Medical supplies",
         };
 
         internal static string UpgradeText(string key)

@@ -35,7 +35,8 @@ namespace ImperiumOfMan
 
                 bool added = false;
                 var progression = showDefaultValues ? null : ____state?.Get<MagnumProgression>();
-                foreach (var row in ShipUpgradeTooltipRows(record.Id, progression))
+                foreach (var row in ShipUpgradeTooltipRows(record.Id, progression,
+                    showDefaultValues ? null : ____state?.Get<StoryTriggers>()))
                 {
                     var panel = __instance.AddPanelToTooltip();
                     if (row.Value == null)

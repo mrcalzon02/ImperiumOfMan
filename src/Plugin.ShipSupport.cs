@@ -102,11 +102,9 @@ namespace ImperiumOfMan
                 "Add one Fire for Effect call per raid. Requires any fitted mount.", 3, 2, null,
                 ["communication_relay", "military_parts_container", "management_unit"]);
 
-            var supply = RegisterSupportPerk(DropModule, SupplyDrop, "SupplyPod", "Supply Pod",
-                "Call down a cache of Las Clips, standard ammunition and dressings once per raid.", 0, 0, null,
-                ["engineering_parts_container", "communication_relay", "medical_equipment"]);
+            RegisterSupplyPodResearch();
             var troop = RegisterSupportPerk(DropModule, TroopDrop, "MercenaryPod", "Mercenary Pod",
-                "Deploy one clone Guardsman with PDF flak and a Lasgun. Shares the drop reserve with supplies.", 1, 0, supply,
+                "Deploy one clone Guardsman with PDF flak and a Lasgun. Shares the drop reserve with supplies.", 1, 0, null,
                 ["military_unit", "armor_container", "biomass_tank"]);
             var capacity = RegisterSupportPerk(DropModule, PodCapacity, "MercenaryEquipment", "Troop Pod Capacity I",
                 "Increase each troop drop to two mercenaries.", 2, 0, troop,
@@ -115,7 +113,7 @@ namespace ImperiumOfMan
                 "Increase each troop drop to three mercenaries.", 3, 0, capacity,
                 ["construction_equipment", "armor_container", "military_parts_container", "engineering_parts_container"]);
             RegisterSupportPerk(DropModule, PodCalls, "AdditionalCallIns", "Drop Support Reserve",
-                "Add one supply or troop call per raid.", 0, 1, supply,
+                "Add one supply or troop call per raid.", 0, 1, null,
                 ["communication_relay", "engineering_parts_container", "management_unit"]);
 
             string[] trainingArt = ["MercenaryWeapons", "MercenaryArmor", "MercenaryEquipment"];
@@ -240,6 +238,15 @@ namespace ImperiumOfMan
                 if (id is BarrageDuration or BarrageRounds or BarrageCalls)
                 {
                     __result = ShipMounts.Any(mount => __instance.IsPerkPurchased(mount.Id));
+                }
+                else if (id is TroopDrop or PodCalls)
+                {
+                    // Supply Pod moved to its own page; native edges cannot span modules.
+                    __result = __instance.IsPerkPurchased(SupplyDrop);
+                }
+                else if (TryGetSupplyResearch(id, out var supplyResearch))
+                {
+                    __result = __instance.IsPerkPurchased(supplyResearch.Parent);
                 }
                 else if (id == PodCapacityTwo)
                 {

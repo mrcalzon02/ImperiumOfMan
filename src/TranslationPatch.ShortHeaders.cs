@@ -122,6 +122,19 @@ namespace ImperiumOfMan
             ["iom_mercenary_pod"] = "Troop deployment",
             ["iom_pod_capacity"] = "Troop capacity",
             ["iom_pod_capacity_2"] = "Troop capacity",
+            ["iom_supply_food_1"] = "Rations and water",
+            ["iom_supply_food_2"] = "Extra provisions",
+            ["iom_supply_food_3"] = "Emergency meals",
+            ["iom_supply_medical_1"] = "Field treatment",
+            ["iom_supply_medical_2"] = "Medicines",
+            ["iom_supply_medical_3"] = "Trauma care",
+            ["iom_supply_ammo_1"] = "Standard ammo",
+            ["iom_supply_ammo_2"] = "Specialized ammo",
+            ["iom_supply_ammo_3"] = "Heavy ordnance",
+            ["iom_supply_ammo_4"] = "Chemical ammo",
+            ["iom_supply_ammo_amount_1"] = "Double ammo",
+            ["iom_supply_ammo_amount_2"] = "Triple ammo",
+            ["iom_supply_ammo_amount_3"] = "Quadruple ammo",
             ["iom_pod_calls"] = "Drop support charges",
             ["iom_occult_research_1"] = "Cultures and containment",
             ["iom_occult_research_2"] = "Essence distillation",
@@ -135,6 +148,7 @@ namespace ImperiumOfMan
         {
             ["ui.magnum.module.iom_ship_weapons.shortdesc"] = "Orbital fire support",
             ["ui.magnum.module.iom_drop_support.shortdesc"] = "Supply and troop drops",
+            ["ui.magnum.module.iom_supply_support.shortdesc"] = "Configure supply pods",
             ["ui.magnum.module.iom_comms_node.shortdesc"] = "Non-story missions only",
             ["ui.magnum.module.iom_occult_production.shortdesc"] = "Occult fabrication"
         };

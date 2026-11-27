@@ -176,24 +176,24 @@ namespace ImperiumOfMan
         private static void DeliverSupplies(State state, CellPosition target)
         {
             var items = new List<BasePickupItem>();
-            ItemInteractionSystem.CreateItem(items, LasClip, 12);
-            ItemInteractionSystem.CreateItem(items, "rifle_basic_ammo", 8);
-            ItemInteractionSystem.CreateItem(items, "medical_glue", 2);
+            foreach (var cargo in SupplyPodManifest(state.Get<MagnumProgression>(), state.Get<StoryTriggers>()))
+                ItemInteractionSystem.CreateItem(items, cargo.Id, cargo.Count);
             const string nativeSupplyCapsule = "89708297-fad2-4293-ad7e-73e0b94db27c";
             var capsule = SingletonMonoBehaviour<MapObstacleFactory>.Instance.Spawn(nativeSupplyCapsule,
                 target, new CellPosition(13, 0), register: true, refreshOccupation: true);
-            if (capsule?.Store?.storage is ItemStorage storage)
-            {
-                foreach (var item in items)
-                {
-                    storage.AddItemAndReshuffle(item);
-                }
-                return;
-            }
             var floor = state.Get<ItemsOnFloor>();
             var grid = state.Get<MapGrid>();
+            var storage = capsule?.Store?.storage as ItemStorage;
             foreach (var item in items)
             {
+                if (storage != null)
+                {
+                    if (storage.TryPutItem(item, CellPosition.Zero)) continue;
+                    // Native cargo uses this same one-row expansion when a delivery
+                    // will not fit. Preserve overflow even if an item still cannot fit.
+                    storage.ExpandHeight(1);
+                    if (storage.TryPutItem(item, CellPosition.Zero)) continue;
+                }
                 ItemOnFloorSystem.SpawnItem(floor, grid, item, target);
             }
         }

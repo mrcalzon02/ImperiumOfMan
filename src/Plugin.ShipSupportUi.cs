@@ -70,6 +70,7 @@ namespace ImperiumOfMan
                 MagnumProgression ____magnumSpaceship)
             {
                 Transform existing = __instance.transform.Find("ImperialShipSupportLoadout");
+                ConfigureSupplyPodPage(__instance, ____moduleId, ____magnumSpaceship);
                 if (____moduleId is not (WeaponsModule or DropModule))
                 {
                     existing?.gameObject.SetActive(false);
@@ -86,6 +87,9 @@ namespace ImperiumOfMan
                     ? CreateSupportRect(__instance.transform, "ImperialShipSupportLoadout", new Vector2(0.5f, 0f),
                         new Vector2(246f, 32f), new Vector2(0f, 24f))
                     : (RectTransform)existing;
+                // Reserve the right-hand half for the Supply Pod research tab.
+                panel.sizeDelta = new Vector2(weapons ? 246f : 142f, 32f);
+                panel.anchoredPosition = new Vector2(weapons ? 0f : -52f, 24f);
                 var control = panel.GetComponent<ShipSupportButton>() ?? panel.gameObject.AddComponent<ShipSupportButton>();
                 control.Configure(null, Label(), options.Length > 1, Cycle);
                 panel.gameObject.SetActive(true);

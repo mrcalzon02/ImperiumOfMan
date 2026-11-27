@@ -187,6 +187,8 @@ namespace ImperiumOfMan
                 var descriptor = Data.MagnumPerks.GetRecord(perkId)?.ContentDescriptor as MagnumPerkDescriptor;
                 var icon = descriptor != null && descriptor._icon != null ? descriptor._icon : SupportIcon(art);
                 string reserve = action == SupportAction.Fire ? "Shared weapon reserve" : "Shared pod reserve";
+                if (action == SupportAction.Supply)
+                    reserve = SupplyPodSummary(_state.Get<MagnumProgression>(), _state.Get<StoryTriggers>()) + "\n" + reserve;
                 if (action == SupportAction.Troops)
                 {
                     int count = TroopPodCapacity(_state.Get<MagnumProgression>());

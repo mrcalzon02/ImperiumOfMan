@@ -1,0 +1,5 @@
+# Supply Pod research and manifest
+
+Dedicated Supply Pod page reached from Drop Support, with a return tab. Existing base perk ID and shared supply/troop charges retained. The native six-column, four-row grid has 14 occupied cells, all edges adjacent. Food (3 ranks), medical (3 ranks), ammo choice (4 ranks), and ammo load (3 ranks) branch independently; ammo type and quantity split at Ammunition Logistics. Base mixed Las/Rifle and glue unchanged. Choice cycles only unlocked ammo profiles and quantities x1–x4; both saved in StoryTriggers. Medical/food additive, not multiplied. Native cargo stack creation and overflow fallback preserve supplies. Existing item artwork is converted to green/crimson research frames with known fallback art. Prices and quantities are proposed gameplay defaults.
+
+Required runtime validation: all page tabs, native node clicks and hover; graph arrows; independent branches; all ammo types and quantity choices; food/medical accumulation and exact delivered item counts; overflow and saved selections; no shared charge change. This is a source implementation, not visual or gameplay acceptance.
