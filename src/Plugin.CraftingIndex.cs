@@ -64,6 +64,7 @@ namespace ImperiumOfMan
             Stations stations = null;
             MagnumProjects projects = null;
             MagnumProgression occultProgression = null;
+            Difficulty difficulty = null;
             Capture("cargo and research", () =>
             {
                 var game = SingletonMonoBehaviour<SpaceGameMode>.Instance;
@@ -73,6 +74,7 @@ namespace ImperiumOfMan
                     stations = game.Get<Stations>();
                     projects = game.Get<MagnumProjects>();
                     occultProgression = game.Get<MagnumProgression>();
+                    difficulty = game.Get<Difficulty>();
                 }
             });
 
@@ -92,6 +94,7 @@ namespace ImperiumOfMan
                 {
                     Capture("Magnum recipes", () =>
                     {
+                        bool occult = TryGetOccultRequirement(receipt, out string occultPerk);
                         // Native production resolves upgraded projects before creating its output.
                         string output = projects?.GetWithModifications(receipt.OutputItem)?.CustomRecord?.Id ?? receipt.OutputItem;
                         var route = new CraftingRecipe
@@ -115,7 +118,8 @@ namespace ImperiumOfMan
                             route.Learned = cargo.UnlockedProductionItems.Contains(receipt.OutputItem);
                             int available = route.Inputs.Count == 0 ? int.MaxValue :
                                 ItemProductionSystem.GetAvailableToProduceCount(
-                                    MagnumCargoSystem.GetAvailableCargoStorages(cargo), receipt.RequiredItems);
+                                    MagnumCargoSystem.GetAvailableCargoStorages(cargo), receipt.RequiredItems,
+                                    countCustomItems: occult);
                             route.Ready = route.Learned.Value && available > 0;
                             route.Access = route.Learned.Value ? "Recipe learned. " : "Recipe not learned. ";
                             route.Access += route.Inputs.Count == 0 ? "No ingredients needed. " :
@@ -123,14 +127,19 @@ namespace ImperiumOfMan
                                     (available == 1 ? " time. " : " times. ") : "More materials are needed. ";
                             route.Access += "Use a free production line to begin.";
                         }
-                        if (TryGetOccultRequirement(receipt, out string occultPerk))
+                        if (occult)
                         {
                             bool? capable = occultProgression == null ? (bool?)null :
                                 HasOccultCapability(occultProgression, occultPerk);
                             if (IndustryBatches.TryGetValue(receipt.OutputItem, out int occultBaseBatch))
                                 route.Outputs[0].Count = OccultBatchSize(receipt, occultProgression, occultBaseBatch);
-                            route.Hours = receipt.ProduceTimeInHours * (1f - OccultSpeedPercent(occultProgression) / 100f);
+                            // Use the identical integer, difficulty-adjusted duration as the
+                            // native occult receipt panel and actual queued order. Without
+                            // live difficulty data the duration is not known.
+                            route.Hours = difficulty == null ? (float?)null :
+                                OccultBatchHours(receipt, occultProgression, difficulty);
                             route.Access += " Requires an occult production line; ordinary lines cannot fabricate this recipe.";
+                            if (difficulty == null) route.Access += " Check Production for the actual batch time.";
                             string research = CraftingLocalizedName("mgperk." + occultPerk + ".name", OccultResearchTitle(occultPerk));
                             route.Access += capable == true ? " Research installed: " + research + "." :
                                 capable == false ? " Requires " + research + "." : " Check research: " + research + ".";
