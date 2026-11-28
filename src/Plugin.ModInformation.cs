@@ -85,6 +85,7 @@ namespace ImperiumOfMan
                 register.Invoke(null, new object[] { McmDisplayName, entries, onSaved });
                 _mcmInformationRegistered = true;
                 Debug.Log("[Cvar_ImperiumOfMan] MCM mod information registered.");
+                RegisterImperiumSettingsPages(mcm, valueType, listType, callbackType, register);
             }
             catch (Exception ex)
             {

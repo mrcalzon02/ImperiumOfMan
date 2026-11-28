@@ -412,7 +412,9 @@ namespace ImperiumOfMan
                     // lanes and door thresholds are applied separately below.
                     var flatZone = area == NativePresetArea.Corridor ? DeckFloorZone.Lane : DeckFloorZone.Field;
                     foreach (var pos in room.Value) zones[pos.X, pos.Y] = flatZone;
-                    bool keepNative = room.Key >= 0 && room.Value.Count >= MinimumNativeFloorRegion &&
+                    bool keepNative = ImperialSetting("rooms.palette", 0) == 0 &&
+                        ImperialSetting("rooms.keep_native_floors", 1) != 0 &&
+                        room.Key >= 0 && room.Value.Count >= MinimumNativeFloorRegion &&
                         (area is NativePresetArea.Medical or NativePresetArea.Laboratory or NativePresetArea.Ceremonial ||
                          area == NativePresetArea.General && ((room.Key ^ state.Get<LocationMetadata>().Seed) & 3) == 0);
                     if (keepNative && TryChooseNativeImperialRoomFloor(room.Value, source, out short native))
@@ -555,6 +557,9 @@ namespace ImperiumOfMan
         private static CampaignDeck NativePresetAreaKit(NativePresetArea area, bool warp, CampaignDeck fallback,
             CampaignDeck route)
         {
+            if (!warp && ImperialSetting("rooms.palette", 0) != 0 &&
+                area != NativePresetArea.Objective)
+                return SelectImperialRoomPalette(area, ImperialSetting("rooms.palette", 0));
             if (route != null && (area is NativePresetArea.Corridor or NativePresetArea.LiftLobby or NativePresetArea.Objective ||
                 area == RouteSignatureArea(route.Key)))
                 return route;

@@ -425,9 +425,10 @@ namespace ImperiumOfMan
                         featureRuns[owner] = (start, x, y);
                 }
             }
-            foreach (var run in featureRuns.Values)
-                for (int column = run.Start; column < run.End; column++)
-                    retained.Remove(new CellPosition(column, run.Y));
+            if (ImperialSetting("rooms.facades", 1) != 0)
+                foreach (var run in featureRuns.Values)
+                    for (int column = run.Start; column < run.End; column++)
+                        retained.Remove(new CellPosition(column, run.Y));
             Debug.Log("[Cvar_ImperiumOfMan] Imperial room feature walls=" + featureRuns.Count);
             return retained;
         }

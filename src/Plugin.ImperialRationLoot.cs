@@ -15,7 +15,8 @@ namespace ImperiumOfMan
             (victimFaction == ItemCategory || stationFaction == ItemCategory || campaignFaction == ItemCategory);
 
         private static int ImperialRationsForFloor(int reachableCells) =>
-            Math.Min(16, Math.Max(4, (reachableCells + 199) / 200));
+            (int)Math.Round(Math.Min(16, Math.Max(4, (reachableCells + 199) / 200)) *
+                ImperialSetting("drops.ration_quantity", 100) / 100.0, MidpointRounding.AwayFromZero);
 
         private static readonly CellPosition[] RationAccessSteps =
             [new(0, 1), new(0, -1), new(1, 0), new(-1, 0)];

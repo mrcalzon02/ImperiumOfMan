@@ -38,6 +38,10 @@ namespace ImperiumOfMan
                 }
 
                 var random = new Random(location.Seed);
+                int cacheChance = ImperialSetting("drops.chaos_cache_chance", 100);
+                // At default, preserve the native seeded tier sequence.
+                if (cacheChance < 100 && new Random(unchecked(location.Seed ^ 0x43414348)).Next(100) >= cacheChance)
+                    return;
                 bool recoveredRelic = site.Id == BlackMeridian && highest == 10 &&
                     ____state.Get<StoryTriggers>().IsPassed(FinaleClaimed);
                 int selectedTier = recoveredRelic ? 10 : random.Next(site.FirstTier, highest + 1);

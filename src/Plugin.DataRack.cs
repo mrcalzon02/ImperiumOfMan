@@ -175,7 +175,9 @@ namespace ImperiumOfMan
         private static List<ItemQuantity> RollDataRack()
         {
             return DataRackRoller.Roll(RackRandom, RackBasicChip, _rackFactionPools,
-                    RackMinChips, RackMaxChips)
+                    ImperialSetting("drops.rack_min_chips", RackMinChips),
+                    Math.Max(ImperialSetting("drops.rack_min_chips", RackMinChips),
+                        ImperialSetting("drops.rack_max_chips", RackMaxChips)))
                 .Select(id => new ItemQuantity(id, 1)).ToList();
         }
 
@@ -224,7 +226,7 @@ namespace ImperiumOfMan
                     if (raid?.RaidType != RaidType.ProcMission || location == null ||
                         location.LocationId != "stage1") return;
                     var random = new System.Random(location.Seed ^ 0x64617461);
-                    if (random.Next(100) >= RackLootPercent) return;
+                    if (random.Next(100) >= ImperialSetting("drops.rack_chance", RackLootPercent)) return;
 
                     var rackRecord = Data.Items.GetSimpleRecord<ItemRecord>(DataRack);
                     var chipClass = Data.Items.GetSimpleRecord<ItemRecord>(RackBasicChip).ItemClass;

@@ -236,6 +236,9 @@ namespace ImperiumOfMan
         private static void DressImperialNativeRooms(MapGrid grid, MapMetadata metadata,
             ImperialSpinePlan layout, IEnumerable<PresetHeader> donors, int seed)
         {
+            int floorLimit = ImperialSetting("rooms.furniture_limit", RoomDressingMaxPlaced);
+            int perRoomLimit = ImperialSetting("rooms.furniture_per_room", 3);
+            if (floorLimit == 0 || perRoomLimit == 0) return;
             int placed = 0, probes = 0, connectivityChecks = 0, dressedRooms = 0;
             var placements = new Dictionary<string, int>(StringComparer.Ordinal);
             var roomThemes = new Dictionary<ImperialRoomTheme, int>();
@@ -272,7 +275,7 @@ namespace ImperiumOfMan
                     .Where(entry => !IsImperialSupplyClosetPreset(entry.Room.header.binaryId))
                     .OrderBy(_ => random.Next()).Take(RoomDressingMaxRooms))
                 {
-                    if (placed >= RoomDressingMaxPlaced || probes >= RoomDressingMaxProbes ||
+                    if (placed >= floorLimit || probes >= RoomDressingMaxProbes ||
                         connectivityChecks >= RoomDressingMaxConnectivityChecks) break;
                     var room = entry.Room;
                     var header = room.header;
@@ -345,7 +348,7 @@ namespace ImperiumOfMan
                         continue;
                     int freeFloor = floor.Count(pos => walkable.Contains(pos) && !occupied.Contains(pos));
                     int budget = Math.Min(freeFloor / 8, Math.Max(0, floor.Count / 4 - (floor.Count - freeFloor)));
-                    int roomLimit = freeFloor < 36 ? 1 : freeFloor < 70 ? 2 : 3;
+                    int roomLimit = Math.Min(perRoomLimit, freeFloor < 36 ? 1 : freeFloor < 70 ? 2 : 3);
                     if (budget < 1) continue;
                     var anchors = floor.Where(pos => ImperialSpineCardinals.Any(side =>
                             SpineCellWithinBounds(pos + side, grid.MaxWidth, grid.MaxHeight) &&
@@ -354,7 +357,7 @@ namespace ImperiumOfMan
                         .ThenBy(_ => random.Next()).ToArray();
                     var usedRoles = new HashSet<string>(StringComparer.Ordinal);
                     int roomPlaced = 0;
-                    while (roomPlaced < roomLimit && budget > 0 && placed < RoomDressingMaxPlaced &&
+                    while (roomPlaced < roomLimit && budget > 0 && placed < floorLimit &&
                         probes < RoomDressingMaxProbes && connectivityChecks < RoomDressingMaxConnectivityChecks)
                     {
                         bool added = false;

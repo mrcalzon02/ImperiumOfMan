@@ -21,6 +21,9 @@ namespace ImperiumOfMan
         {
             try
             {
+                int maxRooms = ImperialSetting("rooms.extra_rooms", ImperialVarietyMaxRooms);
+                int floorBudget = ImperialSetting("rooms.extra_floor_budget", ImperialVarietyFloorBudget);
+                if (maxRooms == 0 || floorBudget < 24) return original;
                 var used = new HashSet<int>(original.Rooms.Select(room => room.Room.header.binaryId));
                 var catalog = BuildImperialRoomThemeCatalog();
                 var random = new System.Random(unchecked(seed ^ 0x524F4F4D));
@@ -97,8 +100,8 @@ namespace ImperiumOfMan
                 trial.CorridorCells.UnionWith(original.CorridorCells);
 
                 AddCampaignEndgameCombatRooms(trial, candidates.Values.ToArray(), route,
-                    CampaignPlanFloorCount(original) + ImperialVarietyFloorBudget, width, height,
-                    maximumRooms: ImperialVarietyMaxRooms, preferUnused: true,
+                    CampaignPlanFloorCount(original) + floorBudget, width, height,
+                    maximumRooms: maxRooms, preferUnused: true,
                     minimumFloor: 24, minimumSide: 5, limitToTarget: true,
                     searchBudget: ImperialVarietySearchBudget,
                     varietyFamily: header => (int)themes[header.binaryId]);

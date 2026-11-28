@@ -44,6 +44,7 @@ namespace ImperiumOfMan
                 return;
             }
 
+            CaptureImperiumConfigBaseline();
             try
             {
                 RegisterFaction();
@@ -108,6 +109,7 @@ namespace ImperiumOfMan
                 Registrations.Clear();
             }
             TranslationPatch.ApplyToLoadedLanguages();
+            InitializeImperiumSettings();
 
             Debug.Log("[Cvar_ImperiumOfMan] AfterConfigsLoaded registration complete.");
         }

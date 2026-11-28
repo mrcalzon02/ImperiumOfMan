@@ -168,7 +168,10 @@ namespace ImperiumOfMan
 
         private static void ApplyImperialFacadeVariation(State state, MapGrid grid, ImperialDamagePalette palette)
         {
-            if (palette.Warp || _imperialFacadeVariants == null || grid == null) return;
+            if (palette.Warp || _imperialFacadeVariants == null || grid == null ||
+                ImperialSetting("rooms.facades", 1) == 0) return;
+            int spacing = ImperialSetting("rooms.facade_spacing", 4);
+            int strongEvery = ImperialSetting("rooms.strong_every", 3);
             try
             {
                 var location = state.Get<LocationMetadata>();
@@ -233,7 +236,7 @@ namespace ImperiumOfMan
                         int column = start + 1;
                         int previous = -1;
                         int accentNumber = 0;
-                        int topbarPhase = random.Next(3);
+                        int topbarPhase = random.Next(Math.Max(1, strongEvery));
                         while (column < end - 1)
                         {
                             if (!IsSafeImperialFacadeAccent(grid, column, y, protectedCells))
@@ -244,13 +247,14 @@ namespace ImperiumOfMan
                             int owner = OwnerAt(column, y);
                             var theme = ThemeAt(owner);
                             var rng = RoomRandom(owner);
-                            bool roomSignature = owner >= 0 && owner < rooms.Count &&
+                            bool roomSignature = strongEvery > 0 && owner >= 0 && owner < rooms.Count &&
                                 theme is not (ImperialRoomTheme.Corridor or ImperialRoomTheme.Lift) &&
                                 !IsImperialSupplyClosetPreset(rooms[owner].PresetBinaryId) &&
                                 !signedRooms.Contains(owner);
                             // A compact room may have only one clear slot.
                             // Its first accent is still a signature from batch two.
-                            bool topbar = roomSignature || length >= 7 && (accentNumber + topbarPhase) % 3 == 0;
+                            bool topbar = roomSignature || strongEvery > 0 && length >= 7 &&
+                                (accentNumber + topbarPhase) % strongEvery == 0;
                             int[] pool = topbar ? TopbarAccentsFor(theme) : FacadeAccentsFor(theme);
                             int choice = rng.Next(pool.Length);
                             if (pool[choice] == previous)
@@ -270,7 +274,7 @@ namespace ImperiumOfMan
                                 roomCounts[owner] = count + 1;
                                 if (roomSignature) signedRooms.Add(owner);
                             }
-                            column += 4 + rng.Next(3);
+                            column += spacing + rng.Next(3);
                         }
                     }
                 }
