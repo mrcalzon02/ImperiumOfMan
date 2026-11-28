@@ -225,7 +225,7 @@ namespace ImperiumOfMan
                     }
                     AddScale("Items detail", section, "item." + id + ".weight", "Weight (%)", "Individual weight multiplier.");
                     AddScale("Items detail", section, "item." + id + ".price", "Value (%)", "Individual value multiplier.");
-                    if (item.MaxStack > 1)
+                    if (ImperialStackCapacity(item) > 1)
                         AddScale("Items detail", section, "item." + id + ".stack", "Stack capacity (%)", "Individual multiplier; only increases.", 100, 300);
                     if (rewardItems.Contains(id))
                         AddScale("Drops detail", section, "drop." + id + ".weight", "Reward weight (%)",
@@ -358,6 +358,19 @@ namespace ImperiumOfMan
 
         // Allowlisted numeric properties have changed type across native builds.
         // Preserve the actual member's numeric type and skip absent/unsupported members.
+        private static int ImperialStackCapacity(ItemRecord item)
+        {
+            // MaxStack belongs to concrete stackable records, not ItemRecord.
+            // Only offer a slider when the native record exposes that member.
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public;
+            var property = item.GetType().GetProperty("MaxStack", flags);
+            var field = item.GetType().GetField("MaxStack", flags);
+            object value = property != null && property.CanRead && property.CanWrite
+                ? property.GetValue(item) : field != null && !field.IsInitOnly ? field.GetValue(item) : null;
+            return value is int count ? count : value is short small ? small :
+                value is byte tiny ? tiny : value is uint positive && positive <= int.MaxValue ? (int)positive : 1;
+        }
+
         private static void ScaleImperialNumeric(object record, string member, float scale, double maximum)
         {
             if (record == null || scale == 1f) return;
@@ -390,7 +403,7 @@ namespace ImperiumOfMan
                 string id = item.Id;
                 ScaleImperialNumeric(item, "Weight", ImperialScale("items.weight", "item." + id + ".weight"), 1000);
                 ScaleImperialNumeric(item, "Price", ImperialScale("items.price", "item." + id + ".price"), 1000000);
-                if (item.MaxStack > 1)
+                if (ImperialStackCapacity(item) > 1)
                     ScaleImperialNumeric(item, "MaxStack", ImperialScale("items.stack", "item." + id + ".stack"), 999);
                 if (item is WeaponRecord weapon)
                 {
