@@ -43,17 +43,18 @@ are painted; existing saved terrain and all 24 tile IDs remain unchanged.
 
 ## Room count and planning limits
 
-The prior 24-ID rotating list is replaced by the expanded known route
-catalog. Seeded round-robin sampling prevents the larger industrial
+The prior 24-ID rotating list is replaced by 95 distinct IDs from the
+existing known Imperial route and ore-bay catalogs. Seeded round-robin sampling prevents the larger industrial
 family dominating selection. At most 21 additional preset loads, 24
-candidate headers, four additional distinct rooms and 240 extra floor
-cells are allowed per accepted layout. Candidates require safe existing
+candidate headers, 24 already-loaded ordinary-donor checks, four additional
+distinct rooms and 240 extra floor cells are allowed per accepted layout. Candidates require safe existing
 Core donor rules, 24–160 floor cells, dimensions 5–22, at least one
 native doorway joint, and no special item/monster tables or special
 item spawn count. Native required mission rooms are unchanged.
 The optional search charges each distance probe and each joint check
 against a 6,000-step budget, favors unused donor IDs and underused
-families, and runs only after the original layout passed its audit.
+families, targets compact rooms close to the remaining per-room floor
+allowance, and runs only after the original layout passed its audit.
 The base plan remains cloned and available if either structural or
 stamped-map auditing rejects the additions. Extra rooms are best-effort,
 not guaranteed. Existing endgame expansion uses its original limits.

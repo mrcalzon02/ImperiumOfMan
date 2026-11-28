@@ -72,7 +72,13 @@ namespace ImperiumOfMan
                     .OrderBy(room => varietyFamily != null && familyUsage.TryGetValue(varietyFamily(room.Header), out int familyCount)
                         ? familyCount : 0)
                     .ThenBy(room => uses.TryGetValue(room.Header.binaryId, out int count) && count >= 2)
-                    .ThenByDescending(room => Math.Min(room.Floor, targetFloors - floorCount))
+                    // The optional variety pass favors a size near the
+                    // remaining per-room allowance. Preserve the original
+                    // large-room priority for campaign endgame expansion.
+                    .ThenByDescending(room => limitToTarget
+                        ? -Math.Abs(room.Floor - Math.Max(minimumFloor,
+                            (targetFloors - floorCount) / (maximumRooms - roomIndex)))
+                        : Math.Min(room.Floor, targetFloors - floorCount))
                     .ThenByDescending(room => route?.RoomPreference(room.Header, CampaignRouteRoomRole.SideRoom) ?? 0)
                     .ThenBy(room => uses.TryGetValue(room.Header.binaryId, out int count) ? count : 0).ToArray();
                 bool added = false;

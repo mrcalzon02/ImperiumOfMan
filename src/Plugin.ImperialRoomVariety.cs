@@ -11,6 +11,7 @@ namespace ImperiumOfMan
         private const int ImperialVarietyMaxRooms = 4;
         private const int ImperialVarietyMaxLoads = 21;
         private const int ImperialVarietyMaxCandidates = 24;
+        private const int ImperialVarietyMaxOrdinaryChecks = 24;
         private const int ImperialVarietyFloorBudget = 240;
         private const int ImperialVarietySearchBudget = 6000;
 
@@ -69,7 +70,7 @@ namespace ImperiumOfMan
                         }
                     }
                 }
-                foreach (var donor in ordinaryDonors.OrderBy(_ => random.Next()))
+                foreach (var donor in ordinaryDonors.OrderBy(_ => random.Next()).Take(ImperialVarietyMaxOrdinaryChecks))
                 {
                     if (candidates.Count >= ImperialVarietyMaxCandidates) break;
                     Include(donor);
