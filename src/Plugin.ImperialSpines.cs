@@ -167,16 +167,31 @@ namespace ImperiumOfMan
                 var baseLayout = layout;
                 if (!scope.Palette.Warp)
                     layout = TryAddImperialVarietyRooms(layout, loadedPresets, donors, route, width, height, seed);
-                var (draft, roomGroups) = BuildDraft(layout);
-                if (!AuditStampedImperialSpines(layout, draft.FinalMapGrid, draft.FinalMapMetadata,
-                    horizontalDoor, verticalDoor, out failure))
+                ImperialSpineCanvas draft = null;
+                Dictionary<short, List<CommonRoom>> roomGroups = null;
+                if (layout != baseLayout)
                 {
-                    if (layout != baseLayout)
+                    try
                     {
-                        Debug.LogWarning("[Cvar_ImperiumOfMan] Optional variety rooms rejected. " + failure);
-                        layout = baseLayout;
                         (draft, roomGroups) = BuildDraft(layout);
+                        if (!AuditStampedImperialSpines(layout, draft.FinalMapGrid, draft.FinalMapMetadata,
+                            horizontalDoor, verticalDoor, out failure))
+                        {
+                            Debug.LogWarning("[Cvar_ImperiumOfMan] Optional variety rooms rejected. " + failure);
+                            layout = baseLayout;
+                        }
                     }
+                    catch (Exception error)
+                    {
+                        // Optional preset contents can change across game builds.
+                        // Do not discard the working layout on a stamping error.
+                        Debug.LogWarning("[Cvar_ImperiumOfMan] Optional room stamping failed: " + error);
+                        layout = baseLayout;
+                    }
+                }
+                if (layout == baseLayout)
+                {
+                    (draft, roomGroups) = BuildDraft(layout);
                     if (!AuditStampedImperialSpines(layout, draft.FinalMapGrid, draft.FinalMapMetadata,
                         horizontalDoor, verticalDoor, out failure))
                     {

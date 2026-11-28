@@ -329,12 +329,15 @@ namespace ImperiumOfMan
             }
         }
 
+        private static readonly string[] ExcludedImperialNativeTileWords =
+            ["corrupt", "warp", "quasi", "demon", "chipped", "ruined", "breach"];
+
         private static bool IsCleanNativeImperialTile(BaseTileset donor)
         {
             if (donor == null || ImperialDamageTileIds.Contains(donor.ShortId) ||
                 string.IsNullOrEmpty(donor.name) || donor.name.StartsWith("iom_", StringComparison.OrdinalIgnoreCase) ||
                 !IsIntactTerrain(donor.name)) return false;
-            foreach (string word in new[] { "corrupt", "warp", "quasi", "demon", "chipped", "ruined", "breach" })
+            foreach (string word in ExcludedImperialNativeTileWords)
                 if (donor.name.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0) return false;
             var transform = Data.TileTransformation.GetRecord(donor.name);
             return transform != null && !string.IsNullOrEmpty(transform.TilesetToMutateName);

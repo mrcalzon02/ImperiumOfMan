@@ -45,7 +45,7 @@ Unique, objective, elevator, shuttle, quest-storage and trigger-bearing
 donors are rejected by the existing donor rules. All rooms use ordinary
 native joints, dimensions, fixtures, corridor connections and collision
 checks. The candidate plan is cloned; failed structural audits retain
-the base plan. A failed stamped-map audit retries the original plan.
+the base plan. A failed stamped-map audit or exception while stamping an optional donor retries the original plan.
 This is a best-effort addition, not a guaranteed room count.
 
 ## Native acceptance (pending)
