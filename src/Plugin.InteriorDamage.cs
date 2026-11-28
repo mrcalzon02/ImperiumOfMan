@@ -192,18 +192,17 @@ namespace ImperiumOfMan
             {
                 return null;
             }
-            var mission = raid.RaidType == RaidType.StoryMission ? state.Get<Missions>().Get(raid) : null;
-            if (IsCampaignMission(mission))
-            {
-                int campaignFinish = mission.BeneficiaryFactionId == ChaosFaction ? 2 : 1;
-                raid.CustomCounters[ImperialTerrainPaletteKey] = campaignFinish;
-                return ImperialDamagePalettes[campaignFinish - 1];
-            }
+            // Freeze the palette for the lifetime of the raid, including
+            // elevator transitions and reloads. Do not repaint an old floor.
             if (raid.CustomCounters.TryGetValue(ImperialTerrainPaletteKey, out int saved) &&
                 saved is 1 or 2)
             {
                 return ImperialDamagePalettes[saved - 1];
             }
+
+            // Location ownership, not the contract issuer, decides the look of
+            // an Imperial/Chaos station. An Imperial raid against Chaos must
+            // use the corrupted terrain kit (and vice versa).
             var station = state.Get<Stations>()?.Get(raid.StationId, logMissing: false);
             int finish = station?.OwnerFactionId switch
             {
@@ -211,11 +210,16 @@ namespace ImperiumOfMan
                 ChaosFaction => 2,
                 _ => 0,
             };
-            if (finish == 0)
+            if (finish == 0 && raid.RaidType == RaidType.StoryMission)
             {
-                return null;
+                var mission = state.Get<Missions>().Get(raid);
+                if (IsCampaignMission(mission))
+                    finish = mission.BeneficiaryFactionId == ChaosFaction ? 2 : 1;
             }
+            if (finish == 0) return null;
             raid.CustomCounters[ImperialTerrainPaletteKey] = finish;
+            Debug.Log("[Cvar_ImperiumOfMan] Raid terrain | station=" + raid.StationId +
+                " | owner=" + station?.OwnerFactionId + " | palette=" + (finish == 2 ? "corrupted" : "imperial"));
             return ImperialDamagePalettes[finish - 1];
         }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Stopwatch = System.Diagnostics.Stopwatch;
 using HarmonyLib;
 using MGSC;
 using UnityEngine;
@@ -18,6 +20,28 @@ namespace ImperiumOfMan
 
         private static bool IsCampaignMission(Mission mission) =>
             mission?.IsStoryMission == true && CampaignQuests.ContainsKey(mission.StoryId);
+
+        // Do not traverse every dungeon plan every rendered space frame.
+        // Weak object identity makes a deserialized or replaced mission a new
+        // preparation target without retaining previous campaigns.
+        private sealed class PreparedCampaignMission { public string StoryId; }
+        private static readonly ConditionalWeakTable<Mission, PreparedCampaignMission> PreparedCampaignMissions = new();
+
+        private static void PrepareCampaignMission(Mission mission, bool revalidate = false)
+        {
+            if (!IsCampaignMission(mission)) return;
+            if (!revalidate && PreparedCampaignMissions.TryGetValue(mission, out var existing) &&
+                existing.StoryId == mission.StoryId) return;
+            long started = Stopwatch.GetTimestamp();
+            EnsureCampaignEndingItem(mission);
+            ApplyCampaignDecks(mission);
+            PreparedCampaignMissions.Remove(mission);
+            PreparedCampaignMissions.Add(mission, new PreparedCampaignMission { StoryId = mission.StoryId });
+            double elapsed = (Stopwatch.GetTimestamp() - started) * 1000.0 / Stopwatch.Frequency;
+            Debug.Log("[Cvar_ImperiumOfMan] Campaign preparation | story=" + mission.StoryId +
+                " | entry_revalidation=" + revalidate + " | elapsed_ms=" +
+                elapsed.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+        }
 
         private static void RegisterFactionCampaigns()
         {
@@ -182,9 +206,8 @@ namespace ImperiumOfMan
                 {
                     if (active.StoryId == missionId || active.StoryId == faction.QuestlineId)
                     {
-                        active.IsBlocked = !hasStanding;
-                        EnsureCampaignEndingItem(active);
-                        ApplyCampaignDecks(active);
+                        if (active.IsBlocked != !hasStanding) active.IsBlocked = !hasStanding;
+                        PrepareCampaignMission(active);
                     }
                     return;
                 }
@@ -242,6 +265,9 @@ namespace ImperiumOfMan
                 mission.IsBlocked = !HasCampaignStanding(sponsor);
                 if (!mission.IsBlocked)
                 {
+                    // Revalidate at the real transition, including any changes
+                    // to the live plan by the game or another mod since offering.
+                    PrepareCampaignMission(mission, revalidate: true);
                     return true;
                 }
 
@@ -309,8 +335,7 @@ namespace ImperiumOfMan
                         plan.Value.MonstersPointsLimit = Mathf.RoundToInt((360 + tier * 110) * preset.MonsterPoints);
                     }
                 }
-                EnsureCampaignEndingItem(mission);
-                ApplyCampaignDecks(mission);
+                PrepareCampaignMission(mission);
                 foreach (string reward in missionRecord.PrizeItems)
                 {
                     MissionSystem.AddReward(SingletonMonoBehaviour<ItemFactory>.Instance, mission, reward);

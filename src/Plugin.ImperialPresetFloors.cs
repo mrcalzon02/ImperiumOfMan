@@ -209,6 +209,7 @@ namespace ImperiumOfMan
                 tileset.SetShortId((short)(original >= 0 ? NativeSpineConveyorBase + original : CampaignSpineConveyorBase + deckIndex));
                 tileset.Spritesheet = atlas;
                 tileset.Tiles = new TileBase[NativeSpineConveyorColumns * 4];
+                ConfigureCampaignSurface(tileset, SurfaceMaterialType.Metal);
                 AccessTools.Field(typeof(BaseTileset), "_decalPatterns").SetValue(tileset, new List<AutoDecalMatchPattern>());
                 AccessTools.Field(typeof(BaseTileset), "_notUsableInPreset").SetValue(tileset, true);
                 for (int i = 0; i < tileset.Tiles.Length; i++)

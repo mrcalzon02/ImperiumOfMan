@@ -105,6 +105,7 @@ namespace ImperiumOfMan
             private float _parentWidth = -1f;
             private bool _expanded;
             private bool _visible;
+            private bool _visibilityInitialized;
             private float _slide;
             private int _ownedMouseButtons;
 
@@ -234,7 +235,7 @@ namespace ImperiumOfMan
             }
 
             private bool CanShow() => isActiveAndEnabled && _state != null && IsSupportRaid(_state) &&
-                !UI.IsAnyShowing(typeof(DungeonHudScreen));
+                UI.IsShowing<DungeonHudScreen>() && !UI.IsAnyShowing(typeof(DungeonHudScreen));
 
             public bool ConsumesNativeInput()
             {
@@ -262,20 +263,31 @@ namespace ImperiumOfMan
                 if (input.Mode != InputController.InputMode.KeyboardAndMouse)
                     return false;
 
+                // Native Map hotkey must not be swallowed by idle hover.
+                // Retain exclusive ownership of actual drawer gestures.
+                if (_ownedMouseButtons == 0 && input.IsKeyDown("Map"))
+                    return false;
+
                 bool over = PointerOverDrawer();
                 bool owned = _ownedMouseButtons != 0;
+                bool pointerAction = Input.mouseScrollDelta.sqrMagnitude > 0f;
                 for (int button = 0; button < 3; button++)
                 {
                     int bit = 1 << button;
-                    if (over && Input.GetMouseButtonDown(button))
+                    bool down = Input.GetMouseButtonDown(button);
+                    bool held = Input.GetMouseButton(button);
+                    bool up = Input.GetMouseButtonUp(button);
+                    pointerAction |= down || held || up;
+                    if (over && down)
                         _ownedMouseButtons |= bit;
-                    if ((_ownedMouseButtons & bit) != 0 && !Input.GetMouseButton(button))
+                    if ((_ownedMouseButtons & bit) != 0 && !held)
                     {
                         _ownedMouseButtons &= ~bit;
                         _shipSupportConsumedFrame = Time.frameCount;
                     }
                 }
-                return over || owned || _ownedMouseButtons != 0 || _shipSupportConsumedFrame == Time.frameCount;
+                return (over && pointerAction) || owned || _ownedMouseButtons != 0 ||
+                    _shipSupportConsumedFrame == Time.frameCount;
             }
 
             private bool PointerOverDrawer()
@@ -309,7 +321,8 @@ namespace ImperiumOfMan
                     if (_slide == 0f)
                         SetContentActive(false);
                 }
-                bool targetable = _visible && CanTargetSupport(_state);
+                if (!_visible || (!_expanded && _slide == 0f)) return;
+                bool targetable = CanTargetSupport(_state);
                 bool fireReady = targetable && !HasPendingBarrage(_state);
                 int fire = SupportCharges(_state, SupportAction.Fire);
                 int pods = SupportCharges(_state, SupportAction.Supply);
@@ -320,8 +333,9 @@ namespace ImperiumOfMan
 
             private void SetVisible(bool visible)
             {
-                if (_visibility == null)
+                if (_visibility == null || (_visibilityInitialized && _visible == visible))
                     return;
+                _visibilityInitialized = true;
                 _visibility.alpha = visible ? 1f : 0f;
                 _visibility.blocksRaycasts = visible;
                 _visibility.interactable = visible;

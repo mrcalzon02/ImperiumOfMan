@@ -55,6 +55,7 @@ namespace ImperiumOfMan
                     tileset.SetShortId((short)(CampaignDirectionalTileBase + deck * FloorJoins.Length + (int)join));
                     tileset.Spritesheet = atlas;
                     tileset.Tiles = new TileBase[CampaignJoinShapeCount * 4];
+                    ConfigureCampaignSurface(tileset, decks[deck].Floor.MaterialType);
                     AccessTools.Field(typeof(BaseTileset), "_decalPatterns").SetValue(tileset, new List<AutoDecalMatchPattern>());
                     AccessTools.Field(typeof(BaseTileset), "_notUsableInPreset").SetValue(tileset, true);
                     for (int i = 0; i < tileset.Tiles.Length; i++)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Stopwatch = System.Diagnostics.Stopwatch;
 using HarmonyLib;
 using MGSC;
 
@@ -92,6 +93,21 @@ namespace ImperiumOfMan
             {
                 return;
             }
+            long started = Stopwatch.GetTimestamp();
+            int stockChecks = 0, changedStocks = 0;
+            // Preserve native enumeration order, but do not search every
+            // station again for each occult sample and catalog faction.
+            var firstOwnedStation = new Dictionary<string, Station>(StringComparer.Ordinal);
+            foreach (var candidate in stations.Values)
+            {
+                if (candidate == null || string.IsNullOrEmpty(candidate.OwnerFactionId) ||
+                    string.IsNullOrEmpty(candidate.SpaceObjectId) || firstOwnedStation.ContainsKey(candidate.OwnerFactionId))
+                    continue;
+                firstOwnedStation.Add(candidate.OwnerFactionId, candidate);
+            }
+            Station FirstOwned(string factionId) =>
+                firstOwnedStation.TryGetValue(factionId, out var station) ? station : null;
+
             foreach (var entry in CatalogStock)
             {
                 var maker = factions.Get(entry.Key, logMissing: false);
@@ -101,8 +117,7 @@ namespace ImperiumOfMan
                 {
                     continue;
                 }
-                var fallback = stations.Values.FirstOrDefault(station => station.OwnerFactionId == faction.Id &&
-                    !string.IsNullOrEmpty(station.SpaceObjectId));
+                var fallback = FirstOwned(faction.Id);
                 foreach (var (chip, tier, supplier) in entry.Value)
                 {
                     // Faction-specific occult knowledge does not silently become
@@ -208,35 +223,36 @@ namespace ImperiumOfMan
                     !string.IsNullOrEmpty(candidate.SpaceObjectId);
                 var station = preferredStation == null ? null : stations.Get(preferredStation, logMissing: false);
                 if (!IsOwnedSupplier(station))
-                    station = stations.Values.FirstOrDefault(IsOwnedSupplier);
+                    station = FirstOwned(owner.Id);
                 if (station != null)
                     TopUpRegionalStock(station, id, target, "seed");
             }
 
-            void TopUpRegionalStock(Station station, string id, int target, string kind)
+            double elapsed = (Stopwatch.GetTimestamp() - started) * 1000.0 / Stopwatch.Frequency;
+            UnityEngine.Debug.Log("[Cvar_ImperiumOfMan] Industry restock | checks=" + stockChecks +
+                " | replenished=" + changedStocks + " | elapsed_ms=" +
+                elapsed.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+
+            void TopUpRegionalStock(Station station, string id, int target, string kind) =>
+                TopUp(station, id, target, kind);
+
+            void TopUp(Station station, string id, int target, string kind = null)
             {
+                stockChecks++;
                 int before = station.InternalStorage.CountItems(id);
-                TopUp(station, id, target);
+                int shortage = target - before;
+                if (shortage <= 0) return;
+                var items = new List<BasePickupItem>();
+                ItemInteractionSystem.CreateItem(items, id, shortage);
+                foreach (BasePickupItem item in items)
+                    StationSystem.AddItemToStationStorage(time, factions, station, item);
+                if (items.Count > 0) changedStocks++;
+                if (kind == null) return;
                 int after = station.InternalStorage.CountItems(id);
                 if (after > before)
                     UnityEngine.Debug.Log("[Cvar_ImperiumOfMan] Regional occult " + kind +
                         " restock | item=" + id + " | faction=" + station.OwnerFactionId +
                         " | station=" + station.Id + " | before=" + before + " | after=" + after);
-            }
-
-            void TopUp(Station station, string id, int target)
-            {
-                int shortage = target - station.InternalStorage.CountItems(id);
-                if (shortage <= 0)
-                {
-                    return;
-                }
-                var items = new List<BasePickupItem>();
-                ItemInteractionSystem.CreateItem(items, id, shortage);
-                foreach (BasePickupItem item in items)
-                {
-                    StationSystem.AddItemToStationStorage(time, factions, station, item);
-                }
             }
         }
 

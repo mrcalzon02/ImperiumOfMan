@@ -38,6 +38,12 @@ namespace ImperiumOfMan
             }
         }
 
+        private static void ConfigureCampaignSurface(SurfaceTileset tileset, SurfaceMaterialType material)
+        {
+            AccessTools.Field(typeof(SurfaceTileset), "_surfaceType").SetValue(tileset, MapCellType.Floor);
+            AccessTools.Field(typeof(SurfaceTileset), "_materialType").SetValue(tileset, material);
+        }
+
         private static void RegisterCampaignDeckTiles()
         {
             var atlas = ReadDamageAtlas("CampaignFloorKits", CampaignFloorTileCount, CampaignDecks.Count);
@@ -56,6 +62,7 @@ namespace ImperiumOfMan
                 }
                 floor.Spritesheet = atlas;
                 floor.Tiles = new TileBase[CampaignFloorTileCount];
+                ConfigureCampaignSurface(floor, SurfaceMaterialType.Metal);
                 for (int slot = 0; slot < CampaignFloorTileCount; slot++)
                 {
                     var tile = ScriptableObject.CreateInstance<Tile>();
