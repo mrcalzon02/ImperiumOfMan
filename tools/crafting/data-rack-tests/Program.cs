@@ -19,7 +19,7 @@ for (int i = 0; i < 10000; i++)
     Require(roll.All(x => x == "basic" || pools.SelectMany(p => p).Contains(x)), "unknown chip");
     sizes[roll.Length]++;
     a += roll.Count(x => x.StartsWith("a"));
-    b += roll.Count(x => x.StartsWith("b"));
+    b += roll.Count(x => x == "b1");
 }
 Require(sizes.Skip(5).All(x => x > 2000), "all four sizes should be represented");
 Require(Math.Abs(a - b) < (a + b) * 0.04, "faction weighting should be independent of pool size");

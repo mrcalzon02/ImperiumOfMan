@@ -22,7 +22,7 @@ A 12% chance per fresh procedural entrance floor attempts to place one
 rack in accessible, non-quest, compatible chip/technical loot storage,
 preferring storage with actual technical goods. No periodic scans,
 guaranteed drops, story injections or floor fallback. The crafting map
-lists possible outputs as alternatives with unknown individual amounts.
+lists possible outputs as alternatives with unknown individual amounts. The native disassembly preview has a one-chip sentinel for its availability check; the actual opening hook overrides that sentinel, and the detailed item tooltip describes the true range. Native preview rendering still requires acceptance testing.
 
 ## Payout test harness
 

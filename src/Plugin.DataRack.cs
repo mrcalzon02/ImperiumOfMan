@@ -195,7 +195,8 @@ namespace ImperiumOfMan
                 var original = record.Disassembly;
                 var rolled = RollDataRack();
                 __state = () => record.Disassembly = original;
-                record.Disassembly = [.. rolled];
+                record.Disassembly = [.. rolled.GroupBy(entry => entry.ItemId, StringComparer.Ordinal)
+                    .Select(group => new ItemQuantity(group.Key, group.Sum(entry => entry.Count)))];
                 guaranteed = true;
                 return true;
             }
