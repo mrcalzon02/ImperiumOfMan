@@ -32,9 +32,10 @@ namespace ImperiumOfMan
             canvas.sortingOrder = 29000;
             canvas.pixelPerfect = true;
             var scaler = root.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1280f, 720f);
-            scaler.matchWidthOrHeight = 0.5f;
+            // Height-limited rather than geometric-mean scaling. A very wide
+            // monitor must not lose usable vertical graph space to its width.
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+            scaler.scaleFactor = 1f;
             _craftingMapWindow = root.AddComponent<CraftingMapWindow>();
             _craftingMapWindow.Initialize(productionOwner);
         }
@@ -145,7 +146,7 @@ namespace ImperiumOfMan
                 _modalBlocker = blocker.gameObject.AddComponent<Image>();
                 _modalBlocker.color = new Color(0f, 0f, 0f, 0.24f);
                 _modalBlocker.gameObject.SetActive(false);
-                _panel = Stretch(transform, "Crafting map panel", 14, 24, 52, 24);
+                _panel = Stretch(transform, "Crafting map panel", 8, 8, 8, 8);
                 Paint(_panel, PanelColor);
                 Frame(_panel, BorderColor, true);
                 _openPanelPosition = _panel.anchoredPosition;
@@ -154,11 +155,10 @@ namespace ImperiumOfMan
                 BuildDetails();
                 BuildSearchResults();
 
-                var handle = EdgeTab(_panel, "Collapse crafting map", false, Collapse);
-                handle.anchorMin = handle.anchorMax = new Vector2(1f, 0.62f);
-                handle.pivot = new Vector2(0f, 0.5f);
-                handle.anchoredPosition = Vector2.zero;
+                // One Close action is enough when expanded. The left-edge tab
+                // remains the entry point when closed.
                 _collapsedTab = EdgeTab(transform, "Open crafting map", true, Expand).gameObject;
+                ApplyViewport(false);
                 _panel.gameObject.SetActive(false);
             }
 
@@ -180,17 +180,22 @@ namespace ImperiumOfMan
 
             private void BuildHeader()
             {
-                var heading = Span(_panel, "Production-style heading", 0, 1, 0, 38);
+                var heading = Span(_panel, "Production-style heading", 0, 1, 0, 32);
                 Paint(heading, new Color32(15, 16, 16, 255));
                 Frame(heading, TextColor, true);
-                Text(At(heading, "Title", 12f, 3f, 240f, 30f), "CRAFTING MAP", 20);
-                _catalogStatus = Text(Span(_panel, "Catalogue status", 0.23f, 0.66f, 12f, 22f),
-                    "Open the map to explore recipes", 12);
-                var refresh = AtRight(_panel, "Refresh", 92f, 5f, 88f, 28f);
-                TextButton(refresh, "REFRESH", () => RefreshIndex(true));
-                TextButton(AtRight(_panel, "Close", 8f, 5f, 76f, 28f), "CLOSE", Collapse);
+                Text(At(heading, "Title", 8f, 3f, 165f, 26f), "CRAFTING MAP", 18);
+                _catalogStatus = Text(Span(_panel, "Catalogue status", 0, 1, 4f, 24f, 180f, 356f),
+                    "", 12);
+                TextButton(AtRight(_panel, "Close", 6, 3, 62, 26), "CLOSE", Collapse, 12);
+                TextButton(AtRight(_panel, "Refresh", 72, 3, 72, 26), "REFRESH", () => RefreshIndex(true), 12);
+                _inspectorToggle = TextButton(AtRight(_panel, "Inspector visibility", 148, 3, 82, 26),
+                    "DETAILS", ToggleInspector, 12);
+                TextButton(AtRight(_panel, "Larger interface", 234, 3, 30, 26), "A+", () => ChangeInterfaceScale(10), 12);
+                _uiScaleLabel = Text(AtRight(_panel, "Interface scale", 268, 3, 48, 26), "", 12);
+                _uiScaleLabel.alignment = TextAlignmentOptions.Midline;
+                TextButton(AtRight(_panel, "Smaller interface", 320, 3, 30, 26), "A-", () => ChangeInterfaceScale(-10), 12);
 
-                var searchRect = At(_panel, "Find item", 14f, 46f, 286f, 32f);
+                var searchRect = At(_panel, "Find item", 8, 36, 216, 28);
                 Paint(searchRect, RecessColor);
                 Frame(searchRect, BorderColor);
                 _search = searchRect.gameObject.AddComponent<TMP_InputField>();
@@ -200,7 +205,7 @@ namespace ImperiumOfMan
                 inputText.alignment = TextAlignmentOptions.MidlineLeft;
                 inputText.enableWordWrapping = false;
                 inputText.overflowMode = TextOverflowModes.Overflow;
-                var placeholder = Text(Stretch(viewport, "Search hint", 0, 0, 0, 0), "FIND ITEM  [CTRL+F]", 14);
+                var placeholder = Text(Stretch(viewport, "Search hint", 0, 0, 0, 0), "FIND ITEM", 13);
                 placeholder.color = DimColor;
                 _search.textViewport = viewport;
                 _search.textComponent = inputText;
@@ -223,7 +228,7 @@ namespace ImperiumOfMan
                 for (int i = 0; i < venues.Length; i++)
                 {
                     string venue = venues[i];
-                    var rect = At(_panel, venue + " source", 310f + 85f * i, 46f, 80f, 32f);
+                    var rect = At(_panel, venue + " source", 230f + 82f * i, 36f, 78f, 28f);
                     TextButton(rect, captions[i], () => SetVenue(venue), 12);
                     _venueButtons.Add(venue, rect.GetComponent<Button>());
                 }
@@ -232,50 +237,44 @@ namespace ImperiumOfMan
 
             private void BuildCanvas()
             {
-                var frame = Stretch(_panel, "Graph frame", 14, 204, 14, 88);
-                Paint(frame, RecessColor);
-                Frame(frame, BorderColor, true);
-                frame.gameObject.AddComponent<RectMask2D>();
-                var graphViewport = Stretch(frame, "Graph viewport", 2, 36, 2, 29);
+                _graphFrame = Stretch(_panel, "Graph frame", 8, 8, 8, 102);
+                Paint(_graphFrame, RecessColor);
+                Frame(_graphFrame, BorderColor, true);
+                _graphFrame.gameObject.AddComponent<RectMask2D>();
+                var graphViewport = Stretch(_graphFrame, "Graph viewport", 2, 2, 2, 2);
                 graphViewport.gameObject.AddComponent<RectMask2D>();
                 var graphicRect = Stretch(graphViewport, "Connected crafting graph", 0, 0, 0, 0);
                 _view = graphicRect.gameObject.AddComponent<CraftingMapGraphic>();
                 _view.Initialize(this);
-                var controls = Rect(frame, "Map controls", new Vector2(0f, 0f), new Vector2(1f, 0f));
-                controls.pivot = new Vector2(0.5f, 0f);
-                controls.sizeDelta = new Vector2(0f, 34f);
-                Paint(controls, new Color32(10, 18, 14, 255));
-                Frame(controls, BorderColor);
-                TextButton(At(controls, "Zoom out", 6, 4, 28, 26), "-", () => _view.ZoomAtCenter(1f / 1.2f), 18);
-                _zoomLabel = Text(At(controls, "Zoom amount", 38, 4, 48, 26), "100%", 12);
+
+                // These controls share the filter row on wide monitors. No
+                // persistent instruction strip or empty toolbar inside the graph.
+                _graphTools = At(_panel, "Map controls", 8, 68, 650, 28);
+                TextButton(At(_graphTools, "Zoom out", 0, 0, 26, 28), "-", () => _view.ZoomAtCenter(1f / 1.2f), 18);
+                _zoomLabel = Text(At(_graphTools, "Zoom amount", 29, 0, 42, 28), "100%", 12);
                 _zoomLabel.alignment = TextAlignmentOptions.Midline;
-                TextButton(At(controls, "Zoom in", 90, 4, 28, 26), "+", () => _view.ZoomAtCenter(1.2f), 18);
-                TextButton(At(controls, "Fit map", 126, 4, 44, 26), "FIT", () => _view.Fit(), 12);
-                TextButton(At(controls, "Focus node", 178, 4, 60, 26), "FOCUS", FocusSelection, 12);
-                _expandInputsLabel = TextButton(At(controls, "Expand inputs", 248, 4, 142, 26),
-                    "EXPAND INPUTS", () => ExpandSelection(true), 12);
-                _expandUsesLabel = TextButton(At(controls, "Expand uses", 398, 4, 142, 26),
-                    "EXPAND USES", () => ExpandSelection(false), 12);
-                TextButton(At(controls, "Trace ingredients", 550, 4, 172, 26), "INGREDIENT TREE", TraceSelectedIngredients, 12);
-                var status = Span(frame, "Graph information strip", 0, 1, 1, 27, 1, 1);
-                Paint(status, new Color32(10, 18, 14, 255));
-                _mapStatus = Text(Stretch(status, "Map status", 9, 2, 9, 2),
-                    "Drag to pan • wheel to zoom • click to highlight", 12);
+                TextButton(At(_graphTools, "Zoom in", 74, 0, 26, 28), "+", () => _view.ZoomAtCenter(1.2f), 18);
+                TextButton(At(_graphTools, "Fit map", 104, 0, 40, 28), "FIT", () => _view.Fit(), 12);
+                TextButton(At(_graphTools, "Focus node", 148, 0, 54, 28), "FOCUS", FocusSelection, 12);
+                _expandInputsLabel = TextButton(At(_graphTools, "Expand inputs", 206, 0, 106, 28),
+                    "INPUTS +0", () => ExpandSelection(true), 12);
+                _expandUsesLabel = TextButton(At(_graphTools, "Expand uses", 316, 0, 100, 28),
+                    "USES +0", () => ExpandSelection(false), 12);
+                TextButton(At(_graphTools, "Trace ingredients", 420, 0, 124, 28), "INGREDIENT TREE", TraceSelectedIngredients, 11);
+                _mapStatus = Text(At(_graphTools, "Visible graph count", 550, 0, 100, 28), "", 11);
                 _mapStatus.color = DimColor;
             }
 
             private void BuildDetails()
             {
-                var details = Rect(_panel, "Selected node details", new Vector2(0f, 0f), new Vector2(1f, 0f));
+                var details = _details = Rect(_panel, "Selected node details", new Vector2(0f, 0f), new Vector2(1f, 0f));
                 details.pivot = new Vector2(0.5f, 0f);
-                details.offsetMin = new Vector2(14, 12);
-                details.offsetMax = new Vector2(-14, 192);
                 Paint(details, PanelColor);
                 Frame(details, BorderColor, true);
-                var heading = Span(details, "Selected node heading", 0, 1, 0, 35);
+                var heading = Span(details, "Selected node heading", 0, 1, 0, 32);
                 Paint(heading, new Color32(15, 16, 16, 255));
                 Frame(heading, TextColor);
-                _detailTitle = Text(Span(details, "Selected name", 0, 0.68f, 4, 27, 12, 4), "SELECT AN ITEM OR RECIPE", 18);
+                _detailTitle = Text(Span(details, "Selected name", 0, 1, 3, 26, 8, 8), "", 16);
                 _detailTitle.color = AccentColor;
                 _acquisitionToggle = TextButton(Span(details, "Occult acquisition sources", 0.55f, 0.68f,
                     4, 27, 4, 4), "SOURCES", () =>
@@ -285,10 +284,10 @@ namespace ImperiumOfMan
                         DrawDetails();
                     }, 12);
                 _acquisitionToggle.transform.parent.gameObject.SetActive(false);
-                _detailMeta = Text(Span(details, "Time and venue", 0.68f, 1f, 7, 27, 4, 12), "", 13);
+                _detailMeta = Text(Span(details, "Time and venue", 0.68f, 1f, 3, 26, 4, 8), "", 12);
                 _detailMeta.alignment = TextAlignmentOptions.MidlineRight;
-                var inputs = Span(details, "Input column", 0f, 0.5f, 39, 101, 12, 8);
-                var outputs = Span(details, "Output column", 0.5f, 1f, 39, 101, 8, 12);
+                var inputs = _inputColumn = Span(details, "Input column", 0f, 0.5f, 36, 100, 8, 4);
+                var outputs = _outputColumn = Span(details, "Output column", 0.5f, 1f, 36, 100, 4, 8);
                 _inputTitle = Text(Span(inputs, "Input heading", 0, 1, 0, 22, 0, 68), "INPUTS", 12);
                 _outputTitle = Text(Span(outputs, "Output heading", 0, 1, 0, 22, 0, 68), "OUTPUTS", 12);
                 TextButton(AtRight(inputs, "Previous inputs", 34, 0, 28, 22), "<", () => { _inputPage = Math.Max(0, _inputPage - 1); DrawDetailRows(); }, 16);
@@ -297,14 +296,19 @@ namespace ImperiumOfMan
                 TextButton(AtRight(outputs, "Next outputs", 0, 0, 28, 22), ">", () => { _outputPage = Math.Min(Math.Max(0, (_outputDetails.Count - 1) / DetailPage), _outputPage + 1); DrawDetailRows(); }, 16);
                 _inputRows = Scroll(Stretch(inputs, "Input list", 0, 0, 0, 25));
                 _outputRows = Scroll(Stretch(outputs, "Output list", 0, 0, 0, 25));
-                _detailNote = Text(Span(details, "Selected information", 0, 1, 142, 34, 12, 12),
-                    "Expand a branch to follow its recipes. Counts belong to each individual production order.", 11);
+                // Only actual recipe conditions/warnings get a scroll area.
+                // Ordinary items have no footer, no blank reservation.
+                _detailNoteRoot = Stretch(details, "Recipe conditions", 8, 6, 8, 0);
+                _detailNoteContent = Scroll(_detailNoteRoot);
+                _detailNote = Text(Span(_detailNoteContent, "Conditions", 0, 1, 3, 24, 5, 5), "", 12);
+                _detailNote.alignment = TextAlignmentOptions.TopLeft;
                 _detailNote.color = DimColor;
+                _detailNoteRoot.gameObject.SetActive(false);
             }
 
             private void BuildSearchResults()
             {
-                _searchPanel = At(_panel, "All item search results", 14, 82, 380, 350);
+                _searchPanel = At(_panel, "All item search results", 8, 68, 380, 350);
                 Paint(_searchPanel, PanelColor);
                 Frame(_searchPanel, TextColor, true);
                 _searchCount = Text(At(_searchPanel, "Results count", 8, 5, 250, 24), "", 12);
@@ -324,6 +328,7 @@ namespace ImperiumOfMan
                 _panel.gameObject.SetActive(true);
                 _modalBlocker.gameObject.SetActive(true);
                 _collapsedTab.SetActive(false);
+                ApplyViewport(false);
                 RefreshIndex(_nodes.Count > 0);
             }
 
@@ -356,6 +361,8 @@ namespace ImperiumOfMan
                     RemoveCraftingMapTab();
                     return;
                 }
+                if (_viewportWidth != Screen.width || _viewportHeight != Screen.height)
+                    ApplyViewport(false);
                 float target = _expanded ? 1f : 0f;
                 if (!Mathf.Approximately(_slide, target))
                 {
@@ -422,13 +429,13 @@ namespace ImperiumOfMan
                     else if (_rootItem != null)
                         FocusItem(_rootItem);
                     else
-                        _mapStatus.text = "No items are available. Refresh to try again.";
+                        _mapStatus.text = "No items";
                 }
                 catch (Exception error)
                 {
                     Debug.LogError("[Cvar_ImperiumOfMan] Crafting map capture failed: " + error);
                     _catalogStatus.text = "Recipes unavailable — refresh to try again";
-                    _detailNote.text = "Recipes could not be refreshed. Use Refresh to try again.";
+                    SetDetailNote("Recipe capture failed.");
                 }
             }
 
@@ -622,7 +629,7 @@ namespace ImperiumOfMan
                 }
                 Changed(false);
                 if (added == 0 && RemainingBranches(inputs) > 0)
-                    _mapStatus.text = "This branch view is full. Focus a selected item to continue; the complete item catalogue remains searchable.";
+                    _mapStatus.text = _nodes.Count + " · limit";
             }
 
             private void SelectNode(string key)
@@ -646,12 +653,11 @@ namespace ImperiumOfMan
                 ArrangeGraph();
                 Highlight();
                 DrawDetails();
-                _expandInputsLabel.text = "EXPAND INPUTS · " + RemainingBranches(true);
-                _expandUsesLabel.text = "EXPAND USES · " + RemainingBranches(false);
-                _mapStatus.text = _nodes.Count + " items & recipes · drag to pan · wheel to zoom · click to highlight · double-click to focus";
-                _view.RefreshVisuals();
-                if (fit)
-                    _view.FocusSelection();
+                _expandInputsLabel.text = "INPUTS +" + RemainingBranches(true);
+                _expandUsesLabel.text = "USES +" + RemainingBranches(false);
+                _mapStatus.text = _nodes.Count + " nodes";
+                if (fit) _view.Fit();
+                else _view.RefreshVisuals();
             }
 
             private void Highlight()
@@ -690,47 +696,33 @@ namespace ImperiumOfMan
                 toggle.SetActive(hasSources);
                 _acquisitionToggle.text = _showAcquisition ? "DETAILS" : "SOURCES";
                 SetButtonColors(toggle.GetComponent<Button>(), _showAcquisition);
-                var titleAnchor = _detailTitle.rectTransform.anchorMax;
-                titleAnchor.x = hasSources ? 0.55f : 0.68f;
-                _detailTitle.rectTransform.anchorMax = titleAnchor;
+                _detailHasSources = hasSources;
+                string note = "";
                 if (node.ItemId != null)
                 {
                     var producers = Routes(node.ItemId, true);
                     var consumers = Routes(node.ItemId, false);
                     _detailTitle.text = Name(node.ItemId);
-                    _detailMeta.text = GroupTitle(ItemGroup(node.Item)) + " · " +
-                        producers.Count + " recipes · " + consumers.Count + " uses";
+                    // List headings already report producer/consumer counts.
+                    _detailMeta.text = "";
                     foreach (var recipe in producers)
                         _inputDetails.Add(RecipeDetail(recipe));
                     foreach (var recipe in consumers)
                         _outputDetails.Add(RecipeDetail(recipe));
-                    _detailNote.text = node.Item != null && !node.Item.Registered
-                        ? "This ingredient is unavailable in the current game."
-                        : producers.Count == 0
-                        ? "No producing recipe in this source view. Loot, trade, rewards, or another system may supply this item. Try All sources."
-                        : "Select a recipe for its ingredients, products, requirements and time. Expand follows more recipes; Focus starts a map here.";
-                    if (hasSources)
-                        _detailNote.text = "Occult acquisition: " + sources.Count +
-                            " sources. Open Sources for faction, research and stock details.";
-                    else
-                    {
-                        string sampleHint = OccultResearchSampleHint(node.ItemId);
-                        if (sampleHint != null && node.Item?.Registered == true)
-                            _detailNote.text = sampleHint + " " + _detailNote.text;
-                    }
+                    if (node.Item != null && !node.Item.Registered)
+                        note = "Unavailable item.";
                 }
                 else
                 {
                     var recipe = node.Recipe;
-                    _detailTitle.text = recipe.Name;
-                    _detailMeta.text = RecipeVenueLabel(recipe) + " · " + RecipeTimeLabel(recipe);
+                    _detailTitle.text = RecipeDisplayName(recipe);
+                    _detailMeta.text = RecipeVenueLabel(recipe) +
+                        (recipe.Hours.HasValue ? " · " + RecipeTimeLabel(recipe) : "");
                     foreach (var input in recipe.Inputs)
                         _inputDetails.Add(AmountDetail(input));
                     foreach (var output in recipe.Outputs)
                         _outputDetails.Add(AmountDetail(output));
-                    _detailNote.text = (recipe.Ready == true ? "Materials ready. " : "") + recipe.Access;
-                    if (_inputDetails.Count == 0)
-                        _inputDetails.Add(new DetailRow { Caption = "No inventory ingredients", Action = null });
+                    note = recipe.Access ?? "";
                 }
                 if (_showAcquisition && hasSources)
                 {
@@ -756,14 +748,17 @@ namespace ImperiumOfMan
                     }
                     foreach (string detail in sources[_selectedAcquisition].Details)
                         _outputDetails.Add(new DetailRow { Caption = detail });
-                    _detailNote.text = "Campaign snapshot: stock is not a guaranteed sale; eligible rewards are not guaranteed rolls. Refresh to update.";
+                    note = "";
                 }
+                SetDetailNote(note);
                 DrawDetailRows();
             }
 
             private DetailRow RecipeDetail(CraftingRecipe recipe)
             {
-                return new DetailRow { Caption = RecipeVenueLabel(recipe) + " · " + recipe.Name, Icon = RecipeIcon(recipe),
+                string venue = _venue == "All" ? RecipeVenueLabel(recipe) + " · " :
+                    recipe.OccultOutput != null ? "Occult · " : "";
+                return new DetailRow { Caption = venue + RecipeDisplayName(recipe), Icon = RecipeIcon(recipe),
                     Action = () =>
                     {
                         string key = RecipeKey(recipe.Key);
@@ -790,11 +785,12 @@ namespace ImperiumOfMan
 
             private void DrawDetailRows()
             {
+                if (!_inspectorVisible) return;
                 bool item = _nodes.TryGetValue(_selectedKey ?? "", out var node) && node.ItemId != null;
                 DrawDetailColumn(_inputRows, _inputTitle, _inputDetails, ref _inputPage,
-                    _showAcquisition ? "Acquisition" : item ? "Produced by" : "Ingredients");
+                    _showAcquisition ? "Sources" : item ? "Recipes" : "Ingredients");
                 DrawDetailColumn(_outputRows, _outputTitle, _outputDetails, ref _outputPage,
-                    _showAcquisition ? "Current access" : item ? "Used by" : "Produces");
+                    _showAcquisition ? "Access" : item ? "Uses" : "Outputs");
             }
 
             private void DrawDetailColumn(RectTransform content, TextMeshProUGUI title, List<DetailRow> rows, ref int page, string heading)
@@ -802,16 +798,31 @@ namespace ImperiumOfMan
                 Clear(content);
                 page = Math.Min(page, Math.Max(0, (rows.Count - 1) / DetailPage));
                 int start = page * DetailPage;
-                title.text = heading.ToUpperInvariant() + " · " + (rows.Count == 0 ? "0" : (start + 1) + "–" + Math.Min(start + DetailPage, rows.Count) + "/" + rows.Count);
-                int shown = 0;
-                for (int i = start; i < Math.Min(start + DetailPage, rows.Count); i++, shown++)
+                bool paged = rows.Count > DetailPage;
+                var previous = title.transform.parent.Find(content == _inputRows ? "Previous inputs" : "Previous outputs");
+                var next = title.transform.parent.Find(content == _inputRows ? "Next inputs" : "Next outputs");
+                if (previous != null) previous.gameObject.SetActive(paged);
+                if (next != null) next.gameObject.SetActive(paged);
+                var titleMax = title.rectTransform.offsetMax;
+                titleMax.x = paged ? -68 : 0;
+                title.rectTransform.offsetMax = titleMax;
+                title.text = heading.ToUpperInvariant() + " · " + (paged
+                    ? (start + 1) + "–" + Math.Min(start + DetailPage, rows.Count) + "/" + rows.Count
+                    : rows.Count.ToString());
+                float y = 0;
+                for (int i = start; i < Math.Min(start + DetailPage, rows.Count); i++)
                 {
                     var row = rows[i];
-                    ItemButton(Span(content, "Entry " + i, 0, 1, shown * 27f, 25f, 0, 10), row.Icon, row.Caption, row.Action, 12);
+                    var entry = Span(content, "Entry " + i, 0, 1, y, 25, 0, 6);
+                    var label = ItemButton(entry, row.Icon, row.Caption, row.Action, 12);
+                    // Especially in a narrow side inspector, long station and
+                    // recipe names must wrap rather than disappear.
+                    float width = Math.Max(48f, content.rect.width - (row.Icon == null ? 24f : 48f));
+                    float height = Math.Max(25f, label.GetPreferredValues(row.Caption, width, 10000f).y + 5f);
+                    PlaceSpan(entry, 0, 1, y, height, 0, 6);
+                    y += height + 2f;
                 }
-                if (shown == 0)
-                    Text(Span(content, "No routes", 0, 1, 0, 25), "None in this source view", 12).color = DimColor;
-                content.sizeDelta = new Vector2(0, Math.Max(27, shown * 27));
+                content.sizeDelta = new Vector2(0, Math.Max(1f, y));
                 content.anchoredPosition = Vector2.zero;
             }
 
@@ -880,7 +891,8 @@ namespace ImperiumOfMan
                     Canvas.ForceUpdateCanvases();
                     var bounds = Bounds();
                     var viewport = rectTransform.rect;
-                    _zoom = Mathf.Clamp(Mathf.Min((viewport.width - 76f) / bounds.width, (viewport.height - 100f) / bounds.height), 0.15f, 1f);
+                    if (viewport.width <= 0 || viewport.height <= 0) return;
+                    _zoom = CraftingViewportLayout.FitZoom(viewport.width, viewport.height, bounds.width, bounds.height);
                     _pan = -bounds.center * _zoom;
                     RefreshVisuals();
                 }
@@ -917,7 +929,7 @@ namespace ImperiumOfMan
                 private void Zoom(float multiplier, Vector2 localPoint)
                 {
                     Vector2 at = (localPoint - rectTransform.rect.center - _pan) / _zoom;
-                    _zoom = Mathf.Clamp(_zoom * multiplier, 0.15f, 2.25f);
+                    _zoom = Mathf.Clamp(_zoom * multiplier, 0.02f, 2.25f);
                     _pan = localPoint - rectTransform.rect.center - at * _zoom;
                     RefreshVisuals();
                 }
@@ -959,7 +971,8 @@ namespace ImperiumOfMan
                             label.Root.gameObject.SetActive(true);
                             Position(label.Root, area);
                             bool item = node.ItemId != null;
-                            bool showText = _zoom >= 0.42f, showMeta = _zoom >= 0.7f;
+                            bool showText = _zoom >= 0.35f;
+                            bool showMeta = _zoom >= 0.65f && (!item || node.Item?.Registered == false);
                             label.Icon.sprite = item ? node.Item?.Icon : _window.RecipeIcon(node.Recipe);
                             float iconSize = Mathf.Min(Mathf.Clamp(34f * _zoom, 12f, 44f), Math.Min(area.height - 4f, area.width - 4f));
                             label.Icon.gameObject.SetActive(label.Icon.sprite != null && iconSize >= 8f);
@@ -974,15 +987,16 @@ namespace ImperiumOfMan
                             float metaHeight = Math.Max(16f, metaFont * 1.6f);
                             label.Name.rectTransform.offsetMin = new Vector2(7f + iconWidth, showMeta ? metaHeight + 4f : 3f);
                             label.Name.rectTransform.offsetMax = new Vector2(-6f, -3f);
-                            label.Name.text = item ? _window.Name(node.ItemId) : node.Recipe.Name;
+                            label.Name.text = item ? _window.Name(node.ItemId) : RecipeDisplayName(node.Recipe);
                             label.Name.fontSize = Mathf.Clamp(Mathf.RoundToInt(14f * _zoom), 9, 24);
                             label.Name.color = _window._selectedKey == node.Key ? AccentColor : TextColor;
                             label.Meta.rectTransform.offsetMin = new Vector2(7f + iconWidth, 2f);
                             label.Meta.rectTransform.offsetMax = new Vector2(-6f, metaHeight + 2f - area.height);
                             label.Meta.fontSize = metaFont;
-                            label.Meta.text = item ? node.Item != null && !node.Item.Registered ? "UNAVAILABLE ITEM" : "ITEM" :
-                                RecipeVenueLabel(node.Recipe).ToUpperInvariant() +
-                                (node.Recipe.Hours.HasValue ? " · " + RecipeTimeLabel(node.Recipe) : "");
+                            label.Meta.text = item ? "UNAVAILABLE" :
+                                (_window._venue == "All" || node.Recipe.OccultOutput != null
+                                    ? RecipeVenueLabel(node.Recipe).ToUpperInvariant() : "") +
+                                (node.Recipe.Hours.HasValue ? " " + RecipeTimeLabel(node.Recipe) : "");
                         }
                         if (_zoom >= 0.42f) foreach (var edge in _window._edges)
                         {
@@ -1442,7 +1456,7 @@ namespace ImperiumOfMan
                 return text;
             }
 
-            private void ItemButton(RectTransform rect, Sprite icon, string caption, Action action, int size)
+            private TextMeshProUGUI ItemButton(RectTransform rect, Sprite icon, string caption, Action action, int size)
             {
                 Button(rect, caption, action);
                 if (icon != null)
@@ -1452,7 +1466,7 @@ namespace ImperiumOfMan
                     image.preserveAspect = true;
                     image.raycastTarget = false;
                 }
-                Text(Stretch(rect, "Label", icon == null ? 7 : 31, 1, 5, 1), caption, size);
+                return Text(Stretch(rect, "Label", icon == null ? 7 : 31, 1, 5, 1), caption, size);
             }
 
             private static RectTransform Scroll(RectTransform root)

@@ -68,15 +68,12 @@ namespace ImperiumOfMan
                 }
                 Changed(false);
                 var notes = new List<string> { added + " ingredient recipes added." };
-                if (unknown.Count > 0) notes.Add(unknown.Count + " ingredients have no recipe in this source view. " +
-                    (_venue == "All" ? "Loot or trade may supply them." : "Try All sources for more recipes."));
-                if (missing.Count > 0) notes.Add(missing.Count + " ingredients are unavailable in the current game.");
-                if (cycles.Count > 0) notes.Add("Repeating recipe chains are shown once.");
-                if (limited) notes.Add("View limit reached. Focus an ingredient to continue.");
-                if (_venue != "All") notes.Add("The current source filter is applied.");
-                _detailNote.text = string.Join(" ", notes);
-                _mapStatus.text = "Ingredient tree · " + _nodes.Count + " items & recipes · " +
-                    (limited ? "focus an ingredient to continue" : _venue == "All" ? "all known alternatives are retained" : "current source filter applied") + " · drag to pan · wheel to zoom";
+                if (unknown.Count > 0) notes.Add(unknown.Count + " without a producer.");
+                if (missing.Count > 0) notes.Add(missing.Count + " unavailable.");
+                if (cycles.Count > 0) notes.Add(cycles.Count + " cyclic.");
+                if (limited) notes.Add("View limit reached.");
+                SetDetailNote(string.Join(" ", notes));
+                _mapStatus.text = _nodes.Count + (limited ? " · limit" : " nodes");
             }
 
             private void ArrangeGraph()
@@ -229,11 +226,11 @@ namespace ImperiumOfMan
             private static string VenueLabel(string venue) => venue == "Recycling" ? "Recovery" : venue == "Station" ? "Station industry" : venue;
 
             private static string RecipeVenueLabel(CraftingRecipe recipe) =>
-                recipe.OccultOutput != null ? "Occult fabrication" : VenueLabel(recipe.Venue);
+                recipe.OccultOutput != null ? "Occult" : VenueLabel(recipe.Venue);
 
             private static string RecipeTimeLabel(CraftingRecipe recipe) =>
                 recipe.Hours.HasValue ? recipe.Hours.Value.ToString("0.##") +
-                    (recipe.OccultOutput != null ? " h per batch" : " h before bonuses") : "time unavailable";
+                    (recipe.OccultOutput != null ? " h/batch" : " h base") : "";
 
             private Sprite RecipeIcon(CraftingRecipe recipe)
             {

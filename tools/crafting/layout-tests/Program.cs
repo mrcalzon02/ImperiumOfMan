@@ -28,8 +28,32 @@ internal static class Program
         var dense = Dense();
         Check("240 nodes and 2400 connections", dense.Nodes, dense.Edges, false);
         AnchorExpansion();
+        ResponsiveViewport();
         if (args.Length == 1) WriteSvg(args[0], shared.Nodes, shared.Edges);
         Console.WriteLine("PASS: " + _assertions + " geometry assertions in " + watch.ElapsedMilliseconds + " ms");
+    }
+
+    private static void ResponsiveViewport()
+    {
+        var sizes = new[] { (1024,768), (1280,720), (1920,1080), (2048,576), (2560,1080), (3440,1440), (3840,1080) };
+        foreach (var size in sizes)
+            for (int percent = 70; percent <= 150; percent += 10)
+            {
+                var open = CraftingViewportLayout.Calculate(size.Item1, size.Item2, percent, true);
+                var closed = CraftingViewportLayout.Calculate(size.Item1, size.Item2, percent, false);
+                Require(open.GraphWidth > 0 && open.GraphHeight > 0, "empty responsive viewport");
+                Require(closed.GraphWidth >= open.GraphWidth && closed.GraphHeight >= open.GraphHeight, "collapse lost graph space");
+                Require(open.GraphTop >= 70 && open.GraphTop <= 102, "unexpected toolbar stack");
+                Require(open.Side ? open.GraphBottom == 8 && open.GraphRight > 8 : open.GraphRight == 8, "inspector overlaps graph");
+                if (open.SharedTools)
+                    Require(open.Width >= CraftingViewportLayout.FilterRight + CraftingViewportLayout.ToolWidth + 16, "shared toolbar overflow");
+                float zoom = CraftingViewportLayout.FitZoom(open.GraphWidth, open.GraphHeight, 1400, 1500);
+                Require(1400 * zoom <= open.GraphWidth && 1500 * zoom <= open.GraphHeight, "fit clips representative graph");
+            }
+        var wide = CraftingViewportLayout.Calculate(2048,576,100,true);
+        Require(wide.Side && wide.SharedTools, "reported ultrawide resolution lacks side docking");
+        Require(wide.GraphHeight * wide.Scale >= 480, "reported ultrawide graph loses height");
+        Console.WriteLine("PASS responsive crafting viewport and fit");
     }
 
     private sealed class Graph

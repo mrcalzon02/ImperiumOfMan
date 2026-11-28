@@ -116,7 +116,7 @@ namespace ImperiumOfMan
                                 // mod may change the batch through its own production hook.
                                 Count = IndustryBatches.TryGetValue(receipt.OutputItem, out int batch) ? batch : 0 }],
                             Hours = receipt.ProduceTimeInHours,
-                            Access = "Check the Magnum's production menu for the recipe and required materials."
+                            Access = ""
                         };
                         // Availability checks may fail for an orphan ingredient supplied
                         // by another mod. Keep its registered recipe visible regardless.
@@ -129,11 +129,9 @@ namespace ImperiumOfMan
                                     MagnumCargoSystem.GetAvailableCargoStorages(cargo), receipt.RequiredItems,
                                     countCustomItems: occult);
                             route.Ready = route.Learned.Value && available > 0;
-                            route.Access = route.Learned.Value ? "Recipe learned. " : "Recipe not learned. ";
-                            route.Access += route.Inputs.Count == 0 ? "No ingredients needed. " :
-                                available > 0 ? "Cargo holds enough materials to make this " + available +
-                                    (available == 1 ? " time. " : " times. ") : "More materials are needed. ";
-                            route.Access += "Use a free production line to begin.";
+                            route.Access = route.Learned.Value ? "" : "Pattern not learned. ";
+                            if (route.Inputs.Count > 0)
+                                route.Access += available > 0 ? "Cargo: " + available + " batches. " : "Insufficient cargo. ";
                         }
                         if (occult)
                         {
@@ -146,27 +144,20 @@ namespace ImperiumOfMan
                             // live difficulty data the duration is not known.
                             route.Hours = difficulty == null ? (float?)null :
                                 OccultBatchHours(receipt, occultProgression, difficulty);
-                            route.Access += " Requires an occult production line; ordinary lines cannot fabricate this recipe.";
-                            if (difficulty == null) route.Access += " Check Production for the actual batch time.";
+                            if (difficulty == null) route.Access += " Duration unavailable. ";
                             string research = CraftingLocalizedName("mgperk." + occultPerk + ".name", OccultResearchTitle(occultPerk));
-                            route.Access += capable == true ? " Research installed: " + research + "." :
-                                capable == false ? " Requires " + research + "." : " Check research: " + research + ".";
+                            route.Access += capable == true ? " " + research + " installed." :
+                                capable == false ? " Requires " + research + "." : " " + research + " required.";
                             if (capable != true || OccultLineCount(occultProgression) == 0)
                                 route.Ready = occultProgression != null ? false : (bool?)null;
-                            string regionalBranch = RegionalOccultRecipeBranch(receipt.OutputItem);
-                            if (regionalBranch != null) route.Access += " Occult resource family: " + regionalBranch + ".";
-                            if (OccultPatternSources.TryGetValue(receipt.OutputItem, out var patternChips))
-                                route.Access += " Pattern sources: " + patternChips.Distinct(StringComparer.Ordinal).Count() +
-                                    ". Open Sources for issuers and stock.";
-                            else
-                                route.Access += " The schematic must also be learned.";
+                            if (occultProgression != null && OccultLineCount(occultProgression) == 0)
+                                route.Access += " No occult line installed.";
                         }
                         if (output != receipt.OutputItem)
                         {
-                            route.Access += " Includes your upgrades to " + CraftingItemName(receipt.OutputItem) + ".";
+                            route.Access += " Modified: " + CraftingItemName(receipt.OutputItem) + ".";
                         }
-                        if (route.Outputs[0].Count <= 0)
-                            route.Access += " Check Production for the amount made.";
+                        route.Access = route.Access.Trim();
                     });
                 }
             });
@@ -179,8 +170,7 @@ namespace ImperiumOfMan
                     Capture("workbench recipes", () =>
                     {
                         string benches = receipt.AllowedWorkbenches == null || receipt.AllowedWorkbenches.Count == 0
-                            ? "Check the workbench for requirements."
-                            : "Use " + string.Join(" or ", receipt.AllowedWorkbenches.Select(CraftingWorkbenchName).Distinct()) + ".";
+                            ? "" : "Workbench: " + string.Join(" / ", receipt.AllowedWorkbenches.Select(CraftingWorkbenchName).Distinct());
                         AddRoute(new CraftingRecipe
                         {
                             Key = "workbench/" + receipt.Id + "/" + sequence++,
@@ -188,7 +178,7 @@ namespace ImperiumOfMan
                             Venue = "Workbench",
                             Inputs = CopyCraftingAmounts(receipt.RequiredItems),
                             Outputs = [new CraftingAmount { ItemId = receipt.OutputItem, Count = 0 }],
-                            Access = benches + " Check it for the amount made and crafting time."
+                            Access = benches
                         });
                     });
                 }
@@ -264,8 +254,8 @@ namespace ImperiumOfMan
                                 Inputs = [new CraftingAmount { ItemId = id, Count = 1 }],
                                 Outputs = CopyCraftingAmounts(record.Disassembly),
                                 Access = id == OreCargo
-                                    ? "Open the cargo to collect its contents. Unlock it first; quest items cannot be opened this way."
-                                    : "Possible salvage from one item. Some materials may be lost during disassembly."
+                                    ? "Unlocked cargo only. Quest items excluded."
+                                    : "Salvage yield may vary."
                             });
                         }
                         if (ShredProfiles.TryGetValue(id, out var outputs))
@@ -277,7 +267,7 @@ namespace ImperiumOfMan
                                 Venue = "Recycling",
                                 Inputs = [new CraftingAmount { ItemId = id, Count = 1 }],
                                 Outputs = CopyCraftingAmounts(outputs),
-                                Access = "Recycle one item aboard the Magnum. Locked and quest items cannot be recycled; weapon ammunition is removed first."
+                                Access = "Locked/quest items excluded. Loaded ammunition recovered."
                             });
                         }
                     });
