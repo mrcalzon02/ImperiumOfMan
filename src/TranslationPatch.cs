@@ -18,6 +18,8 @@ namespace ImperiumOfMan
             [CampaignStandingRequired] = "This campaign requires at least +{0} reputation with {1}.",
             [CampaignLiftLocked] = "Find the {0} on this deck to unlock the lift.",
             [ArrivalShuttleCaption] = "Arrival Shuttle",
+            // Native skull, pact-component and ritual UI resolve this exact essence ID.
+            ["ui.essence.iom_undivided_essence"] = "Undivided",
             ["item.ore_cargo.desc"] = "Bulk mineral cargo. Open each crate for 12 metal smelting feedstock, 6 silicate feedstock, and 6 conductive scrap.",
             ["item.iom_lasgun.name"] = "Lasgun",
             ["item.iom_lasgun.desc"] = "A Guard service rifle with single shots and two-shot bursts. Takes Las Clips and compatible power cells.",
