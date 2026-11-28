@@ -215,6 +215,8 @@ namespace ImperiumOfMan
                     canvas.FillExterior(plan);
                     if (route != null)
                         DressCampaignEndgameViews(canvas.FinalMapGrid, canvas.FinalMapMetadata, selectedLayout, plan, scope.Palette.Warp, seed);
+                    if (!scope.Palette.Warp)
+                        DressImperialNativeRooms(canvas.FinalMapGrid, canvas.FinalMapMetadata, selectedLayout, donors, seed);
                     return (canvas, groups);
                 }
 
