@@ -199,6 +199,11 @@ namespace ImperiumOfMan
                         receipt.OutputTechLevelGain == 0 && receipt.OutputItems != null && receipt.OutputItems.Count > 0)
                     .OrderBy(receipt => receipt.Id, StringComparer.Ordinal).ToArray();
 
+                var rewardItems = _imperialExistingDrops == null ? new HashSet<string>(StringComparer.Ordinal) :
+                    Data.FactionDrop._recordsByFactions.Values.SelectMany(tiers => tiers.Values)
+                        .SelectMany(records => records).Where(drop => !_imperialExistingDrops.Contains(drop) &&
+                            drop.ContentIds?.Count == 1 && drop.Weight > 0)
+                        .Select(drop => drop.ContentIds[0]).ToHashSet(StringComparer.Ordinal);
                 foreach (var item in items)
                 {
                     string id = item.Id, section = "item." + id + ".name";
@@ -222,6 +227,9 @@ namespace ImperiumOfMan
                     AddScale("Items detail", section, "item." + id + ".price", "Value (%)", "Individual value multiplier.");
                     if (item.MaxStack > 1)
                         AddScale("Items detail", section, "item." + id + ".stack", "Stack capacity (%)", "Individual multiplier; only increases.", 100, 300);
+                    if (rewardItems.Contains(id))
+                        AddScale("Drops detail", section, "drop." + id + ".weight", "Reward weight (%)",
+                            "Relative selection weight of this item's added reward entry. Not an absolute percentage chance.", 10, 300);
                 }
 
                 foreach (var receipt in ship)
@@ -230,6 +238,7 @@ namespace ImperiumOfMan
                     AddScale("Recipes detail", section, "recipe." + id + ".cost", "Ingredient cost (%)", "Individual ship recipe multiplier.");
                     AddScale("Recipes detail", section, "recipe." + id + ".time", "Hours (%)", "Individual ship recipe duration multiplier.");
                     AddScale("Recipes detail", section, "recipe." + id + ".batch", "Output (%)", "Individual ship recipe batch multiplier.");
+                    DefineImperialIngredientOptions("Recipes detail", section, "recipe." + id, receipt.RequiredItems);
                 }
                 foreach (var receipt in stations)
                 {
@@ -239,6 +248,7 @@ namespace ImperiumOfMan
                     AddScale("Workshop detail", section, "station." + receipt.Id + ".cost", "Ingredient cost (%)", "Individual station workshop multiplier.");
                     AddScale("Workshop detail", section, "station." + receipt.Id + ".time", "Hours (%)", "Individual station workshop duration multiplier.");
                     AddScale("Workshop detail", section, "station." + receipt.Id + ".batch", "Output (%)", "Individual station workshop batch multiplier.");
+                    DefineImperialIngredientOptions("Workshop detail", section, "station." + receipt.Id, receipt.InputItems);
                 }
 
                 try { _imperialSavedSettings = ReadImperialSettings(); }
@@ -255,7 +265,7 @@ namespace ImperiumOfMan
                     float cost = ImperialScale("recipes.cost", "recipe." + id + ".cost");
                     float time = ImperialScale("recipes.time", "recipe." + id + ".time");
                     float batch = ImperialScale("recipes.batch", "recipe." + id + ".batch");
-                    if (cost != 1f) receipt.RequiredItems = ScaleImperialQuantities(receipt.RequiredItems, cost);
+                    receipt.RequiredItems = ScaleImperialQuantities(receipt.RequiredItems, cost, "recipe." + id);
                     if (time != 1f) receipt.ProduceTimeInHours = Math.Max(1f, receipt.ProduceTimeInHours * time);
                     if (batch != 1f) IndustryBatches[id] = ScalePositiveInteger(IndustryBatches[id], batch, 999);
                 }
@@ -265,7 +275,7 @@ namespace ImperiumOfMan
                     float cost = ImperialScale("station.cost", "station." + id + ".cost");
                     float time = ImperialScale("station.time", "station." + id + ".time");
                     float batch = ImperialScale("station.batch", "station." + id + ".batch");
-                    if (cost != 1f) receipt.InputItems = ScaleImperialQuantities(receipt.InputItems, cost);
+                    receipt.InputItems = ScaleImperialQuantities(receipt.InputItems, cost, "station." + id);
                     if (time != 1f) receipt.ProduceTimeInHours = Math.Max(1f, receipt.ProduceTimeInHours * time);
                     if (batch != 1f) receipt.OutputItems = ScaleImperialQuantities(receipt.OutputItems, batch);
                 }
@@ -278,11 +288,13 @@ namespace ImperiumOfMan
                             faction.Key.EndsWith("_rewardConsumables", StringComparison.Ordinal) ? "drops.reward_consumables" :
                             faction.Key.EndsWith("_rewardChips", StringComparison.Ordinal) ? "drops.reward_chips" : null;
                         if (key == null) continue;
-                        float scale = ImperialScale(key);
-                        if (scale == 1f) continue;
                         foreach (var drop in faction.Value.Values.SelectMany(records => records))
-                            if (!_imperialExistingDrops.Contains(drop) && scaled.Add(drop) && drop.Weight > 0)
-                                drop.Weight *= scale;
+                        {
+                            if (_imperialExistingDrops.Contains(drop) || !scaled.Add(drop) || drop.Weight <= 0) continue;
+                            string itemKey = drop.ContentIds?.Count == 1 ? "drop." + drop.ContentIds[0] + ".weight" : null;
+                            float scale = ImperialScale(key, itemKey);
+                            if (scale != 1f) drop.Weight *= scale;
+                        }
                     }
                 }
                 Debug.Log("[Cvar_ImperiumOfMan] Config initialized; options=" + ImperialOptions.Count +
@@ -313,11 +325,35 @@ namespace ImperiumOfMan
             return Math.Max(1, (int)Math.Min(maximum, Math.Round(original * (double)scale, MidpointRounding.AwayFromZero)));
         }
 
-        private static List<ItemQuantity> ScaleImperialQuantities(List<ItemQuantity> original, float scale)
+        private static void DefineImperialIngredientOptions(string page, string section, string prefix,
+            List<ItemQuantity> quantities)
         {
-            if (original == null || scale == 1f) return original;
-            return original.Select(quantity => new ItemQuantity(quantity.ItemId, quantity.Count <= 0 ? quantity.Count :
-                Math.Max(1, (int)Math.Min(999, Math.Ceiling(quantity.Count * (double)scale))))).ToList();
+            if (quantities == null) return;
+            foreach (var ingredient in quantities.Where(q => q.Count > 0 && !string.IsNullOrWhiteSpace(q.ItemId))
+                .GroupBy(q => q.ItemId, StringComparer.Ordinal))
+            {
+                AddScale(page, section, prefix + ".input." + ingredient.Key,
+                    CraftingItemName(ingredient.Key) + " (%)",
+                    "Original ingredient quantity: " + ingredient.Sum(q => q.Count) +
+                    ". Combines with recipe and category cost; positive counts round up.");
+            }
+        }
+
+        private static List<ItemQuantity> ScaleImperialQuantities(List<ItemQuantity> original, float scale,
+            string recipePrefix = null)
+        {
+            if (original == null) return original;
+            float Factor(ItemQuantity quantity) => recipePrefix == null ? scale :
+                Math.Min(4f, Math.Max(.1f, scale * ImperialSetting(
+                    recipePrefix + ".input." + quantity.ItemId, 100) / 100f));
+            if (original.All(quantity => Factor(quantity) == 1f)) return original;
+            return original.Select(quantity =>
+            {
+                float factor = Factor(quantity);
+                int count = quantity.Count <= 0 || factor == 1f ? quantity.Count :
+                    Math.Max(1, (int)Math.Min(Math.Max(999, quantity.Count), Math.Ceiling(quantity.Count * (double)factor)));
+                return new ItemQuantity(quantity.ItemId, count);
+            }).ToList();
         }
 
         // Allowlisted numeric properties have changed type across native builds.
@@ -362,15 +398,13 @@ namespace ImperiumOfMan
                     if (damage != 1f)
                     {
                         var original = weapon.Damage;
-                        // Preserve damage type and critical parameters. A new value
-                        // avoids touching a clone donor's shared damage object.
-                        weapon.Damage = new DmgInfo
-                        {
-                            damage = original.damage,
-                            minDmg = ScalePositiveInteger(Convert.ToInt32(original.minDmg), damage, 10000),
-                            maxDmg = ScalePositiveInteger(Convert.ToInt32(original.maxDmg), damage, 10000),
-                            critChance = original.critChance, critDmg = original.critDmg
-                        };
+                        // Preserve all fields, including fields introduced by
+                        // newer game builds. Copy before mutating a cloned donor.
+                        var copy = (DmgInfo)typeof(object).GetMethod("MemberwiseClone",
+                            BindingFlags.Instance | BindingFlags.NonPublic).Invoke(original, null);
+                        copy.minDmg = ScalePositiveInteger(Convert.ToInt32(original.minDmg), damage, 10000);
+                        copy.maxDmg = ScalePositiveInteger(Convert.ToInt32(original.maxDmg), damage, 10000);
+                        weapon.Damage = copy;
                     }
                     ScaleImperialNumeric(weapon, "MaxDurability", ImperialScale("weapons.durability", "weapon." + id + ".durability"), 5000);
                     if (!weapon.IsMelee)

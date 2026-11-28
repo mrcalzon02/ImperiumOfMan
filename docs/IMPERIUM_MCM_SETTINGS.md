@@ -27,7 +27,8 @@ No recipe unlocks, item identities, quest gates or technology tiers change.
 
 - Drops: Data Rack attempt percentage (12), Chaos supply-cache attempt
   percentage (100), minimum/maximum rack chips (5/8), ration quantity
-  (100%), relative added equipment, consumables and chip reward weights.
+  (100%), relative added equipment, consumables and chip reward weights, plus individual
+  reward-item weights.
   Weights are not direct probabilities; zero weights are disallowed.
 - Weapons: damage, ranged range, durability, magazine capacity, plus
   individual weapon values. No weapon class or ammo identity replacement.
@@ -38,7 +39,8 @@ No recipe unlocks, item identities, quest gates or technology tiers change.
   unrelated mod items; existing quest costs are not changed.
 - Recipes: ingredient costs, base hours, output batches for explicitly
   mod-managed Magnum recipes and newly added item-only station recipes;
-  individual recipe controls for the same three values. Inputs round up;
+  individual recipe controls for the same three values and each ingredient
+  separately. Inputs round up;
   no zero-cost conversion of existing positive ingredients. Workbench,
   recycling, population and strategic receipts remain unchanged.
 - Rooms: adaptive/three palettes, retain native floor toggle, façade
