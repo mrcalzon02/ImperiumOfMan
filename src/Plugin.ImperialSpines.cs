@@ -162,18 +162,45 @@ namespace ImperiumOfMan
                     return false;
                 }
 
-                var draft = new ImperialSpineCanvas(width, height, plan);
-                var roomGroups = BuildImperialSpineMap(draft, layout, scope.Palette, horizontalDoor, verticalDoor);
-                DressImperialSpines(draft.FinalMapGrid, draft.FinalMapMetadata, layout, scope.Palette.Warp, seed);
-                DressImperialSupplyClosets(draft.FinalMapGrid, draft.FinalMapMetadata, layout, scope.Palette.Warp, seed);
-                draft.FillExterior(plan);
-                if (route != null)
-                    DressCampaignEndgameViews(draft.FinalMapGrid, draft.FinalMapMetadata, layout, plan, scope.Palette.Warp, seed);
+                // Extra rooms are strictly optional: keep the already
+                // audited original plan and fall back if native stamping fails.
+                var baseLayout = layout;
+                if (!scope.Palette.Warp)
+                    layout = TryAddImperialVarietyRooms(layout, loadedPresets, donors, route, width, height, seed);
+                var (draft, roomGroups) = BuildDraft(layout);
                 if (!AuditStampedImperialSpines(layout, draft.FinalMapGrid, draft.FinalMapMetadata,
                     horizontalDoor, verticalDoor, out failure))
                 {
-                    Debug.LogWarning("[Cvar_ImperiumOfMan] Branch hall map rejected. " + failure);
-                    return false;
+                    if (layout != baseLayout)
+                    {
+                        Debug.LogWarning("[Cvar_ImperiumOfMan] Optional variety rooms rejected. " + failure);
+                        layout = baseLayout;
+                        (draft, roomGroups) = BuildDraft(layout);
+                    }
+                    if (!AuditStampedImperialSpines(layout, draft.FinalMapGrid, draft.FinalMapMetadata,
+                        horizontalDoor, verticalDoor, out failure))
+                    {
+                        Debug.LogWarning("[Cvar_ImperiumOfMan] Branch hall map rejected. " + failure);
+                        return false;
+                    }
+                }
+                if (layout != baseLayout)
+                {
+                    Debug.Log("[Cvar_ImperiumOfMan] Optional Imperial native rooms=" +
+                        (layout.Rooms.Count - baseLayout.Rooms.Count));
+                    if (route != null) finalFloorCells = CampaignPlanFloorCount(layout);
+                }
+
+                (ImperialSpineCanvas Draft, Dictionary<short, List<CommonRoom>> Groups) BuildDraft(ImperialSpinePlan selectedLayout)
+                {
+                    var canvas = new ImperialSpineCanvas(width, height, plan);
+                    var groups = BuildImperialSpineMap(canvas, selectedLayout, scope.Palette, horizontalDoor, verticalDoor);
+                    DressImperialSpines(canvas.FinalMapGrid, canvas.FinalMapMetadata, selectedLayout, scope.Palette.Warp, seed);
+                    DressImperialSupplyClosets(canvas.FinalMapGrid, canvas.FinalMapMetadata, selectedLayout, scope.Palette.Warp, seed);
+                    canvas.FillExterior(plan);
+                    if (route != null)
+                        DressCampaignEndgameViews(canvas.FinalMapGrid, canvas.FinalMapMetadata, selectedLayout, plan, scope.Palette.Warp, seed);
+                    return (canvas, groups);
                 }
 
                 string straight = string.Join(" / ", layout.Spines.Select((run, index) =>

@@ -242,8 +242,9 @@ namespace ImperiumOfMan
                     CampaignDeck campaign = null;
                     if (plan != null) TryGetCampaignDeck(plan, out campaign, out _);
                     PlaceImperialMachinery(____state, palette.Warp);
-                    PaintNativeImperialPresetFloors(____state, campaign, GetImperialBranchFloor(____state));
-                    ApplyImperialTerrain(grid, palette);
+                    var nativeFloors = new HashSet<CellPosition>();
+                    PaintNativeImperialPresetFloors(____state, campaign, GetImperialBranchFloor(____state), nativeFloors);
+                    ApplyImperialTerrain(grid, palette, nativeFloors);
                 }
                 else
                 {
@@ -328,12 +329,67 @@ namespace ImperiumOfMan
             }
         }
 
-        private static void ApplyImperialTerrain(MapGrid grid, ImperialDamagePalette palette)
+        private static bool IsCleanNativeImperialTile(BaseTileset donor)
         {
+            if (donor == null || ImperialDamageTileIds.Contains(donor.ShortId) ||
+                string.IsNullOrEmpty(donor.name) || donor.name.StartsWith("iom_", StringComparison.OrdinalIgnoreCase) ||
+                !IsIntactTerrain(donor.name)) return false;
+            foreach (string word in new[] { "corrupt", "warp", "quasi", "demon", "chipped", "ruined", "breach" })
+                if (donor.name.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0) return false;
+            var transform = Data.TileTransformation.GetRecord(donor.name);
+            return transform != null && !string.IsNullOrEmpty(transform.TilesetToMutateName);
+        }
+
+        private static HashSet<CellPosition> SelectNativeImperialFacadeRuns(MapGrid grid)
+        {
+            var retained = new HashSet<CellPosition>();
+            // Retain continuous native facade panels, never a checkerboard
+            // of randomly mixed walls. Custom corridors keep Imperial art.
+            for (int y = 0; y < grid.MaxHeight; y++)
+            {
+                int x = 0;
+                while (x < grid.MaxWidth)
+                {
+                    var cell = grid.GetCell(x, y, checkBorders: false);
+                    short id = cell.GetTilesetId(1);
+                    if (cell.Type != MapCellType.FacadeWall ||
+                        cell.GetTilesetId(2) == DeckFixtureOverlayId ||
+                        Data.Tilesets.GetByShortId(id) is not FacadeWallTileset donor ||
+                        !IsCleanNativeImperialTile(donor))
+                    {
+                        x++;
+                        continue;
+                    }
+                    int start = x++;
+                    while (x < grid.MaxWidth)
+                    {
+                        var next = grid.GetCell(x, y, checkBorders: false);
+                        if (next.Type != MapCellType.FacadeWall || next.GetTilesetId(1) != id ||
+                            next.GetTilesetId(2) == DeckFixtureOverlayId) break;
+                        x++;
+                    }
+                    if (x - start >= 3)
+                        for (int column = start; column < x; column++)
+                            retained.Add(new CellPosition(column, y));
+                }
+            }
+            return retained;
+        }
+
+        private static void ApplyImperialTerrain(MapGrid grid, ImperialDamagePalette palette,
+            ISet<CellPosition> nativeFloors)
+        {
+            var nativeFacades = palette.Warp ? null : SelectNativeImperialFacadeRuns(grid);
+            if (!palette.Warp)
+                Debug.Log("[Cvar_ImperiumOfMan] Clean Imperial materials | native floor cells=" +
+                    nativeFloors.Count + " | native facade cells=" + nativeFacades.Count);
             for (int y = 0; y < grid.MaxHeight; y++)
             for (int x = 0; x < grid.MaxWidth; x++)
             {
                 var cell = grid.GetCell(x, y, checkBorders: false);
+                if (!palette.Warp &&
+                    (nativeFloors.Contains(new CellPosition(x, y)) || nativeFacades.Contains(new CellPosition(x, y))))
+                    continue;
                 var donor = Data.Tilesets.GetByShortId(cell.GetTilesetId(1));
                 var transformation = donor == null ? null : Data.TileTransformation.GetRecord(donor.name);
                 if (transformation == null || string.IsNullOrEmpty(transformation.TilesetToMutateName) ||

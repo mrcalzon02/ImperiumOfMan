@@ -88,7 +88,14 @@ namespace ImperiumOfMan
                     reserved.Add(run.Start + step * distance);
             }
 
-            var props = LoadSpinePropFootprints(SpineFurniture);
+            // Reuse additional verified native storage fixtures in clean
+            // Imperial halls. Same spacing and occupancy budget; variety,
+            // not a higher density of corridor clutter.
+            var furniture = warp ? SpineFurniture.AsEnumerable() :
+                SpineFurniture.Concat(SpineStorageClutter.Where(prop =>
+                    prop.Use is "barrels" or "bins" or "pallet" or "crate")
+                    .Select(prop => (prop.Use == "crate" ? "crates" : prop.Use, prop.Id, prop.Facing)));
+            var props = LoadSpinePropFootprints(furniture);
             var propKinds = new Dictionary<string, int>();
             var propIds = new Dictionary<string, int>();
             var placed = new HashSet<CellPosition>();

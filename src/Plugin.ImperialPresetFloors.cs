@@ -168,6 +168,8 @@ namespace ImperiumOfMan
             });
             int size = ImperialTilePixels;
             int columns = NativeSpineConveyorColumns * size;
+            var flatAtlas = decks[0].Floor.Spritesheet;
+            var flatPixels = ReadNativeTexturePixels(flatAtlas);
             _nativeSpineConveyors = new CampaignSurfaceTileset[decks.Length];
             for (int deck = 0; deck < decks.Length; deck++)
             {
@@ -175,15 +177,21 @@ namespace ImperiumOfMan
                 int deckIndex = kit.Floor.ShortId - CampaignTileIdBase;
                 bool warp = Array.IndexOf(ChaosCampaignDecks, kit) >= 0;
                 var (source, sourcePixels) = sources[NativeSpineServiceJoin(kit)];
-                var pixels = new Color32[columns * size * 4];
+                bool flat = !warp && !AllowsImperialFloorBleed(kit);
+                // Append clean conveyor slots, retaining the original 48
+                // indices and sprites for previously serialized floors.
+                int phaseRows = flat ? 8 : 4;
+                var pixels = new Color32[columns * size * phaseRows];
                 for (int phase = 0; phase < 4; phase++)
                 for (int side = 0; side < 4; side++)
                 for (int segment = 0; segment < 3; segment++)
                 {
                     int sourceY = source.height - (deckIndex * 4 + phase + 1) * size;
                     int sourceX = FloorJoinSlots[1 << side] * size;
-                    int targetY = (3 - phase) * size;
+                    int targetY = (phaseRows - 1 - phase) * size;
                     int targetX = (side * 3 + segment) * size;
+                    int flatY = flatAtlas.height - (deckIndex + 1) * size;
+                    int flatX = (NativeSpineServiceZone(kit) == DeckFloorZone.Secondary ? 1 + phase : 0) * size;
                     for (int y = 0; y < size; y++)
                     for (int x = 0; x < size; x++)
                     {
@@ -192,10 +200,14 @@ namespace ImperiumOfMan
                         var substrate = sourcePixels[(sourceY + y) * source.width + sourceX + x];
                         pixels[(targetY + y) * columns + targetX + x] = SpineConveyorPixel(substrate,
                             warp, along, across, segment, size);
+                        if (flat)
+                            pixels[(targetY - 4 * size + y) * columns + targetX + x] =
+                                SpineConveyorPixel(flatPixels[(flatY + y) * flatAtlas.width + flatX + x],
+                                    false, along, across, segment, size);
                     }
                 }
 
-                var atlas = new Texture2D(columns, size * 4, TextureFormat.RGBA32, false)
+                var atlas = new Texture2D(columns, size * phaseRows, TextureFormat.RGBA32, false)
                 {
                     name = "Imperial corridor conveyor " + kit.Key,
                     filterMode = FilterMode.Point,
@@ -208,7 +220,7 @@ namespace ImperiumOfMan
                 int original = OriginalSpinePaletteIndex(kit);
                 tileset.SetShortId((short)(original >= 0 ? NativeSpineConveyorBase + original : CampaignSpineConveyorBase + deckIndex));
                 tileset.Spritesheet = atlas;
-                tileset.Tiles = new TileBase[NativeSpineConveyorColumns * 4];
+                tileset.Tiles = new TileBase[NativeSpineConveyorColumns * phaseRows];
                 ConfigureCampaignSurface(tileset, SurfaceMaterialType.Metal);
                 AccessTools.Field(typeof(BaseTileset), "_decalPatterns").SetValue(tileset, new List<AutoDecalMatchPattern>());
                 AccessTools.Field(typeof(BaseTileset), "_notUsableInPreset").SetValue(tileset, true);
@@ -294,8 +306,13 @@ namespace ImperiumOfMan
             return pixels;
         }
 
+        // Only these two intact Imperial floor materials may bleed into a
+        // service lane. All other materials meet at whole-tile boundaries.
+        private static bool AllowsImperialFloorBleed(CampaignDeck deck) =>
+            deck?.Key is "last_bonded_shipment" or "prime_the_foundry";
+
         private static void PaintNativeImperialPresetFloors(State state, CampaignDeck campaign,
-            ISet<CellPosition> spineFloor = null)
+            ISet<CellPosition> spineFloor = null, ISet<CellPosition> retainedNativeFloors = null)
         {
             var grid = state.Get<MapGrid>();
             if (grid == null || _nativePresetTrims == null) return;
@@ -306,6 +323,7 @@ namespace ImperiumOfMan
             var owners = new int[width, height];
             var zones = new DeckFloorZone[width, height];
             var floorKits = new CampaignDeck[width, height];
+            var nativeRoomMaterials = new Dictionary<int, short>();
             var donorZones = new Dictionary<short, DeckFloorZone>();
             var rooms = state.Get<LocationMetadata>().GeneratedRooms;
             var obstacles = state.Get<MapObstacles>().Obstacles;
@@ -384,12 +402,26 @@ namespace ImperiumOfMan
                 var kit = NativePresetAreaKit(area, warp, defaultKit, routeKit);
                 foreach (var pos in room.Value) floorKits[pos.X, pos.Y] = kit;
 
+                if (!warp && !AllowsImperialFloorBleed(kit))
+                {
+                    // A room has one quiet field material. Intentional hall
+                    // lanes and door thresholds are applied separately below.
+                    var flatZone = area == NativePresetArea.Corridor ? DeckFloorZone.Lane : DeckFloorZone.Field;
+                    foreach (var pos in room.Value) zones[pos.X, pos.Y] = flatZone;
+                    bool keepNative = room.Key >= 0 && room.Value.Count >= MinimumNativeFloorRegion &&
+                        (area is NativePresetArea.Medical or NativePresetArea.Laboratory or NativePresetArea.Ceremonial ||
+                         area == NativePresetArea.General && ((room.Key ^ state.Get<LocationMetadata>().Seed) & 3) == 0);
+                    if (keepNative && TryChooseNativeImperialRoomFloor(room.Value, source, out short native))
+                        nativeRoomMaterials.Add(room.Key, native);
+                    continue;
+                }
+
                 if (room.Key < 0 || room.Value.Count < 30 || area == NativePresetArea.Corridor) continue;
                 if (!room.Value.Any(pos => zones[pos.X, pos.Y] == DeckFloorZone.Lane))
                     PaintNativeThroughAisle(grid, room.Value, room.Key, owners, eligible, zones, entrances);
                 if (!room.Value.Any(pos => zones[pos.X, pos.Y] == DeckFloorZone.Secondary))
                     PaintNativeMachineBay(grid, room.Value, room.Key, owners, eligible, zones, obstacles);
-                if (!room.Value.Any(pos => zones[pos.X, pos.Y] == DeckFloorZone.Secondary))
+                if (warp && !room.Value.Any(pos => zones[pos.X, pos.Y] == DeckFloorZone.Secondary))
                     PaintNativeWallBay(grid, room.Value, room.Key, owners, eligible, zones, entrances);
             }
             AssignNativeThresholdKits(doorCells, floorKits, zones, passageKit);
@@ -402,7 +434,33 @@ namespace ImperiumOfMan
                 if (!eligible[x, y]) continue;
                 var cell = grid.GetCell(x, y);
                 var deck = floorKits[x, y];
-                PaintNativePresetFloorTile(cell, deck, floorKits, zones, x, y);
+                if (!warp && zones[x, y] == DeckFloorZone.Field &&
+                    nativeRoomMaterials.TryGetValue(owners[x, y], out short native))
+                {
+                    // Keep authored native indices wherever possible; only
+                    // ordinary compatible floor cells are eligible for repaint.
+                    if (cell.GetTilesetId(1) != native)
+                    {
+                        cell.SetTilesetId(1, native);
+                        cell.SetTileIndex(1, 0);
+                    }
+                    retainedNativeFloors?.Add(new CellPosition(x, y));
+                }
+                else
+                    PaintNativePresetFloorTile(cell, deck, floorKits, zones, x, y, warp);
+
+                // Do not erase native signs, decals, damage or fixture
+                // overlays. Suppress only our decorative trim on new clean
+                // floors; the registered legacy IDs remain available to saves.
+                if (!warp)
+                {
+                    if (IsNativePresetTrimId(cell.GetTilesetId(2)))
+                    {
+                        cell.SetTilesetId(2, 0);
+                        cell.SetTileIndex(2, byte.MaxValue);
+                    }
+                    continue;
+                }
                 int boundary = GetNativePresetTrimMask(grid, x, y);
                 if (boundary == 0) continue;
                 int phase = (x & 1) + (y & 1) * 2;
@@ -412,17 +470,35 @@ namespace ImperiumOfMan
             }
             if (spineFloor?.Count > 0)
             {
-                PaintNativeSpineConveyor(grid, spineFloor, obstacles, passageKit);
-                PaintNativeSpineLitter(state, grid, rooms, spineFloor, obstacles, zones, passageKit);
+                PaintNativeSpineConveyor(grid, spineFloor, obstacles, passageKit, zones, warp);
+                // The old litter atlas includes the wall-edge trim. Keep it
+                // for corrupted decks, but not on new clean Imperial floors.
+                if (warp) PaintNativeSpineLitter(state, grid, rooms, spineFloor, obstacles, zones, passageKit);
             }
         }
 
+        private static bool TryChooseNativeImperialRoomFloor(List<CellPosition> room, short[,] source, out short native)
+        {
+            native = 0;
+            var dominant = room.GroupBy(pos => source[pos.X, pos.Y])
+                .OrderByDescending(group => group.Count()).ThenBy(group => group.Key).First();
+            // Only use a real native material that already dominates this
+            // room; do not choose a random material from another environment.
+            if (dominant.Count() * 4 < room.Count * 3 ||
+                Data.Tilesets.GetByShortId(dominant.Key) is not SurfaceTileset donor ||
+                donor.SurfaceType != MapCellType.Floor || IsNativeAisleMaterial(donor.name) ||
+                !IsCleanNativeImperialTile(donor)) return false;
+            native = dominant.Key;
+            return true;
+        }
+
         private static void PaintNativeSpineConveyor(MapGrid grid, ISet<CellPosition> spineFloor,
-            List<MapObstacle> obstacles, CampaignDeck passage)
+            List<MapObstacle> obstacles, CampaignDeck passage, DeckFloorZone[,] zones, bool warp)
         {
             var cargo = new HashSet<string>(SpineFurniture.Where(prop => prop.Use is "cargo" or "crates").Select(prop => prop.Id));
             int deckIndex = passage.Floor.ShortId - CampaignTileIdBase;
             var join = _campaignFloorJoins[deckIndex, (int)NativeSpineServiceJoin(passage)];
+            bool flat = !warp && !AllowsImperialFloorBleed(passage);
             foreach (var obstacle in obstacles)
             {
                 var anchor = obstacle.Position;
@@ -441,7 +517,7 @@ namespace ImperiumOfMan
                         for (int segment = 0; segment < belt.Length; segment++)
                         {
                             var pos = belt[segment];
-                            int phase = (pos.X & 1) + (pos.Y & 1) * 2;
+                            int phase = (pos.X & 1) + (pos.Y & 1) * 2 + (flat ? 4 : 0);
                             var cell = grid.GetCell(pos);
                             cell.SetTilesetId(1, _nativeSpineConveyors[deckIndex].ShortId);
                             cell.SetTileIndex(1, (byte)(phase * NativeSpineConveyorColumns + side * 3 + segment));
@@ -454,6 +530,13 @@ namespace ImperiumOfMan
                         if (!spineFloor.Contains(pos) || grid.GetCell(pos - inward)?.IsWallSurfaceType != true)
                             return false;
                         var cell = grid.GetCell(pos);
+                        if (flat)
+                        {
+                            var lane = pos + inward;
+                            return cell?.Type == MapCellType.Floor && cell.GetTilesetId(1) == passage.Floor.ShortId &&
+                                zones[pos.X, pos.Y] == NativeSpineServiceZone(passage) &&
+                                spineFloor.Contains(lane) && zones[lane.X, lane.Y] == DeckFloorZone.Lane;
+                        }
                         return cell?.Type == MapCellType.Floor && cell.GetTilesetId(1) == join.ShortId &&
                             cell.GetTileIndex(1) % CampaignJoinShapeCount == FloorJoinSlots[1 << side];
                     }
@@ -911,10 +994,21 @@ namespace ImperiumOfMan
         }
 
         private static void PaintNativePresetFloorTile(MapCell cell, CampaignDeck deck, CampaignDeck[,] kits,
-            DeckFloorZone[,] zones, int x, int y)
+            DeckFloorZone[,] zones, int x, int y, bool warp)
         {
             var zone = zones[x, y];
             int phase = (x & 1) + (y & 1) * 2;
+            // Write the exact flat material first. Non-allowlisted clean
+            // surfaces never inspect neighbors or acquire directional IDs.
+            cell.SetTilesetId(1, deck.Floor.ShortId);
+            cell.SetTileIndex(1, (byte)(zone switch
+            {
+                DeckFloorZone.Secondary => 1 + phase,
+                DeckFloorZone.Lane => 5 + phase,
+                _ => 0,
+            }));
+            if (!warp && !AllowsImperialFloorBleed(deck)) return;
+
             DeckFloorZone? target = null;
             int mask = 0;
             bool multipleMaterials = false;
@@ -933,21 +1027,14 @@ namespace ImperiumOfMan
                     zones[x + bx, y + by] != zone) continue;
                 CollectJoin(zones[x + ax + bx, y + ay + by], 16 << corner);
             }
-            if (!multipleMaterials && target is DeckFloorZone edge && CampaignFloorJoin(zone, edge) is DeckFloorJoin family)
+            if (!multipleMaterials && target is DeckFloorZone edge &&
+                (warp || edge == DeckFloorZone.Lane) && CampaignFloorJoin(zone, edge) is DeckFloorJoin family)
             {
                 var tileset = _campaignFloorJoins[deck.Floor.ShortId - CampaignTileIdBase, (int)family];
                 cell.SetTilesetId(1, tileset.ShortId);
                 cell.SetTileIndex(1, (byte)(phase * CampaignJoinShapeCount + FloorJoinSlots[mask]));
                 return;
             }
-
-            cell.SetTilesetId(1, deck.Floor.ShortId);
-            cell.SetTileIndex(1, (byte)(zone switch
-            {
-                DeckFloorZone.Secondary => 1 + phase,
-                DeckFloorZone.Lane => 5 + phase,
-                _ => 0,
-            }));
 
             void CollectJoin(DeckFloorZone neighbor, int bit)
             {

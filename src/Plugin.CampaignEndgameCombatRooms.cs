@@ -38,7 +38,8 @@ namespace ImperiumOfMan
         }
 
         private static void AddCampaignEndgameCombatRooms(ImperialSpinePlan plan, PresetHeader[] donors,
-            CampaignRouteLayout route, int targetFloors, int width, int height)
+            CampaignRouteLayout route, int targetFloors, int width, int height,
+            int maximumRooms = MaximumCampaignCombatRooms, bool preferUnused = false)
         {
             int floorCount = CampaignPlanFloorCount(plan);
             if (floorCount >= targetFloors) return;
@@ -57,14 +58,15 @@ namespace ImperiumOfMan
                     (Start: elbow.Bend, elbow.End, Spine: plan.Spines.Length + index)
                 })).ToArray();
             var addedBySpine = new int[plan.Spines.Length + plan.Elbows.Count];
-            for (int roomIndex = 0; roomIndex < MaximumCampaignCombatRooms && floorCount < targetFloors; roomIndex++)
+            for (int roomIndex = 0; roomIndex < maximumRooms && floorCount < targetFloors; roomIndex++)
             {
                 var uses = plan.Rooms.GroupBy(room => room.Room.header.binaryId)
                     .ToDictionary(group => group.Key, group => group.Count());
                 var candidates = combatPresets
+                    .Where(room => !preferUnused || !uses.ContainsKey(room.Header.binaryId))
                     .OrderBy(room => uses.TryGetValue(room.Header.binaryId, out int count) && count >= 2)
                     .ThenByDescending(room => Math.Min(room.Floor, targetFloors - floorCount))
-                    .ThenByDescending(room => route.RoomPreference(room.Header, CampaignRouteRoomRole.SideRoom))
+                    .ThenByDescending(room => route?.RoomPreference(room.Header, CampaignRouteRoomRole.SideRoom) ?? 0)
                     .ThenBy(room => uses.TryGetValue(room.Header.binaryId, out int count) ? count : 0).ToArray();
                 bool added = false;
                 foreach (var (start, end, spine) in runs.OrderBy(run => addedBySpine[run.Spine]))
