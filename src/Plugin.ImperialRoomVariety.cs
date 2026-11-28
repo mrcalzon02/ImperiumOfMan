@@ -8,15 +8,11 @@ namespace ImperiumOfMan
 {
     public static partial class Plugin
     {
-        // Existing Core donor IDs drawn from our Imperial route catalog:
-        // machinery, archives, inspection bays, cargo and dispatch rooms.
-        // Validate installed headers and safe fixtures before considering them.
-        private static readonly int[] ImperialVarietyRoomIds =
-        [
-            2148, 2153, 3518, 2498, 2499, 3541, 1524, 1527, 3526,
-            1076, 1089, 3506, 1241, 1275, 3508, 2135, 2137, 3513,
-            3444, 3445, 3558, 2518, 3457, 3542
-        ];
+        private const int ImperialVarietyMaxRooms = 4;
+        private const int ImperialVarietyMaxLoads = 21;
+        private const int ImperialVarietyMaxCandidates = 24;
+        private const int ImperialVarietyFloorBudget = 240;
+        private const int ImperialVarietySearchBudget = 6000;
 
         private static ImperialSpinePlan TryAddImperialVarietyRooms(ImperialSpinePlan original,
             PresetLoader loader, PresetHeader[] ordinaryDonors, CampaignRouteLayout route,
@@ -25,32 +21,57 @@ namespace ImperiumOfMan
             try
             {
                 var used = new HashSet<int>(original.Rooms.Select(room => room.Room.header.binaryId));
+                var catalog = BuildImperialRoomThemeCatalog();
+                var random = new System.Random(unchecked(seed ^ 0x524F4F4D));
                 var candidates = new Dictionary<int, PresetHeader>();
+                var themes = new Dictionary<int, ImperialRoomTheme>();
+                var fixtures = new Dictionary<string, ImperialRoomTheme>(StringComparer.Ordinal);
                 void Include(PresetHeader header)
                 {
-                    if (!CanBuildSpineRoom(header) || !IsImperialSpineDonor(header) ||
-                        used.Contains(header.binaryId) || candidates.ContainsKey(header.binaryId)) return;
+                    if (candidates.Count >= ImperialVarietyMaxCandidates || !CanBuildSpineRoom(header) ||
+                        used.Contains(header.binaryId) || candidates.ContainsKey(header.binaryId) ||
+                        !IsImperialSpineDonor(header)) return;
+                    // Extra rooms are not allowed to inject special mission items
+                    // or special encounter tables beyond the native selected rooms.
+                    if ((header.genMetadata.SpecialItemsTableIds?.Count ?? 0) != 0 ||
+                        (header.genMetadata.SpecialMonstersTableIds?.Count ?? 0) != 0 ||
+                        header.genMetadata.SpecialItemsSpawnCount > 0) return;
+                    if (header.MapGrid.MaxWidth < 5 || header.MapGrid.MaxHeight < 5 ||
+                        header.MapGrid.MaxWidth > 22 || header.MapGrid.MaxHeight > 22) return;
                     int floor = NativeRoomFloorCount(header);
-                    if (floor >= 48 && floor <= 160) candidates.Add(header.binaryId, header);
+                    if (floor < 24 || floor > 160) return;
+                    if (!SupplyClosetDirections.Any(side => SpineJoints(header, side).Any())) return;
+                    themes.Add(header.binaryId, ClassifyImperialDonorTheme(header, catalog, fixtures));
+                    candidates.Add(header.binaryId, header);
                 }
 
-                // A bounded, seeded rotation prevents the same additional
-                // rooms dominating every floor; no speculative full preset scan.
-                int start = (int)((uint)seed % ImperialVarietyRoomIds.Length);
-                for (int i = 0; i < 12; i++)
+                // Sample each route family in turn rather than letting the
+                // much larger industrial pool crowd out archives and chapels.
+                var families = ImperialRoomFamilies
+                    .Select(family => new Queue<int>(family.LocalIds
+                        .Select(PresetIdRegistry.NormalizePresetId).Distinct()
+                        .Where(id => !used.Contains(id)).OrderBy(_ => random.Next())))
+                    .OrderBy(_ => random.Next()).ToArray();
+                var inspected = new HashSet<int>(used);
+                int loads = 0;
+                while (loads < ImperialVarietyMaxLoads && families.Any(queue => queue.Count > 0))
                 {
-                    int id = PresetIdRegistry.NormalizePresetId(
-                        ImperialVarietyRoomIds[(start + i) % ImperialVarietyRoomIds.Length]);
-                    if (used.Contains(id)) continue;
-                    try { Include(loader.LoadSpecificPreset(id)); }
-                    catch (Exception ex)
+                    foreach (var queue in families)
                     {
-                        Debug.LogWarning("[Cvar_ImperiumOfMan] Optional native room " + id + " unavailable: " + ex.Message);
+                        if (loads >= ImperialVarietyMaxLoads || queue.Count == 0) continue;
+                        int id = queue.Dequeue();
+                        if (!inspected.Add(id)) continue;
+                        loads++;
+                        try { Include(loader.LoadSpecificPreset(id)); }
+                        catch (Exception ex)
+                        {
+                            Debug.LogWarning("[Cvar_ImperiumOfMan] Optional native room " + id + " unavailable: " + ex.Message);
+                        }
                     }
                 }
-                foreach (var donor in ordinaryDonors)
+                foreach (var donor in ordinaryDonors.OrderBy(_ => random.Next()))
                 {
-                    if (candidates.Count >= 12) break;
+                    if (candidates.Count >= ImperialVarietyMaxCandidates) break;
                     Include(donor);
                 }
                 if (candidates.Count == 0) return original;
@@ -74,8 +95,16 @@ namespace ImperiumOfMan
                 trial.Elbows.AddRange(original.Elbows);
                 trial.CorridorCells.UnionWith(original.CorridorCells);
 
-                AddCampaignEndgameCombatRooms(trial, candidates.Values.Take(12).ToArray(), route,
-                    CampaignPlanFloorCount(original) + 120, width, height, maximumRooms: 2, preferUnused: true);
+                AddCampaignEndgameCombatRooms(trial, candidates.Values.ToArray(), route,
+                    CampaignPlanFloorCount(original) + ImperialVarietyFloorBudget, width, height,
+                    maximumRooms: ImperialVarietyMaxRooms, preferUnused: true,
+                    minimumFloor: 24, minimumSide: 5, limitToTarget: true,
+                    searchBudget: ImperialVarietySearchBudget,
+                    varietyFamily: header => (int)themes[header.binaryId]);
+                Debug.Log("[Cvar_ImperiumOfMan] Imperial room variety | candidates=" + candidates.Count +
+                    " | native loads=" + loads + " | themes=" +
+                    string.Join(",", themes.Values.Distinct()) + " | proposed=" +
+                    (trial.Rooms.Count - original.Rooms.Count));
                 if (trial.Rooms.Count <= original.Rooms.Count) return original;
                 if (AuditImperialSpinePlan(trial, width, height, out string failure)) return trial;
                 Debug.LogWarning("[Cvar_ImperiumOfMan] Optional variety-room plan rejected: " + failure);

@@ -84,31 +84,87 @@ namespace ImperiumOfMan
         private static readonly int[] RelayTopbarAccents = [13, 15, 18, 20];
         private static readonly int[] ObjectiveTopbarAccents = [14, 16, 21, 22, 23];
 
-        private static int[] TopbarAccentsFor(NativePresetArea area) => area switch
+        private static readonly int[] ArchiveFacadeAccents = [10, 1, 5, 6];
+        private static readonly int[] SecurityFacadeAccents = [4, 5, 1, 8];
+        private static readonly int[] QuartersFacadeAccents = [1, 5, 2, 10];
+        private static readonly int[] UtilityFacadeAccents = [3, 9, 2, 8];
+        private static readonly int[] ArchiveTopbarAccents = [21, 23, 12, 16];
+        private static readonly int[] SecurityTopbarAccents = [14, 22, 12, 16];
+        private static readonly int[] QuartersTopbarAccents = [13, 16, 15];
+        private static readonly int[] UtilityTopbarAccents = [20, 15, 18, 14];
+
+        private static int[] TopbarAccentsFor(ImperialRoomTheme theme) => theme switch
         {
-            NativePresetArea.Corridor or NativePresetArea.LiftLobby => CorridorTopbarAccents,
-            NativePresetArea.Cargo => CargoTopbarAccents,
-            NativePresetArea.Workshop => WorkshopTopbarAccents,
-            NativePresetArea.Medical => MedicalTopbarAccents,
-            NativePresetArea.Laboratory => LaboratoryTopbarAccents,
-            NativePresetArea.Ceremonial => CeremonialTopbarAccents,
-            NativePresetArea.Relay => RelayTopbarAccents,
-            NativePresetArea.Objective => ObjectiveTopbarAccents,
+            ImperialRoomTheme.Corridor or ImperialRoomTheme.Lift => CorridorTopbarAccents,
+            ImperialRoomTheme.Cargo => CargoTopbarAccents,
+            ImperialRoomTheme.Workshop => WorkshopTopbarAccents,
+            ImperialRoomTheme.Medical => MedicalTopbarAccents,
+            ImperialRoomTheme.Laboratory or ImperialRoomTheme.Survey => LaboratoryTopbarAccents,
+            ImperialRoomTheme.Ceremonial => CeremonialTopbarAccents,
+            ImperialRoomTheme.Relay => RelayTopbarAccents,
+            ImperialRoomTheme.Objective => ObjectiveTopbarAccents,
+            ImperialRoomTheme.Archive => ArchiveTopbarAccents,
+            ImperialRoomTheme.Security => SecurityTopbarAccents,
+            ImperialRoomTheme.Quarters => QuartersTopbarAccents,
+            ImperialRoomTheme.Utility => UtilityTopbarAccents,
             _ => GeneralTopbarAccents
         };
 
-        private static int[] FacadeAccentsFor(NativePresetArea area) => area switch
+        private static int[] FacadeAccentsFor(ImperialRoomTheme theme) => theme switch
         {
-            NativePresetArea.Corridor or NativePresetArea.LiftLobby => CorridorFacadeAccents,
-            NativePresetArea.Cargo => CargoFacadeAccents,
-            NativePresetArea.Workshop => WorkshopFacadeAccents,
-            NativePresetArea.Medical => MedicalFacadeAccents,
-            NativePresetArea.Laboratory => LaboratoryFacadeAccents,
-            NativePresetArea.Ceremonial => CeremonialFacadeAccents,
-            NativePresetArea.Relay => RelayFacadeAccents,
-            NativePresetArea.Objective => ObjectiveFacadeAccents,
+            ImperialRoomTheme.Corridor or ImperialRoomTheme.Lift => CorridorFacadeAccents,
+            ImperialRoomTheme.Cargo => CargoFacadeAccents,
+            ImperialRoomTheme.Workshop => WorkshopFacadeAccents,
+            ImperialRoomTheme.Medical => MedicalFacadeAccents,
+            ImperialRoomTheme.Laboratory or ImperialRoomTheme.Survey => LaboratoryFacadeAccents,
+            ImperialRoomTheme.Ceremonial => CeremonialFacadeAccents,
+            ImperialRoomTheme.Relay => RelayFacadeAccents,
+            ImperialRoomTheme.Objective => ObjectiveFacadeAccents,
+            ImperialRoomTheme.Archive => ArchiveFacadeAccents,
+            ImperialRoomTheme.Security => SecurityFacadeAccents,
+            ImperialRoomTheme.Quarters => QuartersFacadeAccents,
+            ImperialRoomTheme.Utility => UtilityFacadeAccents,
             _ => GeneralFacadeAccents
         };
+
+        private static HashSet<CellPosition> ImperialFacadeProtection(State state)
+        {
+            var protectedCells = new HashSet<CellPosition>();
+            foreach (var obstacle in state.Get<MapObstacles>().Obstacles)
+            {
+                protectedCells.Add(obstacle.Position);
+                protectedCells.UnionWith(obstacle.OccupiedCells);
+            }
+            var metadata = state.Get<MapMetadata>();
+            if (metadata != null)
+            {
+                foreach (var lamp in metadata.MapLights) protectedCells.Add(lamp.Pos);
+                foreach (var prop in metadata.MapObstacles) protectedCells.Add(prop.Pos);
+                foreach (var entry in metadata.LevelEntries) protectedCells.Add(entry.Position);
+                foreach (var exit in metadata.LevelExits) protectedCells.Add(exit.Position);
+            }
+            return protectedCells;
+        }
+
+        private static bool IsPlainImperialFacadeCell(MapGrid grid, int x, int y)
+        {
+            if (x <= 0 || x >= grid.MaxWidth - 1 || y <= 0 || y >= grid.MaxHeight - 1) return false;
+            var face = grid.GetCell(x, y);
+            return face != null && face.Type == MapCellType.FacadeWall &&
+                !face.IsDoor && face.specialFlag == MapCellSpecialFlag.None &&
+                (face.GetTilesetId(2) == 0 || face.GetTileIndex(2) == byte.MaxValue) &&
+                HasCampaignWallFace(grid, x, y);
+        }
+
+        private static bool IsSafeImperialFacadeAccent(MapGrid grid, int x, int y,
+            ISet<CellPosition> protectedCells)
+        {
+            if (!IsPlainImperialFacadeCell(grid, x, y)) return false;
+            for (int dx = -1; dx <= 1; dx++)
+            for (int dy = -1; dy <= 1; dy++)
+                if (protectedCells.Contains(new CellPosition(x + dx, y + dy))) return false;
+            return true;
+        }
 
         private static void ApplyImperialFacadeVariation(State state, MapGrid grid, ImperialDamagePalette palette)
         {
@@ -118,53 +174,45 @@ namespace ImperiumOfMan
                 var location = state.Get<LocationMetadata>();
                 var rooms = location.GeneratedRooms;
                 var obstacles = state.Get<MapObstacles>().Obstacles;
-                var metadata = state.Get<MapMetadata>();
-                var protectedCells = new HashSet<CellPosition>();
-                foreach (var obstacle in obstacles)
-                {
-                    protectedCells.Add(obstacle.Position);
-                    protectedCells.UnionWith(obstacle.OccupiedCells);
-                }
-                if (metadata != null)
-                {
-                    foreach (var lamp in metadata.MapLights) protectedCells.Add(lamp.Pos);
-                    foreach (var prop in metadata.MapObstacles) protectedCells.Add(prop.Pos);
-                }
-
-                // Determine the room behind each accent, not the wall's
-                // own coordinate. Cache classification only for rooms used.
-                var areas = new Dictionary<int, NativePresetArea>();
+                var protectedCells = ImperialFacadeProtection(state);
+                var catalog = BuildImperialRoomThemeCatalog();
+                var themes = new Dictionary<int, ImperialRoomTheme>();
+                var roomRandoms = new Dictionary<int, System.Random>();
+                var signedRooms = new HashSet<int>();
                 var random = new System.Random(unchecked(location.Seed ^ 0x46414345));
                 var counts = new int[_imperialFacadeVariants.Length];
+                var roomCounts = new Dictionary<int, int>();
 
-                bool Eligible(int x, int y)
+                // A fixture can interrupt accent placement, but does not
+                // split an otherwise continuous plain wall into tiny runs.
+                bool IsBaseRunCell(int x, int y) => IsPlainImperialFacadeCell(grid, x, y) &&
+                    grid.GetCell(x, y).GetTilesetId(1) == palette.Facade.ShortId;
+
+                int OwnerAt(int x, int y) =>
+                    FindNativePresetRoom(rooms, new CellPosition(x, y - 1));
+
+                ImperialRoomTheme ThemeAt(int owner)
                 {
-                    var face = grid.GetCell(x, y);
-                    if (face == null || face.Type != MapCellType.FacadeWall ||
-                        face.GetTilesetId(1) != palette.Facade.ShortId ||
-                        face.IsDoor || face.specialFlag != MapCellSpecialFlag.None ||
-                        (face.GetTilesetId(2) != 0 && face.GetTileIndex(2) != byte.MaxValue) ||
-                        !HasCampaignWallFace(grid, x, y))
-                        return false;
-                    // Keep native doors, lights and obstacle overlays clear.
-                    // Protect the wall, its cap, and the immediately visible floor.
-                    for (int dx = -1; dx <= 1; dx++)
-                    for (int dy = -1; dy <= 1; dy++)
-                        if (protectedCells.Contains(new CellPosition(x + dx, y + dy)))
-                            return false;
-                    return true;
+                    if (owner < 0 || owner >= rooms.Count) return ImperialRoomTheme.General;
+                    if (!themes.TryGetValue(owner, out var theme))
+                    {
+                        theme = ClassifyImperialRoomTheme(rooms[owner], obstacles, catalog);
+                        themes.Add(owner, theme);
+                    }
+                    return theme;
                 }
 
-                NativePresetArea AreaAt(int x, int y)
+                System.Random RoomRandom(int owner)
                 {
-                    int owner = FindNativePresetRoom(rooms, new CellPosition(x, y - 1));
-                    if (owner < 0 || owner >= rooms.Count) return NativePresetArea.General;
-                    if (!areas.TryGetValue(owner, out var area))
+                    if (owner < 0 || owner >= rooms.Count) return random;
+                    if (!roomRandoms.TryGetValue(owner, out var rng))
                     {
-                        area = ClassifyNativePresetArea(rooms[owner], obstacles);
-                        areas.Add(owner, area);
+                        var room = rooms[owner];
+                        int seed = unchecked(location.Seed ^ room.PresetBinaryId * 397 ^
+                            room.LeftLowerCorner.X * 73856093 ^ room.LeftLowerCorner.Y * 19349663);
+                        roomRandoms.Add(owner, rng = new System.Random(seed));
                     }
-                    return area;
+                    return rng;
                 }
 
                 for (int y = 1; y < grid.MaxHeight - 1; y++)
@@ -172,9 +220,9 @@ namespace ImperiumOfMan
                     int x = 1;
                     while (x < grid.MaxWidth - 1)
                     {
-                        if (!Eligible(x, y)) { x++; continue; }
+                        if (!IsBaseRunCell(x, y)) { x++; continue; }
                         int start = x++;
-                        while (x < grid.MaxWidth - 1 && Eligible(x, y)) x++;
+                        while (x < grid.MaxWidth - 1 && IsBaseRunCell(x, y)) x++;
                         int end = x; // exclusive
                         int length = end - start;
                         if (length < 3) continue;
@@ -182,18 +230,31 @@ namespace ImperiumOfMan
                         // Leave original cells at both ends. At least three
                         // plain tiles between accents, with seeded variation
                         // on long runs instead of a mechanically repeating wall.
-                        int column = length <= 5 ? start + length / 2 : start + 1 + random.Next(3);
+                        int column = start + 1;
                         int previous = -1;
                         int accentNumber = 0;
                         int topbarPhase = random.Next(3);
                         while (column < end - 1)
                         {
-                            var area = AreaAt(column, y);
-                            bool topbar = length >= 7 && (accentNumber + topbarPhase) % 3 == 0;
-                            int[] pool = topbar ? TopbarAccentsFor(area) : FacadeAccentsFor(area);
-                            int choice = random.Next(pool.Length);
+                            if (!IsSafeImperialFacadeAccent(grid, column, y, protectedCells))
+                            {
+                                column++;
+                                continue;
+                            }
+                            int owner = OwnerAt(column, y);
+                            var theme = ThemeAt(owner);
+                            var rng = RoomRandom(owner);
+                            bool roomSignature = owner >= 0 && owner < rooms.Count &&
+                                theme is not (ImperialRoomTheme.Corridor or ImperialRoomTheme.Lift) &&
+                                !IsImperialSupplyClosetPreset(rooms[owner].PresetBinaryId) &&
+                                !signedRooms.Contains(owner);
+                            // A compact room may have only one clear slot.
+                            // Its first accent is still a signature from batch two.
+                            bool topbar = roomSignature || length >= 7 && (accentNumber + topbarPhase) % 3 == 0;
+                            int[] pool = topbar ? TopbarAccentsFor(theme) : FacadeAccentsFor(theme);
+                            int choice = rng.Next(pool.Length);
                             if (pool[choice] == previous)
-                                choice = (choice + 1 + random.Next(pool.Length - 1)) % pool.Length;
+                                choice = (choice + 1 + rng.Next(pool.Length - 1)) % pool.Length;
                             int index = pool[choice];
                             var cell = grid.GetCell(column, y);
                             // Do not change Type, flags, geometry, fences, health,
@@ -203,14 +264,21 @@ namespace ImperiumOfMan
                             counts[index]++;
                             previous = index;
                             accentNumber++;
-                            column += 4 + random.Next(3);
+                            if (owner >= 0)
+                            {
+                                roomCounts.TryGetValue(owner, out int count);
+                                roomCounts[owner] = count + 1;
+                                if (roomSignature) signedRooms.Add(owner);
+                            }
+                            column += 4 + rng.Next(3);
                         }
                     }
                 }
                 int total = 0;
                 foreach (int count in counts) total += count;
                 Debug.Log("[Cvar_ImperiumOfMan] Imperial facade accents=" + total +
-                    " by atlas slot=[" + string.Join(",", counts) + "]");
+                    " | rooms with accents=" + roomCounts.Count + " | signature rooms=" + signedRooms.Count +
+                    " | by atlas slot=[" + string.Join(",", counts) + "]");
             }
             catch (Exception error)
             {

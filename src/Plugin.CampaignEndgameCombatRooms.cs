@@ -39,13 +39,16 @@ namespace ImperiumOfMan
 
         private static void AddCampaignEndgameCombatRooms(ImperialSpinePlan plan, PresetHeader[] donors,
             CampaignRouteLayout route, int targetFloors, int width, int height,
-            int maximumRooms = MaximumCampaignCombatRooms, bool preferUnused = false)
+            int maximumRooms = MaximumCampaignCombatRooms, bool preferUnused = false,
+            int minimumFloor = 48, int minimumSide = 7, bool limitToTarget = false,
+            int searchBudget = int.MaxValue, Func<PresetHeader, int> varietyFamily = null)
         {
             int floorCount = CampaignPlanFloorCount(plan);
             if (floorCount >= targetFloors) return;
 
             var combatPresets = donors.Select(header => (Header: header, Floor: NativeRoomFloorCount(header)))
-                .Where(room => room.Floor >= 48 && room.Header.MapGrid.MaxWidth >= 7 && room.Header.MapGrid.MaxHeight >= 7)
+                .Where(room => room.Floor >= minimumFloor && room.Header.MapGrid.MaxWidth >= minimumSide &&
+                    room.Header.MapGrid.MaxHeight >= minimumSide)
                 .ToArray();
             if (combatPresets.Length == 0) return;
 
@@ -58,20 +61,31 @@ namespace ImperiumOfMan
                     (Start: elbow.Bend, elbow.End, Spine: plan.Spines.Length + index)
                 })).ToArray();
             var addedBySpine = new int[plan.Spines.Length + plan.Elbows.Count];
-            for (int roomIndex = 0; roomIndex < maximumRooms && floorCount < targetFloors; roomIndex++)
+            var familyUsage = new Dictionary<int, int>();
+            for (int roomIndex = 0; roomIndex < maximumRooms && floorCount < targetFloors && searchBudget > 0; roomIndex++)
             {
                 var uses = plan.Rooms.GroupBy(room => room.Room.header.binaryId)
                     .ToDictionary(group => group.Key, group => group.Count());
                 var candidates = combatPresets
-                    .Where(room => !preferUnused || !uses.ContainsKey(room.Header.binaryId))
-                    .OrderBy(room => uses.TryGetValue(room.Header.binaryId, out int count) && count >= 2)
+                    .Where(room => (!preferUnused || !uses.ContainsKey(room.Header.binaryId)) &&
+                        (!limitToTarget || room.Floor <= targetFloors - floorCount))
+                    .OrderBy(room => varietyFamily != null && familyUsage.TryGetValue(varietyFamily(room.Header), out int familyCount)
+                        ? familyCount : 0)
+                    .ThenBy(room => uses.TryGetValue(room.Header.binaryId, out int count) && count >= 2)
                     .ThenByDescending(room => Math.Min(room.Floor, targetFloors - floorCount))
                     .ThenByDescending(room => route?.RoomPreference(room.Header, CampaignRouteRoomRole.SideRoom) ?? 0)
                     .ThenBy(room => uses.TryGetValue(room.Header.binaryId, out int count) ? count : 0).ToArray();
                 bool added = false;
                 foreach (var (start, end, spine) in runs.OrderBy(run => addedBySpine[run.Spine]))
                 {
-                    if (!TryOpenCombatRoom(start, end, spine, candidates, out int addedFloor)) continue;
+                    if (searchBudget <= 0) break;
+                    if (!TryOpenCombatRoom(start, end, spine, candidates, out int addedFloor, out var addedHeader)) continue;
+                    if (varietyFamily != null)
+                    {
+                        int family = varietyFamily(addedHeader);
+                        familyUsage.TryGetValue(family, out int count);
+                        familyUsage[family] = count + 1;
+                    }
                     floorCount += addedFloor;
                     addedBySpine[spine]++;
                     added = true;
@@ -82,8 +96,10 @@ namespace ImperiumOfMan
             CenterImperialSpines(plan, width, height);
 
             bool TryOpenCombatRoom(CellPosition start, CellPosition end, int spine,
-                (PresetHeader Header, int Floor)[] candidates, out int addedFloor)
+                (PresetHeader Header, int Floor)[] candidates, out int addedFloor, out PresetHeader addedHeader)
             {
+                addedFloor = 0;
+                addedHeader = null;
                 var along = AxisStep(start, end);
                 int length = SpineManhattan(start, end);
                 var sides = along.X == 0 ? new[] { Direction.Left, Direction.Right } : new[] { Direction.Up, Direction.Down };
@@ -96,6 +112,8 @@ namespace ImperiumOfMan
                     int wallDepth = outward == Direction.Down ? 2 : 1;
                     for (int distance = 5; distance <= length - 5; distance++)
                     {
+                        if (searchBudget <= 0) return false;
+                        if (searchBudget != int.MaxValue) searchBudget--;
                         var joint = start + along * distance - step * (ImperialSpineHalfWidth + wallDepth);
                         var opening = IsSpineVertical(outward) ? joint + new CellPosition(0, -1) : joint;
                         if (occupied.Contains(joint) || occupied.Contains(opening) ||
@@ -103,6 +121,8 @@ namespace ImperiumOfMan
                             continue;
                         foreach (var local in joints)
                         {
+                            if (searchBudget <= 0) return false;
+                            if (searchBudget != int.MaxValue) searchBudget--;
                             var origin = joint - local;
                             var far = origin + new CellPosition(candidate.Header.MapGrid.MaxWidth - 1, candidate.Header.MapGrid.MaxHeight - 1);
                             if (!SpineRoomFits(plan, [], candidate.Header, origin, width, height) ||
@@ -116,6 +136,7 @@ namespace ImperiumOfMan
                             plan.Doors.Add(door);
                             occupied.UnionWith(door.Opening);
                             addedFloor = candidate.Floor;
+                            addedHeader = candidate.Header;
                             return true;
                         }
                     }

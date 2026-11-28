@@ -246,7 +246,7 @@ namespace ImperiumOfMan
                     PlaceImperialMachinery(____state, palette.Warp);
                     var nativeFloors = new HashSet<CellPosition>();
                     PaintNativeImperialPresetFloors(____state, campaign, GetImperialBranchFloor(____state), nativeFloors);
-                    ApplyImperialTerrain(grid, palette, nativeFloors);
+                    ApplyImperialTerrain(____state, grid, palette, nativeFloors);
                     if (!palette.Warp) ApplyImperialFacadeVariation(____state, grid, palette);
                 }
                 else
@@ -346,9 +346,28 @@ namespace ImperiumOfMan
             return transform != null && !string.IsNullOrEmpty(transform.TilesetToMutateName);
         }
 
-        private static HashSet<CellPosition> SelectNativeImperialFacadeRuns(MapGrid grid)
+        private static HashSet<CellPosition> SelectNativeImperialFacadeRuns(State state, MapGrid grid)
         {
             var retained = new HashSet<CellPosition>();
+            var rooms = state.Get<LocationMetadata>().GeneratedRooms;
+            var protectedCells = ImperialFacadeProtection(state);
+            var featureRuns = new Dictionary<int, (int Start, int End, int Y)>();
+            // Do not rewrite a native run where an existing Imperial face
+            // already has a safe interior slot in the same room.
+            var existingRooms = new HashSet<int>();
+            short baseId = ImperialDamagePalettes[0].Facade.ShortId;
+            for (int y = 1; y < grid.MaxHeight - 1; y++)
+            for (int x = 2; x < grid.MaxWidth - 2; x++)
+            {
+                if (grid.GetCell(x - 1, y).GetTilesetId(1) != baseId ||
+                    grid.GetCell(x, y).GetTilesetId(1) != baseId ||
+                    grid.GetCell(x + 1, y).GetTilesetId(1) != baseId ||
+                    !IsPlainImperialFacadeCell(grid, x - 1, y) ||
+                    !IsPlainImperialFacadeCell(grid, x + 1, y) ||
+                    !IsSafeImperialFacadeAccent(grid, x, y, protectedCells)) continue;
+                int owner = FindNativePresetRoom(rooms, new CellPosition(x, y - 1));
+                if (owner >= 0) existingRooms.Add(owner);
+            }
             // Retain continuous native facade panels, never a checkerboard
             // of randomly mixed walls. Custom corridors keep Imperial art.
             for (int y = 0; y < grid.MaxHeight; y++)
@@ -374,18 +393,49 @@ namespace ImperiumOfMan
                             next.GetTilesetId(2) == DeckFixtureOverlayId) break;
                         x++;
                     }
-                    if (x - start >= 3)
-                        for (int column = start; column < x; column++)
-                            retained.Add(new CellPosition(column, y));
+                    if (x - start < 3) continue;
+                    for (int column = start; column < x; column++)
+                        retained.Add(new CellPosition(column, y));
+
+                    // Reserve at most one complete, coherent native wall run
+                    // per ordinary room. Never splice a decorative tile
+                    // directly into a different native molding.
+                    if (start <= 0 || x >= grid.MaxWidth || y <= 0 || y >= grid.MaxHeight - 1)
+                        continue;
+                    int owner = FindNativePresetRoom(rooms, new CellPosition(start, y - 1));
+                    if (owner < 0 || owner >= rooms.Count || existingRooms.Contains(owner) ||
+                        rooms[owner].GroupId == ExordiumDungeonGenerator.CorridorsGroupId ||
+                        rooms[owner].GroupId >= 100 || IsImperialSupplyClosetPreset(rooms[owner].PresetBinaryId))
+                        continue;
+                    bool whole = true, slot = false;
+                    for (int column = start; column < x; column++)
+                    {
+                        if (!IsPlainImperialFacadeCell(grid, column, y) ||
+                            FindNativePresetRoom(rooms, new CellPosition(column, y - 1)) != owner)
+                        {
+                            whole = false;
+                            break;
+                        }
+                        if (column > start && column < x - 1 &&
+                            IsSafeImperialFacadeAccent(grid, column, y, protectedCells))
+                            slot = true;
+                    }
+                    if (whole && slot && (!featureRuns.TryGetValue(owner, out var prior) ||
+                        x - start > prior.End - prior.Start))
+                        featureRuns[owner] = (start, x, y);
                 }
             }
+            foreach (var run in featureRuns.Values)
+                for (int column = run.Start; column < run.End; column++)
+                    retained.Remove(new CellPosition(column, run.Y));
+            Debug.Log("[Cvar_ImperiumOfMan] Imperial room feature walls=" + featureRuns.Count);
             return retained;
         }
 
-        private static void ApplyImperialTerrain(MapGrid grid, ImperialDamagePalette palette,
+        private static void ApplyImperialTerrain(State state, MapGrid grid, ImperialDamagePalette palette,
             ISet<CellPosition> nativeFloors)
         {
-            var nativeFacades = palette.Warp ? null : SelectNativeImperialFacadeRuns(grid);
+            var nativeFacades = palette.Warp ? null : SelectNativeImperialFacadeRuns(state, grid);
             if (!palette.Warp)
                 Debug.Log("[Cvar_ImperiumOfMan] Clean Imperial materials | native floor cells=" +
                     nativeFloors.Count + " | native facade cells=" + nativeFacades.Count);

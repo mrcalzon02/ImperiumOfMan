@@ -380,6 +380,7 @@ namespace ImperiumOfMan
             if (rooms.Count == 0)
                 SeparateStaticPresetRooms(grid, eligible, owners, roomFloors);
             ApplyNativeFloorRegions(rooms, roomFloors, source, eligible, owners, zones, donorZones);
+            var imperialThemeCatalog = warp ? null : BuildImperialRoomThemeCatalog();
             foreach (var room in roomFloors)
             {
                 var area = NativePresetArea.General;
@@ -390,6 +391,9 @@ namespace ImperiumOfMan
                 else if (room.Key >= 0 && room.Key < rooms.Count)
                 {
                     area = ClassifyNativePresetArea(rooms[room.Key], obstacles);
+                    if (!warp && area == NativePresetArea.General)
+                        area = ImperialThemeFloorArea(ClassifyImperialRoomTheme(
+                            rooms[room.Key], obstacles, imperialThemeCatalog));
                 }
                 else if (rooms.Count == 0)
                 {
