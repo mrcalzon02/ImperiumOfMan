@@ -42,6 +42,7 @@ namespace ImperiumOfMan
             var staged = new List<(BaseTileset Tileset, TileTransformationRecord Transformation)>();
             var clean = BuildImperialDamagePalette(false, staged);
             var warp = BuildImperialDamagePalette(true, staged);
+            var facadeVariants = StageImperialFacadeVariants(clean, staged);
             var doorAtlas = ReadDamageAtlas("ImperialDamageDoors", ImperialDoorStateCount, 2);
             var tallDoorAtlas = ReadDamageAtlas("ImperialDamageTallDoors", ImperialDoorStateCount, 2);
             Sprite[] DoorRow(Texture2D sheet, int row, int height)
@@ -84,6 +85,7 @@ namespace ImperiumOfMan
             ImperialDamageTileIds = imperialIds;
             ImperialDamageDoorArt = doors;
             ImperialDamagePalettes = [clean, warp];
+            _imperialFacadeVariants = facadeVariants;
             Debug.Log("[Cvar_ImperiumOfMan] Imperial damage tilesets registered: " + imperialIds.Count);
         }
 
@@ -245,6 +247,7 @@ namespace ImperiumOfMan
                     var nativeFloors = new HashSet<CellPosition>();
                     PaintNativeImperialPresetFloors(____state, campaign, GetImperialBranchFloor(____state), nativeFloors);
                     ApplyImperialTerrain(grid, palette, nativeFloors);
+                    if (!palette.Warp) ApplyImperialFacadeVariation(____state, grid, palette);
                 }
                 else
                 {
