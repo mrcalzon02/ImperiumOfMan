@@ -16,14 +16,20 @@ namespace ImperiumOfMan
         [
             "cracked", "plate", "vent", "recessed_pipes",
             "brace", "hatch", "aquila", "medical",
-            "recessed_grille", "junction", "archive", "shrine"
+            "recessed_grille", "junction", "archive", "shrine",
+            // Append; original accent IDs and atlas indices remain stable.
+            "crenellated_trim", "arched_service_trim", "reinforced_bulwark", "vent_hood",
+            "banner_niche", "reliquary_arch", "illuminated_grille", "ruined_overhang",
+            "conduit_channel", "imperial_cornice", "hazard_bulkhead", "gothic_arcature"
         ];
+        private const int OriginalFacadeAccentCount = 12;
         private static CampaignFacadeTileset[] _imperialFacadeVariants;
 
         private static CampaignFacadeTileset[] StageImperialFacadeVariants(ImperialDamagePalette clean,
             List<(BaseTileset Tileset, TileTransformationRecord Transformation)> staged)
         {
             var atlas = ReadDamageAtlas("ImperialFacadeVariants", 4, 3);
+            var topbarAtlas = ReadDamageAtlas("ImperialFacadeTopbarVariants", 4, 3);
             var intact = staged.Find(entry => ReferenceEquals(entry.Tileset, clean.Facade)).Transformation;
             var result = new CampaignFacadeTileset[ImperialFacadeVariantNames.Length];
             for (int index = 0; index < result.Length; index++)
@@ -31,11 +37,13 @@ namespace ImperiumOfMan
                 var facade = ScriptableObject.CreateInstance<CampaignFacadeTileset>();
                 facade.name = facade.Id = "iom_facade_accent_" + ImperialFacadeVariantNames[index];
                 facade.SetShortId((short)(ImperialFacadeVariantBase + index));
-                facade.Spritesheet = atlas;
+                bool topbar = index >= OriginalFacadeAccentCount;
+                facade.Spritesheet = topbar ? topbarAtlas : atlas;
                 // One sprite per tileset, just like the original native-style
                 // facade. No new orientation or auto-tiling rule is needed.
                 var tile = ScriptableObject.CreateInstance<Tile>();
-                tile.sprite = SliceDamageSprite(atlas, index, 4, new Vector2(0.5f, 0.5f));
+                tile.sprite = SliceDamageSprite(facade.Spritesheet,
+                    topbar ? index - OriginalFacadeAccentCount : index, 4, new Vector2(0.5f, 0.5f));
                 tile.colliderType = Tile.ColliderType.None;
                 facade.Tiles = [tile];
                 AccessTools.Field(typeof(BaseTileset), "_decalPatterns").SetValue(facade, new List<AutoDecalMatchPattern>());
@@ -63,6 +71,31 @@ namespace ImperiumOfMan
         private static readonly int[] CeremonialFacadeAccents = [6, 10, 11, 0];
         private static readonly int[] RelayFacadeAccents = [9, 2, 8, 5, 10];
         private static readonly int[] ObjectiveFacadeAccents = [6, 1, 4, 5];
+
+        // Stronger cornice-breaking accents appear only in the longer
+        // uninterrupted runs, at a lower density than ordinary accents.
+        private static readonly int[] GeneralTopbarAccents = [12, 14, 15, 19];
+        private static readonly int[] CorridorTopbarAccents = [12, 13, 14, 15, 18, 19, 20, 22];
+        private static readonly int[] CargoTopbarAccents = [14, 15, 20, 22];
+        private static readonly int[] WorkshopTopbarAccents = [14, 15, 18, 19, 20, 22];
+        private static readonly int[] MedicalTopbarAccents = [13, 15, 18];
+        private static readonly int[] LaboratoryTopbarAccents = [13, 15, 18, 20];
+        private static readonly int[] CeremonialTopbarAccents = [16, 17, 21, 23];
+        private static readonly int[] RelayTopbarAccents = [13, 15, 18, 20];
+        private static readonly int[] ObjectiveTopbarAccents = [14, 16, 21, 22, 23];
+
+        private static int[] TopbarAccentsFor(NativePresetArea area) => area switch
+        {
+            NativePresetArea.Corridor or NativePresetArea.LiftLobby => CorridorTopbarAccents,
+            NativePresetArea.Cargo => CargoTopbarAccents,
+            NativePresetArea.Workshop => WorkshopTopbarAccents,
+            NativePresetArea.Medical => MedicalTopbarAccents,
+            NativePresetArea.Laboratory => LaboratoryTopbarAccents,
+            NativePresetArea.Ceremonial => CeremonialTopbarAccents,
+            NativePresetArea.Relay => RelayTopbarAccents,
+            NativePresetArea.Objective => ObjectiveTopbarAccents,
+            _ => GeneralTopbarAccents
+        };
 
         private static int[] FacadeAccentsFor(NativePresetArea area) => area switch
         {
@@ -151,9 +184,13 @@ namespace ImperiumOfMan
                         // on long runs instead of a mechanically repeating wall.
                         int column = length <= 5 ? start + length / 2 : start + 1 + random.Next(3);
                         int previous = -1;
+                        int accentNumber = 0;
+                        int topbarPhase = random.Next(3);
                         while (column < end - 1)
                         {
-                            int[] pool = FacadeAccentsFor(AreaAt(column, y));
+                            var area = AreaAt(column, y);
+                            bool topbar = length >= 7 && (accentNumber + topbarPhase) % 3 == 0;
+                            int[] pool = topbar ? TopbarAccentsFor(area) : FacadeAccentsFor(area);
                             int choice = random.Next(pool.Length);
                             if (pool[choice] == previous)
                                 choice = (choice + 1 + random.Next(pool.Length - 1)) % pool.Length;
@@ -165,6 +202,7 @@ namespace ImperiumOfMan
                             cell.SetTileIndex(1, 0);
                             counts[index]++;
                             previous = index;
+                            accentNumber++;
                             column += 4 + random.Next(3);
                         }
                     }

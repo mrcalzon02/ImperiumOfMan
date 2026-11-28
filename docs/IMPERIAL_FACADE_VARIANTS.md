@@ -59,3 +59,50 @@ are introduced by this feature. Chaos and saved floors are not repainted.
   don't change geometry or minimap, and damage and save/reload preserve
   native behavior. Confirm no changes to Chaos art or existing saved maps.
 - Native compilation and in-game screenshots are pending.
+
+## Second approved batch: molding interruptions
+
+Source generation: 7b3e1f0b-6c8c-4e50-b545-987d4763f427.
+The twelve new sprites extend the existing ID block without replacing
+any previously registered tiles or texture. The dedicated runtime atlas
+`ImperialFacadeTopbarVariants.png` has dimensions 112x84 (4x3 native
+28px sprites). It uses an indexed palette with exact protected edge colors;
+Unity's existing atlas loader expands it to RGBA. SHA-256:
+`9626c236dcc83b91768227603848536ee8015a61f40b6df8be378529ed8e5482`.
+
+The approved features were resampled and moved two pixels into the
+cornice interior to actually interrupt the molding. The three columns
+at either side and two rows at top and bottom match the original
+exactly; the lower courses remain visually consistent. The palette
+packing measured a mean absolute RGB error of 0.79 and maximum
+channel error of 11 relative to the pre-palette composite, with zero
+error on the protected edges.
+
+| Atlas slot | Short ID | Detail |
+| --- | --- | --- |
+| 0 | 29052 | Crenellated trim |
+| 1 | 29053 | Arched service trim |
+| 2 | 29054 | Reinforced bulwark |
+| 3 | 29055 | Vent hood |
+| 4 | 29056 | Banner niche |
+| 5 | 29057 | Reliquary arch |
+| 6 | 29058 | Illuminated grille |
+| 7 | 29059 | Ruined overhang |
+| 8 | 29060 | Recessed conduit channel |
+| 9 | 29061 | Imperial cornice |
+| 10 | 29062 | Hazard bulkhead |
+| 11 | 29063 | Gothic arcature |
+
+Placement remains on first loading clean Imperial maps only, using
+the existing eligible runs and fixture protection. On runs of seven
+or more eligible cells, every third accent slot (with seeded phase)
+is drawn from the relevant stronger room-specific pool. Shorter runs
+retain their original accents. Total accent density stays unchanged
+at every 4–6 eligible tiles, with plain run ends. Painted lighting
+is decorative, not a new gameplay light emitter; the ruined overhang
+is a visual variant and does not change the wall's physical stats.
+All 24 accents use the original facade renderer and damage chain.
+
+The expanded validation script checks 24 unique sprites, 96 matching
+edge regions and 12 changed cornice interiors. Native compilation and
+headed runtime acceptance are still required.
