@@ -90,11 +90,11 @@ namespace ImperiumOfMan
                 var selected = magnumCargo.RecyclingStorage.Items.ToArray();
                 foreach (BasePickupItem item in selected)
                 {
-                    if (item.Id == DataRack && _dataRackReady)
+                    if (item.Id == DataRack)
                     {
                         // Sealed racks are cargo, not ordinary scrap.
                         __state ??= new List<BasePickupItem>();
-                        if (!IsEligibleShredInput(item))
+                        if (!_dataRackReady || !IsEligibleShredInput(item))
                         {
                             magnumCargo.RecyclingStorage.Remove(item);
                             __state.Add(item);

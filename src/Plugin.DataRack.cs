@@ -19,19 +19,28 @@ namespace ImperiumOfMan
         private static readonly string[] RackIngredients =
             ["communication_relay", "quasi_sensor_device", "research_disk", AiModule];
 
-        // Ordinary native human faction chip records. Native single-chip
-        // selection and companion unlocks are intentionally unchanged.
-        private static readonly (string Faction, string Chip)[] RackNativeFactionChips =
+        // The native faction disks are tier 10. Do not put them into the
+        // rack: make separate basic disks instead. Fallback patterns come
+        // exclusively from the game's existing basic-item chip pool.
+        private static readonly (string Faction, string Source, string Title, string[] Basics)[] RackFactionArchives =
         [
-            ("AnCom", "anc_chip"), ("RealWare", "rwa_chip"),
-            ("DaydreamChems", "ddr_chip"), ("CoreWard", "cor_chip"),
-            ("SBN", "sbn_chip"), ("Dilthey", "DiltheyItemChip"),
-            ("GrassHopper", "GrassHopperItemChip"), ("Tianming", "tia_chip")
+            ("AnCom", "anc_chip", "AnCom", ["pmc_smg_1", "pmc_shotgun_1", "pmc_assault_1"]),
+            ("RealWare", "rwa_chip", "RealWare", ["military_pistol_2", "military_shotgun_1", "army_sniper_1"]),
+            ("DaydreamChems", "ddr_chip", "Daydream Chems", ["medical_glue", "goldenstar_balm", "syringe_antidote"]),
+            ("CoreWard", "cor_chip", "Coreward", ["worker_torch_1", "miner_breaker_1", "worker_discthrower_1"]),
+            ("SBN", "sbn_chip", "SBN", ["rail_pistol_1", "servo_backpack_1", "science_reinforced_shirt_1"]),
+            ("Dilthey", "dil_chip", "Dilthey", ["stun_grenade", "rail_pistol_1", "science_reinforced_shirt_1"]),
+            ("Grasshopper", "gra_chip", "Grasshopper", ["trucker_pistol_2", "trucker_shotgun_1", "trucker_marksman_1"]),
+            ("Tianming", "tia_chip", "Tianming", ["throwing_knife", "common_axe_1", "common_assault_1"]),
+            ("PlanetBridge", "plb_chip", "PlanetBridge", ["worker_pistol_1", "medium_backpack_1", "trucker_pistol_2"]),
+            ("FrancheComte", "fra_chip", "Franche-Comte", ["police_club_1", "pmc_pistol_2", "pmc_common_vest_1"]),
+            ("Sunlight", "sun_chip", "Sunlight Coven", ["common_pistol_2", "armored_vest_1", "common_shotgun_1"]),
+            ("ChurchRevelation", "chu_chip", "Church of Revelation", ["trucker_pistol_2", "vodka_bottle_1", "military_mask_1"])
         ];
         private static readonly HashSet<string> RackHumanCatalogFactions = new(StringComparer.Ordinal)
         {
             ItemCategory, "AnCom", "RealWare", "DaydreamChems", "CoreWard", "SBN",
-            "Dilthey", "GrassHopper", "Tianming", "PlanetBridge"
+            "Dilthey", "Grasshopper", "Tianming", "PlanetBridge", "FrancheComte", "Sunlight", "ChurchRevelation"
         };
         private static readonly System.Random RackRandom = new();
         private static string[][] _rackFactionPools = Array.Empty<string[]>();
@@ -55,8 +64,10 @@ namespace ImperiumOfMan
                 return;
             }
 
-            // Reuse actual native electrical cargo art and footprint provisionally.
-            var rack = CloneItem<TrashRecord>(DataRack, RackArtworkDonor, 3, 650);
+            RegisterBasicFactionArchives();
+
+            // Native footprint, authored inventory/floor/shadow art.
+            var rack = CloneItem<TrashRecord>(DataRack, RackArtworkDonor, 3, 650, DataRack, 24);
             rack.MaxStack = 1;
             rack.Weight = 1.4f;
             // Enable native disassembly. One basic chip is a guaranteed minimum;
@@ -85,7 +96,47 @@ namespace ImperiumOfMan
         {
             return Data.Items.GetRecord(id) is CompositeItemRecord composite &&
                 composite.GetRecord<DatadiskRecord>() is DatadiskRecord disk &&
+                disk.UnlockType == DatadiskUnlockType.ProductionItem &&
                 disk.UnlockIds != null && disk.UnlockIds.Count > 0;
+        }
+
+        private static void RegisterBasicFactionArchives()
+        {
+            var basic = Data.Items.GetSimpleRecord<DatadiskRecord>(RackBasicChip);
+            var basicOutputs = new HashSet<string>(basic.UnlockIds, StringComparer.Ordinal);
+            var nativeReceipts = new HashSet<string>(Data.ProduceReceipts.Select(receipt => receipt.OutputItem),
+                StringComparer.Ordinal);
+            bool SafeOutput(string id) => nativeReceipts.Contains(id) && !LicensedProducts.Contains(id) &&
+                !OccultRecipeRequirements.ContainsKey(id) && Data.Items.GetRecord(id) != null;
+
+            foreach (var archive in RackFactionArchives)
+            {
+                if (Data.Factions.GetRecord(archive.Faction) == null || !IsUsableRackChip(archive.Source))
+                    continue;
+                string id = "iom_basic_" + archive.Source;
+                if (Data.Items.GetRecord(id) != null || IndustryCatalogs.ContainsKey(id)) continue;
+                var native = Data.Items.GetSimpleRecord<DatadiskRecord>(archive.Source);
+                // Prefer genuinely low-tech faction-specific recipes, but the
+                // native archive may contain only advanced equipment. In that
+                // case use the faction's explicitly themed common basics.
+                var outputs = native.UnlockIds.Where(output =>
+                    SafeOutput(output) && Data.Items.GetSimpleRecord<ItemRecord>(output) is ItemRecord item &&
+                    item.TechLevel <= 2 && !IsTrackedOccultPattern(output)).Distinct().ToArray();
+                // Two native disks are shared with occult successors. For those
+                // use only the ordinary common basics, never the shared pool.
+                if (archive.Source == "chu_chip" || archive.Source == "sun_chip")
+                    outputs = Array.Empty<string>();
+                if (outputs.Length == 0)
+                    outputs = archive.Basics.Where(output => basicOutputs.Contains(output) && SafeOutput(output))
+                        .Distinct().ToArray();
+                if (outputs.Length == 0) continue;
+
+                var chip = CloneItem<DatadiskRecord>(id, archive.Source, 2, 300);
+                chip.Categories = [archive.Faction];
+                RegisterCatalog(chip, archive.Title + " Basic Item Chip",
+                    "A recovered basic fabrication pattern issued by " + archive.Title + ".",
+                    archive.Faction, outputs, restrictOtherSources: false);
+            }
         }
 
         private static void InitializeDataRackPool()
@@ -99,15 +150,16 @@ namespace ImperiumOfMan
                     groups.Add(faction, entries = new HashSet<string>(StringComparer.Ordinal));
                 entries.Add(chip);
             }
-            foreach (var native in RackNativeFactionChips)
-                Include(native.Faction, native.Chip);
-            // Only low-tier mundane mod-added catalogs, never occult or Chaos.
+            // Only low-tier mundane catalogs, including the new basic
+            // archives. Never inject an original tier-10 faction disk.
             foreach (var group in CatalogStock)
             {
                 if (!RackHumanCatalogFactions.Contains(group.Key)) continue;
                 foreach (var entry in group.Value)
                 {
-                    if (entry.Tier <= 2 && IndustryCatalogs.ContainsKey(entry.Chip))
+                    if (entry.Tier <= 2 &&
+                        IndustryCatalogs.TryGetValue(entry.Chip, out var outputs) &&
+                        outputs.Length > 0 && outputs.All(output => !OccultRecipeRequirements.ContainsKey(output)))
                         Include(group.Key, entry.Chip);
                 }
             }
@@ -122,22 +174,9 @@ namespace ImperiumOfMan
 
         private static List<ItemQuantity> RollDataRack()
         {
-            var counts = new Dictionary<string, int>(StringComparer.Ordinal);
-            int total = RackRandom.Next(RackMinChips, RackMaxChips + 1);
-            for (int i = 0; i < total; i++)
-            {
-                // At least one basic and one faction chip, when available.
-                // Later draws favor basics; pick faction before chip type.
-                string id = RackBasicChip;
-                if (_rackFactionPools.Length > 0 && (i == 1 || (i > 1 && RackRandom.Next(100) < 40)))
-                {
-                    string[] pool = _rackFactionPools[RackRandom.Next(_rackFactionPools.Length)];
-                    id = pool[RackRandom.Next(pool.Length)];
-                }
-                counts.TryGetValue(id, out int count);
-                counts[id] = count + 1;
-            }
-            return counts.Select(entry => new ItemQuantity(entry.Key, entry.Value)).ToList();
+            return DataRackRoller.Roll(RackRandom, RackBasicChip, _rackFactionPools,
+                    RackMinChips, RackMaxChips)
+                .Select(id => new ItemQuantity(id, 1)).ToList();
         }
 
         [HarmonyPatch(typeof(ItemInteractionSystem), nameof(ItemInteractionSystem.Disassemble))]
@@ -146,8 +185,9 @@ namespace ImperiumOfMan
             private static bool Prefix(BasePickupItem item, ref bool guaranteed, out Action __state)
             {
                 __state = null;
-                if (item?.Id != DataRack || !_dataRackReady) return true;
-                if (!IsEligibleShredInput(item)) return false;
+                if (item?.Id != DataRack) return true;
+                // Fail closed rather than expose the one-chip UI sentinel.
+                if (!_dataRackReady || !IsEligibleShredInput(item) || item.StackCount != 1) return false;
 
                 // Let native synchronous disassembly handle consumption, chip
                 // creation, inventory placement and overflow.
