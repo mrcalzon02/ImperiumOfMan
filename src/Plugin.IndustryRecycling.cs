@@ -90,6 +90,24 @@ namespace ImperiumOfMan
                 var selected = magnumCargo.RecyclingStorage.Items.ToArray();
                 foreach (BasePickupItem item in selected)
                 {
+                    if (item.Id == DataRack && _dataRackReady)
+                    {
+                        // Sealed racks are cargo, not ordinary scrap.
+                        __state ??= new List<BasePickupItem>();
+                        if (!IsEligibleShredInput(item))
+                        {
+                            magnumCargo.RecyclingStorage.Remove(item);
+                            __state.Add(item);
+                            continue;
+                        }
+                        var chips = new List<BasePickupItem>();
+                        for (int n = 0; n < item.StackCount; n++)
+                            foreach (var output in RollDataRack())
+                                ItemInteractionSystem.CreateItem(chips, output.ItemId, output.Count);
+                        magnumCargo.RecyclingStorage.Remove(item);
+                        __state.AddRange(chips);
+                        continue;
+                    }
                     if (!ShredProfiles.TryGetValue(item.Id, out var outputs))
                     {
                         continue;

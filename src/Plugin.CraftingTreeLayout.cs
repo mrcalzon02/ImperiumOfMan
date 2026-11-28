@@ -183,6 +183,8 @@ namespace ImperiumOfMan
                 // Explicit native salvage IDs take precedence over the weapon
                 // class of arms, legs and claws. The same item node is shared
                 // by all its real consumers, including ordinary recipes.
+                if (id == DataRack || id == "communication_relay" || id == "quasi_sensor_device" ||
+                    id == "research_disk" || id == AiModule) return 4;
                 if (IsCloneVatComponent(id)) return 23;
                 int occult = OccultDisplayGroup(id);
                 if (occult >= 0) return occult;

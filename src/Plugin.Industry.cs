@@ -225,6 +225,7 @@ namespace ImperiumOfMan
             RegisterOccultProduction();
             RegisterPharmaceuticalWorkshops();
             RegisterChaosProduction();
+            RegisterDataRack();
             RegisterShredding();
         }
 
@@ -346,6 +347,7 @@ namespace ImperiumOfMan
                 Data.Items.GetSimpleRecord<DatadiskRecord>(catalog.Key).UnlockIds =
                     catalog.Value.Distinct().ToList();
             }
+            InitializeDataRackPool();
             _industryReady = true;
         }
 

@@ -18,6 +18,7 @@ namespace ImperiumOfMan
         private static readonly Dictionary<string, string> ItemSubtitles = new(StringComparer.Ordinal)
         {
             ["ore_cargo"] = "Bulk mineral cargo",
+            ["iom_data_rack"] = "Sealed chip cargo",
             ["iom_lasgun"] = "Guard laser rifle",
             ["iom_melta"] = "Thermal weapon",
             ["iom_lassniper"] = "Scoped laser rifle",
@@ -51,6 +52,7 @@ namespace ImperiumOfMan
         private static readonly Dictionary<string, string> RussianItemSubtitles = new(StringComparer.Ordinal)
         {
             ["Bulk mineral cargo"] = "Минеральный груз",
+            ["Sealed chip cargo"] = "Контейнер микросхем",
             ["Guard laser rifle"] = "Лазерная винтовка",
             ["Thermal weapon"] = "Тепловое оружие",
             ["Scoped laser rifle"] = "Снайперская винтовка",

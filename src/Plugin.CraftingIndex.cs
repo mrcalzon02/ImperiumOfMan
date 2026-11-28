@@ -244,7 +244,20 @@ namespace ImperiumOfMan
                     Capture("recycling recipes", () =>
                     {
                         var record = Data.Items.GetSimpleRecord<ItemRecord>(id);
-                        if (record != null && record.CanDisassembly && record.Disassembly != null && record.Disassembly.Count > 0)
+                        if (id == DataRack && _dataRackReady)
+                        {
+                            AddRoute(new CraftingRecipe
+                            {
+                                Key = "disassembly/" + id,
+                                Name = "Open " + CraftingItemName(id),
+                                Venue = "Recycling",
+                                Inputs = [new CraftingAmount { ItemId = id, Count = 1 }],
+                                Outputs = DataRackPossibleChips.Select(chip => new CraftingAmount
+                                    { ItemId = chip, Count = 0 }).ToList(),
+                                Access = "5–8 random physical chips total. Listed outputs are alternatives, not guaranteed together."
+                            });
+                        }
+                        else if (record != null && record.CanDisassembly && record.Disassembly != null && record.Disassembly.Count > 0)
                         {
                             AddRoute(new CraftingRecipe
                             {
