@@ -8,7 +8,7 @@ base production time and an exact output of one rack. This is deliberately
 outside the ordinary halved-cost/doubled-output helper.
 
 The sealed item is nonstackable; initial price 650 and weight 1.4 kg.
-Authored 24×24 inventory, floor and shadow sprites are embedded via the existing artwork pipeline.
+User-approved ImageGen inventory, floor and shadow artwork replaces the provisional pixel sprites. Each output is alpha-trimmed, aspect-preserving resampled to a 24×24 transparent canvas, and integrated through the existing artwork pipeline. The inventory size and separate floor shadow are preserved; no recipe or payout changes.
 Disassemble in the field or recycle aboard the Magnum to consume it
 and produce five to eight real chips, inclusive. At least one is a basic
 item chip and one is a faction chip if a valid faction pool is present.
