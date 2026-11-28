@@ -9,6 +9,7 @@ namespace ImperiumOfMan
     public static partial class Plugin
     {
         private const int RoomDressingMaxDonors = 48;
+        private const int RoomDressingMaxDonorReferences = 768;
         private const int RoomDressingMaxProps = 128;
         private const int RoomDressingMaxSamples = 256;
         private const int RoomDressingMaxRooms = 48;
@@ -36,10 +37,20 @@ namespace ImperiumOfMan
         {
             private readonly MapObstacleFactory _factory = SingletonMonoBehaviour<MapObstacleFactory>.Instance;
             private readonly GameObject _holder = new("Imperial room detail footprint samples");
+            private readonly Dictionary<string, MapObstacle> _prefabs = new(StringComparer.Ordinal);
             private readonly Dictionary<string, MapObstacle> _samples = new(StringComparer.Ordinal);
             private readonly Dictionary<(string Id, CellPosition Offset), CellPosition[]> _footprints = new();
             internal NativeRoomDetailSampler() => _holder.SetActive(false);
-            internal MapObstacle Prefab(string id) => string.IsNullOrEmpty(id) ? null : _factory.GetObstaclePrefab(id);
+
+            internal MapObstacle Prefab(string id)
+            {
+                if (string.IsNullOrEmpty(id)) return null;
+                if (_prefabs.TryGetValue(id, out var prefab)) return prefab;
+                try { prefab = _factory.GetObstaclePrefab(id); }
+                catch (Exception) { prefab = null; }
+                _prefabs.Add(id, prefab);
+                return prefab;
+            }
 
             internal CellPosition[] Footprint(string id, CellPosition offset)
             {
@@ -172,6 +183,8 @@ namespace ImperiumOfMan
         {
             var result = new List<NativeRoomDetail>();
             var seen = new HashSet<(string Id, CellPosition Offset, CellPosition Side)>();
+            var profiles = new Dictionary<string, (bool Safe, ImperialRoomTheme Theme, string Role)>(StringComparer.Ordinal);
+            int references = 0;
             var headers = layout.Rooms.Select(entry => entry.Room.header).Concat(donors)
                 .Where(header => CanBuildSpineRoom(header) && header.presetNamespace?.Kind == PresetNamespaceKind.Core &&
                     !IsImperialSupplyClosetPreset(header.binaryId))
@@ -183,9 +196,25 @@ namespace ImperiumOfMan
                 {
                     // Core donor references use registered native GUIDs. A
                     // custom mod object ID must never be copied by this pass.
-                    if (!Guid.TryParse(obj.ObstacleName, out _) ||
-                        !TryNativeRoomDetailProfile(sampler.Prefab(obj.ObstacleName), out var theme, out string role))
-                        continue;
+                    if (++references > RoomDressingMaxDonorReferences) return result;
+                    if (!Guid.TryParse(obj.ObstacleName, out _)) continue;
+                    if (!profiles.TryGetValue(obj.ObstacleName, out var profile))
+                    {
+                        try
+                        {
+                            bool safe = TryNativeRoomDetailProfile(sampler.Prefab(obj.ObstacleName),
+                                out var theme, out string role);
+                            profile = (safe, theme, role);
+                        }
+                        catch (Exception)
+                        {
+                            // A prefab whose interaction state cannot be
+                            // inspected is not a safe decorative donor.
+                            profile = (false, ImperialRoomTheme.General, null);
+                        }
+                        profiles.Add(obj.ObstacleName, profile);
+                    }
+                    if (!profile.Safe) continue;
                     var footprint = sampler.Footprint(obj.ObstacleName, obj.Offset);
                     if (footprint == null || footprint.Length < 1 || footprint.Length > 4) continue;
                     var sourceCells = footprint.Select(cell => obj.Pos + cell).ToArray();
@@ -195,7 +224,7 @@ namespace ImperiumOfMan
                         if (!NativeDetailTouchesWall(header.MapGrid, sourceCells, side) ||
                             !seen.Add((obj.ObstacleName, obj.Offset, side))) continue;
                         var prefab = sampler.Prefab(obj.ObstacleName);
-                        result.Add(new NativeRoomDetail(obj.ObstacleName, prefab.name, theme, role,
+                        result.Add(new NativeRoomDetail(obj.ObstacleName, prefab.name, profile.Theme, profile.Role,
                             obj.Offset, footprint, side));
                         if (result.Count >= RoomDressingMaxProps) return result;
                     }
@@ -252,7 +281,9 @@ namespace ImperiumOfMan
                     if (header.genMetadata.SpawnUnique || header.mapMetadata.MapTriggers.Any() ||
                         header.mapMetadata.LevelEntries.Count != 0 || header.mapMetadata.LevelExits.Count != 0 ||
                         (header.genMetadata.SpecialItemsTableIds?.Count ?? 0) != 0 ||
-                        (header.genMetadata.SpecialMonstersTableIds?.Count ?? 0) != 0) continue;
+                        (header.genMetadata.SpecialMonstersTableIds?.Count ?? 0) != 0 ||
+                        header.genMetadata.SpecialItemsSpawnCount > 0 ||
+                        header.genMetadata.SpecialMonstersSpawnCount > 0) continue;
                     int width = room.RightUpperCorner.X - room.LeftLowerCorner.X + 1;
                     int height = room.RightUpperCorner.Y - room.LeftLowerCorner.Y + 1;
                     if (width < 5 || height < 5 || width * height > 900) continue;

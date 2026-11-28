@@ -31,7 +31,8 @@ Unknown or unresolvable native objects are not guessed.
 ## Placement rules
 
 - Only ordinary clean Imperial branch rooms; no supply closets, unique
-  or scripted rooms, entry/exit rooms, or special item/monster tables.
+  or scripted rooms, entry/exit rooms, special item/monster tables,
+  or special spawn counts.
 - Preserve existing objects and their measured footprints, lights,
   triggers, doors and two-cell interior landing neighborhoods, authored
   items and monsters, corridor cells, meaningful layer-two decals,
@@ -48,8 +49,9 @@ Unknown or unresolvable native objects are not guessed.
   budget and uses at most 1/8 of its initial free floor for new details,
   with at most 1–3 added objects. Prefer distinct roles and native object
   IDs; no duplicate of an existing prop ID within a room.
-- Fixed upper bounds: 48 donor headers, 128 authored candidate variants,
-  256 unique footprint samples, 48 rooms, 48 new props, 4096 candidate
+- Fixed upper bounds: 48 donor headers, 768 inspected donor object
+  references, 128 authored candidate variants, 256 unique footprint
+  samples, 48 rooms, 48 new props, 4096 candidate
   anchor probes, 96 room-connectivity flood fills. All are per draft.
   A failed optional step skips the detail rather than aborting generation.
 - Objects are stamped as ordinary MapObjectMetadata, so native loading,
